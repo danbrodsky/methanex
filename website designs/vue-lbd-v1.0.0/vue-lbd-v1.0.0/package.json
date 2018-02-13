@@ -13,13 +13,14 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap": "^4.0.0",
     "chartist": "^0.11.0",
     "es6-promise": "^4.1.1",
     "google-maps": "^3.2.1",
     "v-tooltip": "^2.0.0-rc.1",
     "vue": "^2.5.2",
     "vue-clickaway": "^2.1.0",
+    "vue-input-tag": "^1.0.1",
     "vue-notifyjs": "^0.2.0",
     "vue-router": "^3.0.1",
     "vue2-google-maps": "^0.8.4"

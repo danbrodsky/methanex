@@ -14,18 +14,19 @@
       Your chick she so thirsty <br>
       I'm in that two seat Lambo"
     </p>
-    <div slot="footer" class="text-center">
-      <button href="#" class="btn btn-simple"><i class="fa fa-facebook-square"></i></button>
-      <button href="#" class="btn btn-simple"><i class="fa fa-twitter"></i></button>
-      <button href="#" class="btn btn-simple"><i class="fa fa-google-plus-square"></i></button>
+    <div slot="footer" style="padding:24%;">
+
+    <input-tag style="display: inline-block; position:absolute;width:84%;top:65%;left:8%;" :tags.sync="tagsArray"></input-tag>
     </div>
   </card>
 </template>
 <script>
   import Card from 'src/components/UIComponents/Cards/Card.vue'
+  import InputTag from 'vue-input-tag'
   export default {
     components: {
-      Card
+      Card,
+      InputTag
     },
     data () {
       return {
