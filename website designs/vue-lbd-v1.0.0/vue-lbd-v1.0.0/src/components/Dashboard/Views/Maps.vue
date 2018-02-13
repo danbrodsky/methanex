@@ -1,77 +1,43 @@
 <template>
-  <gmap-map
-    id="map"
-    :center="center"
-    :zoom="13"
-    :options="options"
-    map-type-id="terrain"
-  >
-    <gmap-marker :position="center">
-    </gmap-marker>
-  </gmap-map>
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <card>
+          <img style="position:absolute;width:50%;top:5%;right:25%;z-index:-10;" src="https://d33wubrfki0l68.cloudfront.net/85975663ee3d10baa062c8406db6c5f10627a601/0a978/images/chart-title.png" alt="Mountain View">
+            <label for="colFormLabelLg" style="position:absolute;top:2%;right:5%;font-size:30px;"class="col-form-label">ID: 52592</label>
+            <div class="form-group align-items-left">
+              <label for="colFormLabelLg" class="col-form-label">Project Name</label>
+                  <input type="title" style="width:25%;" class="form-control form-control-lg" id="colFormLabelLg" value="Example Project">
+              <label class="mt-2" for="status">Status</label>
+              <select class="form-control mr-sm-2" style="width:15%;" id="exampleFormControlSelect1">
+                <option>Approved</option>
+                <option>Pending</option>
+                <option>Pipeline</option>
+                <option>Active</option>
+                <option>Complete</option>                
+              </select>
+              <label for="colFormLabelLg" class="col-form-label">Business Owner</label>
+                  <input type="title" style="width:15%;" class="form-control form-control-sm" value="Bob">
+              <label for="colFormLabelLg" class="col-form-label">Classification</label>
+                  <input type="title" style="width:15%;" class="form-control form-control-sm" id="colFormLabelSm" value="Infrastructure">
+              <label for="colFormLabelLg" style="text-decoration: underline;" class="col-form-label">Resource Breakdown</label>
+                  <input type="" style="width:15%;" class="form-control form-control-sm" id="colFormLabelSm" value="Planning 8mm">
+                  <input type="" style="width:15%;" class="form-control form-control-sm" id="colFormLabelSm" value="Development 16mm">
+                  <input type="" style="width:15%;" class="form-control form-control-sm" id="colFormLabelSm" placeholder="">
+                  <input type="" style="width:15%;" class="form-control form-control-sm" id="colFormLabelSm" placeholder="">
+            </div>
+            <div class="form-group" style="position:absolute;right:5%;top:80%;">
+              <button type="button" style="display:block;" class="btn btn-success">Update Project</button>
+              <button type="button" class="mt-2 btn btn-danger">Delete Project</button>
+            </div>
+          </card>
+        </div>  
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-  import {API_KEY} from './Maps/API_KEY'
-  import Vue from 'vue'
-  import * as VueGoogleMaps from 'vue2-google-maps'
-  Vue.use(VueGoogleMaps, {
-    load: {
-      key: API_KEY
-    }
-  })
-  export default {
-    data () {
-      return {
-        center: {
-          lat: 40.748817,
-          lng: -73.985428
-        },
-        options: {
-          styles: [{
-            'featureType': 'water',
-            'stylers': [{'saturation': 43}, {'lightness': -11}, {'hue': '#0088ff'}]
-          }, {
-            'featureType': 'road',
-            'elementType': 'geometry.fill',
-            'stylers': [{'hue': '#ff0000'}, {'saturation': -100}, {'lightness': 99}]
-          }, {
-            'featureType': 'road',
-            'elementType': 'geometry.stroke',
-            'stylers': [{'color': '#808080'}, {'lightness': 54}]
-          }, {
-            'featureType': 'landscape.man_made',
-            'elementType': 'geometry.fill',
-            'stylers': [{'color': '#ece2d9'}]
-          }, {
-            'featureType': 'poi.park',
-            'elementType': 'geometry.fill',
-            'stylers': [{'color': '#ccdca1'}]
-          }, {
-            'featureType': 'road',
-            'elementType': 'labels.text.fill',
-            'stylers': [{'color': '#767676'}]
-          }, {
-            'featureType': 'road',
-            'elementType': 'labels.text.stroke',
-            'stylers': [{'color': '#ffffff'}]
-          }, {'featureType': 'poi', 'stylers': [{'visibility': 'off'}]}, {
-            'featureType': 'landscape.natural',
-            'elementType': 'geometry.fill',
-            'stylers': [{'visibility': 'on'}, {'color': '#b8cb93'}]
-          }, {'featureType': 'poi.park', 'stylers': [{'visibility': 'on'}]}, {
-            'featureType': 'poi.sports_complex',
-            'stylers': [{'visibility': 'on'}]
-          }, {'featureType': 'poi.medical', 'stylers': [{'visibility': 'on'}]}, {
-            'featureType': 'poi.business',
-            'stylers': [{'visibility': 'simplified'}]
-          }]
-        }
-      }
-    }
-  }
 </script>
 <style>
-  #map {
-    min-height: calc(100vh - 123px);
-  }
 </style>
