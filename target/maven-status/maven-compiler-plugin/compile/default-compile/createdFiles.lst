@@ -1,0 +1,6 @@
+Repository/ResourceRepository.class
+server/Application.class
+model/Project.class
+model/Resource.class
+server/UserProfileController.class
+model/Portfolio.class
