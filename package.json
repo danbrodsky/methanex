@@ -19,6 +19,7 @@
     "es6-promise": "^4.1.1",
     "express-favicon": "^2.0.0",
     "google-maps": "^3.2.1",
+    "grunt": "^1.0.2",
     "v-tooltip": "^2.0.0-rc.1",
     "vue": "^2.5.2",
     "vue-clickaway": "^2.1.0",
