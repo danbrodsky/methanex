@@ -122,7 +122,6 @@
     },
     methods: {
       sortProjects () {
-        console.log('hergh');
         this.projects = this.projects.sort((a,b) => { return a[this.sortBy] > b[this.sortBy] ? 1 : -1; });
       }
     }

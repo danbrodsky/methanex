@@ -1,6 +1,10 @@
 <template>
   <div class="wrapper">
     <side-bar>
+      <sidebar-link to="/admin/portfolio-selection">
+        <i class="nc-icon nc-bullet-list-67"></i>
+        <p>Portfolio Selection</p>
+      </sidebar-link>
       <sidebar-link to="/admin/overview">
         <i class="nc-icon nc-chart-pie-35"></i>
         <p>Portfolio Manager</p>

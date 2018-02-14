@@ -8,6 +8,7 @@ import UserProfile from 'src/components/Dashboard/Views/UserProfile.vue'
 import TableList from 'src/components/Dashboard/Views/TableList.vue'
 import ProjectTracker from 'src/components/Dashboard/Views/ProjectTracker.vue'
 import Notifications from 'src/components/Dashboard/Views/Notifications.vue'
+import PortfolioSelection from 'src/components/Dashboard/Views/PortfolioSelection.vue'
 
 const routes = [
   {
@@ -20,6 +21,11 @@ const routes = [
     component: DashboardLayout,
     redirect: '/admin/overview',
     children: [
+      {
+        path: 'portfolio-selection',
+        name: 'Portfolio Selection',
+        component: PortfolioSelection
+      },
       {
         path: 'overview',
         name: 'Overview',
