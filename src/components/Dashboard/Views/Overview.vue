@@ -2,68 +2,19 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-xl-3 col-md-6">
-          <stats-card>
-            <div slot="header" class="icon-warning">
-              <i class="nc-icon nc-chart text-warning"></i>
-            </div>
-            <div slot="content">
-              <p class="card-category">Capacity</p>
-              <h4 class="card-title">105GB</h4>
-            </div>
-            <div slot="footer">
-              <i class="fa fa-refresh"></i>Updated now
-            </div>
-          </stats-card>
-        </div>
-
-        <div class="col-xl-3 col-md-6">
-          <stats-card>
-            <div slot="header" class="icon-success">
-              <i class="nc-icon nc-light-3 text-success"></i>
-            </div>
-            <div slot="content">
-              <p class="card-category">Revenue</p>
-              <h4 class="card-title">$1,345</h4>
-            </div>
-            <div slot="footer">
-              <i class="fa fa-calendar-o"></i>Last day
-            </div>
-          </stats-card>
-        </div>
-
-        <div class="col-xl-3 col-md-6">
-          <stats-card>
-            <div slot="header" class="icon-danger">
-              <i class="nc-icon nc-vector text-danger"></i>
-            </div>
-            <div slot="content">
-              <p class="card-category">Errors</p>
-              <h4 class="card-title">23</h4>
-            </div>
-            <div slot="footer">
-              <i class="fa fa-clock-o"></i>Last day
-            </div>
-          </stats-card>
-        </div>
-
-        <div class="col-xl-3 col-md-6">
-          <stats-card>
-            <div slot="header" class="icon-info">
-              <i class="nc-icon nc-favourite-28 text-primary"></i>
-            </div>
-            <div slot="content">
-              <p class="card-category">Followers</p>
-              <h4 class="card-title">+45</h4>
-            </div>
-            <div slot="footer">
-              <i class="fa fa-refresh"></i>Updated now
-            </div>
-          </stats-card>
-        </div>
-
+        
       </div>
       <div class="row">
+        
+          <project-card 
+            v-for="project of projects" 
+            v-bind:key="project.projectId"
+            v-bind="project">
+          </project-card>
+          <add-project-card></add-project-card>
+          
+      </div>
+      <!--<div class="row">
         <div class="col-md-8">
           <chart-card :chart-data="lineChart.data"
                       :chart-options="lineChart.options"
@@ -165,7 +116,7 @@
           </card>
 
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -175,6 +126,8 @@
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   import LTable from 'src/components/UIComponents/Table.vue'
   import Checkbox from 'src/components/UIComponents/Inputs/Checkbox.vue'
+  import ProjectCard from 'src/components/UIComponents/Cards/ProjectCard.vue'
+  import AddProjectCard from 'src/components/UIComponents/Cards/AddProjectCard.vue'
 
   export default {
     components: {
@@ -182,7 +135,9 @@
       Card,
       LTable,
       ChartCard,
-      StatsCard
+      StatsCard,
+      ProjectCard,
+      AddProjectCard
     },
     data () {
       return {
@@ -267,7 +222,33 @@
             {title: 'Read "Following makes Medium better"', checked: false},
             {title: 'Unfollow 5 enemies from twitter', checked: false}
           ]
-        }
+        },
+        projects: [
+          {
+            projectId: 1,
+            projectName: 'Project 1',
+            projectStatus: 'Pipeline',
+            projectProgress: 25,
+            projectManager: 'Justin',
+            numPeopleOnTeam: 50,
+            startDate: '2/12/2018',
+            endDate: '2/12/2019',
+            budget: 5000,
+            budgetUsed: 3000
+          },
+          {
+            projectId: 2,
+            projectName: 'Project 2',
+            projectStatus: 'Pre Approval',
+            projectProgress: 70,
+            projectManager: 'Mark',
+            numPeopleOnTeam: 32,
+            startDate: '2/12/2018',
+            endDate: '2/12/2019',
+            budget: 9001,
+            budgetUsed: 2000
+          }
+        ]
       }
     }
   }
