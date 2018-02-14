@@ -36,8 +36,18 @@ const routes = [
         component: TableList
       },
       {
-        path: 'project',
-        name: 'project',
+        path: 'project1',
+        name: 'project1',
+        component: ProjectTracker
+      },
+      {
+        path: 'project2',
+        name: 'project2',
+        component: ProjectTracker
+      },
+      {
+        path: 'project3',
+        name: 'project3',
         component: ProjectTracker
       },
       {

@@ -13,9 +13,17 @@
         <i class="nc-icon nc-notes"></i>
         <p>resource list</p>
       </sidebar-link>
-      <sidebar-link to="/admin/project">
-        <i class="nc-icon nc-pin-3"></i>
-        <p>Project Tracker</p>
+      <sidebar-link to="/admin/project1">
+        <i class="nc-icon nc-single-copy-04"></i>
+        <p>Project 1</p>
+      </sidebar-link>
+      <sidebar-link to="/admin/project2">
+        <i class="nc-icon nc-single-copy-04"></i>
+        <p>Project 2</p>
+      </sidebar-link>
+      <sidebar-link to="/admin/project3">
+        <i class="nc-icon nc-single-copy-04"></i>
+        <p>Project 3</p>
       </sidebar-link>
       <sidebar-link to="/admin/notifications">
         <i class="nc-icon nc-bell-55"></i>
