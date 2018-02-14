@@ -21,10 +21,6 @@
         <i class="nc-icon nc-single-copy-04"></i>
         <p>Project 2</p>
       </sidebar-link>
-      <sidebar-link to="/admin/project3">
-        <i class="nc-icon nc-single-copy-04"></i>
-        <p>Project 3</p>
-      </sidebar-link>
       <sidebar-link to="/admin/notifications">
         <i class="nc-icon nc-bell-55"></i>
         <p>Notifications</p>
