@@ -24,9 +24,11 @@ public class Project implements Serializable {
     private String effort;
 
     @Column(name = "start")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
 
     @Column(name = "end")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 
     @Column(name = "budget")

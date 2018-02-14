@@ -3,9 +3,8 @@ package server;
 import javax.persistence.*;
 import java.io.Serializable;
 
-
 @Entity
-@Table(name="Resource")
+@Table(name = "Resource")
 public class Resource implements Serializable {
     private static final long serialVersionUID = -8230906242675537492L;
 
@@ -30,7 +29,8 @@ public class Resource implements Serializable {
     @JoinColumn(name = "status_id")
     private ResourceStatus status;
 
-    protected Resource() {}
+    protected Resource() {
+    }
 
     public Resource(int id, String name, String email, String location, Resource manager, ResourceStatus status) {
         this.id = id;
