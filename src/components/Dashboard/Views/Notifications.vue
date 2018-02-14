@@ -7,77 +7,41 @@
         </template>
         <div class="row">
           <div class="col-md-6">
-            <h5>Notifications Style</h5>
-            <div class="alert alert-info">
-              <span>This is a plain notification</span>
+            <h5>New</h5>
+            <div class="alert alert-warning">
+              <span>Minerva Hooper (1393234) wants to add the following skills: C++, Python</span>
+              <button type="button" aria-hidden="true" style="position:absolute;right:8%;" class="btn btn-success btn-xs">&#10003;</button>
+              <button type="button" aria-hidden="true" style="position:absolute;right:3%;"class="btn btn-danger btn-xs">&#10006;</button>
             </div>
-            <div class="alert alert-info">
-              <button type="button" aria-hidden="true" class="close">×</button>
-              <span>This is a notification with close button.</span>
+            <div class="alert alert-warning">
+              <span>George Cooper wants to be added to project 1</span>
+              <button type="button" aria-hidden="true" style="position:absolute;right:8%;" class="btn btn-success btn-xs">&#10003;</button>
+              <button type="button" aria-hidden="true" style="position:absolute;right:3%;"class="btn btn-danger btn-xs">&#10006;</button>
             </div>
-            <div class="alert alert-info alert-with-icon" data-notify="container">
-              <button type="button" aria-hidden="true" class="close">×</button>
-              <span data-notify="icon" class="nc-icon nc-app"></span>
-              <span data-notify="message">This is a notification with close button and icon.</span>
-            </div>
-            <div class="alert alert-info alert-with-icon" data-notify="container">
-              <button type="button" aria-hidden="true" class="close">×</button>
-              <span data-notify="icon" class="nc-icon nc-app"></span>
-              <span data-notify="message">This is a notification with close button and icon and have many lines. You can see that the icon and the close button are always vertically aligned. This is a beautiful notification. So you don't have to worry about the style.</span>
+            <div class="alert alert-warning">
+              <span>Michael Brown has requested permission to edit project 2</span>
+              <button type="button" aria-hidden="true" style="position:absolute;right:8%;" class="btn btn-success btn-xs">&#10003;</button>
+              <button type="button" aria-hidden="true" style="position:absolute;right:3%;"class="btn btn-danger btn-xs">&#10006;</button>
             </div>
           </div>
           <div class="col-md-6">
-            <h5>Notification states</h5>
+            <h5>Recent</h5>
             <div class="alert alert-info">
               <button type="button" aria-hidden="true" class="close">×</button>
-              <span><b> Info - </b> This is a regular notification made with ".alert-info"</span>
+              <span><b> Info - </b> Some recent events</span>
             </div>
-            <div class="alert alert-success">
+            <div class="alert alert-info">
               <button type="button" aria-hidden="true" class="close">×</button>
-              <span><b> Success - </b> This is a regular notification made with ".alert-success"</span>
+              <span><b> Info - </b> Some recent events</span>
             </div>
-            <div class="alert alert-warning">
+            <div class="alert alert-info">
               <button type="button" aria-hidden="true" class="close">×</button>
-              <span><b> Warning - </b> This is a regular notification made with ".alert-warning"</span>
+              <span><b> Info - </b> Some recent events</span>
             </div>
-            <div class="alert alert-danger">
+            <div class="alert alert-info">
               <button type="button" aria-hidden="true" class="close">×</button>
-              <span><b> Danger - </b> This is a regular notification made with ".alert-danger"</span>
+              <span><b> Info - </b> Some recent events</span>
             </div>
-          </div>
-        </div>
-        <br>
-        <br>
-        <div class="places-buttons">
-          <div class="row justify-content-center">
-            <div class="col-6 text-center">
-              <h5>Notifications Places
-                <p class="category">Click to view notifications</p>
-              </h5>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-md-3 col-md-offset-1">
-              <button class="btn btn-default btn-block" @click="notifyVue('top', 'left')">Top Left</button>
-            </div>
-            <div class="col-md-3">
-              <button class="btn btn-default btn-block" @click="notifyVue('top', 'center')">Top Center</button>
-            </div>
-            <div class="col-md-3">
-              <button class="btn btn-default btn-block" @click="notifyVue('top', 'right')">Top Right</button>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-md-3 col-md-offset-1">
-              <button class="btn btn-default btn-block" @click="notifyVue('bottom', 'left')">Bottom Left</button>
-            </div>
-            <div class="col-md-3">
-              <button class="btn btn-default btn-block" @click="notifyVue('bottom', 'center')">Bottom Center</button>
-            </div>
-            <div class="col-md-3">
-              <button class="btn btn-default btn-block" @click="notifyVue('bottom', 'right')">Bottom Right</button>
-            </div>
-
           </div>
         </div>
       </card>
