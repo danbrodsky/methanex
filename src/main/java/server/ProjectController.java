@@ -20,13 +20,14 @@ public class ProjectController {
     }
 
     @GetMapping("/projects")
-    public @ResponseBody Iterable<Project> getAllProjects() {
-        Iterable<Project> projects = repository.findAll();
-        return projects;
+    public @ResponseBody
+    Iterable<Project> getAllProjects() {
+        return repository.findAll();
     }
 
     @GetMapping("/projects/{projectId}")
-    public @ResponseBody ResponseEntity<Project> getProject(@PathVariable(value = "projectId") Integer projectId) {
+    public @ResponseBody
+    ResponseEntity<Project> getProject(@PathVariable(value = "projectId") Integer projectId) {
         Project project = repository.findOne(projectId);
         if (project != null) {
             return ResponseEntity.ok(project);
@@ -36,9 +37,9 @@ public class ProjectController {
 
     @PutMapping("/projects/{projectId}")
     public ResponseEntity<Project> updateProject(@PathVariable(value = "projectId") Integer projectId,
-                                                   @Valid @RequestBody Project updateDetails) {
+                                                 @Valid @RequestBody Project updateDetails) {
         Project beforeProject = repository.findOne(projectId);
-        if(beforeProject != null) {
+        if (beforeProject != null) {
             beforeProject.setName(updateDetails.getName());
             beforeProject.setBudget(updateDetails.getBudget());
             beforeProject.setEffort(updateDetails.getEffort());
@@ -56,7 +57,7 @@ public class ProjectController {
     @DeleteMapping("/projects/{projectId}")
     public ResponseEntity<Project> deleteProject(@PathVariable(value = "projectId") Integer projectId) {
         Project project = repository.findOne(projectId);
-        if(project != null) {
+        if (project != null) {
             repository.delete(project);
             return ResponseEntity.ok().build();
         }
@@ -64,3 +65,4 @@ public class ProjectController {
     }
 
 }
+

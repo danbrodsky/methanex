@@ -45,7 +45,7 @@
         var info = this;
         axios.get("https://peaceful-hamlet-75445.herokuapp.com/api/resources")
           .then(response => {
-            info.rows = response.json();
+            info.rows = response.data;
           })
       }
     }

@@ -8,13 +8,13 @@
         </div>
       </div>
       <div class="row">
-        
-          <portfolio-card 
-            v-for="portfolio of portfoliosDisplayed" 
+
+          <portfolio-card
+            v-for="portfolio of portfoliosDisplayed"
             v-bind:key="portfolio.classification"
             v-bind="portfolio">
           </portfolio-card>
-          
+
       </div>
     </div>
   </div>
@@ -25,7 +25,7 @@
   import Checkbox from 'src/components/UIComponents/Inputs/Checkbox.vue'
   import PortfolioCard from 'src/components/UIComponents/Cards/PortfolioCard.vue'
   import AddProjectCard from 'src/components/UIComponents/Cards/AddProjectCard.vue'
-  import _ from 'lodash'
+  import axios from 'axios'
 
   export default {
     components: {
@@ -35,60 +35,21 @@
       PortfolioCard,
       AddProjectCard
     },
-    data () {
+    created () {
+      this.fetchData();
+    },
+    data() {
       return {
-        portfolios: [
-          {
-            classification: 'Top Secret',
-            businessOwner: 'Mark Penderson',
-            numProjects: 52,
-            totalBudget: 800000
-          },
-          {
-            classification: 'Sheep hunting operations',
-            businessOwner: 'Nigel',
-            numProjects: 8,
-            totalBudget: 1000000
-          },
-          {
-            classification: 'Financials',
-            businessOwner: 'John Doe',
-            numProjects: 29,
-            totalBudget: 550000
-          }
-        ],
-        portfoliosDisplayed: [
-          {
-            classification: 'Top Secret',
-            businessOwner: 'Mark Penderson',
-            numProjects: 52,
-            totalBudget: 800000
-          },
-          {
-            classification: 'Sheep hunting operations',
-            businessOwner: 'Nigel',
-            numProjects: 8,
-            totalBudget: 1000000
-          },
-          {
-            classification: 'Financials',
-            businessOwner: 'John Doe',
-            numProjects: 29,
-            totalBudget: 550000
-          }
-        ],
-        searchKeyword: '',
+        portfolios: []
       }
     },
     methods: {
-      filterPortfolios: _.debounce(function () {
-        this.portfoliosDisplayed = [];
-        for(var aPortfolio of this.portfolios) {
-            if(aPortfolio.classification.toLowerCase().indexOf(this.searchKeyword.toLowerCase())!=-1) {
-                this.portfoliosDisplayed.push(aPortfolio);
-            }
-        }
-      }, 500)
+      fetchData() {
+        axios.get("https://peaceful-hamlet-75445.herokuapp.com/api/projects")
+          .then(response => {
+            this.portfolios = response.data;
+          })
+      }
     }
   }
 </script>

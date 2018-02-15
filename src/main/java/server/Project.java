@@ -23,19 +23,19 @@ public class Project implements Serializable {
     @Column(name = "effort")
     private String effort;
 
-    @Column(name = "start")
+    @Column(name = "dur_start")
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
 
-    @Column(name = "end")
+    @Column(name = "dur_end")
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 
     @Column(name = "budget")
-    private int budget;
+    private Integer budget;
 
-    @Column(name = "rag_status", nullable = false)
-    private int ragStatus;
+    @Column(name="rag_status")
+    private Integer ragStatus;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "portfolio_id")
@@ -89,7 +89,7 @@ public class Project implements Serializable {
         this.endDate = endDate;
     }
 
-    public int getBudget() {
+    public Integer getBudget() {
         return budget;
     }
 
@@ -97,7 +97,7 @@ public class Project implements Serializable {
         this.budget = budget;
     }
 
-    public int getRagStatus() {
+    public Integer getRagStatus() {
         return ragStatus;
     }
 

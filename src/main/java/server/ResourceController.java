@@ -21,8 +21,7 @@ public class ResourceController {
 
     @GetMapping("/resources")
     public @ResponseBody Iterable<Resource> getAllResources() {
-        Iterable<Resource> resources = repository.findAll();
-        return resources;
+        return repository.findAll();
     }
 
     @GetMapping("/resources/{resourceId}")
@@ -36,7 +35,7 @@ public class ResourceController {
 
     @PutMapping("/resources/{resourceId}")
     public ResponseEntity<Resource> updateResource(@PathVariable(value = "resourceId") Integer resourceId,
-                                           @Valid @RequestBody Resource updateDetails) {
+                                                   @Valid @RequestBody Resource updateDetails) {
         Resource beforeResource = repository.findOne(resourceId);
         if(beforeResource != null) {
             beforeResource.setName(updateDetails.getName());
