@@ -47,7 +47,7 @@ export default {
   methods: {
     fetchData() {
       var info = this;
-      axios.get("https://peaceful-hamlet-75445.herokuapp.com/api/projects/"+ this.$router.params.projectId)
+      axios.get("https://peaceful-hamlet-75445.herokuapp.com/api/projs/"+ this.$router.params.projectId)
         .then(response => {
           console.log(response.data);
           info.projects = response.data;
