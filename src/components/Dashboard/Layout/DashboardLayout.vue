@@ -17,14 +17,14 @@
         <i class="nc-icon nc-notes"></i>
         <p>resource list</p>
       </sidebar-link>
-      <sidebar-link to="/admin/project1">
+      <sidebar-link to="/admin/project">
         <i class="nc-icon nc-single-copy-04"></i>
-        <p>Project 1</p>
+        <p>Project</p>
       </sidebar-link>
-      <sidebar-link to="/admin/project2">
+      <!-- <sidebar-link to="/admin/project2">
         <i class="nc-icon nc-single-copy-04"></i>
         <p>Project 2</p>
-      </sidebar-link>
+      </sidebar-link> -->
       <sidebar-link to="/admin/notifications">
         <i class="nc-icon nc-bell-55"></i>
         <p>Notifications</p>

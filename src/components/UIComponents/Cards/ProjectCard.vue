@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" v-on:click="goToProject">
     <div class="card-header">
       <div name="header" style="align: center"><span style="font-weight:bold">{{ projectName }}</span> <span style="color:#888888">({{ projectId }})</span></div>
       <div name="header" style="font-weight:bold; color:#888888"></div>
@@ -87,6 +87,11 @@
             endDate: this.endDate,
             budget: this.budget,
             budgetUsed: this.budgetUsed
+        }
+    },
+    methods: {
+        goToProject() {
+            this.$router.push({ name: 'project', params: { projectId: this.projectName }});
         }
     }
   }

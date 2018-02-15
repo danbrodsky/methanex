@@ -23,6 +23,7 @@
   import Checkbox from 'src/components/UIComponents/Inputs/Checkbox.vue'
   import PortfolioCard from 'src/components/UIComponents/Cards/PortfolioCard.vue'
   import AddProjectCard from 'src/components/UIComponents/Cards/AddProjectCard.vue'
+  import _ from 'lodash'
   import axios from 'axios'
 
   export default {
@@ -38,16 +39,66 @@
     },
     data() {
       return {
-        portfolios: []
+        // portfolios: [],
+        portfolios: [
+          {
+            classification: 'Top Secret',
+            businessOwner: 'Mark Penderson',
+            numProjects: 52,
+            totalBudget: 800000
+          },
+          {
+            classification: 'Sheep hunting operations',
+            businessOwner: 'Nigel',
+            numProjects: 8,
+            totalBudget: 1000000
+          },
+          {
+            classification: 'Financials',
+            businessOwner: 'John Doe',
+            numProjects: 29,
+            totalBudget: 550000
+          }
+        ],
+        portfoliosDisplayed: [
+          {
+            classification: 'Top Secret',
+            businessOwner: 'Mark Penderson',
+            numProjects: 52,
+            totalBudget: 800000
+          },
+          {
+            classification: 'Sheep hunting operations',
+            businessOwner: 'Nigel',
+            numProjects: 8,
+            totalBudget: 1000000
+          },
+          {
+            classification: 'Financials',
+            businessOwner: 'John Doe',
+            numProjects: 29,
+            totalBudget: 550000
+          }
+        ],
+        searchKeyword: '',
       }
     },
     methods: {
       fetchData() {
-        axios.get("https://peaceful-hamlet-75445.herokuapp.com/api/projects")
-          .then(response => {
-            this.portfoliosDisplayed = response.data;
-          })
-      }
+        // axios.get("https://peaceful-hamlet-75445.herokuapp.com/api/projects")
+        //   .then(response => {
+        //     this.portfoliosDisplayed = response.data;
+        //   })
+      },
+      filterPortfolios: _.debounce(function () {
+        this.portfoliosDisplayed = [];
+        for(var aPortfolio of this.portfolios) {
+            if(aPortfolio.classification.toLowerCase().indexOf(this.searchKeyword.toLowerCase())!=-1) {
+                this.portfoliosDisplayed.push(aPortfolio);
+            }
+        }
+      }, 500)
+
     }
   }
 </script>

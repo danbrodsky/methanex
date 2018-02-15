@@ -70,7 +70,6 @@
           { value: 'budget', text: 'Initial Budget' },
           { value: 'budgetUsed', text: 'Budget Spent' }
         ]
-
       }
     },
     methods: {
