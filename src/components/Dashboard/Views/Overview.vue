@@ -2,6 +2,10 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
+        <gantt-chart style="width: 60%"></gantt-chart>
+        <resource-breakdown style="width: 40%"></resource-breakdown>
+      </div>
+      <div class="row">
         <div class="filters">
           <span>Sort By: </span>
           <select v-model="sortBy" @change="sortProjects()">
@@ -10,14 +14,12 @@
         </div>
       </div>
       <div class="row">
-
           <project-card
             v-for="project of projects"
             v-bind:key="project.id"
             v-bind="project">
           </project-card>
           <add-project-card></add-project-card>
-
       </div>
     </div>
   </div>
@@ -31,6 +33,8 @@
   import ProjectCard from 'src/components/UIComponents/Cards/ProjectCard.vue'
   import AddProjectCard from 'src/components/UIComponents/Cards/AddProjectCard.vue'
   import axios from 'axios'
+  import GanttChart from 'src/components/UIComponents/PortfolioComponents/GanttChart.vue'
+  import ResourceBreakdown from 'src/components/UIComponents/PortfolioComponents/ResourceBreakdown.vue'
 
   export default {
     components: {
@@ -40,7 +44,9 @@
       ChartCard,
       StatsCard,
       ProjectCard,
-      AddProjectCard
+      AddProjectCard,
+      GanttChart,
+      ResourceBreakdown
     },
     created () {
       this.fetchData();
@@ -64,7 +70,6 @@
       }
     }
   }
-
 </script>
 <style scoped>
   div.filters {

@@ -8,13 +8,11 @@
         </div>
       </div>
       <div class="row">
-
           <portfolio-card
             v-for="portfolio of portfoliosDisplayed"
             v-bind:key="portfolio.classification"
             v-bind="portfolio">
           </portfolio-card>
-
       </div>
     </div>
   </div>
@@ -35,7 +33,7 @@
       PortfolioCard,
       AddProjectCard
     },
-    created () {
+    created() {
       this.fetchData();
     },
     data() {
