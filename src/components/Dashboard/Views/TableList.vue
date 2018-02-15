@@ -12,8 +12,6 @@
               <l-table class="table-hover table-striped"
                        :columns="columns"
                        :data="rows">
-                       :columns="table1.columns"
-                       :data="table1.data">
               </l-table>
             </div>
           </card>

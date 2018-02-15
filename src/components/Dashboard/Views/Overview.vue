@@ -17,7 +17,10 @@
           <project-card
             v-for="project of projects"
             v-bind:key="project.id"
-            v-bind="project">
+            v-bind:projectName="project.name"
+            v-bind:projectStatus="project.ragStatus"
+            v-bind:budget="project.budget">
+            <!-- v-bind="project" -->
           </project-card>
           <add-project-card></add-project-card>
       </div>
@@ -53,7 +56,21 @@
     },
     data () {
       return {
-        projects: []
+        projects: [],
+        sortBy: 'ID',
+        sortingOptions: [
+          { value: 'projectId', text: 'ID' },
+          { value: 'projectName', text: 'Name' },
+          { value: 'projectStatus', text: 'Status' },
+          { value: 'projectProgress', text: 'Completion Progress' },
+          { value: 'projectManager', text: 'Manager' },
+          { value: 'numPeopleOnTeam', text: 'Team Size' },
+          { value: 'startDate', text: 'Start Date' },
+          { value: 'endDate', text: 'End Date' },
+          { value: 'budget', text: 'Initial Budget' },
+          { value: 'budgetUsed', text: 'Budget Spent' }
+        ]
+
       }
     },
     methods: {
