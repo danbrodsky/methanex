@@ -10,8 +10,8 @@
             </template>
             <div class="table-responsive">
               <l-table class="table-hover table-striped"
-                       :columns="table1.columns"
-                       :data="table1.data">
+                       :columns="columns"
+                       :data="rows">
               </l-table>
             </div>
           </card>
@@ -23,48 +23,30 @@
 <script>
   import LTable from 'src/components/UIComponents/Table.vue'
   import Card from 'src/components/UIComponents/Cards/Card.vue'
+  import axios from 'axios'
   const tableColumns = ['Name', 'Group', 'Status', 'Email'];
-  const tableData = [{
-    name: 'Boobs McGee',
-    group: 'Finance',
-    status: 'Allocated',
-    email: 'boobs@gmail.com'
-  },
-  {
-    name: 'Minerva Hooper',
-    group: 'IT',
-    status: 'Allocated',
-    email: 'Minerva@gmail.com'
-  },
-  {
-    name: 'Hugh Koch',
-    group: 'Finance',
-    status: 'Allocated',
-    email: 'koch@gmail.com'
-  },
-  {
-    name: 'Richard Cheese',
-    group: 'IT',
-    status: 'Allocated',
-    email: 'cheese@gmail.com'
-  },
-  {
-    name: 'Moby Dick',
-    group: 'Some other group',
-    status: 'Allocated',
-    email: 'moby@gmail.com'
-  }]
+
   export default {
     components: {
       LTable,
       Card
     },
-    data () {
+    created () {
+      this.fetchData();
+    },
+    data() {
       return {
-        table1: {
-          columns: [...tableColumns],
-          data: [...tableData]
-        }
+        columns: [...tableColumns],
+        rows: []
+      }
+    },
+    methods: {
+      fetchData() {
+        var info = this;
+        axios.get("https://peaceful-hamlet-75445.herokuapp.com/api/resources")
+          .then(response => {
+            info.rows = response.json();
+          })
       }
     }
   }
