@@ -47,7 +47,7 @@
       fetchData() {
         axios.get("https://peaceful-hamlet-75445.herokuapp.com/api/projects")
           .then(response => {
-            this.portfolios = response.data;
+            this.portfoliosDisplayed = response.data;
           })
       }
     }
