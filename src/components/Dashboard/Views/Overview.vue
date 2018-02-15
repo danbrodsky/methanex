@@ -1,6 +1,13 @@
 <template>
   <div class="content">
     <div class="container-fluid">
+      <!-- <div class="row">
+        <h2>{{ portfolioName }}</h2>
+      </div> -->
+      <div class="row">
+        <gantt-chart style="width: 60%"></gantt-chart>
+        <resource-breakdown style="width: 40%"></resource-breakdown>
+      </div>
       <div class="row">
         <div class="filters">
           <span>Sort By: </span>
@@ -30,6 +37,8 @@
   import Checkbox from 'src/components/UIComponents/Inputs/Checkbox.vue'
   import ProjectCard from 'src/components/UIComponents/Cards/ProjectCard.vue'
   import AddProjectCard from 'src/components/UIComponents/Cards/AddProjectCard.vue'
+  import GanttChart from 'src/components/UIComponents/PortfolioComponents/GanttChart.vue'
+  import ResourceBreakdown from 'src/components/UIComponents/PortfolioComponents/ResourceBreakdown.vue'
 
   export default {
     components: {
@@ -39,10 +48,13 @@
       ChartCard,
       StatsCard,
       ProjectCard,
-      AddProjectCard
+      AddProjectCard,
+      GanttChart,
+      ResourceBreakdown
     },
     data () {
       return {
+        portfolioName: 'Portfolio 1',
         projects: [
           {
             projectId: 1,
