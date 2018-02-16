@@ -1,8 +1,9 @@
 <template>
-  <div class="card" v-on:click="goToProject">
+  <div class="card">
     <div class="card-header">
       <div name="header" style="align: center"><span style="font-weight:bold">{{ projectName }}</span> <span style="color:#888888">({{ projectId }})</span></div>
       <div name="header" style="font-weight:bold; color:#888888"></div>
+      <button class="btn" style="position:absolute;right:5%;top:5%;border-color:black;color:black;" v-on:click="goToProject"> Details </button>
     </div>
     <div class="card-body">
       <div class="body-data">
@@ -20,13 +21,21 @@
           <span style="margin:0;display:inline-block"><i class="fa fa-calendar"></i> {{ endDate }}</span>
       </div>
       <div class="body-data">
-          <span style="margin:0;display:inline-block;width:50%"><i class="fa fa-user"></i> {{ projectManager }}</span>
-          <span style="margin:0;display:inline-block"><i class="fa fa-users"></i> {{ numPeopleOnTeam }}</span>
-      </div>
-    </div>
-    <div class="card-footer" v-if="$slots.footer">
-      <hr>
-      <slot name="footer"></slot>
+        <span style="margin:0;display:inline-block;width:50%"><i class="fa fa-user"></i> {{ projectManager }}</span>
+        <span style="margin:0;display:inline-block">
+        <drop-down tag="ul">
+          <template slot="title">
+            <span style="margin:0;display:inline-block"><i class="fa fa-users"></i> {{ numPeopleOnTeam }}</span>
+            <b class="caret"></b>
+          </template>
+          <a class="dropdown-item" href="#">Person 1</a>
+          <a class="dropdown-item" href="#">Person 2</a>
+          <a class="dropdown-item" href="#">Person 3</a>
+          <a class="dropdown-item" href="#">Person 4</a>
+          <a class="dropdown-item" href="#">Person 5</a>
+        </drop-down>
+        </span>
+        </div>
     </div>
   </div>
 </template>

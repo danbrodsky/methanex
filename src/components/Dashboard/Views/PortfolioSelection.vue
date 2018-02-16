@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="row">
-          <portfolio-card
+          <portfolio-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;"
             v-for="portfolio of portfoliosDisplayed"
             v-bind:key="portfolio.classification"
             v-bind="portfolio">
@@ -85,10 +85,10 @@
     },
     methods: {
       fetchData() {
-        // axios.get("https://peaceful-hamlet-75445.herokuapp.com/api/projects")
-        //   .then(response => {
-        //     this.portfoliosDisplayed = response.data;
-        //   })
+        axios.get("https://peaceful-hamlet-75445.herokuapp.com/api/projects")
+          .then(response => {
+            this.portfoliosDisplayed = response.data;
+          })
       },
       filterPortfolios: _.debounce(function () {
         this.portfoliosDisplayed = [];
@@ -113,4 +113,5 @@
     color: white;
     background-color: grey;
   }
+
 </style>

@@ -2,8 +2,8 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
-        <gantt-chart style="width: 60%"></gantt-chart>
-        <resource-breakdown style="width: 40%"></resource-breakdown>
+        <gantt-chart style="width: 58%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></gantt-chart>
+        <resource-breakdown style="width: 40%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></resource-breakdown>
       </div>
       <div class="row">
         <div class="filters">
@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="row">
-          <project-card
+          <project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;"
             v-for="project of projects"
             v-bind:key="project.id"
             v-bind:projectName="project.name"
@@ -22,7 +22,7 @@
             v-bind:budget="project.budget">
             <!-- v-bind="project" -->
           </project-card>
-          <add-project-card></add-project-card>
+          <add-project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;"></add-project-card>
       </div>
     </div>
   </div>
@@ -97,5 +97,7 @@
     margin-bottom: 1em;
     color: white;
     background-color: grey;
+    margin: 0.5%;
+    box-shadow: 5px 5px 5px grey;
   }
 </style>
