@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="filters">
-          <span>Sort By: </span>
+          <span>Search: </span>
           <input v-model="searchKeyword" v-on:input="filterPortfolios" />
         </div>
       </div>
