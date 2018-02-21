@@ -38,8 +38,8 @@ export default {
     },
     data () {
         return {
-            sortingOptions: this.sortingOptions,
-            filterOptions: this.filterOptions,
+            // sortingOptions: this.sortingOptions,
+            // filterOptions: this.filterOptions,
             idCounter: 0,
             sortBy: '',
             filters: []

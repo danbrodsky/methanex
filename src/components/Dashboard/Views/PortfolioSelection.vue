@@ -85,7 +85,7 @@
     },
     methods: {
       fetchData() {
-        axios.get("https://peaceful-hamlet-75445.herokuapp.com/api/projects")
+        axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
             this.portfoliosDisplayed = response.data;
           })

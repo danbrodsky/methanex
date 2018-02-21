@@ -31,10 +31,14 @@
           </card>
         </div>
       </div>
+      <div class="row">
+      </div>
     </div>
   </div>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
   created () {
     this.fetchData();
@@ -47,7 +51,7 @@ export default {
   methods: {
     fetchData() {
       var info = this;
-      axios.get("https://peaceful-hamlet-75445.herokuapp.com/api/projs/"+ this.$router.params.projectId)
+      axios.get(this.$root.serverURL + "/api/projs/"+ this.$router.params.projectId)
         .then(response => {
           console.log(response.data);
           info.projects = response.data;

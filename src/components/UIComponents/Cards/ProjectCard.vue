@@ -17,8 +17,8 @@
           <span style="color:red;margin:0;display:inline-block"><b>$</b> {{ budgetUsed }}</span>
       </div>
       <div class="body-data">
-          <span style="margin:0;display:inline-block;width:50%"><i class="fa fa-calendar"></i> {{ startDate }}</span>
-          <span style="margin:0;display:inline-block"><i class="fa fa-calendar"></i> {{ endDate }}</span>
+          <span style="margin:0;display:inline-block;width:50%"><i class="fa fa-calendar"></i> {{ displayStartDate }}</span>
+          <span style="margin:0;display:inline-block"><i class="fa fa-calendar"></i> {{ displayEndDate }}</span>
       </div>
       <div class="body-data">
         <span style="margin:0;display:inline-block;width:50%"><i class="fa fa-user"></i> {{ projectManager }}</span>
@@ -68,12 +68,12 @@
             default: 8
         },
         startDate: {
-            type: String,
-            default: 'MM/DD/YYYY'
+            type: Date,
+            default: function () { return new Date() }
         },
         endDate: {
-            type: String,
-            default: 'MM/DD/YYYY'
+            type: Date,
+            default: function () { return new Date() }
         },
         budget: {
             type: Number,
@@ -86,21 +86,59 @@
     },
     data () {
         return {
-            projectId: this.projectId,
-            projectName: this.projectName,
-            projectStatus: this.projectStatus,
-            projectProgress: this.projectProgress,
-            projectManager: this.projectManager,
-            numPeopleOnTeam: this.numPeopleOnTeam,
-            startDate: this.startDate,
-            endDate: this.endDate,
-            budget: this.budget,
-            budgetUsed: this.budgetUsed
+            // projectId: this.projectId,
+            // projectName: this.projectName,
+            // projectStatus: this.projectStatus,
+            // projectProgress: this.projectProgress,
+            // projectManager: this.projectManager,
+            // numPeopleOnTeam: this.numPeopleOnTeam,
+            // startDate: this.startDate,
+            // endDate: this.endDate,
+            // budget: this.budget,
+            // budgetUsed: this.budgetUsed
         }
+    },
+    computed: {
+        displayStartDate: function() {
+            return this.abbreviateMonth(this.startDate.getMonth()) + " " + this.startDate.getDate() + " " + this.startDate.getFullYear();
+        },
+        displayEndDate: function() {
+            return this.abbreviateMonth(this.endDate.getMonth()) + " " + this.endDate.getDate() + " " + this.endDate.getFullYear();
+        },
     },
     methods: {
         goToProject() {
             this.$router.push({ name: 'project', params: { projectId: this.projectName }});
+        },
+        abbreviateMonth (monthInteger) {
+            switch(monthInteger) {
+                case 0:
+                    return "Jan";
+                case 1:
+                    return "Feb";
+                case 2:
+                    return "Mar";
+                case 3:
+                    return "Apr";
+                case 4:
+                    return "May";
+                case 5:
+                    return "Jun";
+                case 6:
+                    return "Jul";
+                case 7:
+                    return "Aug";
+                case 8:
+                    return "Sep";
+                case 9:
+                    return "Oct";
+                case 10:
+                    return "Nov";
+                case 11:
+                    return "Dec";
+                default:
+                    return "???";
+            }
         }
     }
   }

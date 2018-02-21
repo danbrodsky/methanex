@@ -21,5 +21,9 @@ const router = new VueRouter({
 new Vue({
   el: '#app',
   render: h => h(App),
-  router
+  router,
+  data: {
+    serverURL: 'http://localhost:8080'
+    // serverURL: 'https://peaceful-hamlet-75445.herokuapp.com'
+  }
 })
