@@ -276,7 +276,7 @@ body > .navbar-collapse{
 
 .sidebar,
 .main-panel{
-    overflow: auto;
+    // overflow: auto; //commented to make "sticky" work (custom directive)
     max-height: 100%;
     height: 100%;
     -webkit-transition-property: top,bottom;

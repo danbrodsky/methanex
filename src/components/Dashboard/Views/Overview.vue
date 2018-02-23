@@ -5,7 +5,7 @@
         <gantt-chart style="width: 58%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></gantt-chart>
         <resource-breakdown style="width: 40%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></resource-breakdown>
       </div>
-      <div class="row">
+      <div class="row" v-sticky-to-top>
         <filter-bar  style="width: 100%;margin: 0.5%;box-shadow: 5px 5px 5px grey"
           v-model="filterFcn" 
           v-bind:sortingOptions="sortingOptions" 
@@ -89,124 +89,124 @@
     },
     methods: {
       fetchData() {
-        var info = this;
-        axios.get(this.$root.serverURL + "/api/projects")
-          .then(response => {
-            console.log(response.data);
-            info.projects = response.data;
-            info.displayProjects = response.data;
-          })
-        // this.projects = [
-        //   {
-        //     id: 1,
-        //     name: 'ProjectName1',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 2,
-        //     name: 'ProjectName3',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 3,
-        //     name: 'ProjectName2',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 4,
-        //     name: 'ProjectName1',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 5,
-        //     name: 'ProjectName3',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 6,
-        //     name: 'ProjectName2',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 7,
-        //     name: 'ProjectName1',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 8,
-        //     name: 'ProjectName3',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 9,
-        //     name: 'ProjectName2',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   }
-        // ];
-        // this.displayProjects = this.projects.slice();
+        // var info = this;
+        // axios.get(this.$root.serverURL + "/api/projects")
+        //   .then(response => {
+        //     console.log(response.data);
+        //     info.projects = response.data;
+        //     info.displayProjects = response.data;
+        //   })
+        this.projects = [
+          {
+            id: 1,
+            name: 'ProjectName1',
+            projectStatus: 'ProjectStatus1',
+            projectProgress: 50,
+            projectManager: 'PM1',
+            numPeopleOnTeam: 10,
+            startDate: new Date(),
+            endDate: new Date(),
+            budget: 800,
+            budgetUsed: 200
+          },
+          {
+            id: 2,
+            name: 'ProjectName3',
+            projectStatus: 'ProjectStatus1',
+            projectProgress: 50,
+            projectManager: 'PM1',
+            numPeopleOnTeam: 10,
+            startDate: new Date(),
+            endDate: new Date(),
+            budget: 800,
+            budgetUsed: 200
+          },
+          {
+            id: 3,
+            name: 'ProjectName2',
+            projectStatus: 'ProjectStatus1',
+            projectProgress: 50,
+            projectManager: 'PM1',
+            numPeopleOnTeam: 10,
+            startDate: new Date(),
+            endDate: new Date(),
+            budget: 800,
+            budgetUsed: 200
+          },
+          {
+            id: 4,
+            name: 'ProjectName1',
+            projectStatus: 'ProjectStatus1',
+            projectProgress: 50,
+            projectManager: 'PM1',
+            numPeopleOnTeam: 10,
+            startDate: new Date(),
+            endDate: new Date(),
+            budget: 800,
+            budgetUsed: 200
+          },
+          {
+            id: 5,
+            name: 'ProjectName3',
+            projectStatus: 'ProjectStatus1',
+            projectProgress: 50,
+            projectManager: 'PM1',
+            numPeopleOnTeam: 10,
+            startDate: new Date(),
+            endDate: new Date(),
+            budget: 800,
+            budgetUsed: 200
+          },
+          {
+            id: 6,
+            name: 'ProjectName2',
+            projectStatus: 'ProjectStatus1',
+            projectProgress: 50,
+            projectManager: 'PM1',
+            numPeopleOnTeam: 10,
+            startDate: new Date(),
+            endDate: new Date(),
+            budget: 800,
+            budgetUsed: 200
+          },
+          {
+            id: 7,
+            name: 'ProjectName1',
+            projectStatus: 'ProjectStatus1',
+            projectProgress: 50,
+            projectManager: 'PM1',
+            numPeopleOnTeam: 10,
+            startDate: new Date(),
+            endDate: new Date(),
+            budget: 800,
+            budgetUsed: 200
+          },
+          {
+            id: 8,
+            name: 'ProjectName3',
+            projectStatus: 'ProjectStatus1',
+            projectProgress: 50,
+            projectManager: 'PM1',
+            numPeopleOnTeam: 10,
+            startDate: new Date(),
+            endDate: new Date(),
+            budget: 800,
+            budgetUsed: 200
+          },
+          {
+            id: 9,
+            name: 'ProjectName2',
+            projectStatus: 'ProjectStatus1',
+            projectProgress: 50,
+            projectManager: 'PM1',
+            numPeopleOnTeam: 10,
+            startDate: new Date(),
+            endDate: new Date(),
+            budget: 800,
+            budgetUsed: 200
+          }
+        ];
+        this.displayProjects = this.projects.slice();
       },
       performSearch() {
         this.displayProjects = this.filterFcn(this.projects);
