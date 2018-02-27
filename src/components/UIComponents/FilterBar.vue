@@ -7,16 +7,16 @@
         </div>
         <div v-for="filter in filters" v-bind:key="filter.id" class="filter-option">
             In 
-            <select v-model="filter.filterBy" required>
-                <option selected>Select category</option>
+            <select v-model="filter.filterBy" v-bind:class="{'invalid-category': filter.invalidCategory}" required>
+                <!-- <option selected>Select category</option> -->
                 <option v-for="option in filterOptions" v-bind:key="option.value.category" v-bind:value="option.value">{{ option.text }}</option>
             </select>
             , search:
-            <input style="min-width: 200px" placeholder="Enter search keyword" v-model="filter.keyWord" required />
+            <input style="min-width: 200px" placeholder="Enter search keyword" v-model="filter.keyWord" v-bind:class="{'invalid-keyword': filter.invalidKeyword}" required />
             <span v-on:click="removeFilter(filter.id)"><i class="fa fa-close"></i></span>
         </div>
         <div v-on:click="addFilter" class="filter-option"><i class="fa fa-plus"></i> Add Filter</div>
-        <div class="filter-option"><input type="submit" class="btn" style="max-width: 150px;border-color:black;color:black;background-color:white" v-on:click="sendFilters" value="Apply" /></div>
+        <div class="filter-option"><input type="submit" class="btn" style="max-width: 150px;border-color:black;color:black;background-color:white" v-on:click="submitFilters" value="Apply" /></div>
     </div>
 </template>
 
@@ -36,6 +36,9 @@ export default {
         sortingOptions: Array,
         filterOptions: Array
     },
+    mounted: function(){
+        this.sortBy = this.sortingOptions[0].value;
+    },
     data () {
         return {
             // sortingOptions: this.sortingOptions,
@@ -48,7 +51,7 @@ export default {
     methods: {
         addFilter () {
             var id = this.idCounter;
-            this.filters.push({id: id, filterBy: {category: '', type: null}, keyWord: ''});
+            this.filters.push({id: id, filterBy: {category: '', type: null}, keyWord: '', invalidCategory: false, invalidKeyword: false});
             this.idCounter++;
         },
         removeFilter (id) {
@@ -61,6 +64,31 @@ export default {
             if(index > -1){
                 this.filters.splice(index, 1);
             }
+        },
+        submitFilters () {
+            if(this.invalidKeywords()) this.sendFilters();
+            else console.log("invalid");
+        },
+        invalidKeywords () {
+            var valid = true;
+            for(var i=0; i<this.filters.length; i++){
+                this.filters[i].invalidCategory=false;
+                this.filters[i].invalidKeyword=false;
+                if(this.filters[i].filterBy.category==''){
+                    this.filters[i].invalidCategory=true;
+                    valid=false;
+                }
+                if(this.filters[i].keyWord==''){
+                    this.filters[i].invalidKeyword=true;
+                    valid=false;
+                }
+                else if(this.filters[i].filterBy.type===Number && !/\d+/.test(this.filters[i].keyWord)) {
+                    this.filters[i].invalidKeyword=true;
+                    valid=false;
+                }
+            }
+
+            return valid;
         },
         sendFilters (){
             var filterFunction = (initialList) => {
@@ -95,5 +123,11 @@ export default {
         width: 100%;
         text-align: center;
         padding-bottom: 1em;
+    }
+    select.invalid-category {
+        border: 2px solid red;
+    }
+    input.invalid-keyword {
+        border: 2px solid red;
     }
 </style>
