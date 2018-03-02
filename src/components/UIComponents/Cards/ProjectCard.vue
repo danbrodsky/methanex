@@ -108,7 +108,7 @@
     },
     methods: {
         goToProject() {
-            this.$router.push({ name: 'project', params: { projectId: this.projectName }});
+            this.$router.push({ name: 'project', params: { projectId: this.projectId }});
         },
         abbreviateMonth (monthInteger) {
             switch(monthInteger) {

@@ -15,10 +15,6 @@
           <span><i class="fa fa-th"></i> {{ numProjects }}</span>
       </div>
     </div>
-    <div class="card-footer" v-if="$slots.footer">
-      <hr>
-      <slot name="footer"></slot>
-    </div>
   </div>
 </template>
 <script>
@@ -52,7 +48,7 @@
     },
     methods: {
       goToPortfolio () {
-        this.$router.push({path: '/admin/overview'});
+        this.$router.push({path: '/admin/portfolio'});
       }
 
     }

@@ -3,7 +3,7 @@ import DashboardLayout from '../components/Dashboard/Layout/DashboardLayout.vue'
 import NotFound from '../components/GeneralViews/NotFoundPage.vue'
 
 // Admin pages
-import Overview from 'src/components/Dashboard/Views/Overview.vue'
+import Portfolio from 'src/components/Dashboard/Views/Portfolio.vue'
 import UserProfile from 'src/components/Dashboard/Views/UserProfile.vue'
 import TableList from 'src/components/Dashboard/Views/TableList.vue'
 import ProjectTracker from 'src/components/Dashboard/Views/ProjectTracker.vue'
@@ -14,12 +14,12 @@ const routes = [
   {
     path: '/',
     component: DashboardLayout,
-    redirect: '/admin/overview'
+    redirect: '/admin/portfolio'
   },
   {
     path: '/admin',
     component: DashboardLayout,
-    redirect: '/admin/overview',
+    redirect: '/admin/portfolio',
     children: [
       {
         path: 'portfolio-selection',
@@ -27,9 +27,9 @@ const routes = [
         component: PortfolioSelection
       },
       {
-        path: 'overview',
-        name: 'Overview',
-        component: Overview
+        path: 'portfolio',
+        name: 'Portfolio',
+        component: Portfolio
       },
       {
         path: 'user',
