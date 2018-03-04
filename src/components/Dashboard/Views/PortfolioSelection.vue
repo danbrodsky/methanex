@@ -26,6 +26,7 @@
   import Checkbox from 'src/components/UIComponents/Inputs/Checkbox.vue'
   import PortfolioCard from 'src/components/UIComponents/Cards/PortfolioCard.vue'
   import AddProjectCard from 'src/components/UIComponents/Cards/AddProjectCard.vue'
+  import AddPortfolioCard from 'src/components/UIComponents/Cards/AddPortfolioCard.vue'
   import _ from 'lodash'
   import axios from 'axios'
 
@@ -35,7 +36,8 @@
       Card,
       LTable,
       PortfolioCard,
-      AddProjectCard
+      AddProjectCard,
+      AddPortfolioCard
     },
     created() {
       this.fetchData();

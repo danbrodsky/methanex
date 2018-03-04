@@ -2,10 +2,10 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-12">
+        <div class="col-12" id="addProjectForm">
           <card>
           <!-- <img src="https://d33wubrfki0l68.cloudfront.net/85975663ee3d10baa062c8406db6c5f10627a601/0a978/images/chart-title.png" alt="Mountain View"> -->
-            <label for="colFormLabelLg" class="col-form-label">ID: 54324 </label>
+            <label for="addProjectForm" class="col-form-label">ID: 54324 </label>
             <div class="row">
               <div class="form-group align-items-left">
                 <label for="status" class="col-form-label">Project Name</label>
@@ -18,12 +18,13 @@
                   <option value="active">Active</option>
                   <option value="complete">Complete</option>
                 </select>
-                <label for="colFormLabelLg" class="col-form-label">Business Owner</label>
-                    <input type="title" style="width:15%;" class="form-control form-control-sm" v-model="project.manager">
-                <label for="colFormLabelLg" class="col-form-label">Budget</label>
-                    <input type="title" style="width:15%;" class="form-control form-control-sm" id="colFormLabelSm" v-model="project.budget">
-                <label for="colFormLabelLg" class="col-form-label">Resource Breakdown</label>
-                    <input type="" style="width:15%;" class="form-control form-control-sm" id="colFormLabelSm" value="Planning 8mm">
+
+                <label for="addProjectForm" class="col-form-label">Business Owner</label>
+                    <input type="title" style="width:15%;" class="form-control form-control-sm" value="Bob">
+                <label for="addProjectForm" class="col-form-label">Classification</label>
+                    <input type="title" style="width:15%;" class="form-control form-control-sm" id="classificationInput" value="Infrastructure">
+                <label for="addProjectForm" class="col-form-label">Resource Breakdown</label>
+                    <input type="" style="width:15%;" class="form-control form-control-sm" id="resourceBreakdownInput" value="Planning 8mm">
               </div>
               <div class="form-group">
                 <button type="button" v-if="isNewProject" v-on:click="addNewProject" style="display:block" class="btn">Add New Project</button>
@@ -35,9 +36,9 @@
         </div>
       </div>
       <div class="row">
-        <filter-bar 
+        <filter-bar
           style="width: 100%;margin: 0.5%;box-shadow: 5px 5px 5px grey"
-          v-bind:sortingOptions="sortingOptions" 
+          v-bind:sortingOptions="sortingOptions"
           v-bind:filterOptions="filterOptions">
         </filter-bar>
       </div>
@@ -129,7 +130,7 @@ export default {
     }
   }
 }
-  
+
 </script>
 <style>
 </style>

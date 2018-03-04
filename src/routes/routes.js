@@ -11,6 +11,7 @@ import Notifications from 'src/components/Dashboard/Views/Notifications.vue'
 import PortfolioSelection from 'src/components/Dashboard/Views/PortfolioSelection.vue'
 import SkillList from 'src/components/Dashboard/Views/SkillList.vue'
 
+
 const routes = [
   {
     path: '/',
@@ -37,6 +38,11 @@ const routes = [
         name: 'Portfolio',
         component: Portfolio
       },
+      //{
+      //  path: 'create-portfolio',
+      //  name: 'create-portfolio',
+      //  component: PortfolioTracker
+      //},
       {
         path: 'user/:userId',
         name: 'User',
