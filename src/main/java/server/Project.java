@@ -2,7 +2,9 @@ package server;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Project")
@@ -37,9 +39,11 @@ public class Project implements Serializable {
     @Column(name="rag_status")
     private Integer ragStatus;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "portfolio_id")
-    private Portfolio portfolio;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "project_portfolio",
+            joinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "portfolio_id", referencedColumnName = "id")})
+    private List<Portfolio> portfolios = new ArrayList<>();
 
     protected Project() {}
 
@@ -47,6 +51,18 @@ public class Project implements Serializable {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public void addPortfolio(Portfolio portfolio) {
+        if (!this.portfolios.isEmpty()) {
+            this.portfolios.add(portfolio);
+        }
+    }
+
+    public void removePortfolio(Portfolio portfolio) {
+        if (!this.portfolios.isEmpty()) {
+            this.portfolios.remove(portfolio);
+        }
     }
 
     public String getName() {
@@ -105,11 +121,27 @@ public class Project implements Serializable {
         this.ragStatus = ragStatus;
     }
 
-    public Portfolio getPortfolio() {
-        return portfolio;
+    public int getId() {
+        return id;
     }
 
-    public void setPortfolio(Portfolio portfolio) {
-        this.portfolio = portfolio;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setBudget(Integer budget) {
+        this.budget = budget;
+    }
+
+    public void setRagStatus(Integer ragStatus) {
+        this.ragStatus = ragStatus;
+    }
+
+    public List<Portfolio> getPortfolios() {
+        return portfolios;
+    }
+
+    public void setPortfolios(List<Portfolio> portfolios) {
+        this.portfolios = portfolios;
     }
 }

@@ -22,7 +22,7 @@ public class ProjectController {
     @GetMapping("/projects")
     public @ResponseBody
     Iterable<Project> getAllProjects() {
-        return repository.findAll();
+        return this.repository.findAll();
     }
 
     @GetMapping("/projs/{projectName}")
@@ -56,7 +56,7 @@ public class ProjectController {
             beforeProject.setManager(updateDetails.getManager());
             beforeProject.setStartDate(updateDetails.getStartDate());
             beforeProject.setRagStatus(updateDetails.getRagStatus());
-            beforeProject.setPortfolio(updateDetails.getPortfolio());
+            beforeProject.setPortfolios(updateDetails.getPortfolios());
 
             Project updatedProject = repository.save(beforeProject);
             return ResponseEntity.ok(updatedProject);

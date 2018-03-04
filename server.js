@@ -1,3 +1,4 @@
+// initialize front-end
 var express = require('express');
 const favicon = require('express-favicon');
 
