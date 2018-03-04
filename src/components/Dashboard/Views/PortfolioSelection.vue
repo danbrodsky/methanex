@@ -13,6 +13,9 @@
             v-bind:key="portfolio.classification"
             v-bind="portfolio">
           </portfolio-card>
+
+        <add-portfolio-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;"></add-portfolio-card>
+
       </div>
     </div>
   </div>
