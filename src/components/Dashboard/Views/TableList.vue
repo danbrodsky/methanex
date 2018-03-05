@@ -26,37 +26,6 @@
   import axios from 'axios'
   const tableColumns = ['Name', 'Group', 'Status', 'Email'];
 
-  const tableData = [{
-    name: 'Bob Smith',
-    group: 'Finance',
-    status: 'Allocated',
-    email: 'smith@gmail.com'
-  },
-  {
-    name: 'Minerva Hooper',
-    group: 'IT',
-    status: 'Allocated',
-    email: 'minerva@gmail.com'
-  },
-  {
-    name: 'Max Koerner',
-    group: 'Finance',
-    status: 'Allocated',
-    email: 'koerner@gmail.com'
-  },
-  {
-    name: 'Richard Cheese',
-    group: 'IT',
-    status: 'Allocated',
-    email: 'cheese@gmail.com'
-  },
-  {
-    name: 'Mark Plez',
-    group: 'Other',
-    status: 'Allocated',
-    email: 'plez@gmail.com'
-  }];
-
 
   export default {
     components: {
@@ -69,7 +38,7 @@
     data() {
       return {
         columns: [...tableColumns],
-        rows: [...tableData]
+        rows: []
       }
     },
     methods: {
@@ -77,7 +46,7 @@
         var info = this;
         axios.get("https://peaceful-hamlet-75445.herokuapp.com/api/resources")
           .then(response => {
-            // info.rows = response.data;
+            this.rows = response.data;
           })
       }
     }
