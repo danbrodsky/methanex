@@ -1,4 +1,5 @@
 import DashboardLayout from '../components/Dashboard/Layout/DashboardLayout.vue'
+import Login from '../components/Login.vue'
 // GeneralViews
 import NotFound from '../components/GeneralViews/NotFoundPage.vue'
 
@@ -14,12 +15,23 @@ const routes = [
   {
     path: '/',
     component: DashboardLayout,
-    redirect: '/admin/overview'
+    redirect: '/admin/overview',
+    meta: {
+    auth: true
+   }
+  },
+  {
+    path: '/login',
+    component: Login,
+    name: 'Login'
   },
   {
     path: '/admin',
     component: DashboardLayout,
     redirect: '/admin/overview',
+    meta: {
+      auth: true
+    },
     children: [
       {
         path: 'portfolio-selection',
