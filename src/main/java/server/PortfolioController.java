@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -12,25 +13,37 @@ import javax.validation.Valid;
 public class PortfolioController {
 
     @Autowired
-    private PortfolioRepository repository;
+    private PortfolioRepository portfolioRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
 
     @PostMapping("/portfolios")
     public Portfolio createPortfolio(@Valid @RequestBody Portfolio portfolio) {
-        return repository.save(portfolio);
+        return portfolioRepository.save(portfolio);
     }
 
     @GetMapping("/portfolios")
     public @ResponseBody
     Iterable<Portfolio> getAllPortfolios() {
-        return this.repository.findAll();
+        return this.portfolioRepository.findAll();
     }
 
     @GetMapping("/portfolios/{portfolioId}")
     public @ResponseBody
     ResponseEntity<Portfolio> getPortfolio(@PathVariable(value = "portfolioId") Integer portfolioId) {
-        Portfolio portfolio = repository.findOne(portfolioId);
+        Portfolio portfolio = portfolioRepository.findOne(portfolioId);
         if (portfolio != null) {
             return ResponseEntity.ok(portfolio);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/portfolios/{portfolioId}/projects")
+    public @ResponseBody ResponseEntity<List<Project>> getProjectsByPortfolio(@PathVariable(value = "portfolioId") Integer portfolioId) {
+        Portfolio portfolio = portfolioRepository.findOne(portfolioId);
+        if (portfolioId != null) {
+            return ResponseEntity.ok(portfolio.getProjects());
         }
         return ResponseEntity.notFound().build();
     }
@@ -38,15 +51,13 @@ public class PortfolioController {
     @PutMapping("/portfolios/{portfolioId}")
     public ResponseEntity<Portfolio> updatePortfolio(@PathVariable(value = "portfolioId") Integer portfolioId,
                                                  @Valid @RequestBody Portfolio updateDetails) {
-        Portfolio beforePortfolio = repository.findOne(portfolioId);
+        Portfolio beforePortfolio = portfolioRepository.findOne(portfolioId);
         if (beforePortfolio != null) {
-
-            beforePortfolio.setBusinessOwner(updateDetails.getBusinessOwner());
             beforePortfolio.setClassification(updateDetails.getClassification());
             beforePortfolio.setProjects(updateDetails.getProjects());
             beforePortfolio.setResourceBreakdown(updateDetails.getResourceBreakdown());
             beforePortfolio.setStatus(updateDetails.getStatus());
-            Portfolio updatedPortfolio = repository.save(beforePortfolio);
+            Portfolio updatedPortfolio = portfolioRepository.save(beforePortfolio);
             return ResponseEntity.ok(updatedPortfolio);
         }
         return ResponseEntity.notFound().build();
@@ -54,9 +65,9 @@ public class PortfolioController {
 
     @DeleteMapping("/portfolios/{portfolioId}")
     public ResponseEntity<Portfolio> deletePortfolio(@PathVariable(value = "portfolioId") Integer portfolioId) {
-        Portfolio portfolio = repository.findOne(portfolioId);
+        Portfolio portfolio = portfolioRepository.findOne(portfolioId);
         if (portfolio != null) {
-            repository.delete(portfolio);
+            portfolioRepository.delete(portfolio);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();

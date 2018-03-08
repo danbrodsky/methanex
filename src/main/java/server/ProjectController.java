@@ -26,16 +26,6 @@ public class ProjectController {
         return this.repository.findAll();
     }
 
-    @GetMapping("/projs/{projectName}")
-    public @ResponseBody
-    ResponseEntity<Project> getProject(@PathVariable(value = "projectName") String projectName) {
-        Project project = repository.findByName(projectName);
-        if (project != null) {
-            return ResponseEntity.ok(project);
-        }
-        return ResponseEntity.notFound().build();
-    }
-
     @GetMapping("/projects/{projectId}")
     public @ResponseBody
     ResponseEntity<Project> getProject(@PathVariable(value = "projectId") Integer projectId) {

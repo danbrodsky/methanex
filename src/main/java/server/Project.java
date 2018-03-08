@@ -41,8 +41,8 @@ public class Project implements Serializable {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "project_portfolio",
-            joinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "portfolio_id", referencedColumnName = "id")})
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "portfolio_id"))
     private List<Portfolio> portfolios = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)

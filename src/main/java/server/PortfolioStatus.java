@@ -12,6 +12,6 @@ public class PortfolioStatus implements Serializable {
     @Id
     private int id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 }
