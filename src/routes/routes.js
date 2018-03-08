@@ -67,7 +67,7 @@ const routes = [
         path: 'project/:projectId',
         name: 'project',
         component: ProjectTracker
-      },,
+      },
       {
         path: 'project',
         name: 'project',
