@@ -27,6 +27,7 @@
             <div class="form-group" style="position:absolute;right:5%;top:80%;">
               <button type="button" style="display:block;" class="btn btn-success">Update Project</button>
               <button type="button" class="mt-2 btn btn-danger">Delete Project</button>
+              <b-button>hello</b-button>
             </div>
           </card>
         </div>
@@ -55,7 +56,7 @@ export default {
     }
   }
 }
-  
+
 </script>
 <style>
 </style>

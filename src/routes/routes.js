@@ -12,82 +12,89 @@ import Notifications from 'src/components/Dashboard/Views/Notifications.vue'
 import PortfolioSelection from 'src/components/Dashboard/Views/PortfolioSelection.vue'
 
 const routes = [
-  {
-    path: '/',
-    component: DashboardLayout,
-    redirect: '/admin/overview',
-    meta: {
-    auth: true
-   }
-  },
-  {
-    path: '/login',
-    component: Login,
-    name: 'Login'
-  },
-  {
-    path: '/admin',
-    component: DashboardLayout,
-    redirect: '/admin/overview',
-    meta: {
-      auth: true
+    {
+        path: '/',
+        component: DashboardLayout,
+        redirect: '/admin/overview',
+        meta: {
+            auth: true
+        }
     },
-    children: [
-      {
-        path: 'portfolio-selection',
-        name: 'Portfolio Selection',
-        component: PortfolioSelection
-      },
-      {
-        path: 'overview',
-        name: 'Overview',
-        component: Overview
-      },
-      {
-        path: 'user',
-        name: 'User',
-        component: UserProfile
-      },
-      {
-        path: 'table-list',
-        name: 'Table List',
-        component: TableList
-      },
-      {
-        path: 'project/:projectId',
-        name: 'project',
-        component: ProjectTracker
-      },,
-      {
-        path: 'project',
-        name: 'project',
-        component: ProjectTracker
-      },
-      {
-        path: 'project2',
-        name: 'project2',
-        component: ProjectTracker
-      },
-      {
-        path: 'project3',
-        name: 'project3',
-        component: ProjectTracker
-      },
-      {
-        path: 'notifications',
-        name: 'Notifications',
-        component: Notifications
-      }
-    ]
-  },
-  { path: '*', component: NotFound }
+    {
+        path: '/login',
+        component: Login,
+        name: 'Login'
+    },
+    {
+        path: '/admin',
+        component: DashboardLayout,
+        redirect: '/admin/overview',
+        meta: {
+            auth: true
+        },
+        children: [
+            {
+                path: 'portfolio-selection',
+                name: 'Portfolio Selection',
+                component: PortfolioSelection
+            },
+            {
+                path: 'overview/:portfolioId',
+                name: 'Overview',
+                component: Overview,
+                props: true
+            },
+            {
+                path: 'overview',
+                name: 'Overview',
+                component: Overview
+            },
+            {
+                path: 'user',
+                name: 'User',
+                component: UserProfile
+            },
+            {
+                path: 'table-list',
+                name: 'Table List',
+                component: TableList
+            },
+            {
+                path: 'project/:projectId',
+                name: 'project',
+                component: ProjectTracker,
+                props: true
+            },
+            {
+                path: 'project',
+                name: 'project',
+                component: ProjectTracker
+            },
+            {
+                path: 'project2',
+                name: 'project2',
+                component: ProjectTracker
+            },
+            {
+                path: 'project3',
+                name: 'project3',
+                component: ProjectTracker
+            },
+            {
+                path: 'notifications',
+                name: 'Notifications',
+                component: Notifications
+            }
+        ]
+    },
+    {path: '*', component: NotFound}
 ]
 
 /**
  * Asynchronously load view (Webpack Lazy loading compatible)
  * The specified component must be inside the Views folder
  * @param  {string} name  the filename (basename) of the view to load.
-function view(name) {
+ function view(name) {
    var res= require('../components/Dashboard/Views/' + name + '.vue');
    return res;
 };**/

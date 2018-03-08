@@ -5,8 +5,6 @@ import axios from 'axios';
 import VueAxios from 'vue-axios'
 import VueAuth from '@websanova/vue-auth'
 import BootstrapVue from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(VueAxios, axios);
 Vue.axios.defaults.baseURL = 'https://api-demo.websanova.com/api/v1'; //update to backend after testing
