@@ -10,6 +10,7 @@
   "dependencies": {
     "@websanova/vue-auth": "^2.21.3-beta",
     "axios": "^0.17.1",
+    "bootstrap-vue": "^2.0.0-rc.2",
     "chartist": "^0.11.0",
     "es6-promise": "^4.1.1",
     "express-favicon": "^2.0.0",

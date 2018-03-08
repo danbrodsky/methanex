@@ -38,50 +38,9 @@
       this.fetchData();
     },
     data() {
-      return {
-        // portfolios: [],
-        portfolios: [
-          {
-            classification: 'Top Secret',
-            businessOwner: 'Mark Penderson',
-            numProjects: 52,
-            totalBudget: 800000
-          },
-          {
-            classification: 'Sheep hunting operations',
-            businessOwner: 'Nigel',
-            numProjects: 8,
-            totalBudget: 1000000
-          },
-          {
-            classification: 'Financials',
-            businessOwner: 'John Doe',
-            numProjects: 29,
-            totalBudget: 550000
-          }
-        ],
-        portfoliosDisplayed: [
-          {
-            classification: 'Top Secret',
-            businessOwner: 'Mark Penderson',
-            numProjects: 52,
-            totalBudget: 800000
-          },
-          {
-            classification: 'Sheep hunting operations',
-            businessOwner: 'Nigel',
-            numProjects: 8,
-            totalBudget: 1000000
-          },
-          {
-            classification: 'Financials',
-            businessOwner: 'John Doe',
-            numProjects: 29,
-            totalBudget: 550000
-          }
-        ],
-        searchKeyword: '',
-      }
+        return {
+            portfolios: []
+        }
     },
     methods: {
       fetchData() {

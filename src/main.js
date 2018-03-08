@@ -4,6 +4,9 @@ import App from './App.vue'
 import axios from 'axios';
 import VueAxios from 'vue-axios'
 import VueAuth from '@websanova/vue-auth'
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(VueAxios, axios);
 Vue.axios.defaults.baseURL = 'https://api-demo.websanova.com/api/v1'; //update to backend after testing
@@ -16,6 +19,7 @@ import routes from './routes/routes'
 // plugin setup
 Vue.use(VueRouter)
 Vue.use(LightBootstrap)
+Vue.use(BootstrapVue);
 
 // configure router
 const router = new VueRouter({
@@ -33,16 +37,6 @@ Vue.use(VueAuth, {
     router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js')
 });
 
-// router.beforeEach((to, from, next) => {
-// const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-// if(requiresAuth) {
-//    next('/login');
-// } else {
-//   next();
-// }
-// });
-
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   render: h => h(App),
