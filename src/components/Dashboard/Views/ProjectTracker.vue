@@ -21,11 +21,18 @@
                 <option value="stopped">Stopped</option>
               </select>
               <label for="colFormLabelLg" class="col-form-label">Business Owner</label>
-                  <input type="title" style="width:15%;" class="form-control form-control-sm" v-model="project.manager">
+                  <input type="title" style="width:15%;" class="form-control form-control-sm" value="">
+                                <!--need to hook this up to portfolio, Business owner = owner of the portfolio-->
+                <label for="colFormLabelLg" class="col-form-label">Project Manager</label>
+                <input type="title" style="width:15%;" class="form-control form-control-sm" v-model="project.manager">
               <label for="colFormLabelLg" class="col-form-label">Budget</label>
                   <input type="title" style="width:15%;" class="form-control form-control-sm" id="colFormLabelSm" v-model="project.budget">
               <label for="colFormLabelLg" class="col-form-label">Resource Breakdown</label>
                   <input type="" style="width:15%;" class="form-control form-control-sm" id="colFormLabelSm" value="Planning 8mm">
+                <label for="colFormLabelLg" class="col-form-label">% Complete</label>
+                <input type="" style="width:15%;" class="form-control form-control-sm" id="colFormLabelSm" v-model="project.status">
+                <label for="colFormLabelLg" class="col-form-label">RAG Status</label>
+                <input type="" style="width:15%;" class="form-control form-control-sm" id="colFormLabelSm" v-model="project.ragStatus">
             </div>
             <div class="form-group" style="position:absolute;right:5%;top:80%;">
                 <button type="button" v-if="isNewProject" v-on:click="addNewProject" style="display:block" class="btn">Add New Project</button>
