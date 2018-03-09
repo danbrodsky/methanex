@@ -10,11 +10,15 @@
                   <input type="title" style="width:25%;" class="form-control form-control-lg" id="status" v-model="project.name">
               <label class="mt-2" for="status">Status</label>
               <select v-model="project.effort" class="form-control mr-sm-2" style="width:15%;" id="exampleFormControlSelect1">
-                <option value="approved">Approved</option>
-                <option value="pending">Pending</option>
-                <option value="pipline">Pipeline</option>
-                <option value="active">Active</option>
-                <option value="complete">Complete</option>
+                  <option value="pre-approval">Pre Approval</option>
+                  <option value="seeking-funding">Seeking Funding</option>
+                  <option value="pipline">Pipeline</option>
+                  <option value="to-confirm">To Confirm</option>
+                  <option value="closing">Closing</option>
+                  <option value="closed">Closed</option>
+                  <option value="on-hold">On Hold</option>
+                  <option value="underway">Underway</option>
+                <option value="stopped">Stopped</option>
               </select>
               <label for="colFormLabelLg" class="col-form-label">Business Owner</label>
                   <input type="title" style="width:15%;" class="form-control form-control-sm" v-model="project.manager">
