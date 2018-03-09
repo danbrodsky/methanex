@@ -77,30 +77,30 @@
         },
         budget: {
             type: Number,
-            default: 8
+            default: 0
         },
         budgetUsed: {
             type: Number,
-            default: 8
+            default: 0
         }
     },
     data () {
         return {
-            projectId: this.projectId,
-            projectName: this.projectName,
-            projectStatus: this.projectStatus,
-            projectProgress: this.projectProgress,
-            projectManager: this.projectManager,
-            numPeopleOnTeam: this.numPeopleOnTeam,
-            startDate: this.startDate,
-            endDate: this.endDate,
-            budget: this.budget,
-            budgetUsed: this.budgetUsed
+            // projectId: this.projectId,
+            // projectName: this.projectName,
+            // projectStatus: this.projectStatus,
+            // projectProgress: this.projectProgress,
+            // projectManager: this.projectManager,
+            // numPeopleOnTeam: this.numPeopleOnTeam,
+            // startDate: this.startDate,
+            // endDate: this.endDate,
+            // budget: this.budget,
+            // budgetUsed: this.budgetUsed
         }
     },
     methods: {
         goToProject() {
-            this.$router.push({ name: 'project', params: { projectId: this.projectName }});
+            this.$router.push({ name: 'project', params: { projectId: this.projectId }});
         }
     }
   }

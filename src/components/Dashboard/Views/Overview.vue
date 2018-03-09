@@ -6,21 +6,20 @@
                 <resource-breakdown style="width: 40%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></resource-breakdown>
             </div>
             <div class="row">
-                <div class="filters">
-                    <span>Sort By: </span>
-                    <select v-model="sortBy" @change="sortProjects()">
-                        <option v-for="option in sortingOptions" v-bind:key="option.value" v-bind:value="option.value">
-                            {{ option.text }}
-                        </option>
-                    </select>
-                </div>
+                <filter-bar style="width: 100%;margin: 0.5%;box-shadow: 5px 5px 5px grey"
+                v-model="filterFcn" 
+                v-bind:sortingOptions="sortingOptions" 
+                v-bind:filterOptions="filterOptions"
+                v-on:newSearch="performSearch">
+                </filter-bar>
             </div>
             <div class="row">
                 <project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;"
-                              v-for="project of projects"
+                              v-for="project of displayProjects"
                               v-bind:key="project.id"
+                              v-bind:projectId="project.id"
                               v-bind:projectName="project.name"
-                              v-bind:projectStatus="project.ragStatus"
+                              v-bind:projectStatus="project.effort"
                               v-bind:budget="project.budget">
                     <!-- v-bind="project" -->
                 </project-card>
@@ -40,6 +39,7 @@
     import axios from 'axios'
     import GanttChart from 'src/components/UIComponents/PortfolioComponents/GanttChart.vue'
     import ResourceBreakdown from 'src/components/UIComponents/PortfolioComponents/ResourceBreakdown.vue'
+    import FilterBar from 'src/components/UIComponents/FilterBar.vue'
 
     export default {
         props: ['portfolioId'],
@@ -52,7 +52,8 @@
             ProjectCard,
             AddProjectCard,
             GanttChart,
-            ResourceBreakdown
+            ResourceBreakdown,
+            FilterBar
         },
         created() {
             this.fetchData();
@@ -60,11 +61,12 @@
         data() {
             return {
                 projects: [],
+                displayProjects: [],
                 sortBy: 'ID',
                 sortingOptions: [
-                    {value: 'projectId', text: 'ID'},
-                    {value: 'projectName', text: 'Name'},
-                    {value: 'projectStatus', text: 'Status'},
+                    {value: 'id', text: 'ID'},
+                    {value: 'name', text: 'Name'},
+                    {value: 'effort', text: 'Status'},
                     {value: 'projectProgress', text: 'Completion Progress'},
                     {value: 'projectManager', text: 'Manager'},
                     {value: 'numPeopleOnTeam', text: 'Team Size'},
@@ -72,21 +74,33 @@
                     {value: 'endDate', text: 'End Date'},
                     {value: 'budget', text: 'Initial Budget'},
                     {value: 'budgetUsed', text: 'Budget Spent'}
-                ]
+                ],
+                filterOptions: [
+                    { value: {category: 'id', type: Number}, text: 'ID' },
+                    { value: {category: 'name', type: String}, text: 'Name' },
+                    { value: {category: 'effort', type: String}, text: 'Status' },
+                    { value: {category: 'projectProgress', type: String}, text: 'Completion Progress' },
+                    { value: {category: 'projectManager', type: String}, text: 'Manager' },
+                    { value: {category: 'numPeopleOnTeam', type: Number}, text: 'Team Size' },
+                    { value: {category: 'startDate', type: Date}, text: 'Start Date' },
+                    { value: {category: 'endDate', type: Date}, text: 'End Date' },
+                    { value: {category: 'budget', type: Number}, text: 'Budget' },
+                    { value: {category: 'budgetUsed', type: Number}, text: 'Budget Used' }
+                ],
+                filterFcn: function (list) { return list;}
             }
         },
         methods: {
             fetchData() {
                 var info = this;
-                axios.get("https://peaceful-hamlet-75445.herokuapp.com/api/portfolios/" + this.portfolioId + "projects")
-                    .then(response => {
-                        info.projects = response.data;
-                    })
+                axios.get(this.$root.serverURL + "/api/projects")
+                .then(response => {
+                    info.projects = response.data;
+                    info.displayProjects = response.data;
+                })
             },
-            sortProjects() {
-                this.projects = this.projects.sort((a, b) => {
-                    return a[this.sortBy] > b[this.sortBy] ? 1 : -1;
-                });
+            performSearch() {
+                this.displayProjects = this.filterFcn(this.projects);
             }
         }
     }

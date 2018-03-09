@@ -44,7 +44,7 @@
     methods: {
       fetchData() {
         var info = this;
-        axios.get("https://peaceful-hamlet-75445.herokuapp.com/api/resources")
+        axios.get(this.$root.serverURL + "/api/resources")
           .then(response => {
             this.rows = response.data;
           })
