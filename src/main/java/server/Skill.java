@@ -22,7 +22,7 @@ public class Skill implements Serializable {
     @OneToMany
     private List<Category> category;
 
-    @JsonManagedReference
+    @JsonIgnore
     @ManyToMany(mappedBy = "skills")
     private List<Resource> resources = new ArrayList<>();
 
