@@ -37,13 +37,6 @@
                     v-model="resource.firstName">
           </fg-input>
         </div>
-        <div class="col-md-6">
-          <fg-input type="text"
-                    label="Last Name"
-                    placeholder="Last Name"
-                    v-model="resource.lastName">
-          </fg-input>
-        </div>
       </div>
 
       <div class="row">
@@ -86,19 +79,15 @@
       <div class="row">
         <div class="col-md-6">
           <label for="skillTech">Technical Skills:</label>
-          <select v-model="skillTech" multiple class="form-control" id="skillTech">
-            <option v-for="option in skillTechOption" v-bind:value="option.text">
-                {{ option.text }}
-            </option>
-          </select>
+            <multiselect v-model="resource.value1" :options="options1" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" :preserve-search="true" placeholder="Pick some" label="name" track-by="name">
+              <template slot="tag" slot-scope="props"><span class="custom__tag"><span>{{ props.option.name }}</span><span class="custom__remove" @click="props.remove(props.option)"> ❌ </span></span></template>
+            </multiselect>
         </div>
         <div class="col-md-6">
           <label for="skillNon">Non-technical Skills:</label>
-          <select v-model="skillNon" multiple class="form-control" id="skillNon">
-            <option v-for="option in skillNonOption" v-bind:value="option.text">
-                {{ option.text }}
-            </option>
-          </select>
+            <multiselect v-model="resource.value2" :options="options2" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" :preserve-search="true" placeholder="Pick some" label="name" track-by="name">
+              <template slot="tag" slot-scope="props"><span class="custom__tag"><span>{{ props.option.name }}</span><span class="custom__remove" @click="props.remove(props.option)"> ❌ </span></span></template>
+            </multiselect>
         </div>
       </div>
       <div class="text-center">
@@ -112,53 +101,58 @@
 </template>
 <script>
   import Card from 'src/components/UIComponents/Cards/Card.vue'
+  import Multiselect from 'vue-multiselect'
 
   export default {
     components: {
-      Card
+      Card,
+      Multiselect
+    },
+    created () {
+      this.fetchData();
     },
     data () {
       return {
+      options1: [
+      ],
+      options2: [
+      ],
         resource: {
-          id: '0123',
-          location: 'Vancouver, BC, Canada',
-          status: 'Normal',
-          firstName: 'Jason',
-          lastName: 'Park',
-          email: 'parkjason91@gmail.com',
-          role: 'Software Engineer',
-          group: 'Charlie',
-          peerGroup: 'Full-Stack'
-        },
-        skillTech: ['Java', 'Python'],
-        skillNon: ['Research', 'Communication'],
-        skillNonOption:[
-            { text: 'Design'},
-            { text: 'Team Management'},
-            { text: 'Research'},
-            { text: 'Communication'}
-          ],
-        skillTechOption:[
-            { text: 'Java'},
-            { text: 'C++'},
-            { text: 'Python'},
-            { text: 'Javascript'},
-            { text: 'MySQL'}
-          ],
+          id: -1,
+          name: '',
+          email: '',
+          location: '',
+          group: '',
+          manager: '',
+          status: '',
+          value1: [],
+          value2: []
+        }
       }
     },
     methods: {
+      fetchData () {
+      var info = this;
+      axios.get(this.$root.serverURL + "/api/resources/1") // change to match resource id when login established
+      .then(response => {
+        console.log(response.data);
+        info.resource = response.data;
+      })
+      axios.get(this.$root.serverURL + "/api/skills") // change to match resource id when login established
+      .then(response => {
+        console.log(response.data);
+        info.options1 = info.options2 = response.data;
+      })
+    }
+      },
       updateProfile () {
         alert(JSON.stringify(this.resource));
-        alert('Technical Skills: ' + JSON.stringify(this.skillTech));
-        alert('Non-technical Skills: ' + JSON.stringify(this.skillNon));
+        alert('Technical Skills: ' + JSON.stringify(this.value1));
+        alert('Non-technical Skills: ' + JSON.stringify(this.value2));
       }
     }
-  }
 
 </script>
 <style>
-#skillTech, #skillNon {
-  height: 100px
-}
 </style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

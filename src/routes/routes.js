@@ -10,6 +10,7 @@ import TableList from 'src/components/Dashboard/Views/TableList.vue'
 import ProjectTracker from 'src/components/Dashboard/Views/ProjectTracker.vue'
 import Notifications from 'src/components/Dashboard/Views/Notifications.vue'
 import PortfolioSelection from 'src/components/Dashboard/Views/PortfolioSelection.vue'
+import Register from '../components/Register.vue'
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
         path: '/login',
         component: Login,
         name: 'Login'
+    },
+    {
+        path: '/register',
+        component: Register,
+        name: 'Register'
     },
     {
         path: '/admin',
