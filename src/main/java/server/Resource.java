@@ -1,6 +1,7 @@
 package server;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -40,7 +41,7 @@ public class Resource implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "resources")
     private List<Project> projects = new ArrayList<>();
 
-    @JsonIgnore
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "resource_skill",
             joinColumns = @JoinColumn(name = "resource_id"),

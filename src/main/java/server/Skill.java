@@ -1,6 +1,7 @@
 package server;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,7 +22,7 @@ public class Skill implements Serializable {
     @OneToMany
     private List<Category> category;
 
-    @JsonIgnore
+    @JsonManagedReference
     @ManyToMany(mappedBy = "skills")
     private List<Resource> resources = new ArrayList<>();
 
