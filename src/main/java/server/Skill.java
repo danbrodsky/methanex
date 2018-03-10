@@ -1,5 +1,7 @@
 package server;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class Skill implements Serializable {
     @OneToMany
     private List<Category> category;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "skills")
     private List<Resource> resources = new ArrayList<>();
 

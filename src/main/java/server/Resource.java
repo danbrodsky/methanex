@@ -1,5 +1,7 @@
 package server;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class Resource implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "resources")
     private List<Project> projects = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "resource_skill",
             joinColumns = @JoinColumn(name = "resource_id"),
