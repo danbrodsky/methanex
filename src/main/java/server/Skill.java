@@ -2,6 +2,7 @@ package server;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,6 +19,9 @@ public class Skill implements Serializable {
     @OneToMany
     private List<Category> category;
 
+    @ManyToMany(mappedBy = "skills")
+    private List<Resource> resources = new ArrayList<>();
+
     public String getName() {
         return name;
     }
@@ -32,5 +36,13 @@ public class Skill implements Serializable {
 
     public void setCategory(List<Category> category) {
         this.category = category;
+    }
+
+    public List<Resource> getResources() {
+        return resources;
+    }
+
+    public void setResources(List<Resource> resources) {
+        this.resources = resources;
     }
 }

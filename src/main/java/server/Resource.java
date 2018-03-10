@@ -38,6 +38,12 @@ public class Resource implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "resources")
     private List<Project> projects = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "resource_skill",
+            joinColumns = @JoinColumn(name = "resource_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id"))
+    private List<Skill> skills = new ArrayList<>();
+
     protected Resource() {
     }
 

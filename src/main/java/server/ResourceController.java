@@ -15,21 +15,6 @@ public class ResourceController {
     @Autowired
     private ResourceRepository repository;
 
-    @GetMapping("/")
-    public Resource init() {
-        Resource r2 = new Resource();
-        r2.setName("Mark is cool");
-        r2.setLocation("Mark boulevard");
-        r2.setEmail("gljkssjf@gmail.com");
-        repository.save(r2);
-
-        Resource r3 = new Resource();
-        r3.setName("Mark is coolest");
-        r3.setLocation("Mark university");
-        r3.setEmail("jafljs;fsf@gmail.com");
-        return repository.save(r3);
-    }
-
     @PostMapping("/resources")
     public Resource createResource(@Valid @RequestBody Resource resource) {
         return repository.save(resource);
@@ -37,7 +22,6 @@ public class ResourceController {
 
     @GetMapping("/resources")
     public @ResponseBody Iterable<Resource> getAllResources() {
-
         return repository.findAll();
     }
 
