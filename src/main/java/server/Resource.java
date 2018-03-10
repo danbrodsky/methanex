@@ -119,4 +119,12 @@ public class Resource implements Serializable {
     public void setProjects(List<Project> projects) {
         this.projects = projects;
     }
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
+    }
 }
