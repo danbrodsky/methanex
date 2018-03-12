@@ -7,21 +7,21 @@
           <!-- <img src="https://d33wubrfki0l68.cloudfront.net/85975663ee3d10baa062c8406db6c5f10627a601/0a978/images/chart-title.png" alt="Mountain View"> -->
             <label for="colFormLabelLg" class="col-form-label">ID: 54324 </label>
             <div class="row">
-              <div class="form-group align-items-left" style="min-width:380px">
+              <div class="form-group align-items-left">
                 <label for="status" class="col-form-label">Project Name</label>
-                    <input type="title" style="width:25%;" class="form-control form-control-lg" id="status" v-bind:value="project.name">
+                    <input type="title" style="width:25%;" class="form-control form-control-lg" id="status" v-model="project.name">
                 <label class="mt-2" for="status">Status</label>
-                <select class="form-control mr-sm-2" style="width:15%;" id="exampleFormControlSelect1">
-                  <option>Approved</option>
-                  <option>Pending</option>
-                  <option>Pipeline</option>
-                  <option>Active</option>
-                  <option>Complete</option>
+                <select v-model="project.effort" class="form-control mr-sm-2" style="width:15%;" id="exampleFormControlSelect1">
+                  <option value="approved">Approved</option>
+                  <option value="pending">Pending</option>
+                  <option value="pipline">Pipeline</option>
+                  <option value="active">Active</option>
+                  <option value="complete">Complete</option>
                 </select>
                 <label for="colFormLabelLg" class="col-form-label">Business Owner</label>
-                    <input type="title" style="width:15%;" class="form-control form-control-sm" value="Bob">
-                <label for="colFormLabelLg" class="col-form-label">Classification</label>
-                    <input type="title" style="width:15%;" class="form-control form-control-sm" id="colFormLabelSm" value="Infrastructure">
+                    <input type="title" style="width:15%;" class="form-control form-control-sm" v-model="project.manager">
+                <label for="colFormLabelLg" class="col-form-label">Budget</label>
+                    <input type="title" style="width:15%;" class="form-control form-control-sm" id="colFormLabelSm" v-model="project.budget">
                 <label for="colFormLabelLg" class="col-form-label">Resource Breakdown</label>
                     <input type="" style="width:15%;" class="form-control form-control-sm" id="colFormLabelSm" value="Planning 8mm">
               </div>
@@ -65,13 +65,18 @@ export default {
   data () {
     return {
       isNewProject: false,
+      portfolioId: -1, // this if for new/undefined projects only
       project: {
-        "id": -1,
-        "name": "",
-        "email": "",
-        "location": "",
-        "manager": null,
-        "status": null
+        id: -1,
+        name: "",
+        manager: "",
+        effort: "",
+        startDate: new Date(),
+        endDate: new Date(),
+        budget: 0,
+        ragStatus: "",
+        portfolios:	[],
+        resources:	[]
       },
       sortingOptions: [
           { value: 'id', text: 'ID' },
@@ -92,21 +97,31 @@ export default {
       var info = this;
       if (this.$route.params.projectId === undefined) {
         this.isNewProject = true;
+        this.portfolioId = this.$route.query.portfolioId;
         return;
       }
-      axios.get(this.$root.serverURL + "/api/projs/"+ this.$route.params.projectId)
+      axios.get(this.$root.serverURL + "/api/projects/"+ this.$route.params.projectId)
         .then(response => {
           console.log(response.data);
           info.projects = response.data;
         })
     },
     addNewProject() {
-      axios.post(this.$root.serverURL + "/api/projects/", {
+      console.log("posting to: " + this.$root.serverURL + `/api/portfolios/${this.portfolioId}/projects/`);
+      axios.post(this.$root.serverURL + `/api/portfolios/${this.portfolioId}/projects/`, {
         "name": this.project.name,
-        "email": this.project.email,
-        "location": this.project.location,
-        "manager": this.project.manager,
-        "status": this.project.status
+        "budget": this.project.budget,
+        "effort": this.project.effort
+      })
+      .then(function (res){
+        console.log(res);
+      });
+    },
+    updateProject() {
+      axios.put(this.$root.serverURL + "/api/projects/" + this.project.id, {
+        "name": this.project.name,
+        "budget": this.project.budget,
+        "effort": this.project.effort
       })
       .then(function (res){
         console.log(res);

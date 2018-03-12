@@ -93,12 +93,10 @@ export default {
         sendFilters (){
             var filterFunction = (initialList) => {
                 var list = initialList.slice();
-                console.log("asdf1");
+
                 for(var filter of this.filters){
-                    console.log("asdf2");
                     for(var i=list.length-1; i>=0; i--){
-                        console.log("asdf3");
-                        if (filter.filterBy.type === String && list[i][filter.filterBy.category].toLowerCase().indexOf(filter.keyWord.toLowerCase())==-1){
+                        if (list[i][filter.filterBy.category]==null || (filter.filterBy.type === String && list[i][filter.filterBy.category].toLowerCase().indexOf(filter.keyWord.toLowerCase())==-1)){
                             list.splice(i,1);
                         }
                         if (filter.filterBy.type === Number && list[i][filter.filterBy.category] != filter.keyWord) {

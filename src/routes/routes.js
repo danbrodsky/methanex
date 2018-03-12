@@ -14,12 +14,12 @@ const routes = [
   {
     path: '/',
     component: DashboardLayout,
-    redirect: '/admin/portfolio'
+    redirect: '/admin/portfolio-selection'
   },
   {
     path: '/admin',
     component: DashboardLayout,
-    redirect: '/admin/portfolio',
+    redirect: '/admin/portfolio-selection',
     children: [
       {
         path: 'portfolio-selection',
@@ -27,9 +27,19 @@ const routes = [
         component: PortfolioSelection
       },
       {
+        path: 'portfolio/:portfolioId',
+        name: 'Portfolio',
+        component: Portfolio
+      },
+      {
         path: 'portfolio',
         name: 'Portfolio',
         component: Portfolio
+      },
+      {
+        path: 'user/:userId',
+        name: 'User',
+        component: UserProfile
       },
       {
         path: 'user',
@@ -49,16 +59,6 @@ const routes = [
       {
         path: 'project',
         name: 'project',
-        component: ProjectTracker
-      },
-      {
-        path: 'project2',
-        name: 'project2',
-        component: ProjectTracker
-      },
-      {
-        path: 'project3',
-        name: 'project3',
         component: ProjectTracker
       },
       {

@@ -1,7 +1,7 @@
 <template>
   <div class="card" v-on:click="goToPortfolio">
     <div class="card-header">
-      <div name="header" style="align: center"><span style="font-weight:bold">{{ classification }}</span></div>
+      <div name="header" style="align: center"><span style="font-weight:bold">{{ classification.name }}</span></div>
       <div name="header" style="font-weight:bold; color:#888888"></div>
     </div>
     <div class="card-body">
@@ -22,8 +22,8 @@
     name: 'project-card',
     props: {
         classification: {
-            type: String,
-            default: 'Classification'
+            type: Object,
+            default: { id: -1, name: ""}
         },
         businessOwner: {
             type: String,
@@ -48,7 +48,7 @@
     },
     methods: {
       goToPortfolio () {
-        this.$router.push({path: '/admin/portfolio'});
+        this.$router.push({path: `/admin/portfolio/${this.classification.id}`});
       }
 
     }

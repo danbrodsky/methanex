@@ -10,9 +10,15 @@
 <script>
   export default {
     name: 'add-project-card',
+    props: {
+      portfolioId: {
+          type: Number,
+          default: -1
+      }
+    },
     methods: {
       createNewProject() {
-        this.$router.push({path: '/admin/project'});
+        this.$router.push({path: '/admin/project', query: { portfolioId: this.portfolioId }});
       }
     }
   }

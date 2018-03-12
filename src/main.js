@@ -23,7 +23,7 @@ new Vue({
   render: h => h(App),
   router,
   data: {
-    serverURL: 'http://localhost:8080'
-    // serverURL: 'https://peaceful-hamlet-75445.herokuapp.com'
+    // serverURL: 'http://localhost:8080'
+    serverURL: 'https://peaceful-hamlet-75445.herokuapp.com'
   }
 })
