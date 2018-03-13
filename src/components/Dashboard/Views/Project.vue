@@ -2,6 +2,7 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
+        <div id="project_id">Project id: {{ this.$router.params.projectId}}</div>
         <gantt-chart style="width: 58%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></gantt-chart>
         <resource-breakdown style="width: 40%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></resource-breakdown>
       </div>
@@ -12,6 +13,9 @@
                     v-bind:filterOptions="filterOptions"
                     v-on:newSearch="performSearch">
         </filter-bar>
+      </div>
+      <div class="row" id="projectDetails">
+
       </div>
       <div class="row">
         <resource-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;"
@@ -60,6 +64,16 @@
 
       data() {
         return {
+          id: this.$router.params.projectId,
+          projectName: "",
+          projectStatus: "",
+          projectManager: "",
+          projectOwner: "",
+          complete: "",
+          startDate: "",
+          endDate: "",
+          RAGstatus: "",
+          financials: [],
           resources: [],
           displayResources: [],
           filterOptions: [
@@ -72,7 +86,29 @@
       },
 
       fetchData() {
-
+        //fetch actual project data from the server instead
+        //for display stub data
+        // var info = this;
+        // axios.get(this.$root.serverURL + "/api/project/" + this.$router.param.projectId)
+        //   .then(response => {
+        //     console.log(response.data);
+        //     info.projects = response.data;
+        //     info.disp
+        //     response.data;
+        //   })
+        this.projectName = "Granblue Fantasy";
+        this.projectStatus = "pipelined";
+        this.projectManager = "Djeeta";
+        this.projectOwner = "Djeeta";
+        this.complete = "99.05";
+        this.startDate = "01/01/2018";
+        this.endDate =  "01/12/2018";
+        this.RAGstatus = "RED";
+        this.financials =  [
+          {budget: 1000000},
+          {spendToDate: 100000},
+          {estimateToComplete: 0}
+        ],
         this.resources = [
           {
             resourceName: 'Lecia',
@@ -88,7 +124,6 @@
 
         ];
         this.displayProjects = this.resources.slice();
-      },
       },
 
       addResourceToProject() {

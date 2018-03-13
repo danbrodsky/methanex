@@ -41,7 +41,7 @@
       </div>
       <div class="row">
         <gantt-chart style="width: 58%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></gantt-chart>
-        <resource-breakdown style="width: 40%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></resource-breakdown>
+        <resource-breakdown></resource-breakdown>
       </div>
       <div class="row">
         <filter-bar
@@ -68,13 +68,15 @@ import ResourceCard from 'src/components/UIComponents/Cards/ResourceCard.vue'
 import FilterBar from 'src/components/UIComponents/FilterBar.vue'
 import GanttChart from 'src/components/UIComponents/PortfolioComponents/GanttChart.vue'
 import ResourceBreakdown from 'src/components/UIComponents/PortfolioComponents/ResourceBreakdown.vue'
+import PieChart from 'src/components/UIComponents/PieChart.js'
 
 export default {
   components: {
     ResourceCard,
     ResourceBreakdown,
     GanttChart,
-    FilterBar
+    FilterBar,
+    PieChart
   },
   created () {
     this.fetchData();
@@ -134,11 +136,16 @@ export default {
       axios.get(this.$root.serverURL + "/api/projects/"+ this.$route.params.projectId)
         .then(response => {
           console.log(response.data);
-          info.projects = response.data;
+          info.project = response.data;
         })
       //currently portfolio controller has not been setup so i dont have access to project id
       // fetchProjectResources();
       // this.resourcesDisplayed = projectResources();
+      /*axios.get(this.$root.serverURL + "/api/projects/"+ this.$route.params.projectId+"/resources")
+        .then(response => {
+          console.log(response.data);
+          info.resourcesDisplayed = response.data;
+        })*/
 
       this.resourcesDisplayed = [
         {
@@ -164,13 +171,13 @@ export default {
 
       ],
 
-      this.project.id = this.$route.params.projectId;
+      /*this.project.id = this.$route.params.projectId;
       this.status = "Pipeline";
       this.project.name = "Granblue Fantasy";
       this.project.location = "Nalhagrande";
       this.project.manager = "Djeeta";
       this.project.classfication = "Distributed Systems";
-      this.project.businessOwner = "Djeeta";
+      this.project.businessOwner = "Djeeta";*/
 
       this.isProjectManager = true;
 

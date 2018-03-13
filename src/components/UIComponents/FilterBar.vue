@@ -1,12 +1,12 @@
 <template>
     <div class="card" style="background-color: #CACACA">
-        <div class="filter-option" style="padding-top: 1em">Sort: 
+        <div class="filter-option" style="padding-top: 1em">Sort:
             <select v-model="sortBy" required>
                 <option v-for="option in sortingOptions" v-bind:key="option.value" v-bind:value="option.value">{{ option.text }}</option>
             </select>
         </div>
         <div v-for="filter in filters" v-bind:key="filter.id" class="filter-option">
-            In 
+            In
             <select v-model="filter.filterBy" v-bind:class="{'invalid-category': filter.invalidCategory}" required>
                 <!-- <option selected>Select category</option> -->
                 <option v-for="option in filterOptions" v-bind:key="option.value.category" v-bind:value="option.value">{{ option.text }}</option>
@@ -22,13 +22,13 @@
 
 <script>
 /**
- * 
+ *
  * Generic, reusable filter bar. Requires 3 properties:
- * 
+ *
  * @prop value: function to be returned to parent component to filter their list
  * @prop sortingOptions: array of objects in the form: {value: 'object key', text: 'option text'}
  * @prop filterOptions: array of objects in the form: {filterBy: {category: 'object key', type: KeyType}, text: 'option text'}
- * 
+ *
  */
 export default {
     props: {
@@ -66,10 +66,11 @@ export default {
             }
         },
         submitFilters () {
-            if(this.invalidKeywords()) this.sendFilters();
+            if(this.validKeywords())
+              this.sendFilters();
             else console.log("invalid");
         },
-        invalidKeywords () {
+        validKeywords () {
             var valid = true;
             for(var i=0; i<this.filters.length; i++){
                 this.filters[i].invalidCategory=false;
@@ -104,7 +105,7 @@ export default {
                         }
                     }
                 }
-                
+
                 list = list.sort((a,b) => { return a[this.sortBy] > b[this.sortBy] ? 1 : -1; });
 
                 return list;
