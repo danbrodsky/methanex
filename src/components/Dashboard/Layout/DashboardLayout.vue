@@ -13,6 +13,10 @@
         <i class="nc-icon nc-circle-09"></i>
         <p>Profile</p>
       </sidebar-link>
+      <sidebar-link to="/admin/skills">
+        <i class="nc-icon nc-ruler-pencil"></i>
+        <p>Skill</p>
+      </sidebar-link>
       <sidebar-link to="/admin/table-list">
         <i class="nc-icon nc-notes"></i>
         <p>resource list</p>

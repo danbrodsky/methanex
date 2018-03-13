@@ -8,10 +8,14 @@
               <h4 class="card-title">Resources</h4>
               <p class="card-category">All Methanex Resources</p>
             </template>
+              <form id="search">
+                Search <input name="query" v-model="searchQuery">
+              </form>
             <div class="table-responsive">
               <l-table class="table-hover table-striped"
                        :columns="columns"
-                       :data="rows">
+                       :data="rows"
+                       :filter-key="searchQuery">
               </l-table>
             </div>
           </card>
@@ -37,7 +41,8 @@
     data() {
       return {
         columns: [...tableColumns],
-        rows: []
+        rows: [],
+        searchQuery: ''
       }
     },
     methods: {
