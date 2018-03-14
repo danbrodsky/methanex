@@ -47,8 +47,10 @@
       <div class="row">
         <filter-bar
           style="width: 100%;margin: 0.5%;box-shadow: 5px 5px 5px grey"
+          v-model="filterFcn"
           v-bind:sortingOptions="sortingOptions"
-          v-bind:filterOptions="filterOptions">
+          v-bind:filterOptions="filterOptions"
+          v-on:newSearch="performSearch">
         </filter-bar>
       </div>
       <div class="row">
@@ -81,7 +83,7 @@ export default {
   },
 
 
-  created () {
+   mounted() {
     this.fetchData();
   },
 
@@ -116,17 +118,16 @@ export default {
       },*/
 
       sortingOptions: [
-          { value: 'id', text: 'ID' },
-          { value: 'name', text: 'Name' },
+          { value: 'resourceName', text: 'Name' },
           { value: 'status', text: 'Status' },
           { value: 'location', text: 'Location' }
         ],
         filterOptions: [
-          { value: {category: 'id', type: Number}, text: 'ID' },
-          { value: {category: 'name', type: String}, text: 'Name' },
-          { value: {category: 'status', type: String}, text: 'status' },
+          { value: {category: 'resourceName', type: String}, text: 'Name' },
+          { value: {category: 'status', type: String}, text: 'Status' },
           { value: {category: 'location', type: String}, text: 'Location' }
-        ]
+        ],
+        filterFcn: function (list) { return list;}
     }
   },
   methods: {
@@ -153,7 +154,7 @@ export default {
           info.resourcesDisplayed = response.data;
         })*/
 
-      this.resourcesDisplayed = [
+      this.resourceData = [
         {
           resourceId: 1,
           resourceName: "Lecia",
@@ -176,6 +177,9 @@ export default {
         }
 
       ],
+
+      this.resourcesDisplayed = this.resourceData.splice();
+      this.resourcesDisplayed.sort();
       //
       /*this.project.id = this.$route.params.projectId;
       this.status = "Pipeline";
@@ -185,7 +189,7 @@ export default {
       this.project.classfication = "Distributed Systems";
       this.project.businessOwner = "Djeeta";*/
 
-      this.isProjectManager = false;
+      this.isProjectManager = true;
 
       console.log(this.project.id);
     },
@@ -223,9 +227,9 @@ export default {
       this.editMode = true;
     },
 
-    updateProject() {
-      //axios.post ....
-      this.editMode = false;
+    performSearch() {
+      console.log("hello");
+      this.resourcesDisplayed = this.filterFcn(this.resourceData);
     }
   }
 }
