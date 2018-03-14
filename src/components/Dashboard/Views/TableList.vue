@@ -5,12 +5,18 @@
         <div class="col-12">
           <card>
             <template slot="header">
-              <h4 class="card-title">Resources</h4>
-              <p class="card-category">All Methanex Resources</p>
+              <div class="row">
+              <div class="col-8">
+                <h4 class="card-title">Resources</h4>
+                <p class="card-category">All Methanex Resources</p>
+              </div>
+              <div class="col-4">
+                <form id="search">
+                    Search <input name="query" v-model="searchQuery">
+                </form>
+              </div>
+              </div>
             </template>
-              <form id="search">
-                Search <input name="query" v-model="searchQuery">
-              </form>
             <div class="table-responsive">
               <l-table class="table-hover table-striped"
                        :columns="columns"

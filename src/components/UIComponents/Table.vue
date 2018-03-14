@@ -2,19 +2,23 @@
   <table class="table">
     <thead>
       <slot name="columns">
+        <tr>
         <th v-for="column in columns"
           @click="sortBy(column)"
           :class="{ active: sortKey == column }">
           {{ column | capitalize }}
-          <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
+          <span class="arrow" :class="sortOrders[column] > 0 ? 'asc' : 'dsc'">
           </span>
         </th>
+        </tr>
       </slot>
     </thead>
     <tbody>
     <tr v-for="item in filteredData">
       <slot :row="item">
-        <td v-for="column in columns" v-if="hasValue(item, column)">{{itemValue(item, column)}}</td>
+        <td v-for="column in columns" v-if="hasValue(item, column)">
+          {{itemValue(item, column)}}
+        </td>
       </slot>
     </tr>
     </tbody>
@@ -84,4 +88,24 @@
   }
 </script>
 <style>
+.arrow {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+  opacity: 0.66;
+}
+
+.arrow.asc {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid #fff;
+}
+
+.arrow.dsc {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #fff;
+}
 </style>

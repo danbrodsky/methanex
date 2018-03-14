@@ -5,10 +5,16 @@
         <div class="col-12">
           <card>
             <template slot="header">
-              <h4 class="card-title">Technical Skills</h4>
-                <form id="search1">
+              <div class="row">
+              <div class="col-8">
+                <h4 class="card-title">Technical Skills</h4>
+              </div>
+              <div class="col-4">
+                <form id="search">
                     Search <input name="query1" v-model="searchQuery1">
                 </form>
+              </div>
+              </div>
             </template>
             <div class="table-responsive">
               <l-table class="table-hover table-striped"
@@ -17,13 +23,22 @@
                        :filter-key="searchQuery1">
               </l-table>
             </div>
+            <div>
+              <button class ="btn btn-success" v-on:click="addData">Add New</button>
+            </div>
           </card>
           <card>
             <template slot="header">
-              <h4 class="card-title">Non-technical Skills</h4>
-                <form id="search2">
+              <div class="row">
+              <div class="col-8">
+                <h4 class="card-title">Non-technical Skills</h4>
+              </div>
+              <div class="col-4">
+                <form id="search">
                     Search <input name="query2" v-model="searchQuery2">
                 </form>
+              </div>
+              </div>
             </template>
             <div class="table-responsive">
               <l-table class="table-hover table-striped"
@@ -73,9 +88,26 @@
           .then(response => {
             info.rows = response.data;
           })
+      },
+      addData() {
+        var info = this;
+        axios.post(this.$root.serverURL + "/api/skills", {
+          name: 'Vue.js',
+          description: 'front-end javascript'
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .then(fetchData());
       }
     }
   }
 </script>
 <style>
+#search {
+  float: right;
+}
 </style>
