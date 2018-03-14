@@ -2,7 +2,7 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-6" id="addProjectForm">
+        <div class="col-6" id="addProjectForm">
           <!-- <img src="https://d33wubrfki0l68.cloudfront.net/85975663ee3d10baa062c8406db6c5f10627a601/0a978/images/chart-title.png" alt="Mountain View"> -->
             <label for="addProjectForm" class="col-form-label">ID: {{project.id}} </label>
               <div class="form-group align-items-left" style="min-width:380px">
@@ -30,7 +30,7 @@
                 </div>
               </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-2">
           <div class="form-group" style="width: 100px">
             <button type="button" v-if="isNewProject" v-on:click="addNewProject" style="display:block" class="btn btn-block">Add New Project</button>
             <button type="button" v-if="!isNewProject && isProjectManager && !editMode" v-on:click="enableEdit" style="display:block" class="btn btn-success btn-block">Edit</button>
@@ -38,10 +38,11 @@
             <button type="button" class="mt-2 btn btn-danger btn-block" v-if="!isNewProject && isProjectManager" >Delete</button>
           </div>
         </div>
+        <div class ="col-4" style="height:50%">
+          <resource-breakdown v-bind:resourceData="resourceData"></resource-breakdown>
+        </div>
       </div>
       <div class="row">
-        <gantt-chart style="width: 58%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></gantt-chart>
-        <resource-breakdown></resource-breakdown>
       </div>
       <div class="row">
         <filter-bar
@@ -78,9 +79,12 @@ export default {
     FilterBar,
     PieChart
   },
+
+
   created () {
     this.fetchData();
   },
+
   data () {
     return {
       isNewProject: false,
@@ -97,6 +101,7 @@ export default {
         "status": null
       },
       projectResouces: [],
+      resourceData: [],
       resourcesDisplayed: [],
 
       /*statusList: {
@@ -133,6 +138,7 @@ export default {
         this.portfolioId = this.$route.query.portfolioId;
         return;
       }
+
       axios.get(this.$root.serverURL + "/api/projects/"+ this.$route.params.projectId)
         .then(response => {
           console.log(response.data);
@@ -170,7 +176,7 @@ export default {
         }
 
       ],
-
+      //
       /*this.project.id = this.$route.params.projectId;
       this.status = "Pipeline";
       this.project.name = "Granblue Fantasy";
@@ -179,7 +185,7 @@ export default {
       this.project.classfication = "Distributed Systems";
       this.project.businessOwner = "Djeeta";*/
 
-      this.isProjectManager = true;
+      this.isProjectManager = false;
 
       console.log(this.project.id);
     },

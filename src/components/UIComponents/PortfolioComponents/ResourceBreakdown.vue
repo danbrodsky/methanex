@@ -1,21 +1,12 @@
 <template>
-    <chart-card :chart-data="pieChart.data" chart-type="Pie" style="width:80%">
-    <template slot="header">
-        <h4 class="card-title">Resource Breakdown</h4>
-    </template>
-    <template slot="body">
-      <select class="form-control mr-sm-2" id="breakdownFilterSelect" >
-        <option v-for="option in filterOptions" v-bind:value="option.id">{{option.name}}}</option>
-      </select>
-      <pie-chart v-if="!useBarChart" :chart-data="this.data" v-model="this.chartOptions"></pie-chart>
-      <bar-chart v-if="useBarChart" :chart-data="this.data" v-model="this.chartOptions"></bar-chart>
-    </template>
-    <template slot="footer">
-        <div class="legend" style="width: 100%">
-
-        </div>
-    </template>
-    </chart-card>
+  <div class="card" id="resourceBreakdownClass">
+    <div class="card-title">Resource Breakdown</div>
+    <pie-chart v-if="!useBarChart" :chart-data="chartData" v-model="chartOptions" ></pie-chart>
+    <bar-chart v-else="useBarChart" :chart-data="chartData" v-model="chartOptions" ></bar-chart>
+    <select class="form-control mr-sm-2" id="breakdownFilterSelect" v-model="filterFieldId" @change="switchChart">
+      <option v-for="option in filterOptions" v-bind:value="option.id">{{option.value}}</option>
+    </select>
+  </div>
 </template>
 
 <script>
@@ -25,34 +16,75 @@
 
 export default {
     name: 'resource-breakdown',
-    data: [],
-    chartOptions: [],
-    useBarChart: false,
-
-    filterOptions: [
-      {id: 1, value: "Group"},
-      {id: 2, value: "Peer Group"},
-      {id: 3, value: "Location"}
-    ],
-
     components: {
       ChartCard,
       PieChart,
       BarChart
     },
+    props: ['resourceData'],
+
     data () {
         return {
-            pieChart: {
-                data: {
-                    labels: ['28%', '40%', '32%'],
-                    series: [28, 40, 32]
-                }
-            }
+          //chartData: [],
+          chartOptions: [],
+          useBarChart: false,
+
+          filterFieldId: 1,
+
+          filterOptions: [
+            {id: 1, value: "Group"},
+            {id: 2, value: "Peer Group"},
+            {id: 3, value: "Location"},
+            {id: 4, value: "Hours worked"}
+          ],
+
+          chartData: {
+            labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
+            datasets: [{
+              backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
+              data: [40, 20, 80, 10]
+            }]
+          },
+
+          chartOptions: {
+            responsive: true,
+            maintainAspectRatio: false
+          }
+
         }
-    }
+    },
+
+  created() {
+
+  },
+
+  mounted() {
+    document.getElementById("pie-chart").addEventListener("click",
+    function(e){
+      console.log(e);
+      console.log(e.target);
+    })
+  },
+
+  methods: {
+      switchChart() {
+        if(this.filterField == 4){
+          userBarChart = true;
+        }
+      },
+
+      testClickChart(event) {
+        console.log('clicked chart')
+      }
+  }
+
+
 }
 </script>
 
-<style>
-
+<style scoped>
+  #resourceBreakdownClass {
+    padding: 1em;
+    /*max-width: 30%;*/
+  }
 </style>
