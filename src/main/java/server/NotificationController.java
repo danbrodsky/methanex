@@ -3,6 +3,8 @@ package server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
@@ -10,7 +12,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class NotificationController {
     @Autowired
-    private NotificationRepositoryImpl repository;
+    private NotificationRepository repository;
 
     @GetMapping("/notifications/{managerId}")
     public @ResponseBody
@@ -20,6 +22,11 @@ public class NotificationController {
             return ResponseEntity.ok(skillNotifications);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/notifications")
+    public void createNotification(@Valid @RequestBody List<Notification> notifications) {
+        notifications.forEach(notification -> repository.save(notification));
     }
 
     @GetMapping("/notifications/{managerId}/{skillId}")
