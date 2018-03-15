@@ -1,8 +1,6 @@
 package server;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import com.fasterxml.jackson.annotation.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,6 +13,7 @@ public class Resource implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
+    @JsonProperty("id")
     private int id;
 
     @Column(name = "name", nullable = false)
@@ -38,34 +37,20 @@ public class Resource implements Serializable {
     @JoinColumn(name = "status_id")
     private ResourceStatus status;
 
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "resources")
     private List<Project> projects = new ArrayList<>();
 
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "resource_skill",
             joinColumns = @JoinColumn(name = "resource_id"),
             inverseJoinColumns = @JoinColumn(name = "skill_id"))
     private List<Skill> skills = new ArrayList<>();
-
-    protected Resource() {
-    }
-
-    public Resource(int id, String name, String email, String location, Resource manager, ResourceStatus status) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.location = location;
-        this.manager = manager;
-        this.status = status;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -129,5 +114,13 @@ public class Resource implements Serializable {
 
     public void setSkills(List<Skill> skills) {
         this.skills = skills;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

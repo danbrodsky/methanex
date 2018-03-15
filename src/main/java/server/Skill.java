@@ -1,7 +1,6 @@
 package server;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +10,8 @@ import java.util.List;
 @Entity
 @Table(name = "Skill")
 public class Skill implements Serializable {
+    private static final long serialVersionUID = 6254557214609163391L;
+
     @GeneratedValue
     @Id
     private int id;
@@ -23,7 +24,7 @@ public class Skill implements Serializable {
     private List<Category> category;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "skills")
+    @ManyToMany(mappedBy = "skills", fetch = FetchType.LAZY)
     private List<Resource> resources = new ArrayList<>();
 
     public String getName() {
@@ -48,5 +49,13 @@ public class Skill implements Serializable {
 
     public void setResources(List<Resource> resources) {
         this.resources = resources;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

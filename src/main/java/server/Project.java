@@ -1,5 +1,9 @@
 package server;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,6 +17,7 @@ public class Project implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
+    @JsonProperty("id")
     private int id;
 
     @Column(name = "name", nullable = false)
@@ -36,15 +41,24 @@ public class Project implements Serializable {
     @Column(name = "budget")
     private Integer budget;
 
+    @Column(name = "status")
+    private ProjectStatus status;
+
     @Column(name="rag_status")
     private Integer ragStatus;
 
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "project_portfolio",
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "portfolio_id"))
     private List<Portfolio> portfolios = new ArrayList<>();
 
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "project_resource",
             joinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id")},
@@ -127,14 +141,6 @@ public class Project implements Serializable {
         this.ragStatus = ragStatus;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setBudget(Integer budget) {
         this.budget = budget;
     }
@@ -157,5 +163,21 @@ public class Project implements Serializable {
 
     public void setResources(List<Resource> resources) {
         this.resources = resources;
+    }
+
+    public ProjectStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ProjectStatus status) {
+        this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

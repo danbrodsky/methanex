@@ -56,7 +56,6 @@ public class PortfolioController {
             beforePortfolio.setClassification(updateDetails.getClassification());
             beforePortfolio.setProjects(updateDetails.getProjects());
             beforePortfolio.setResourceBreakdown(updateDetails.getResourceBreakdown());
-            beforePortfolio.setStatus(updateDetails.getStatus());
             Portfolio updatedPortfolio = portfolioRepository.save(beforePortfolio);
             return ResponseEntity.ok(updatedPortfolio);
         }

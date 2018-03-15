@@ -1,7 +1,8 @@
 package server;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,23 +15,21 @@ public class Portfolio implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
+    @JsonProperty("id")
     private int id;
 
     @OneToOne
     @JoinColumn(name = "classification_id", nullable = false)
     private Classification classification;
 
-    @OneToOne
-    @JoinColumn(name = "status_id", nullable = false)
-    private PortfolioStatus status;
-
     @Column(name = "resource_breakdown")
     private String resourceBreakdown;
 
-    @ManyToMany(mappedBy = "portfolios")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @ManyToMany(mappedBy = "portfolios", fetch = FetchType.LAZY)
     private List<Project> projects = new ArrayList<>();
-
-    public Portfolio() {}
 
     public Classification getClassification() {
         return classification;
@@ -38,14 +37,6 @@ public class Portfolio implements Serializable {
 
     public void setClassification(Classification classification) {
         this.classification = classification;
-    }
-
-    public PortfolioStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(PortfolioStatus status) {
-        this.status = status;
     }
 
     public String getResourceBreakdown() {
@@ -62,5 +53,13 @@ public class Portfolio implements Serializable {
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
