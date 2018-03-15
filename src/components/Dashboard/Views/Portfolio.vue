@@ -7,8 +7,8 @@
       </div>
       <div class="row">
         <filter-bar style="width: 100%;margin: 0.5%;box-shadow: 5px 5px 5px grey"
-          v-model="filterFcn" 
-          v-bind:sortingOptions="sortingOptions" 
+          v-model="filterFcn"
+          v-bind:sortingOptions="sortingOptions"
           v-bind:filterOptions="filterOptions"
           v-on:newSearch="performSearch">
         </filter-bar>

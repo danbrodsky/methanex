@@ -50,7 +50,6 @@
       goToPortfolio () {
         this.$router.push({path: `/admin/portfolio/${this.classification.id}`});
       }
-
     }
   }
 

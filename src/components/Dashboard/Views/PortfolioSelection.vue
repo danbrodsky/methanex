@@ -13,6 +13,9 @@
             v-bind:key="portfolio.classification"
             v-bind="portfolio">
           </portfolio-card>
+
+        <add-portfolio-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;"></add-portfolio-card>
+
       </div>
     </div>
   </div>
@@ -23,6 +26,7 @@
   import Checkbox from 'src/components/UIComponents/Inputs/Checkbox.vue'
   import PortfolioCard from 'src/components/UIComponents/Cards/PortfolioCard.vue'
   import AddProjectCard from 'src/components/UIComponents/Cards/AddProjectCard.vue'
+  import AddPortfolioCard from 'src/components/UIComponents/Cards/AddPortfolioCard.vue'
   import _ from 'lodash'
   import axios from 'axios'
 
@@ -32,7 +36,8 @@
       Card,
       LTable,
       PortfolioCard,
-      AddProjectCard
+      AddProjectCard,
+      AddPortfolioCard
     },
     created() {
       this.fetchData();
