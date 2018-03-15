@@ -29,6 +29,9 @@ public class Resource implements Serializable {
     @JoinColumn(name = "team")
     private Group group;
 
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id", nullable = false)
     private Resource manager;
