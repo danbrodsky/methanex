@@ -28,10 +28,10 @@ public class NotificationRepositoryImpl implements NotificationRepositoryCustom 
     }
 
     @Override
-    public List<Skill> findSkillNotificationsByManager(int managerId) {
+    public List<Notification> findNotificationsByManager(int managerId) {
         JPAQuery<Notification> query = new JPAQuery<Notification>(entityManager);
         return query
-                .select(QSkill.skill)
+                .select(QNotification.notification)
                 .from(QNotification.notification)
                 .where(QNotification
                         .notification

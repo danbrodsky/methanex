@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface NotificationRepositoryCustom {
     List<Skill> findSkillNotificationsByResource(int resourceId);
-    List<Skill> findSkillNotificationsByManager(int managerId);
+    List<Notification> findNotificationsByManager(int managerId);
 
     Notification findNotification(int managerId, int resourceId, int skillId);
 
