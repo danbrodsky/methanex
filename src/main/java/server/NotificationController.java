@@ -16,7 +16,7 @@ public class NotificationController {
     @GetMapping("/notifications/manager/{managerId}")
     public @ResponseBody
     ResponseEntity<List<Skill>> getManagerNotifications(@PathVariable(value = "managerId") Integer managerId) {
-        List<Skill> skillNotifications = repository.findSkillNotificationsByResource(managerId);
+        List<Skill> skillNotifications = repository.findSkillNotificationsByManager(managerId);
         if (!skillNotifications.isEmpty()) {
             return ResponseEntity.ok(skillNotifications);
         }
