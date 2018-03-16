@@ -42,7 +42,7 @@ public class NotificationController {
     public ResponseEntity<Notification> getNotification(@PathVariable(value = "managerId") Integer managerId,
                                                  @PathVariable(value = "skillId") Integer skillId,
                                                  @PathVariable(value = "resourceId") Integer resourceId) {
-        Notification notification = repository.findNotification(managerId, resourceId, skillId);
+        Notification notification = repository.findNotification(managerId, skillId);
         if (notification != null) {
             return ResponseEntity.ok(notification);
         }
@@ -53,7 +53,7 @@ public class NotificationController {
     public ResponseEntity<Notification> deleteNotification(@PathVariable(value = "managerId") Integer managerId,
                                                            @PathVariable(value = "skillId") Integer skillId,
                                                            @PathVariable(value = "resourceId") Integer resourceId) {
-        Notification notification = repository.findNotification(managerId, resourceId, skillId);
+        Notification notification = repository.findNotification(managerId, skillId);
         if (notification != null) {
             repository.deleteNotification(managerId, resourceId, skillId);
             return ResponseEntity.ok().build();

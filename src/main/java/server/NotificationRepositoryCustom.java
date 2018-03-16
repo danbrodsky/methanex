@@ -6,7 +6,7 @@ public interface NotificationRepositoryCustom {
     List<Skill> findSkillNotificationsByResource(int resourceId);
     List<Notification> findNotificationsByManager(int managerId);
 
-    Notification findNotification(int managerId, int resourceId, int skillId);
+    Notification findNotification(int managerId, int skillId);
 
     void deleteNotification(int managerId, int resourceId, int skillId);
 }

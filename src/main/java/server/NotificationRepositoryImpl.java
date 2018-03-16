@@ -42,7 +42,7 @@ public class NotificationRepositoryImpl implements NotificationRepositoryCustom 
     }
 
     @Override
-    public Notification findNotification(int managerId, int resourceId, int skillId) {
+    public Notification findNotification(int managerId, int skillId) {
         JPAQuery<Notification> query = new JPAQuery<Notification>(entityManager);
         QNotification notification = QNotification.notification;
         return query
@@ -52,20 +52,16 @@ public class NotificationRepositoryImpl implements NotificationRepositoryCustom 
                         .managerId
                         .eq(managerId)
                         .and(notification
-                            .notificationId
-                            .resourceId
-                            .eq(resourceId))
-                            .and(notification
-                                    .notificationId
-                                    .skillId
-                                    .eq(skillId)))
+                                .notificationId
+                                .skillId
+                                .eq(skillId)))
                 .fetchOne();
 
     }
 
     @Override
     public void deleteNotification(int managerId, int resourceId, int skillId) {
-        Notification notification = this.findNotification(managerId, resourceId, skillId);
+        Notification notification = this.findNotification(managerId, skillId);
         entityManager.remove(new Notification(managerId, resourceId, skillId));
     }
 }
