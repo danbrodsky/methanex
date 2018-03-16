@@ -35,7 +35,8 @@ public class Portfolio implements Serializable {
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
-    @OneToMany(mappedBy = "portfolio", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "portfolio_id", referencedColumnName = "id")
     private List<Project> projects = new ArrayList<>();
 
     public Classification getClassification() {

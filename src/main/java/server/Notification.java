@@ -24,6 +24,8 @@ public class Notification implements Serializable {
     @JoinColumn(name = "resource_id")
     private Resource resource;
 
+    public Notification() {}
+
     public Notification(int managerId, int skillId) {}
 
     public Resource getManager() {

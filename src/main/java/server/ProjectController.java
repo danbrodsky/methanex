@@ -58,7 +58,6 @@ public class ProjectController {
             beforeProject.setManager(updateDetails.getManager());
             beforeProject.setStartDate(updateDetails.getStartDate());
             beforeProject.setRagStatus(updateDetails.getRagStatus());
-            beforeProject.setPortfolio(updateDetails.getPortfolio());
 
             Project updatedProject = repository.save(beforeProject);
             return ResponseEntity.ok(updatedProject);

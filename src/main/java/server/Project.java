@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -27,7 +27,7 @@ public class Project implements Serializable {
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "manager_id")
     private Resource manager;
 
@@ -35,75 +35,63 @@ public class Project implements Serializable {
     private String effort;
 
     @Column(name = "dur_start")
-    @Temporal(TemporalType.DATE)
     private Date startDate;
 
     @Column(name = "dur_end")
-    @Temporal(TemporalType.DATE)
     private Date endDate;
 
     @Column(name = "budget")
     private Integer budget;
 
-    @Column(name = "status")
+    @OneToOne
+    @JoinColumn(name = "status")
     private ProjectStatus status;
 
-    @Column(name="rag_status")
-    private Integer ragStatus;
+    @OneToOne
+    @JoinColumn(name="rag_status")
+    private RagStatus ragStatus;
 
     @Column(name = "exp_pa_status_date")
-    @Temporal(TemporalType.DATE)
     private Date expectedPreApprovalStatusDate;
 
     @Column(name = "exp_seek_funding_status_date")
-    @Temporal(TemporalType.DATE)
     private Date expectedSeekFundingStatusDate;
 
     @Column(name = "exp_pipeline_status_date")
-    @Temporal(TemporalType.DATE)
     private Date expectedPipelineStatusDate;
 
     @Column(name = "exp_confirm_status_date")
-    @Temporal(TemporalType.DATE)
     private Date expectedConfirmedStatusDate;
 
     @Column(name = "exp_closing_status_date")
-    @Temporal(TemporalType.DATE)
     private Date expectedClosingStatusDate;
 
     @Column(name = "exp_closed_status_date")
-    @Temporal(TemporalType.DATE)
     private Date expectedClosedStatusDate;
 
     @Column(name = "actual_pa_status_date")
-    @Temporal(TemporalType.DATE)
     private Date actualPreApprovalStatusDate;
 
     @Column(name = "actual_seek_funding_status_date")
-    @Temporal(TemporalType.DATE)
     private Date actualSeekFundingStatusDate;
 
     @Column(name = "actual_pipeline_status_date")
-    @Temporal(TemporalType.DATE)
     private Date actualPipelineStatusDate;
 
     @Column(name = "actual_confirm_status_date")
-    @Temporal(TemporalType.DATE)
     private Date actualConfirmedStatusDate;
 
     @Column(name = "actual_closing_status_date")
-    @Temporal(TemporalType.DATE)
     private Date actualClosingStatusDate;
 
     @Column(name = "actual_closed_status_date")
-    @Temporal(TemporalType.DATE)
     private Date actualClosedStatusDate;
 
     @Column(name = "percentage_complete")
-    private Integer percentageComplete;
+    private Float percentageComplete;
 
     @Column(name = "est_remaining_cost")
-    private Integer estimatedRemainingCost;
+    private Float estimatedRemainingCost;
 
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -194,12 +182,11 @@ public class Project implements Serializable {
         this.status = status;
     }
 
-    @JsonIgnore
-    public Integer getRagStatus() {
+    public RagStatus getRagStatus() {
         return ragStatus;
     }
 
-    public void setRagStatus(Integer ragStatus) {
+    public void setRagStatus(RagStatus ragStatus) {
         this.ragStatus = ragStatus;
     }
 
@@ -300,20 +287,20 @@ public class Project implements Serializable {
     }
 
     @JsonIgnore
-    public Integer getPercentageComplete() {
+    public Float getPercentageComplete() {
         return percentageComplete;
     }
 
-    public void setPercentageComplete(Integer percentageComplete) {
+    public void setPercentageComplete(Float percentageComplete) {
         this.percentageComplete = percentageComplete;
     }
 
     @JsonIgnore
-    public Integer getEstimatedRemainingCost() {
+    public Float getEstimatedRemainingCost() {
         return estimatedRemainingCost;
     }
 
-    public void setEstimatedRemainingCost(Integer estimatedRemainingCost) {
+    public void setEstimatedRemainingCost(Float estimatedRemainingCost) {
         this.estimatedRemainingCost = estimatedRemainingCost;
     }
 
