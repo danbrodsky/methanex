@@ -12,11 +12,12 @@ public class NotificationId implements Serializable {
     @Column(name = "skill_id")
     private int skillId;
 
-    public NotificationId() {}
-
-    public NotificationId(int managerId, int skillId) {
     @Column(name = "resource_id")
     private int resourceId;
+
+    public NotificationId() {}
+
+    public NotificationId(int managerId, int skillId) {}
 
     public NotificationId(int managerId, int resourceId, int skillId) {
         this.managerId = managerId;
