@@ -19,7 +19,13 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a href="#" class="nav-link">
-              Log out
+                <span v-show="$auth.check()">
+                  <a v-on:click="logout()" href="javascript:void(0);">Logout</a>
+              </span>
+              <span v-show="$auth.impersonating()">
+                &bull;
+                <a v-on:click="unimpersonate()" href="javascript:void(0);">(logout {{ $auth.user().username }})</a>
+              </span>
             </a>
           </li>
         </ul>
@@ -55,6 +61,28 @@
       },
       hideSidebar () {
         this.$sidebar.displaySidebar(false)
+      },
+      logout() {
+        this.$auth.logout({
+          makeRequest: true,
+          success() {
+            console.log('success ' + this.context);
+            this.$router.push({ name: 'Login' })
+          },
+          error() {
+            console.log('error ' + this.context);
+          }
+        });
+      },
+      unimpersonate() {
+        this.$auth.unimpersonate({
+          success() {
+              console.log('success ' + this.context);
+          },
+          error() {
+              console.log('error ' + this.context);
+          }
+        });
       }
     }
   }

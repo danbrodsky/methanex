@@ -37,13 +37,6 @@
                     v-model="resource.firstName">
           </fg-input>
         </div>
-        <div class="col-md-6">
-          <fg-input type="text"
-                    label="Last Name"
-                    placeholder="Last Name"
-                    v-model="resource.lastName">
-          </fg-input>
-        </div>
       </div>
 
       <div class="row">
