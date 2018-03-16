@@ -15,8 +15,13 @@ public class NotificationId implements Serializable {
     public NotificationId() {}
 
     public NotificationId(int managerId, int skillId) {
+    @Column(name = "resource_id")
+    private int resourceId;
+
+    public NotificationId(int managerId, int resourceId, int skillId) {
         this.managerId = managerId;
         this.skillId = skillId;
+        this.resourceId = resourceId;
     }
 
     public int getManagerId() {
@@ -33,5 +38,13 @@ public class NotificationId implements Serializable {
 
     public void setSkillId(int skillId) {
         this.skillId = skillId;
+    }
+
+    public int getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(int resourceId) {
+        this.resourceId = resourceId;
     }
 }
