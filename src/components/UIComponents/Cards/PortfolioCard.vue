@@ -21,6 +21,10 @@
   export default {
     name: 'project-card',
     props: {
+        id: {
+            type: Number,
+            default: -1
+        },
         classification: {
             type: Object,
             default: { id: -1, name: ""}
@@ -53,7 +57,6 @@
     },
     methods: {
       goToPortfolio () {
-        console.log(this)
         this.$router.push({path: `/admin/portfolio/${this.id}`});
       }
     }
