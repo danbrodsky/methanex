@@ -22,9 +22,11 @@ public class QNotification extends EntityPathBase<Notification> {
 
     public static final QNotification notification = new QNotification("notification");
 
+    public final NumberPath<Integer> id = createNumber("id", Integer.class);
+
     public final QResource manager;
 
-    public final QNotificationId notificationId;
+    public final QResource resource;
 
     public final QSkill skill;
 
@@ -47,7 +49,7 @@ public class QNotification extends EntityPathBase<Notification> {
     public QNotification(Class<? extends Notification> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.manager = inits.isInitialized("manager") ? new QResource(forProperty("manager"), inits.get("manager")) : null;
-        this.notificationId = inits.isInitialized("notificationId") ? new QNotificationId(forProperty("notificationId")) : null;
+        this.resource = inits.isInitialized("resource") ? new QResource(forProperty("resource"), inits.get("resource")) : null;
         this.skill = inits.isInitialized("skill") ? new QSkill(forProperty("skill")) : null;
     }
 

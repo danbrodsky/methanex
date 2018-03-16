@@ -2,7 +2,6 @@ package server;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -13,30 +12,16 @@ public class NotificationRepositoryImpl implements NotificationRepositoryCustom 
     private EntityManager entityManager;
 
     @Override
-    public List<Skill> findSkillNotificationsByResource(int resourceId) {
+    public List<Skill> findNotificationsByManager(int resourceId) {
         JPAQuery<Notification> query = new JPAQuery<Notification>(entityManager);
         return query
                 .select(QSkill.skill)
                 .from(QNotification.notification)
                 .where(QNotification
                         .notification
-                        .resource
-                        .id
-                        .eq(resourceId))
-                .fetch();
-    }
-
-    @Override
-    public List<Notification> findNotificationsByManager(int managerId) {
-        JPAQuery<Notification> query = new JPAQuery<Notification>(entityManager);
-        return query
-                .select(QNotification.notification)
-                .from(QNotification.notification)
-                .where(QNotification
-                        .notification
                         .manager
                         .id
-                        .eq(managerId))
+                        .eq(resourceId))
                 .fetch();
     }
 
@@ -52,15 +37,14 @@ public class NotificationRepositoryImpl implements NotificationRepositoryCustom 
                         .eq(managerId)
                         .and(notification
                                 .notificationId
-                                .skillId
-                                .eq(skillId)))
+                                .skillId.eq(skillId)))
                 .fetchOne();
 
     }
 
     @Override
     public void deleteNotification(int managerId, int resourceId, int skillId) {
-        Notification notification = this.findNotification(managerId, skillId);
-        entityManager.remove(new Notification(managerId, resourceId, skillId));
+        Notification notification = this.findNotification(resourceId, skillId);
+        entityManager.remove(new Notification(resourceId, skillId));
     }
 }

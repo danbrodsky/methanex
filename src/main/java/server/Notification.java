@@ -21,12 +21,11 @@ public class Notification implements Serializable {
     @JoinColumn(name = "skill_id", referencedColumnName = "id")
     private Skill skill;
 
-    @MapsId("resource_id")
     @OneToOne
     @JoinColumn(name = "resource_id", referencedColumnName = "id")
     private Resource resource;
 
-    public Notification(int managerId, int resourceId, int skillId) {}
+    public Notification(int managerId, int skillId) {}
 
     public Resource getManager() {
         return manager;
@@ -44,19 +43,19 @@ public class Notification implements Serializable {
         this.skill = skill;
     }
 
-    public Resource getResource() {
-        return resource;
-    }
-
-    public void setResource(Resource resource) {
-        this.resource = resource;
-    }
-
     public NotificationId getNotificationId() {
         return notificationId;
     }
 
     public void setNotificationId(NotificationId notificationId) {
         this.notificationId = notificationId;
+    }
+
+    public Resource getResource() {
+        return resource;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
     }
 }

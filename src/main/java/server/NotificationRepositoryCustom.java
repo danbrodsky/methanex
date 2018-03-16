@@ -3,8 +3,7 @@ package server;
 import java.util.List;
 
 public interface NotificationRepositoryCustom {
-    List<Skill> findSkillNotificationsByResource(int resourceId);
-    List<Notification> findNotificationsByManager(int managerId);
+    List<Skill> findNotificationsByManager(int managerId);
 
     Notification findNotification(int managerId, int skillId);
 
