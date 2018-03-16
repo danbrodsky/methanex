@@ -20,9 +20,23 @@ public class NotificationRepositoryImpl implements NotificationRepositoryCustom 
                 .from(QNotification.notification)
                 .where(QNotification
                         .notification
-                        .manager
+                        .resource
                         .id
                         .eq(resourceId))
+                .fetch();
+    }
+
+    @Override
+    public List<Notification> findNotificationsByManager(int managerId) {
+        JPAQuery<Notification> query = new JPAQuery<Notification>(entityManager);
+        return query
+                .select(QNotification.notification)
+                .from(QNotification.notification)
+                .where(QNotification
+                        .notification
+                        .manager
+                        .id
+                        .eq(managerId))
                 .fetch();
     }
 
@@ -38,14 +52,15 @@ public class NotificationRepositoryImpl implements NotificationRepositoryCustom 
                         .eq(managerId)
                         .and(notification
                                 .notificationId
-                                .skillId.eq(skillId)))
+                                .skillId
+                                .eq(skillId)))
                 .fetchOne();
 
     }
 
     @Override
-    public void deleteNotification(int resourceId, int skillId) {
-        Notification notification = this.findNotification(resourceId, skillId);
-        entityManager.remove(new Notification(resourceId, skillId));
+    public void deleteNotification(int managerId, int resourceId, int skillId) {
+        Notification notification = this.findNotification(managerId, skillId);
+        entityManager.remove(new Notification(managerId, resourceId, skillId));
     }
 }

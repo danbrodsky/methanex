@@ -13,10 +13,20 @@ public class NotificationController {
     @Autowired
     private NotificationRepository repository;
 
-    @GetMapping("/notifications/{managerId}")
+    @GetMapping("/notifications/manager/{managerId}")
     public @ResponseBody
-    ResponseEntity<List<Skill>> getManagerNotifications(@PathVariable(value = "managerId") Integer managerId) {
-        List<Skill> skillNotifications = repository.findSkillNotificationsByResource(managerId);
+    ResponseEntity<List<Notification>> getManagerNotifications(@PathVariable(value = "managerId") Integer managerId) {
+        List<Notification> notifications = repository.findNotificationsByManager(managerId);
+        if (!notifications.isEmpty()) {
+            return ResponseEntity.ok(notifications);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/notifications/resource/{resourceId}")
+    public @ResponseBody
+    ResponseEntity<List<Skill>> getResourceNotifications(@PathVariable(value = "resourceId") Integer resourceId) {
+        List<Skill> skillNotifications = repository.findSkillNotificationsByResource(resourceId);
         if (!skillNotifications.isEmpty()) {
             return ResponseEntity.ok(skillNotifications);
         }
@@ -28,9 +38,10 @@ public class NotificationController {
         notifications.forEach(notification -> repository.save(notification));
     }
 
-    @GetMapping("/notifications/{managerId}/{skillId}")
+    @GetMapping("/notifications/{managerId}/{resourceId}/{skillId}")
     public ResponseEntity<Notification> getNotification(@PathVariable(value = "managerId") Integer managerId,
-                                                 @PathVariable(value = "skillId") Integer skillId) {
+                                                 @PathVariable(value = "skillId") Integer skillId,
+                                                 @PathVariable(value = "resourceId") Integer resourceId) {
         Notification notification = repository.findNotification(managerId, skillId);
         if (notification != null) {
             return ResponseEntity.ok(notification);
@@ -38,12 +49,13 @@ public class NotificationController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/notifications/{managerId}/{skillId}")
+    @DeleteMapping("/notifications/{managerId}/{resourceId}/{skillId}")
     public ResponseEntity<Notification> deleteNotification(@PathVariable(value = "managerId") Integer managerId,
-                                                           @PathVariable(value = "skillId") Integer skillId) {
+                                                           @PathVariable(value = "skillId") Integer skillId,
+                                                           @PathVariable(value = "resourceId") Integer resourceId) {
         Notification notification = repository.findNotification(managerId, skillId);
         if (notification != null) {
-            repository.deleteNotification(managerId, skillId);
+            repository.deleteNotification(managerId, resourceId, skillId);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
