@@ -7,7 +7,7 @@
     </div>
     <div class="card-body">
       <div class="body-data">
-          Status: <i>{{ projectStatus }}</i>
+          Status: <i>{{ projectStatus.name }}</i>
       </div>
       <div class="body-data" style="width: 100%; padding:0">
           <progress style="width:100%" :value="projectProgress" max="100"></progress>

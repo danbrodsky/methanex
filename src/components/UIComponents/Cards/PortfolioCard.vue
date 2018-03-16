@@ -6,7 +6,7 @@
     </div>
     <div class="card-body">
       <div class="body-data">
-          <span><i class="fa fa-user"></i> {{ businessOwner }}</span>
+          <span><i class="fa fa-user"></i> {{ businessOwner.name }}</span>
       </div>
       <div class="body-data">
           <span><i class="fa fa-money"></i> ${{ totalBudget }}</span>
@@ -36,10 +36,15 @@
         totalBudget: {
             type: Number,
             default: -1
+        },
+        id: {
+          type: Number,
+          default: -1
         }
     },
     data () {
         return {
+          id: this.id
             // classification: this.classification,
             // businessOwner: this.businessOwner,
             // numProjects: this.numProjects,
@@ -48,7 +53,8 @@
     },
     methods: {
       goToPortfolio () {
-        this.$router.push({path: `/admin/portfolio/${this.classification.id}`});
+        console.log(this)
+        this.$router.push({path: `/admin/portfolio/${this.id}`});
       }
     }
   }

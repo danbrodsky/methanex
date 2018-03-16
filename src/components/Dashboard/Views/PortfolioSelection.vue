@@ -10,7 +10,7 @@
       <div class="row">
           <portfolio-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;"
             v-for="portfolio of portfoliosDisplayed"
-            v-bind:key="portfolio.classification"
+            v-bind:id="portfolio.id"
             v-bind="portfolio">
           </portfolio-card>
 
@@ -86,16 +86,17 @@
         //     totalBudget: 550000
         //   }
         // ],
-        searchKeyword: '',
+        searchKeyword: ''
       }
     },
     methods: {
       fetchData() {
+        var info = this;
         console.log("hello my dudes");
         axios.get(this.$root.serverURL + "/api/portfolios")
           .then(response => {
-            this.portfoliosDisplayed = response.data;
-            console.log(response.data);
+            info.portfoliosDisplayed = response.data;
+            console.log(info.portfoliosDisplayed[0].id);
           })
       },
       filterPortfolios: _.debounce(function () {

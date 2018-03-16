@@ -34,8 +34,8 @@
       <div class="row">
         <div class="col-md-6">
           <fg-input type="text"
-                    label="First Name"
-                    placeholder="First Name"
+                    label="Name"
+                    placeholder="Name"
                     v-model="resource.name">
           </fg-input>
         </div>
@@ -77,7 +77,7 @@
       <div class="row">
         <div class="col-md-12">
           <label for="skillTech">Skills:</label>
-            <multiselect v-model="skills" :options="options1" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" :preserve-search="true" placeholder="Pick some" label="name" track-by="name">
+            <multiselect v-model="values" :options="options1" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" :preserve-search="true" placeholder="Pick some" label="name" track-by="name">
               <template slot="tag" slot-scope="props"><span class="custom__tag"><span>{{ props.option.name }}</span><span class="custom__remove" @click="props.remove(props.option)"> ❌ </span></span></template>
             </multiselect>
         </div>
@@ -112,6 +112,7 @@
       ],
       options2: [
       ],
+      values: [],
       newSkills: [],
         resource: {
           id: -1,
@@ -127,7 +128,7 @@
     },
     watch: {
     values: function (val) {
-      var allSkills = this.skills;
+      var allSkills = this.resource.skills;
       this.newSkills.push(allSkills[allSkills.length-1].id);
       console.log(this.newSkills);
     }
@@ -135,13 +136,14 @@
     methods: {
       fetchData () {
       var info = this;
-      axios.get(this.$root.serverURL + "/api/resources/1") // change to match resource id when login established
+      axios.get(info.$root.serverURL + "/api/resources/2") // change to match resource id when login established
       .then(response => {
         console.log(response.data);
         info.resource = response.data;
+        info.values = info.resource.skills;
         console.log(info.resource.skills);
       })
-      axios.get(this.$root.serverURL + "/api/skills")
+      axios.get(info.$root.serverURL + "/api/skills")
       .then(response => {
         console.log(response.data);
         info.options1 = response.data;
@@ -149,7 +151,7 @@
     },
       updateProfile () {
       var info = this;
-      axios.put(this.$root.serverURL + "/api/resources/" + info.resource.id, {
+      axios.put(info.$root.serverURL + "/api/resources/" + info.resource.id, {
           "id": info.resource.id,
           "name": info.resource.name,
           "email": info.resource.email,
@@ -180,7 +182,3 @@
 <style>
 </style>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
-
-
-
->>>>>>> heroku/master

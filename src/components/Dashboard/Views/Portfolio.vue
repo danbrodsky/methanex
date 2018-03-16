@@ -55,6 +55,7 @@
     },
     created () {
       this.fetchData();
+      console.log("got here");
     },
     data () {
       return {
@@ -94,17 +95,22 @@
         var info = this;
         if (this.$route.params.portfolioId === undefined) {
           this.isNewPortfolio = true;
-          return;
+          axios.get(this.$root.serverURL + "/api/projects")
+          .then(response => {
+            console.log(response.data);
+            info.projects = response.data.slice();
+            info.displayProjects = response.data.slice();
+          })
         }
         else {
           this.portfolioId = this.$route.params.portfolioId;
-        }
         axios.get(this.$root.serverURL + "/api/portfolios/" + this.portfolioId + "/projects")
           .then(response => {
             console.log(response.data);
             info.projects = response.data.slice();
             info.displayProjects = response.data.slice();
           })
+        }
         // this.projects = [
         //   {
         //     id: 1,
