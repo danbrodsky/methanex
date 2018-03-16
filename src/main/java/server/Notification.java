@@ -21,6 +21,10 @@ public class Notification implements Serializable {
     @JoinColumn(name = "skill_id", referencedColumnName = "id")
     private Skill skill;
 
+    @OneToOne
+    @JoinColumn(name = "resource_id", referencedColumnName = "id")
+    private Resource resource;
+
     public Notification(int managerId, int skillId) {}
 
     public Resource getManager() {
@@ -45,5 +49,13 @@ public class Notification implements Serializable {
 
     public void setNotificationId(NotificationId notificationId) {
         this.notificationId = notificationId;
+    }
+
+    public Resource getResource() {
+        return resource;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
     }
 }

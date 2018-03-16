@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.Date;
 import java.util.List;
 
 @CrossOrigin
@@ -57,7 +58,7 @@ public class ProjectController {
             beforeProject.setManager(updateDetails.getManager());
             beforeProject.setStartDate(updateDetails.getStartDate());
             beforeProject.setRagStatus(updateDetails.getRagStatus());
-            beforeProject.setPortfolios(updateDetails.getPortfolios());
+            beforeProject.setPortfolio(updateDetails.getPortfolio());
 
             Project updatedProject = repository.save(beforeProject);
             return ResponseEntity.ok(updatedProject);

@@ -32,7 +32,7 @@ public class Resource implements Serializable {
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "manager_id", nullable = false)
     private Resource manager;
 

@@ -22,13 +22,17 @@ public class Portfolio implements Serializable {
     @JoinColumn(name = "classification_id", nullable = false)
     private Classification classification;
 
+    @OneToOne
+    @JoinColumn(name = "business_owner_id", nullable = false)
+    private Resource businessOwner;
+
     @Column(name = "resource_breakdown")
     private String resourceBreakdown;
 
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
-    @ManyToMany(mappedBy = "portfolios", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "portfolios", fetch = FetchType.LAZY)
     private List<Project> projects = new ArrayList<>();
 
     public Classification getClassification() {
@@ -53,6 +57,14 @@ public class Portfolio implements Serializable {
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+    }
+
+    public Resource getBusinessOwner() {
+        return businessOwner;
+    }
+
+    public void setBusinessOwner(Resource businessOwner) {
+        this.businessOwner = businessOwner;
     }
 
     public int getId() {

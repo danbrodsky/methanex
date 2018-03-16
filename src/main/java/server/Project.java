@@ -50,11 +50,8 @@ public class Project implements Serializable {
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "project_portfolio",
-            joinColumns = @JoinColumn(name = "project_id"),
-            inverseJoinColumns = @JoinColumn(name = "portfolio_id"))
-    private List<Portfolio> portfolios = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Portfolio portfolio;
 
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -65,24 +62,8 @@ public class Project implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "resource_id", referencedColumnName = "id")})
     private List<Resource> resources = new ArrayList<>();
 
-    protected Project() {}
-
-    public Project(String name, Date startDate, Date endDate) {
-        this.name = name;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
-    public void addPortfolio(Portfolio portfolio) {
-        if (!this.portfolios.isEmpty()) {
-            this.portfolios.add(portfolio);
-        }
-    }
-
-    public void removePortfolio(Portfolio portfolio) {
-        if (!this.portfolios.isEmpty()) {
-            this.portfolios.remove(portfolio);
-        }
+    public void addResource(Resource resource) {
+        resources.add(resource);
     }
 
     public String getName() {
@@ -149,12 +130,12 @@ public class Project implements Serializable {
         this.ragStatus = ragStatus;
     }
 
-    public List<Portfolio> getPortfolios() {
-        return portfolios;
+    public Portfolio getPortfolio() {
+        return portfolio;
     }
 
-    public void setPortfolios(List<Portfolio> portfolios) {
-        this.portfolios = portfolios;
+    public void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
     }
 
     public List<Resource> getResources() {
