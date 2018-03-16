@@ -76,7 +76,7 @@
 
       <div class="row">
         <div class="col-md-12">
-          <label for="skillTech">Technical Skills:</label>
+          <label for="skillTech">Skills:</label>
             <multiselect v-model="skills" :options="options1" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" :preserve-search="true" placeholder="Pick some" label="name" track-by="name">
               <template slot="tag" slot-scope="props"><span class="custom__tag"><span>{{ props.option.name }}</span><span class="custom__remove" @click="props.remove(props.option)"> ❌ </span></span></template>
             </multiselect>
