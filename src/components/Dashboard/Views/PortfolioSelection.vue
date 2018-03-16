@@ -10,7 +10,7 @@
       <div class="row">
           <portfolio-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;"
             v-for="portfolio of portfoliosDisplayed"
-            v-bind:key="portfolio.classification"
+            v-bind:key="portfolio.id"
             v-bind="portfolio">
           </portfolio-card>
 
