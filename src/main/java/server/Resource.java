@@ -13,7 +13,6 @@ public class Resource implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    @JsonProperty("id")
     private int id;
 
     @Column(name = "name", nullable = false)
@@ -40,15 +39,11 @@ public class Resource implements Serializable {
     @JoinColumn(name = "status_id")
     private ResourceStatus status;
 
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "resources")
     private List<Project> projects = new ArrayList<>();
 
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "resource_skill",
             joinColumns = @JoinColumn(name = "resource_id"),

@@ -22,6 +22,9 @@ public class Portfolio implements Serializable {
     @JoinColumn(name = "classification_id", nullable = false)
     private Classification classification;
 
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
     @OneToOne
     @JoinColumn(name = "business_owner_id", nullable = false)
     private Resource businessOwner;
@@ -32,7 +35,7 @@ public class Portfolio implements Serializable {
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
-    @OneToMany(mappedBy = "portfolios", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "portfolio", fetch = FetchType.LAZY)
     private List<Project> projects = new ArrayList<>();
 
     public Classification getClassification() {

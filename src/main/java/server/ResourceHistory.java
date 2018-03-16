@@ -2,29 +2,43 @@ package server;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Table(name = "ResourceHistory")
 public class ResourceHistory implements Serializable {
     private static final long serialVersionUID = 2505030243495297377L;
 
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    private int id;
+
     @OneToOne(fetch = FetchType.LAZY)
-    @Column(name = "resource_id")
+    @JoinColumn(name = "resource_id", nullable = false)
     private Resource resource;
 
     @OneToOne
-    @Column(name = "project_id")
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
     @Column(name = "dur_start")
+    @Temporal(TemporalType.DATE)
     private Date startDuration;
 
     @Column(name = "dur_end")
+    @Temporal(TemporalType.DATE)
     private Date endDuration;
 
     public Resource getResource() {
         return resource;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setResource(Resource resource) {

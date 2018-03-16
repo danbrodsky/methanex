@@ -12,6 +12,8 @@ public class NotificationId implements Serializable {
     @Column(name = "skill_id")
     private int skillId;
 
+    public NotificationId() {}
+
     public NotificationId(int managerId, int skillId) {
         this.managerId = managerId;
         this.skillId = skillId;

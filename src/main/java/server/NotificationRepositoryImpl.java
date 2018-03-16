@@ -1,9 +1,7 @@
 package server;
 
 import com.querydsl.jpa.impl.JPAQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -22,6 +20,20 @@ public class NotificationRepositoryImpl implements NotificationRepositoryCustom 
                 .where(QNotification
                         .notification
                         .manager
+                        .id
+                        .eq(resourceId))
+                .fetch();
+    }
+
+    @Override
+    public List<Skill> findSkillNotificationsByManager(int resourceId) {
+        JPAQuery<Notification> query = new JPAQuery<Notification>(entityManager);
+        return query
+                .select(QSkill.skill)
+                .from(QNotification.notification)
+                .where(QNotification
+                        .notification
+                        .resource
                         .id
                         .eq(resourceId))
                 .fetch();
