@@ -260,38 +260,84 @@ export default {
       //currently portfolio controller has not been setup so i dont have access to project id
       // fetchProjectResources();
       // this.resourcesDisplayed = projectResources();
-      /*axios.get(this.$root.serverURL + "/api/projects/"+ this.$route.params.projectId+"/resources")
+      axios.get(this.$root.serverURL + "/api/projects/"+ this.$route.params.projectId+"/resources")
         .then(response => {
+          console.log("Received response from resource api")
           console.log(response.data);
           info.resourcesDisplayed = response.data;
-        })*/
+        })
 
-      this.resourceData = [
-        {
+      // for wip purposes display stub data if there is no resource data available for the project
+      if(resourcesDisplayed.length == 0){
+        this.resourceData = [];
+        this.resourceData.push({
           resourceId: 1,
           resourceName: "Lecia",
+          group: "Wind",
+          peerGroup: "Sword",
           status: "Available",
           location: "Nalhagrande"
-        },
+        });
 
-        {
+        this.resourceData.push({
           resourceId: 2,
-          resourceName: "Rackam",
-          status: "MIA",
-          location: "Somewhere"
-        },
-
-        {
-          resourceId: 3,
           resourceName: "Rosetta",
+          group: "Wind",
+          peerGroup: "Dagger",
           status: "Available",
           location: "Nalhagrande"
-        }
+        });
 
-      ],
+        this.resourceData.push({
+          resourceId: 3,
+          resourceName: "Beatrix",
+          peerGroup: "Sword",
+          group: "Fire",
+          status: "Sick",
+          location: "Somewhere"
+        });
 
-      this.resourcesDisplayed = this.resourceData.splice();
-      this.resourcesDisplayed.sort();
+        this.resourceData.push({
+          resourceId: 4,
+          resourceName: "Diantha",
+          group: "Water",
+          peerGroup: "Harp",
+          status: "On Leave",
+          location: "Phantagrande"
+        });
+
+        this.resourceData.push({
+          resourceId: 5,
+          resourceName: "Ilsa",
+          group: "Earth",
+          peerGroup: "Gun",
+          status: "MIA",
+          location: "Nalhagrande"
+        });
+
+        this.resourceData.push({
+          resourceId: 6,
+          resourceName: "Sorn",
+          group: "Light",
+          peerGroup: "Bow",
+          status: "Available",
+          location: "With Silva"
+        });
+
+        this.resourceData.push({
+          resourceId: 7,
+          resourceName: "Silva",
+          group: "Water",
+          peerGroup: "Gun",
+          status: "Available",
+          location: "With Sorn"
+        });
+
+        this.resourcesDisplayed = this.resourceData.slice();
+        this.resourcesDisplayed.sort();
+
+      }
+
       //
       /*this.project.id = this.$route.params.projectId;
       this.status = "Pipeline";

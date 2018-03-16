@@ -36,11 +36,12 @@ export default {
           filterOptions: [
             {id: 0, name: "Group", value: "group"},
             {id: 1, name: "Peer Group",value: "peerGroup"},
-            {id: 2, name: "Location", value: "location"},
-            {id: 3, name: "Hours worked", value: "hours"}
+            {id: 2, name: "Status", value: "status"},
+            {id: 3, name: "Location", value: "location"}
+           // {id: 5, name: "Hours worked", value: "hours"}
           ],
 
-
+          // since portfolio data is pretty barebones right now, display stub data for resource break down in portfolios
           chartData: {
             labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
             datasets: [{
@@ -60,6 +61,9 @@ export default {
   created() {
     console.log("Created in resourceBreakdown")
     this.unfilteredData = this.resourceData;
+    if(this.unfilteredData.length > 0) {
+      this.calculateChartData();
+    }
   },
 
   mounted() {
