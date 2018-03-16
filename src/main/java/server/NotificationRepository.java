@@ -1,9 +1,7 @@
 package server;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
-import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-
-public interface NotificationRepository extends CrudRepository<Notification, Integer>, QueryDslPredicateExecutor<Notification>, NotificationRepositoryCustom {
+public interface NotificationRepository extends JpaRepository<Notification, Integer>, QueryDslPredicateExecutor<Notification>, NotificationRepositoryCustom {
 }

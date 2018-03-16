@@ -1,6 +1,7 @@
 package server;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
@@ -23,9 +24,20 @@ public class NotificationController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/notifications")
+    public ResponseEntity<List<Notification>> getNotification() {
+        List<Notification> notifications = repository.findAll();
+        if (!notifications.isEmpty()) {
+            return new ResponseEntity<List<Notification>>(notifications, HttpStatus.OK);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+
     @PostMapping("/notifications")
-    public void createNotification(@Valid @RequestBody List<Notification> notifications) {
+    public ResponseEntity<Notification> createNotification(@Valid @RequestBody List<Notification> notifications) {
         notifications.forEach(notification -> repository.save(notification));
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/notifications/{managerId}/{resourceId}/{skillId}")
