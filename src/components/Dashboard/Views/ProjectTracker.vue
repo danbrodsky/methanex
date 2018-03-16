@@ -2,16 +2,16 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-6" id="addProjectForm">
+        <div class="col-7" id="addProjectForm">
           <label for="addProjectForm" class="col-form-label">ID: {{project.id}} </label>
           <div class="form-group align-items-left" style="min-width:380px">
             <div class="col-xs-6">
               <label for="status" class="col-form-label">Project Name</label>
-              <textarea type="title" class="form-control form-control-lg" id="status"
-                        v-model="project.name" v-bind:disabled="!project.isProjectManager && !editMode"></textarea>
+              <input type="text" class="form-control form-control-lg" id="status"
+                        v-model="project.name" v-bind:disabled="!project.isProjectManager && !editMode" />
             </div>
             <label class="mt-2" for="status">Status</label>
-            <select class="form-control mr-sm-2" style="width:20%;" id="exampleFormControlSelect1"
+            <select class="form-control mr-sm-2" id="exampleFormControlSelect1"
                     v-bind:disabled="!project.isProjectManager && !editMode" v-model="project.status">
               <option>Approved</option>
               <option>Pending</option>
@@ -21,82 +21,86 @@
             </select>
 
             <label for="addProjectForm" class="col-form-label">Business Owner</label>
-            <input type="title" style="width:25%;" class="form-control form-control-sm-4"
-                   v-bind:value="project.businessOwner" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.businessOwner" v-bind:disabled="!project.isProjectManager && !editMode">
             <label for="addProjectForm" class="col-form-label">Classification</label>
-            <input type="title" style="width:25%;" class="form-control form-control-sm-4"
-                   id="classificationInput" v-bind:value="project.classification" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   id="classificationInput" v-model="project.classification" v-bind:disabled="!project.isProjectManager && !editMode">
 
             <label for="addProjectForm" class="col-form-label">Project Manager</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.manager" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.manager" v-bind:disabled="!project.isProjectManager && !editMode">
             <label for="addProjectForm" class="col-form-label">RAG Status</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.rag_status" v-bind:disabled="!project.isProjectManager && !editMode">
+            <select type="text" class="form-control form-control-sm-4"
+                   v-model="project.rag_status" v-bind:disabled="!project.isProjectManager && !editMode">
+              <option value="green" selected="selected">Green</option>
+              <option value="yellow">Yellow</option>
+              <option value="red">Red</option>
+            </select>
             <label for="addProjectForm" class="col-form-label">Budget</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.budget" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.budget" v-bind:disabled="!project.isProjectManager && !editMode">
             <label for="addProjectForm" class="col-form-label">Budget Used</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.budget_used" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.budget_used" v-bind:disabled="!project.isProjectManager && !editMode">
             <label for="addProjectForm" class="col-form-label">Estimated Cash Needed To Complete</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.est_cash_needed_to_complete" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.est_cash_needed_to_complete" v-bind:disabled="!project.isProjectManager && !editMode">
             <label for="addProjectForm" class="col-form-label">Start Date</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.start_date" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.start_date" v-bind:disabled="!project.isProjectManager && !editMode">
             <label for="addProjectForm" class="col-form-label">End Date</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.end_date" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.end_date" v-bind:disabled="!project.isProjectManager && !editMode">
             <label for="addProjectForm" class="col-form-label">Expected Preapproval Date</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.exp_preapproval_date" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.exp_preapproval_date" v-bind:disabled="!project.isProjectManager && !editMode">
 
             <label for="addProjectForm" class="col-form-label">Expected Seeking Funding Date</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.exp_seeking_funding_date" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.exp_seeking_funding_date" v-bind:disabled="!project.isProjectManager && !editMode">
 
             <label for="addProjectForm" class="col-form-label">Expected Pipeline Date</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.exp_pipeline_date" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.exp_pipeline_date" v-bind:disabled="!project.isProjectManager && !editMode">
 
             <label for="addProjectForm" class="col-form-label">Expected To Confirm Date</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.exp_to_confirm_date" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.exp_to_confirm_date" v-bind:disabled="!project.isProjectManager && !editMode">
 
             <label for="addProjectForm" class="col-form-label">Expected Closing Date</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.exp_closing_date" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.exp_closing_date" v-bind:disabled="!project.isProjectManager && !editMode">
 
             <label for="addProjectForm" class="col-form-label">Expected Closed Date</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.exp_closed_date" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.exp_closed_date" v-bind:disabled="!project.isProjectManager && !editMode">
 
 
 
-            <label for="addProjectForm" class="col-form-label">Actual Preapproval Date</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.actual_preapproval_date" v-bind:disabled="!project.isProjectManager && !editMode">
+            <!--<label for="addProjectForm" class="col-form-label">Actual Preapproval Date</label>
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.actual_preapproval_date" v-bind:disabled="!project.isProjectManager && !editMode">
 
             <label for="addProjectForm" class="col-form-label">Actual Seeking Funding Date</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.actual_seeking_funding_date" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.actual_seeking_funding_date" v-bind:disabled="!project.isProjectManager && !editMode">
 
             <label for="addProjectForm" class="col-form-label">Actual Pipeline Date</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.actual_pipeline_date" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.actual_pipeline_date" v-bind:disabled="!project.isProjectManager && !editMode">
 
             <label for="addProjectForm" class="col-form-label">Actual To Confirm Date</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.actual_to_confirm_date" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.actual_to_confirm_date" v-bind:disabled="!project.isProjectManager && !editMode">
 
             <label for="addProjectForm" class="col-form-label">Actual Closing Date</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.actual_closing_date" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.actual_closing_date" v-bind:disabled="!project.isProjectManager && !editMode">
 
             <label for="addProjectForm" class="col-form-label">Actual Closed Date</label>
-            <input type="title" class="form-control form-control-sm-4"
-                   v-bind:value="project.actual_closed_date" v-bind:disabled="!project.isProjectManager && !editMode">
+            <input type="text" class="form-control form-control-sm-4"
+                   v-model="project.actual_closed_date" v-bind:disabled="!project.isProjectManager && !editMode">-->
 
           </div>
         </div>
@@ -108,11 +112,15 @@
             <!--<button type="button" class="mt-2 btn btn-danger btn-block" v-if="!isNewProject && isProjectManager" >Delete</button>-->
           <!--</div>-->
         <!--</div>-->
-        <div class ="col-4" style="height:50%">
+        <div class ="col-5" style="height:100%">
           <resource-breakdown v-bind:resourceData="resourceData"></resource-breakdown>
         </div>
       </div>
       <div class="row">
+          <button type="button" v-if="isNewProject" v-on:click="addNewProject" style="display:block" class="btn btn-block">Add New Project</button>
+          <button type="button" v-if="!isNewProject && isProjectManager && !editMode" v-on:click="enableEdit" style="display:block" class="btn btn-success btn-block">Edit</button>
+          <button type="button" v-else-if="!isNewProject && isProjectManager" style="display:block;" class="btn btn-success btn-block" v-on:click="updateProject">Update</button>
+          <span style="align:center">{{ updatingStatus }}</span>
       </div>
       <div class="row">
         <filter-bar
@@ -132,14 +140,14 @@
           v-bind:location="resource.location"></resource-card>
 
       </div>
-      <div class="col-2">
+      <!-- <div class="col-2">
       <div class="form-group" style="width: 100px">
       <button type="button" v-if="isNewProject" v-on:click="addNewProject" style="display:block" class="btn btn-block">Add New Project</button>
       <button type="button" v-if="!isNewProject && isProjectManager && !editMode" v-on:click="enableEdit" style="display:block" class="btn btn-success btn-block">Edit</button>
       <button type="button" v-else-if="!isNewProject && isProjectManager" style="display:block;" class="btn btn-success btn-block" v-on:click="updateProject">Update</button>
       <button type="button" class="mt-2 btn btn-danger btn-block" v-if="!isNewProject && isProjectManager" >Delete</button>
       </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -162,6 +170,7 @@ export default {
 
 
    created() {
+    this.setIsNewAndPermissions();
     this.fetchData();
   },
 
@@ -170,7 +179,7 @@ export default {
       isNewProject: false,
       isProjectManager: false,
       editMode: false,
-
+      updatingStatus: "",
       project: {
         "id": -1,
         "portfolio_id": -1,
@@ -230,14 +239,18 @@ export default {
     }
   },
   methods: {
-    fetchData() {
-      console.log("fetch data");
-      var info = this;
+    setIsNewAndPermissions() {
       if (this.$route.params.projectId === undefined) {
         this.isNewProject = true;
         this.portfolioId = this.$route.query.portfolioId;
-        return;
+        this.isProjectManager = true;
+        this.editMode = true;
       }
+    },
+    fetchData() {
+      console.log("fetch data");
+      var info = this;
+      if (this.$route.params.projectId === undefined) return;
 
       axios.get(this.$root.serverURL + "/api/projects/"+ this.$route.params.projectId)
         .then(response => {
@@ -300,13 +313,21 @@ export default {
 
     addNewProject() {
       console.log("posting to: " + this.$root.serverURL + `/api/portfolios/${this.portfolioId}/projects/`);
+
+      this.updatingStatus = "Saving...";
+
       axios.post(this.$root.serverURL + `/api/portfolios/${this.portfolioId}/projects/`, {
-        "name": this.project.name,
-        "budget": this.project.budget,
-        "effort": this.project.effort
+        "name": this.project.name
+        // "budget": this.project.budget,
+        // "rag_status": this.project.rag_status,
+        // "budget_used": this.project.budget_used,
+        // "budget_est_needed": this.project.est_cash_needed_to_complete,
+        // "start_date": this.project.start_date,
+        // "end_date": this.project.end_date
       })
       .then(function (res){
         console.log(res);
+        this.updatingStatus = "Saved!";
       });
     },
     updateProject() {
