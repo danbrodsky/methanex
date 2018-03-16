@@ -57,7 +57,7 @@
                 this.$auth.login({
                     data: this.data.body, // Axios
                     rememberMe: this.data.rememberMe,
-                    redirect: {name: redirect ? redirect.from.name: 'Overview'},
+                    redirect: {name: redirect ? redirect.from.name: 'portfolio-selection'},
                     fetchUser: this.data.fetchUser
                 })
                 .then(() => {
