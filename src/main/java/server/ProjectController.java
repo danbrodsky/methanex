@@ -54,11 +54,24 @@ public class ProjectController {
         if (beforeProject != null) {
             beforeProject.setName(updateDetails.getName());
             beforeProject.setBudget(updateDetails.getBudget());
-            beforeProject.setEffort(updateDetails.getEffort());
             beforeProject.setManager(updateDetails.getManager());
             beforeProject.setStartDate(updateDetails.getStartDate());
+            beforeProject.setEndDate(updateDetails.getEndDate());
             beforeProject.setRagStatus(updateDetails.getRagStatus());
-
+            beforeProject.setActualClosedStatusDate(updateDetails.getActualClosedStatusDate());
+            beforeProject.setActualClosingStatusDate(updateDetails.getActualClosingStatusDate());
+            beforeProject.setActualConfirmedStatusDate(updateDetails.getActualConfirmedStatusDate());
+            beforeProject.setActualPipelineStatusDate(updateDetails.getActualPipelineStatusDate());
+            beforeProject.setActualPreApprovalStatusDate(updateDetails.getActualPreApprovalStatusDate());
+            beforeProject.setActualSeekFundingStatusDate(updateDetails.getActualSeekFundingStatusDate());
+            beforeProject.setExpectedClosedStatusDate(updateDetails.getExpectedClosedStatusDate());
+            beforeProject.setExpectedClosingStatusDate(updateDetails.getExpectedClosingStatusDate());
+            beforeProject.setExpectedConfirmedStatusDate(updateDetails.getExpectedConfirmedStatusDate());
+            beforeProject.setExpectedPipelineStatusDate(updateDetails.getExpectedPipelineStatusDate());
+            beforeProject.setExpectedPreApprovalStatusDate(updateDetails.getExpectedPreApprovalStatusDate());
+            beforeProject.setExpectedSeekFundingStatusDate(updateDetails.getExpectedSeekFundingStatusDate());
+            beforeProject.setPercentageComplete(updateDetails.getPercentageComplete());
+            beforeProject.setEstimatedRemainingCost(updateDetails.getEstimatedRemainingCost());
             Project updatedProject = repository.save(beforeProject);
             return ResponseEntity.ok(updatedProject);
         }

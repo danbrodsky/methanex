@@ -31,9 +31,6 @@ public class Project implements Serializable {
     @JoinColumn(name = "manager_id")
     private Resource manager;
 
-    @Column(name = "effort")
-    private String effort;
-
     @Column(name = "dur_start")
     private Date startDate;
 
@@ -117,7 +114,6 @@ public class Project implements Serializable {
         resources.add(resource);
     }
 
-
     public int getId() {
         return id;
     }
@@ -140,14 +136,6 @@ public class Project implements Serializable {
 
     public void setManager(Resource manager) {
         this.manager = manager;
-    }
-
-    public String getEffort() {
-        return effort;
-    }
-
-    public void setEffort(String effort) {
-        this.effort = effort;
     }
 
     public Date getStartDate() {
