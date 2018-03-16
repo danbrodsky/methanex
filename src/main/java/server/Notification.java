@@ -8,21 +8,20 @@ import java.io.Serializable;
 public class Notification implements Serializable {
     private static final long serialVersionUID = -6616090061386853759L;
 
-    @EmbeddedId
-    private NotificationId notificationId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    private int id;
 
-    @MapsId("manager_id")
     @OneToOne
-    @JoinColumn(name = "manager_id", referencedColumnName = "id")
+    @JoinColumn(name = "manager_id")
     private Resource manager;
 
-    @MapsId("skill_id")
     @OneToOne
-    @JoinColumn(name = "skill_id", referencedColumnName = "id")
+    @JoinColumn(name = "skill_id")
     private Skill skill;
 
     @OneToOne
-    @JoinColumn(name = "resource_id", referencedColumnName = "id")
+    @JoinColumn(name = "resource_id")
     private Resource resource;
 
     public Notification(int managerId, int skillId) {}
@@ -41,14 +40,6 @@ public class Notification implements Serializable {
 
     public void setSkill(Skill skill) {
         this.skill = skill;
-    }
-
-    public NotificationId getNotificationId() {
-        return notificationId;
-    }
-
-    public void setNotificationId(NotificationId notificationId) {
-        this.notificationId = notificationId;
     }
 
     public Resource getResource() {

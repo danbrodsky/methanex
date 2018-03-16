@@ -23,16 +23,6 @@ public class NotificationController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/notifications/resource/{resourceId}")
-    public @ResponseBody
-    ResponseEntity<List<Skill>> getResourceNotifications(@PathVariable(value = "resourceId") Integer resourceId) {
-        List<Skill> skillNotifications = repository.findSkillNotificationsByResource(resourceId);
-        if (!skillNotifications.isEmpty()) {
-            return ResponseEntity.ok(skillNotifications);
-        }
-        return ResponseEntity.notFound().build();
-    }
-
     @PostMapping("/notifications")
     public void createNotification(@Valid @RequestBody List<Notification> notifications) {
         notifications.forEach(notification -> repository.save(notification));

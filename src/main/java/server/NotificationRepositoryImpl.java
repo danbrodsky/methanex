@@ -12,17 +12,9 @@ public class NotificationRepositoryImpl implements NotificationRepositoryCustom 
     private EntityManager entityManager;
 
     @Override
-    public List<Skill> findNotificationsByManager(int resourceId) {
+    public List<Notification> findNotificationsByManager(int resourceId) {
         JPAQuery<Notification> query = new JPAQuery<Notification>(entityManager);
-        return query
-                .select(QSkill.skill)
-                .from(QNotification.notification)
-                .where(QNotification
-                        .notification
-                        .manager
-                        .id
-                        .eq(resourceId))
-                .fetch();
+        return null;
     }
 
     @Override
@@ -32,12 +24,13 @@ public class NotificationRepositoryImpl implements NotificationRepositoryCustom 
         return query
                 .from(notification)
                 .where(notification
-                        .notificationId
-                        .managerId
+                        .manager
+                        .id
                         .eq(managerId)
                         .and(notification
-                                .notificationId
-                                .skillId.eq(skillId)))
+                                .skill
+                                .id
+                                .eq(skillId)))
                 .fetchOne();
 
     }
