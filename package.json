@@ -20,6 +20,7 @@
     "vue-axios": "^2.0.2",
     "vue-clickaway": "^2.1.0",
     "vue-input-tag": "^1.0.1",
+    "vue-multiselect": "^2.0.8",
     "vue-notifyjs": "^0.2.0",
     "vue-router": "^3.0.1"
   },

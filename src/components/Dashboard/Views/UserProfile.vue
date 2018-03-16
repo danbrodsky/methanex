@@ -77,7 +77,7 @@
       <div class="row">
         <div class="col-md-12">
           <label for="skillTech">Technical Skills:</label>
-            <multiselect v-model="resource.skills" :options="options1" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" :preserve-search="true" placeholder="Pick some" label="name" track-by="name">
+            <multiselect v-model="skills" :options="options1" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" :preserve-search="true" placeholder="Pick some" label="name" track-by="name">
               <template slot="tag" slot-scope="props"><span class="custom__tag"><span>{{ props.option.name }}</span><span class="custom__remove" @click="props.remove(props.option)"> ❌ </span></span></template>
             </multiselect>
         </div>
@@ -112,6 +112,7 @@
       ],
       options2: [
       ],
+      newSkills: [],
         resource: {
           id: -1,
           name: '',
@@ -124,6 +125,13 @@
         }
       }
     },
+    watch: {
+    values: function (val) {
+      var allSkills = this.skills;
+      this.newSkills.push(allSkills[allSkills.length-1].id);
+      console.log(this.newSkills);
+    }
+  },
     methods: {
       fetchData () {
       var info = this;
@@ -131,34 +139,47 @@
       .then(response => {
         console.log(response.data);
         info.resource = response.data;
-        console.log(info.resource.value1);
+        console.log(info.resource.skills);
       })
       axios.get(this.$root.serverURL + "/api/skills")
       .then(response => {
         console.log(response.data);
-        info.options1 = info.options2 = response.data;
+        info.options1 = response.data;
       })
-    }
-      },
+    },
       updateProfile () {
       var info = this;
-      axios.put(this.$root.serverURL + "/api/notifications/" + this.resource.manager, {  // change to match manager id when login established
-          id: info.resource.id,
-          name: info.resource.name,
-          email: info.resource.email,
-          location: info.resource.location,
-          group: info.resource.group,
-          manager: info.resource.manager,
-          status: info.resource.status,
-          skills: info.resource.skills
+      axios.put(this.$root.serverURL + "/api/resources/" + info.resource.id, {
+          "id": info.resource.id,
+          "name": info.resource.name,
+          "email": info.resource.email,
+          "location": info.resource.location,
+          "group": info.resource.group,
+          "manager": info.resource.manager,
+          "status": info.resource.status
       })
       .then(function (res){
+        let notifications = [];
+        for (let i = 0; i < info.newSkills.length; i++){
+          let notification = {};
+          notification['skillId'] = info.newSkills[i];
+          notifications['managerId'] = info.resource.manager;
+          notifications.push(notification);
+        }
+        axios.post(info.$root.serverURL + "/api/notifications/" + info.resource.manager, {  // change to match manager id when login established
+          notifications: notifications
+      }).then(function (res){
         console.log(res);
       });
+      });
       }
+    }
     }
 
 </script>
 <style>
 </style>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
+
+
