@@ -30,15 +30,15 @@ public class NotificationController {
         return ResponseEntity.notFound().build();
     }
 
-    @CrossOrigin
-    @PostMapping("/notifications/resource/{resourceId}/addSkill/{skillId}")
-    public ResponseEntity addSkillToResource(@PathVariable(value = "resourceId") Integer resourceId,
-                                             @PathVariable(value = "skillId") Integer skillId) {
-        Resource resource = resourceRepository.findOne(resourceId);
-        Skill skill = skillRepository.findOne(skillId);
-        if (resource != null && skill != null) {
-            resource.addSkill(skill);
-            return ResponseEntity.ok().build();
+    @PostMapping("/notifications/addSkill")
+    public ResponseEntity addSkillToResource(@RequestBody Notification notification) {
+        if (notification != null) {
+            Resource resource = notification.getResource();
+            Skill skill = notification.getSkill();
+            if (resource != null && skill != null) {
+                resource.addSkill(skill);
+                return ResponseEntity.ok().build();
+            }
         }
         return ResponseEntity.notFound().build();
     }
