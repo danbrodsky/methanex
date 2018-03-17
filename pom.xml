@@ -15,8 +15,7 @@
 </parent>
 
 <dependencies>
-
-    <dependency>
+        <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-java8</artifactId>
     </dependency>
