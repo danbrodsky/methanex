@@ -20,11 +20,11 @@ public class Skill implements Serializable {
     private String name;
 
     @JoinTable
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<Category> category;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "skills", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "skills", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Resource> resources = new ArrayList<>();
 
     public String getName() {

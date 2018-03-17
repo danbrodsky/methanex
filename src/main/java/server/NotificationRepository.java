@@ -6,7 +6,7 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import java.util.List;
 
 public interface NotificationRepository extends JpaRepository<Notification, Integer> {
-    List<Notification> findByManager(Resource manager);
+    List<Notification> findByManagerId(int managerId);
 
-    Notification findByManagerIdAndResourceIdAndSkillId(int manager, int resource, int skill);
+    Notification findByManagerIdAndResourceIdAndSkillId(int managerId, int resourceId, int skillId);
 }

@@ -27,7 +27,7 @@ public class Project implements Serializable {
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "manager_id")
     private Resource manager;
 
@@ -40,11 +40,11 @@ public class Project implements Serializable {
     @Column(name = "budget")
     private Integer budget;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "status")
     private ProjectStatus status;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="rag_status")
     private RagStatus ragStatus;
 
@@ -93,18 +93,18 @@ public class Project implements Serializable {
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "project_owner_id")
     private Resource projectOwner;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Portfolio portfolio;
 
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "project_resource",
             joinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "resource_id", referencedColumnName = "id")})

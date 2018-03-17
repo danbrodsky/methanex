@@ -13,11 +13,11 @@ public class ResourceHistory implements Serializable {
     @Id
     private int id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "resource_id", nullable = false)
     private Resource resource;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 

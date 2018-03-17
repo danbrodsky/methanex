@@ -18,14 +18,14 @@ public class Portfolio implements Serializable {
     @JsonProperty("id")
     private int id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "classification_id", nullable = false)
     private Classification classification;
 
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "business_owner_id", nullable = false)
     private Resource businessOwner;
 
@@ -35,7 +35,7 @@ public class Portfolio implements Serializable {
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "portfolio_id", referencedColumnName = "id")
     private List<Project> projects = new ArrayList<>();
 

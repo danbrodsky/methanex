@@ -1,6 +1,8 @@
 package server;
 
 import com.fasterxml.jackson.annotation.*;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,30 +26,37 @@ public class Resource implements Serializable {
     @Column(name = "location", nullable = false)
     private String location;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "team")
     private Group group;
 
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "manager_id", nullable = false)
     private Resource manager;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "status_id")
     private ResourceStatus status;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "resources")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "resources", cascade = CascadeType.PERSIST)
     private List<Project> projects = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @Cascade(value = org.hibernate.annotations.CascadeType.PERSIST)
     @JoinTable(name = "resource_skill",
             joinColumns = @JoinColumn(name = "resource_id"),
             inverseJoinColumns = @JoinColumn(name = "skill_id"))
     private List<Skill> skills = new ArrayList<>();
+
+    public void addSkill(Skill skill) {
+        if (!skills.contains(skill)) {
+            skills.add(skill);
+        }
+    }
 
     public String getName() {
         return name;

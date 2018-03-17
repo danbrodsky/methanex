@@ -17,13 +17,26 @@ public class NotificationController {
     @Autowired
     private ResourceRepository resourceRepository;
 
+    @Autowired
+    private SkillRepository skillRepository;
+
     @GetMapping("/notifications/manager/{managerId}")
     public @ResponseBody
     ResponseEntity<List<Notification>> getManagerNotifications(@PathVariable(value = "managerId") Integer managerId) {
-        Resource manager = resourceRepository.findOne(managerId);
-        List<Notification> notifications = repository.findByManager(manager);
+        List<Notification> notifications = repository.findByManagerId(managerId);
         if (!notifications.isEmpty()) {
             return ResponseEntity.ok(notifications);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/notifications/{resourceId}/addSkill/{skillId}")
+    public ResponseEntity addSkillToResource(@PathVariable(value = "resourceId") Integer resourceId,
+                                             @PathVariable(value = "skillId") Integer skillId) {
+        Resource resource = resourceRepository.findOne(resourceId);
+        Skill skill = skillRepository.findOne(skillId);
+        if (resource != null && skill != null) {
+            resource.addSkill(skill);
         }
         return ResponseEntity.notFound().build();
     }
