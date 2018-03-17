@@ -1,8 +1,10 @@
 <template>
-  <div class="alert alert-info">
-    <span> {{ resourceName }} wants to add the skill {{ skillName }} to their profile</span>
-    <button type="button" aria-hidden="true" v-on:click="dropRow()" style="margin-top:-1%; margin-left:1%;" class="btn btn-danger btn-sm btn-fill float-right">Decline</button>
-    <button type="submit" aria-hidden="true" v-on:click="approve()" style="margin-top:-1%; margin-left:1%;" class="btn btn-success btn-sm btn-fill float-right">Approve</button>
+  <div class="alert alert-info" style="line-height: 34px;">
+    <div>
+      <span> {{ resourceName }} wants to add the skill {{ skillName }} to their profile</span>
+      <button type="submit" aria-hidden="true" v-on:click="dropRow()" style='margin-right:16px' class="btn btn-danger btn-sm btn-fill float-right">Decline</button>
+      <button type="submit" aria-hidden="true" v-on:click="approve()" style='margin-right:16px' class="btn btn-success btn-sm btn-fill float-right">Approve</button>
+    </div>
   </div>
 </template>
 <script>
