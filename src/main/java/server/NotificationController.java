@@ -30,6 +30,7 @@ public class NotificationController {
         return ResponseEntity.notFound().build();
     }
 
+    @CrossOrigin
     @PostMapping("/notifications/resource/{resourceId}/addSkill/{skillId}")
     public ResponseEntity addSkillToResource(@PathVariable(value = "resourceId") Integer resourceId,
                                              @PathVariable(value = "skillId") Integer skillId) {
