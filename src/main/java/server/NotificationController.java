@@ -76,7 +76,7 @@ public class NotificationController {
                                                            @PathVariable(value = "resourceId") Integer resourceId) {
         Notification notification = repository.findByManagerIdAndResourceIdAndSkillId(managerId, resourceId, skillId);
         if (notification != null) {
-//            repository.deleteNotification(managerId, resourceId, skillId);
+            repository.delete(notification);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
