@@ -28,6 +28,12 @@ public class Skill implements Serializable {
     @ManyToMany(mappedBy = "skills", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Resource> resources = new HashSet<>();
 
+    void addResource(Resource resource) {
+        if (!resources.contains(resource)) {
+            resources.add(resource);
+        }
+    }
+
     public String getName() {
         return name;
     }

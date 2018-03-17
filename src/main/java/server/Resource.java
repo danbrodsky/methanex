@@ -45,7 +45,7 @@ public class Resource implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "resources", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Project> projects = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "resource_skill",
             joinColumns = @JoinColumn(name = "resource_id"),
             inverseJoinColumns = @JoinColumn(name = "skill_id"))

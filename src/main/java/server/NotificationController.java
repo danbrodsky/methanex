@@ -35,7 +35,10 @@ public class NotificationController {
             Resource resource = resourceRepository.findOne(resourceId);
             Skill skill = skillRepository.findOne(skillId);
             if (resource != null && skill != null) {
-                resource.addSkill(skill);
+                resource.getSkills().add(skill);
+                skill.getResources().add(resource);
+                resourceRepository.save(resource);
+                skillRepository.save(skill);
                 return ResponseEntity.ok().build();
             }
         return ResponseEntity.notFound().build();
