@@ -6,42 +6,19 @@
           <h4 class="card-title">Notifications</h4>
         </template>
         <div class="row">
-          <div class="col-md-6">
-            <h5>New</h5>
-            <div class="alert alert-warning">
-              <span>Minerva Hooper (1393234) wants to add the following skills: C++, Python</span>
-              <button type="button" aria-hidden="true" style="position:absolute;right:8%;" class="btn btn-success btn-xs">&#10003;</button>
-              <button type="button" aria-hidden="true" style="position:absolute;right:3%;"class="btn btn-danger btn-xs">&#10006;</button>
-            </div>
-            <div class="alert alert-warning">
-              <span>George Cooper wants to be added to project 1</span>
-              <button type="button" aria-hidden="true" style="position:absolute;right:8%;" class="btn btn-success btn-xs">&#10003;</button>
-              <button type="button" aria-hidden="true" style="position:absolute;right:3%;"class="btn btn-danger btn-xs">&#10006;</button>
-            </div>
-            <div class="alert alert-warning">
-              <span>Michael Brown has requested permission to edit project 2</span>
-              <button type="button" aria-hidden="true" style="position:absolute;right:8%;" class="btn btn-success btn-xs">&#10003;</button>
-              <button type="button" aria-hidden="true" style="position:absolute;right:3%;"class="btn btn-danger btn-xs">&#10006;</button>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <h5>Recent</h5>
-            <div class="alert alert-info">
-              <button type="button" aria-hidden="true" class="close">×</button>
-              <span><b> Info - </b> Some recent events</span>
-            </div>
-            <div class="alert alert-info">
-              <button type="button" aria-hidden="true" class="close">×</button>
-              <span><b> Info - </b> Some recent events</span>
-            </div>
-            <div class="alert alert-info">
-              <button type="button" aria-hidden="true" class="close">×</button>
-              <span><b> Info - </b> Some recent events</span>
-            </div>
-            <div class="alert alert-info">
-              <button type="button" aria-hidden="true" class="close">×</button>
-              <span><b> Info - </b> Some recent events</span>
-            </div>
+          <div class="col-md-12">
+            <NotificationRow    v-for="(notification,index) of receivedNotifications"
+                                v-bind:skillName="notification.skill.name"
+                                v-bind:skillId="notification.skill.id"
+                                v-bind:resourceName="notification.resource.name"
+                                v-bind:resourceId="notification.resource.id"
+                                v-bind:managerId="notification.manager.id"
+                                v-bind:key="notification.id"
+                                v-bind:id="index"
+                                v-bind:notification="notification"
+                                v-on:notification-remove="remove"
+                                v-bind="notifications">
+            </NotificationRow>
           </div>
         </div>
       </card>
@@ -50,35 +27,38 @@
 </template>
 <script>
   import Card from 'src/components/UIComponents/Cards/Card.vue'
+  import NotificationRow from 'src/components/UIComponents/Cards/NotificationRow.vue'
+  import axios from 'axios'
 
   export default {
     components: {
-      Card
+      Card,
+      NotificationRow
+    },
+    created() {
+      this.fetchData();
     },
     data () {
       return {
         type: ['', 'info', 'success', 'warning', 'danger'],
         notifications: {
           topCenter: false
-        }
+        },
+        receivedNotifications: []
       }
     },
     methods: {
-      notifyVue (verticalAlign, horizontalAlign) {
-        const notification = {
-          template: `<span>Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer.</span>`
-        }
-
-        const color = Math.floor((Math.random() * 4) + 1)
-        this.$notifications.notify(
-          {
-            component: notification,
-            icon: 'nc-icon nc-app',
-            horizontalAlign: horizontalAlign,
-            verticalAlign: verticalAlign,
-            type: this.type[color]
+        fetchData() {
+      axios.get(this.$root.serverURL + "/api/notifications/manager/2") // add manager id here when there's login
+          .then(response => {
+            console.log(response.data);
+              this.receivedNotifications = response.data;
           })
-      }
+        },
+        remove(id) {
+          console.log("got here");
+           this.receivedNotifications.splice(id, 1);
+        }
     }
   }
 
