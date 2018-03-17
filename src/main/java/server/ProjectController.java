@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -39,7 +40,7 @@ public class ProjectController {
 
     @GetMapping("/projects/{projectId}/resources")
     public @ResponseBody
-    ResponseEntity<List<Resource>> getResourcesFromProject(@PathVariable(value = "projectId") Integer projectId) {
+    ResponseEntity<Set<Resource>> getResourcesFromProject(@PathVariable(value = "projectId") Integer projectId) {
         Project project = repository.findOne(projectId);
         if (project != null) {
             return ResponseEntity.ok(project.getResources());

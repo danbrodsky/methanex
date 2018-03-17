@@ -9,7 +9,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Project")
@@ -104,11 +106,11 @@ public class Project implements Serializable {
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "project_resource",
             joinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "resource_id", referencedColumnName = "id")})
-    private List<Resource> resources = new ArrayList<>();
+    private Set<Resource> resources = new HashSet<>();
 
     public void addResource(Resource resource) {
         resources.add(resource);
@@ -308,11 +310,11 @@ public class Project implements Serializable {
         this.portfolio = portfolio;
     }
 
-    public List<Resource> getResources() {
+    public Set<Resource> getResources() {
         return resources;
     }
 
-    public void setResources(List<Resource> resources) {
+    public void setResources(Set<Resource> resources) {
         this.resources = resources;
     }
 }

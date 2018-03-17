@@ -30,13 +30,14 @@ public class NotificationController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/notifications/{resourceId}/addSkill/{skillId}")
+    @PostMapping("/notifications/resource/{resourceId}/addSkill/{skillId}")
     public ResponseEntity addSkillToResource(@PathVariable(value = "resourceId") Integer resourceId,
                                              @PathVariable(value = "skillId") Integer skillId) {
         Resource resource = resourceRepository.findOne(resourceId);
         Skill skill = skillRepository.findOne(skillId);
         if (resource != null && skill != null) {
             resource.addSkill(skill);
+            return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }

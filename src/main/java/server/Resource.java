@@ -42,11 +42,10 @@ public class Resource implements Serializable {
     private ResourceStatus status;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "resources", cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "resources", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Project> projects = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @Cascade(value = org.hibernate.annotations.CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "resource_skill",
             joinColumns = @JoinColumn(name = "resource_id"),
             inverseJoinColumns = @JoinColumn(name = "skill_id"))

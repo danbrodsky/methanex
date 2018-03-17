@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Skill")
@@ -24,8 +25,8 @@ public class Skill implements Serializable {
     private List<Category> category;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "skills", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<Resource> resources = new ArrayList<>();
+    @ManyToMany(mappedBy = "skills", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Resource> resources = new HashSet<>();
 
     public String getName() {
         return name;
@@ -43,11 +44,11 @@ public class Skill implements Serializable {
         this.category = category;
     }
 
-    public List<Resource> getResources() {
+    public Set<Resource> getResources() {
         return resources;
     }
 
-    public void setResources(List<Resource> resources) {
+    public void setResources(Set<Resource> resources) {
         this.resources = resources;
     }
 
