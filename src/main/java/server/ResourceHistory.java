@@ -2,10 +2,10 @@ package server;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "ResourceHistory")
+@Table(name = "resource_history")
 public class ResourceHistory implements Serializable {
     private static final long serialVersionUID = 2505030243495297377L;
 
@@ -22,12 +22,10 @@ public class ResourceHistory implements Serializable {
     private Project project;
 
     @Column(name = "dur_start")
-    @Temporal(TemporalType.DATE)
-    private Date startDuration;
+    private LocalDate startDuration;
 
     @Column(name = "dur_end")
-    @Temporal(TemporalType.DATE)
-    private Date endDuration;
+    private LocalDate endDuration;
 
     public Resource getResource() {
         return resource;
@@ -53,19 +51,19 @@ public class ResourceHistory implements Serializable {
         this.project = project;
     }
 
-    public Date getStartDuration() {
+    public LocalDate getStartDuration() {
         return startDuration;
     }
 
-    public void setStartDuration(Date startDuration) {
+    public void setStartDuration(LocalDate startDuration) {
         this.startDuration = startDuration;
     }
 
-    public Date getEndDuration() {
+    public LocalDate getEndDuration() {
         return endDuration;
     }
 
-    public void setEndDuration(Date endDuration) {
+    public void setEndDuration(LocalDate endDuration) {
         this.endDuration = endDuration;
     }
 }
