@@ -35,13 +35,17 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors()
-                .and()
-                .csrf()
-                .disable()
                 .authorizeRequests()
                 .antMatchers("/**")
+                .permitAll()
+                .anyRequest()
                 .permitAll();
+//        http
+//                .cors()
+//                .and()
+//                .csrf()
+//                .disable()
+//                .authorizeRequests()
 //                .antMatchers(HttpMethod.POST, SIGN_UP_URL)
 //                .permitAll()
 //                .anyRequest()
@@ -54,10 +58,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
 //                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
 //                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//
+//        http
 //                .logout()
+//                .clearAuthentication(true)
 //                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                .logoutSuccessUrl("/login")
+//                .deleteCookies("JSESSIONID")
 //                .invalidateHttpSession(true);
     }
 
