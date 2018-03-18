@@ -17,7 +17,7 @@ public class Skill implements Serializable {
     @Id
     private int id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @JoinTable
