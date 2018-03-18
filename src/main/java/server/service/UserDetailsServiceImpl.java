@@ -1,12 +1,11 @@
 package server.service;
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import server.model.ApplicationUser;
-import server.repository.ApplicationUserRepository;
+import server.model.User;
+import server.repository.UserRepository;
 
 import static java.util.Collections.emptyList;
 
@@ -18,17 +17,17 @@ passed by the user in the login request
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private ApplicationUserRepository applicationUserRepository;
+    private UserRepository userRepository;
 
-    public UserDetailsServiceImpl(ApplicationUserRepository applicationUserRepository) {
-        this.applicationUserRepository = applicationUserRepository;
+    public UserDetailsServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        ApplicationUser applicationUser = applicationUserRepository.findByUsername(username);
-        if (applicationUser != null) {
-            return new User(applicationUser.getUsername(), applicationUser.getPassword(), emptyList());
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), emptyList());
         }
         throw new UsernameNotFoundException(username);
     }
