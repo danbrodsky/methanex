@@ -1,6 +1,7 @@
 package server.model;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "application_user")
@@ -9,8 +10,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "username", unique = true, updatable = false, nullable = false)
     private String username;
 
+    @Column(name = "password", nullable = false)
     private String password;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
