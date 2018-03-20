@@ -4,26 +4,32 @@
       <div class="row">
         <div class="col-12">
           <card>
-            <template slot="header">
-              <div class="row">
-              <div class="col-8">
-                <h4 class="card-title">Resources</h4>
-                <p class="card-category">All Methanex Resources</p>
-              </div>
-              <div class="col-4">
-                <form id="search">
-                    Search <input name="query" v-model="searchQuery">
-                </form>
-              </div>
-              </div>
-            </template>
-            <div class="table-responsive">
-              <l-table class="table-hover table-striped"
-                       :columns="columns"
-                       :data="rows"
-                       :filter-key="searchQuery">
-              </l-table>
-            </div>
+              <vue-good-table
+                :columns="columns"
+                :paginate="true"
+                :rows="rows"
+                :globalSearch = "false"
+                styleClass="table table-bordered table-striped">
+                <template slot="table-column" slot-scope="props">
+                <span v-if="props.column.label =='SelectAll'">
+                  <label class="checkbox">
+                    <input
+                      type="checkbox"
+                      @click="toggleSelectAll()">
+                  </label>
+                </span>
+                  <span v-else>
+                    {{props.column.label}}
+                </span>
+                </template>
+                <template slot="table-row-before" slot-scope="props">
+                  <td>
+                    <label class="checkbox">
+                      <input type="checkbox" v-model="rows[props.row.originalIndex].selected">
+                    </label>
+                  </td>
+                </template>
+              </vue-good-table>
           </card>
         </div>
       </div>
@@ -34,8 +40,6 @@
   import LTable from 'src/components/UIComponents/Table.vue'
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   import axios from 'axios'
-  const tableColumns = ['Name', 'Group', 'Status', 'Email'];
-
   export default {
     components: {
       LTable,
@@ -46,10 +50,36 @@
     },
     data() {
       return {
-        columns: [...tableColumns],
+        allSelected: false,
+        columns: [
+          {
+            label: '',
+            sortable: false,
+          },
+          {
+            label: 'Name',
+            field: 'name',
+            filterable: true,
+          },
+          {
+            label: 'Email',
+            field: 'email',
+            type: 'string',
+            filterable: true,
+          },
+          {
+            label: 'Location',
+            field: 'location',
+            filterable: true,
+          },
+          {
+            label: 'Group',
+            field: 'group',
+            filterable: true,
+          }
+        ],
         rows: [],
-        searchQuery: ''
-      }
+      };
     },
     methods: {
       fetchData() {
@@ -57,7 +87,15 @@
         axios.get(this.$root.serverURL + "/api/resources")
           .then(response => {
             info.rows = response.data;
+            for (let i = 0; i < info.rows.length; i++){
+              info.rows[i].manager = info.rows[i].manager.name;
+            }
+            console.log(info.rows);
           })
+      },
+      addRow(id){
+        this.added.push(id);
+        console.log(id);
       }
     }
   }

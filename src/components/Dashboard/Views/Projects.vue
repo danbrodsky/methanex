@@ -23,8 +23,8 @@
               <template slot="table-column" slot-scope="props">
                 <span v-if="props.column.label =='SelectAll'">
                   <label class="checkbox">
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       @click="toggleSelectAll()">
                   </label>
                 </span>
@@ -99,29 +99,6 @@
       ],
     };
   },
-  //   return {
-  //     allSelected: false,
-  //     columns: [
-  //         {
-  //           label: 'Add to portfolio?',
-  //           field: 'Add to portfolio?',
-  //         },
-  //         {
-  //           label: 'Project Owner',
-  //           field: 'ProjectOwner'
-  //         },
-  //         {
-  //           label: 'Manager',
-  //           field: 'manager'
-  //         },
-  //         {
-  //           label: 'Name',
-  //           field: 'name'
-  //         }
-  //       ],
-  //     rows: [],
-  //   };
-  // },
     methods: {
       fetchData() {
         var info = this;
