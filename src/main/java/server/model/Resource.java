@@ -48,9 +48,9 @@ public class Resource implements Serializable {
     @JoinTable(name = "resource_skill",
             joinColumns = @JoinColumn(name = "resource_id"),
             inverseJoinColumns = @JoinColumn(name = "skill_id"))
-    private List<TechnicalSkill> skills = new ArrayList<>();
+    private List<Skill> skills = new ArrayList<>();
 
-    public void addSkill(TechnicalSkill skill) {
+    public void addSkill(Skill skill) {
         if (!skills.contains(skill)) {
             skills.add(skill);
         }
@@ -112,11 +112,11 @@ public class Resource implements Serializable {
         this.projects = projects;
     }
 
-    public List<TechnicalSkill> getSkills() {
+    public List<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<TechnicalSkill> skills) {
+    public void setSkills(List<Skill> skills) {
         this.skills = skills;
     }
 
