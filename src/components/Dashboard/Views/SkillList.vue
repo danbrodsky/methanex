@@ -38,7 +38,23 @@
               </template>
             </vue-good-table>
             <div>
-              <button class="btn btn-success" v-on:click="addData">Add New</button>
+              <b-button class ="btn btn-success" @click="showModal">
+                Add a new Skill
+              </b-button>
+              <b-modal ref="addSkillModal" 
+                @ok="addData"
+                @shown="clearAdd">
+                <div class="d-block">
+                  <h3>New Skill</h3>
+                  <div>
+                    <span>Name: <b-form-input>{{addSkillName}}</b-form-input></span>
+                  </div>
+                  <div>
+                    Category:
+                    <b-form-select v-model="addSkillCategory" :options="addSkillCategoryOptions" id='add-ddown'/>
+                  </div>
+                </div>
+              </b-modal>
             </div>
           </card>
           <card>
@@ -75,6 +91,27 @@
                 </td>
               </template>
             </vue-good-table>
+          </card>
+          <card>
+            <template slot="header">
+              <div class="row">
+              <div class="col-8">
+                <h4 class="card-title">Test</h4>
+              </div>
+              </div>
+            </template>
+            <div class="table-responsive">
+              <l-table class="table-hover table-striped"
+                       :columns="hardColumns"
+                       :data="hardData"
+                       :filter-key="searchQuery2">
+              </l-table>
+              <b-table class="table-hover table-striped"
+                       :columns="hardColumns"
+                       :data="hardData"
+                       :filter-key="searchQuery2">
+              </b-table>
+            </div>
           </card>
         </div>
       </div>
@@ -126,7 +163,14 @@
             filterable: true,
           }],
         rowsTechnical: [],
-        rowsNonTechnical: []
+        rowsNonTechnical: [],
+        addSkillName: '',
+        addSkillCategory: null,
+        addSkillCategoryOptions: [
+          { value: '1', text: 'Language' },
+          { value: '2', text: 'Framework' },
+          { value: '3', text: 'Database' }
+        ],
       };
     },
     methods: {
@@ -147,13 +191,32 @@
 
       addData() {
         var info = this;
-        axios.post(this.$root.serverURL + "/api/technicalSkills")
-          .then(function (response) {
-          })
-          .catch(function (error) {
-          })
-          .then(fetchData());
-      }
+        if (!this.addSkillName || !this.addSkillCategory) {
+          alert('Please enter name and category')
+        }
+        axios.post(this.$root.serverURL + "/api/technicalSkills", {
+          name: addSkillName,
+          category: addSkillCategory
+        })
+        this.clearAdd()
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .then(fetchData());
+      },
+      showModal () {
+        this.$refs.addSkillModal.show()
+      },
+      hideModal () {
+        this.$refs.addSkillModal.hide()
+      },
+      clearAdd () {
+        this.addSkillName = '';
+        this.addSkillCategory = null;
+      },
     }
   }
 </script>
