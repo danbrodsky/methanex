@@ -77,10 +77,10 @@ public class NotificationController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/notifications/{managerId}/{resourceId}/{skillId}")
-    public ResponseEntity<Notification> deleteNotification(@PathVariable(value = "managerId") Integer managerId,
-                                                           @PathVariable(value = "skillId") Integer skillId,
-                                                           @PathVariable(value = "resourceId") Integer resourceId) {
+    @DeleteMapping(value = "/notifications", params = {"managerId", "skillId", "resourceId"})
+    public ResponseEntity<Notification> deleteNotification(@RequestParam Integer managerId,
+                                                           @RequestParam Integer skillId,
+                                                           @RequestParam Integer resourceId) {
         Notification notification = repository.findByManagerIdAndResourceIdAndSkillId(managerId, resourceId, skillId);
         if (notification != null) {
             repository.delete(notification);
