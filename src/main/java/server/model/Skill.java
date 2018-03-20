@@ -20,8 +20,10 @@ public class Skill implements Serializable {
     @Column(name = "name", unique = true)
     private String name;
 
-    @JoinTable
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "skill_category",
+            joinColumns = @JoinColumn(name = "skill_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> category;
 
     @JsonIgnore
