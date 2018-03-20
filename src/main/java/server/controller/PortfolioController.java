@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class PortfolioController {
-
     @Autowired
     private PortfolioRepository portfolioRepository;
 
@@ -76,5 +75,21 @@ public class PortfolioController {
         return ResponseEntity.notFound().build();
     }
 
-
+    @PostMapping("/portfolios/addProjects")
+    public ResponseEntity addProjectsToPortfolio(@RequestParam(value = "portfolioId", required = false) Integer portfolioId,
+                                                 @RequestBody List<Integer> projectIds) {
+        Portfolio portfolio = portfolioId == null ? new Portfolio() : portfolioRepository.findOne(portfolioId);
+        List<Project> projects = portfolio.getProjects();
+        if (portfolio != null) {
+            projectIds.forEach(id -> {
+                Project project = projectRepository.findOne(id);
+                if (project != null) {
+                    projects.add(project);
+                }
+            });
+            portfolioRepository.save(portfolio);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 }
