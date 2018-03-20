@@ -24,6 +24,9 @@
               </l-table>
             </div>
             <div>
+             <b-form-input v-model="newSkill"
+                  type="text"
+                  placeholder="Enter new skill"></b-form-input>
               <button class ="btn btn-success" v-on:click="addData">Add New</button>
             </div>
           </card>
@@ -71,6 +74,7 @@
       return {
         columns: [...tableColumns],
         rows: [],
+        newSkill: '',
         searchQuery1: '',
         searchQuery2: '',
         hardColumns: ['Name', 'Description'],
@@ -92,8 +96,7 @@
       addData() {
         var info = this;
         axios.post(this.$root.serverURL + "/api/skills", {
-          name: 'Vue.js',
-          description: 'front-end javascript'
+          name: info.newSkill
         })
         .then(function (response) {
           console.log(response);
@@ -101,7 +104,7 @@
         .catch(function (error) {
           console.log(error);
         })
-        .then(fetchData());
+        .then(info.fetchData());
       }
     }
   }
