@@ -75,18 +75,31 @@ public class PortfolioController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/portfolios/addProjects")
-    public ResponseEntity addProjectsToPortfolio(@RequestParam(value = "portfolioId", required = false) Integer portfolioId,
-                                                 @RequestBody List<Integer> projectIds) {
-        Portfolio portfolio = portfolioId == null ? new Portfolio() : portfolioRepository.findOne(portfolioId);
-        List<Project> projects = portfolio.getProjects();
+//    @PostMapping("/portfolios/addProjects")
+//    public ResponseEntity addProjectsToPortfolio(@RequestParam(value = "portfolioId", required = false) Integer portfolioId,
+//                                                 @RequestBody String projectIds) {
+//        Portfolio portfolio = portfolioId == null ? new Portfolio() : portfolioRepository.findOne(portfolioId);
+//
+//        List<Project> projects = portfolio.getProjects();
+//        if (portfolio != null) {
+//            projectIds.forEach(id -> {
+//                Project project = projectRepository.findOne(id);
+//                if (project != null) {
+//                    projects.add(project);
+//                }
+//            });
+//            portfolioRepository.save(portfolio);
+//            return ResponseEntity.ok().build();
+//        }
+//        return ResponseEntity.notFound().build();
+//    }
+
+    @PostMapping("/portfolios/{portfolioId}/projects")
+    public ResponseEntity addProjectsToPortfolio(@RequestParam(value = "portfolioId") Integer portfolioId,
+                                                 @Valid @RequestBody Project project) {
+        Portfolio portfolio = portfolioRepository.findOne(portfolioId);
         if (portfolio != null) {
-            projectIds.forEach(id -> {
-                Project project = projectRepository.findOne(id);
-                if (project != null) {
-                    projects.add(project);
-                }
-            });
+            portfolio.getProjects().add(project);
             portfolioRepository.save(portfolio);
             return ResponseEntity.ok().build();
         }
