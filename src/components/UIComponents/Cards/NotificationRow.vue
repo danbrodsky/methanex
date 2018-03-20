@@ -62,10 +62,10 @@
       dropRow () {
         let info = this;
         this.$emit('notification-remove', this.id);
-        // axios.delete(info.$root.serverURL + "/api/notifications/" + info.managerId + "/" + info.resourceId + "/" + info.skillId)
-        // .then(function (res){
-        //   console.log(res);
-        // });
+        axios.delete(info.$root.serverURL + "/api/notifications?managerId=" + info.managerId + "&resourceId=" + info.resourceId + "&skillId=" + info.skillId)
+        .then(function (res){
+          console.log(res);
+        });
       }
     }
   }

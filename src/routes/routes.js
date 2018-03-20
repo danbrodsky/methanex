@@ -12,6 +12,7 @@ import Notifications from 'src/components/Dashboard/Views/Notifications.vue'
 import PortfolioSelection from 'src/components/Dashboard/Views/PortfolioSelection.vue'
 import SkillList from 'src/components/Dashboard/Views/SkillList.vue'
 import Register from '../components/Register.vue'
+import Projects from '../components/Dashboard/Views/Projects.vue'
 
 const routes = [
   {
@@ -46,6 +47,11 @@ const routes = [
         component: PortfolioSelection
       },
       {
+        path: 'portfolio/add',
+        name: 'Portfolio',
+        component: Projects
+      },
+      {
         path: 'portfolio/:portfolioId',
         name: 'Portfolio',
         component: Portfolio
@@ -55,11 +61,6 @@ const routes = [
         name: 'Portfolio',
         component: Portfolio
       },
-      //{
-      //  path: 'create-portfolio',
-      //  name: 'create-portfolio',
-      //  component: PortfolioTracker
-      //},
       {
         path: 'user/:userId',
         name: 'User',

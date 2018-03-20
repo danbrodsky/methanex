@@ -2,7 +2,7 @@
     <div>
         <h1>Login</h1>
 
-        <b>Test users:</b> (admin / secret) &bull; (test / secret)
+        <b>Test users:</b> (admin / password)
 
         <hr/>
 
@@ -21,7 +21,8 @@
                 <td><label><input v-model="data.fetchUser" type="checkbox" /> Fetch User (test)</label></td>
             </tr><tr>
                 <td></td>
-                <td><button type="submit">Login</button></td>
+                <td><button type="submit">Login</button>
+                <router-link :to="{name: 'Register'}">register</router-link></td>
             </tr></table>
 
             <hr/>
@@ -39,10 +40,10 @@
                 data: {
                     body: {
                         username: 'admin',
-                        password: 'secret'
+                        password: 'password'
                     },
                     rememberMe: false,
-                    fetchUser: true
+                    fetchUser: false
                 },
                 error: null
             };
@@ -57,11 +58,13 @@
                 this.$auth.login({
                     data: this.data.body, // Axios
                     rememberMe: this.data.rememberMe,
-                    redirect: {name: redirect ? redirect.from.name: 'Portfolio Selection'},
+                    redirect: {name: redirect ? redirect.from.name : 'Skill'},
                     fetchUser: this.data.fetchUser
                 })
                 .then(() => {
                     console.log('success ' + this.context);
+                    console.log(this.$auth);
+                    this.$auth.redirect();
                 }, (res) => {
                     console.log('error ' + this.context);
                     this.error = res.data;

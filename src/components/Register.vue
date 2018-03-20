@@ -1,9 +1,6 @@
 <template>
     <div>
         <h1>Register</h1>
-
-        <b>NOTE:</b> Please use only dummy data here as it is running off a demo server.
-
         <hr/>
 
         <form v-on:submit.prevent="register()">

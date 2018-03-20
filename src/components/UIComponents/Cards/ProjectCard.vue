@@ -34,6 +34,16 @@
           <a class="dropdown-item" href="#">Person 4</a>
           <a class="dropdown-item" href="#">Person 5</a>
         </drop-down>
+  <!--               <b-dropdown >
+          <template slot="title">
+            <span style="margin:0;display:inline-block"><i class="fa fa-users"></i> {{ numPeopleOnTeam }}</span>
+            <b class="caret"></b>
+          </template>
+          <b-dropdown-item>First Action</b-dropdown-item>
+          <b-dropdown-item>First Action</b-dropdown-item>
+          <b-dropdown-item>First Action</b-dropdown-item>
+          <b-dropdown-item>First Action</b-dropdown-item>
+        </b-dropdown> -->
         </span>
         </div>
     </div>

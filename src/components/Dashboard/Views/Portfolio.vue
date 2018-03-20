@@ -40,6 +40,8 @@
   import ResourceBreakdown from 'src/components/UIComponents/PortfolioComponents/ResourceBreakdown.vue'
   import FilterBar from 'src/components/UIComponents/FilterBar.vue'
 
+
+
   export default {
     components: {
       Checkbox,
@@ -59,6 +61,7 @@
     },
     data () {
       return {
+        checkedIds: [],
         portfolioId: -1,
         name: "",
         projects: [],

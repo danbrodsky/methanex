@@ -3,11 +3,13 @@ import VueRouter from 'vue-router'
 import App from './App.vue'
 import axios from 'axios';
 import VueAxios from 'vue-axios'
-import VueAuth from '@websanova/vue-auth'
+import VueAuth from 'vue-auth'
 import BootstrapVue from 'bootstrap-vue'
 
 Vue.use(VueAxios, axios);
-Vue.axios.defaults.baseURL = 'https://api-demo.websanova.com/api/v1'; //update to backend after testing
+Vue.axios.defaults.baseURL = 'https://peaceful-hamlet-75445.herokuapp.com'; //update to backend after testing
+
+// Vue.axios.defaults.baseURL = 'https://api-demo.websanova.com/api/v1'; //update to backend after testing
 
 // LightBootstrap plugin
 import LightBootstrap from './light-bootstrap-main'
@@ -28,11 +30,25 @@ const router = new VueRouter({
 
 Vue.router = router
 
-Vue.use(VueAxios, axios)
-Vue.use(VueAuth, {
+// Vue.use(VueAxios, axios)
+// Vue.use(VueAuth, {
+//     auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
+//     http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
+//     router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js')
+// });
+
+Vue.use(require('@websanova/vue-auth'), {
     auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
     http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
-    router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js')
+    router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
+    refreshData: {url: '', method: 'GET', enabled: false, interval: 30},
+    loginData: {url: 'login', method: 'POST', redirect: 'admin/user', fetchUser: false},
+    fetchData: {url: 'login', method: 'POST', enabled: false},
+    logoutData: {url: 'logout', method: 'POST', redirect: '/logout', makeRequest: true},
+    registerData: {url: '/register', method: 'POST', redirect: '/login'},
+    authRedirect: {path: 'login'},
+    token: [{request: 'Authorization', response: 'Authorization', authType: 'bearer', foundIn: 'header'}, {request: 'token', response: 'token', authType: 'bearer', foundIn: 'response'}],
+    tokenExpired: false
 });
 
 new Vue({

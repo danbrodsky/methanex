@@ -40,10 +40,6 @@
         totalBudget: {
             type: Number,
             default: -1
-        },
-        id: {
-          type: Number,
-          default: -1
         }
     },
     data () {
@@ -57,7 +53,7 @@
     },
     methods: {
       goToPortfolio () {
-        this.$router.push({path: `/admin/portfolio/${this.id}`});
+        this.$router.push({path: '/admin/portfolio/${this.id}'});
       }
     }
   }
