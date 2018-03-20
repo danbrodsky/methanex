@@ -2,15 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6638b74d-43e2-4099-834b-500337bd63d9" name="Default" comment="hi guys i'm retarded">
-      <change beforePath="" afterPath="$PROJECT_DIR$/dist/static/js/app.d8a60c4e21386aad2a4d.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dist/static/js/app.d8a60c4e21386aad2a4d.js.map" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dist/static/js/manifest.c915de2d592ca46096ed.js" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/dist/index.html" afterPath="$PROJECT_DIR$/dist/index.html" />
-      <change beforePath="$PROJECT_DIR$/dist/static/js/app.28aff7de7988602348cd.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/static/js/app.28aff7de7988602348cd.js.map" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/static/js/manifest.73564991e9e13e16b466.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/static/js/manifest.73564991e9e13e16b466.js.map" afterPath="$PROJECT_DIR$/dist/static/js/manifest.c915de2d592ca46096ed.js.map" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Application.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/BusinessOwner.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Classification.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/ClassificationRepository.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Portfolio.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/PortfolioStatus.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Project.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/ProjectController.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/ProjectRepository.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Resource.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/ResourceController.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/ResourceRepository.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/ResourceStatus.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Skill.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/SkillController.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/SkillRepository.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -257,18 +266,6 @@
               <item name="components" type="462c0819:PsiDirectoryNode" />
               <item name="GeneralViews" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="methanex" type="b2602c69:ProjectViewProjectNode" />
-              <item name="methanex" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="methanex" type="b2602c69:ProjectViewProjectNode" />
-              <item name="methanex" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="routes" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -441,7 +438,7 @@
       <workItem from="1521521906803" duration="371000" />
       <workItem from="1521529057741" duration="1189000" />
       <workItem from="1521530314153" duration="2127000" />
-      <workItem from="1521579394775" duration="4990000" />
+      <workItem from="1521579394775" duration="5094000" />
     </task>
     <task id="LOCAL-00001" summary="sfdsf">
       <created>1521408236412</created>
@@ -478,11 +475,18 @@
       <option name="project" value="LOCAL" />
       <updated>1521587774086</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="hi guys i'm retarded">
+      <created>1521587910599</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1521587910599</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28047000" />
+    <option name="totallyTimeSpent" value="28151000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="728" extended-state="0" />
