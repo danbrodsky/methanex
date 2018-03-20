@@ -268,7 +268,7 @@ export default {
         })
 
       // for wip purposes display stub data if there is no resource data available for the project
-      if(resourcesDisplayed.length == 0){
+      if(this.resourcesDisplayed.length == 0){
         this.resourceData = [];
         this.resourceData.push({
           resourceId: 1,
