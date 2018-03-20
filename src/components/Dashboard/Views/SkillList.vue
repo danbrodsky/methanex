@@ -86,8 +86,6 @@
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   import axios from 'axios'
 
-  const tableColumns = ['Name', 'Category'];
-
   export default {
     components: {
       LTable,
