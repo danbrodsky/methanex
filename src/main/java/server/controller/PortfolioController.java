@@ -100,6 +100,7 @@ public class PortfolioController {
         Portfolio portfolio = portfolioRepository.findOne(portfolioId);
         if (portfolio != null) {
             portfolio.getProjects().add(project);
+            projectRepository.save(project);
             portfolioRepository.save(portfolio);
             return ResponseEntity.ok().build();
         }
