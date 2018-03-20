@@ -9,7 +9,7 @@
                 :paginate="true"
                 :rows="rows"
                 :globalSearch = "false"
-                styleClass="table table-bordered table-striped">
+                styleClass="table table-striped condensed">
                 <template slot="table-column" slot-scope="props">
                 <span v-if="props.column.label =='SelectAll'">
                   <label class="checkbox">
@@ -90,12 +90,10 @@
             for (let i = 0; i < info.rows.length; i++){
               info.rows[i].manager = info.rows[i].manager.name;
             }
-            console.log(info.rows);
           })
       },
       addRow(id){
         this.added.push(id);
-        console.log(id);
       }
     }
   }
