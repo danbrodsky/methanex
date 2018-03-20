@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.model.Notification;
 import server.model.Resource;
-import server.model.Skill;
+import server.model.TechnicalSkill;
 import server.repository.NotificationRepository;
 import server.repository.ResourceRepository;
-import server.repository.SkillRepository;
+import server.repository.TechnicalSkillRepository;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -25,7 +25,7 @@ public class NotificationController {
     private ResourceRepository resourceRepository;
 
     @Autowired
-    private SkillRepository skillRepository;
+    private TechnicalSkillRepository skillRepository;
 
     @GetMapping("/notifications/manager/{managerId}")
     public @ResponseBody
@@ -40,7 +40,7 @@ public class NotificationController {
     @PostMapping("/notifications/{resourceId}/{skillId}")
     public ResponseEntity addSkillToResource(@PathVariable(value = "resourceId") Integer resourceId, @PathVariable(value = "skillId") Integer skillId) {
             Resource resource = resourceRepository.findOne(resourceId);
-            Skill skill = skillRepository.findOne(skillId);
+            TechnicalSkill skill = skillRepository.findOne(skillId);
             if (resource != null && skill != null) {
                 resource.getSkills().add(skill);
                 skill.getResources().add(resource);

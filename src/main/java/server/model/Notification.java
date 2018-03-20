@@ -18,7 +18,7 @@ public class Notification implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "skill_id")
-    private Skill skill;
+    private TechnicalSkill skill;
 
     @OneToOne
     @JoinColumn(name = "resource_id")
@@ -36,11 +36,11 @@ public class Notification implements Serializable {
         this.manager = manager;
     }
 
-    public Skill getSkill() {
+    public TechnicalSkill getSkill() {
         return skill;
     }
 
-    public void setSkill(Skill skill) {
+    public void setSkill(TechnicalSkill skill) {
         this.skill = skill;
     }
 

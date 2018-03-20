@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "Skill")
-public class Skill implements Serializable {
+@Table(name = "technical_skill")
+public class TechnicalSkill implements Serializable {
     private static final long serialVersionUID = 6254557214609163391L;
 
     @GeneratedValue
