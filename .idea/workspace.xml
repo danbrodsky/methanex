@@ -3,23 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6638b74d-43e2-4099-834b-500337bd63d9" name="Default" comment="hi guys i'm retarded">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Application.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/BusinessOwner.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Classification.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/ClassificationRepository.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Portfolio.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/PortfolioStatus.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Project.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/ProjectController.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/ProjectRepository.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Resource.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/ResourceController.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/ResourceRepository.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/ResourceStatus.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Skill.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/SkillController.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/SkillRepository.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -68,11 +52,31 @@
       <file leaf-file-name="SkillList.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/Dashboard/Views/SkillList.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="59" column="42" lean-forward="true" selection-start-line="59" selection-start-column="42" selection-end-line="59" selection-end-column="42" />
+            <state relative-caret-position="-301">
+              <caret line="55" column="35" lean-forward="false" selection-start-line="55" selection-start-column="35" selection-end-line="55" selection-end-column="35" />
               <folding>
                 <element signature="e#2927#2985#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package-lock.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package-lock.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="22" column="26" lean-forward="true" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -172,8 +176,8 @@
         <option value="$PROJECT_DIR$/src/components/Login.vue" />
         <option value="$PROJECT_DIR$/src/components/Dashboard/Views/Projects.vue" />
         <option value="$PROJECT_DIR$/src/components/Dashboard/Views/TableList.vue" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/components/Dashboard/Views/SkillList.vue" />
+        <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
   </component>
@@ -438,7 +442,7 @@
       <workItem from="1521521906803" duration="371000" />
       <workItem from="1521529057741" duration="1189000" />
       <workItem from="1521530314153" duration="2127000" />
-      <workItem from="1521579394775" duration="5094000" />
+      <workItem from="1521579394775" duration="5194000" />
     </task>
     <task id="LOCAL-00001" summary="sfdsf">
       <created>1521408236412</created>
@@ -486,7 +490,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28151000" />
+    <option name="totallyTimeSpent" value="28251000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="728" extended-state="0" />
@@ -540,13 +544,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/server/ResourceController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/server/Model.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/model/User.java" />
     <entry file="file://$PROJECT_DIR$/target/classes/application.properties" />
@@ -821,14 +818,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="20" column="20" lean-forward="true" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Dashboard/Views/Projects.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="130">
@@ -840,10 +829,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/package-lock.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="22" column="26" lean-forward="true" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Dashboard/Views/SkillList.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="59" column="42" lean-forward="true" selection-start-line="59" selection-start-column="42" selection-end-line="59" selection-end-column="42" />
+        <state relative-caret-position="-301">
+          <caret line="55" column="35" lean-forward="false" selection-start-line="55" selection-start-column="35" selection-end-line="55" selection-end-column="35" />
           <folding>
             <element signature="e#2927#2985#0" expanded="true" />
           </folding>
