@@ -17,7 +17,9 @@
           <vue-good-table
               :columns="columns"
               :paginate="true"
-              :rows="rows">
+              :rows="rows"
+              :globalSearch = "false"
+              styleClass="table table-bordered table-striped">
               <template slot="table-column" slot-scope="props">
                 <span v-if="props.column.label =='SelectAll'">
                   <label class="checkbox">
@@ -68,40 +70,68 @@
   data () {
     return {
       allSelected: false,
-               columns: [
-          {
-            label: 'Add to portfolio?',
-            field: 'Add to portfolio?',
-          },
-          {
-            label: 'Manager',
-            field: 'manager',
-            type: 'string',
-          },
-          {
-            label: 'Name',
-            field: 'name',
-            type: 'string'
-          },
-          {
-            label: 'Project Owner',
-            field: 'ProjectOwner',
-            type: 'string'
-          },
-        ],
-      rows: [],
+      columns: [
+        {
+          label: 'Add project',
+          sortable: false,
+        },
+        {
+          label: 'Name',
+          field: 'name',
+          filterable: true,
+        },
+        {
+          label: 'Manager',
+          field: 'manager',
+          type: 'string',
+          filterable: true,
+        },
+        {
+          label: 'Project Owner',
+          field: 'ProjectOwner',
+          filterable: true,
+        },
+      ],
+      rows: [
+        {selected: false, name:"John", age:20, joined: '20120201'},
+        {selected: false, name:"Jane", age:24, joined: '20120305'},
+        //...
+      ],
     };
   },
+  //   return {
+  //     allSelected: false,
+  //     columns: [
+  //         {
+  //           label: 'Add to portfolio?',
+  //           field: 'Add to portfolio?',
+  //         },
+  //         {
+  //           label: 'Project Owner',
+  //           field: 'ProjectOwner'
+  //         },
+  //         {
+  //           label: 'Manager',
+  //           field: 'manager'
+  //         },
+  //         {
+  //           label: 'Name',
+  //           field: 'name'
+  //         }
+  //       ],
+  //     rows: [],
+  //   };
+  // },
     methods: {
       fetchData() {
         var info = this;
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
             info.rows = response.data;
-            // for (let i = 0; i < info.rows.length; i++){
-            //   info.rows[i].manager = info.rows[i].manager.name;
-            // }
-            // console.log(info.rows);
+            for (let i = 0; i < info.rows.length; i++){
+              info.rows[i].manager = info.rows[i].manager.name;
+            }
+            console.log(info.rows);
           })
       },
       addRow(id){
