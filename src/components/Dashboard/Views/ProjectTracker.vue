@@ -132,6 +132,14 @@
         </filter-bar>
       </div>
       <div class="row">
+        <div class="col-6">
+          <add-resource v-bind:isProjectManager="isProjectManager"></add-resource>
+        </div>
+        <div class="col-6">
+
+        </div>
+      </div>
+      <div class="row">
         <resource-card
           v-for="resource of resourcesDisplayed"
           v-bind:key="resource.resourceId"
@@ -158,6 +166,7 @@ import FilterBar from 'src/components/UIComponents/FilterBar.vue'
 import GanttChart from 'src/components/UIComponents/PortfolioComponents/GanttChart.vue'
 import ResourceBreakdown from 'src/components/UIComponents/PortfolioComponents/ResourceBreakdown.vue'
 import PieChart from 'src/components/UIComponents/PieChart.js'
+import AddResource from 'src/components/UIComponents/AddResource.vue'
 
 export default {
   components: {
@@ -165,7 +174,8 @@ export default {
     ResourceBreakdown,
     GanttChart,
     FilterBar,
-    PieChart
+    PieChart,
+    AddResource,
   },
 
 
