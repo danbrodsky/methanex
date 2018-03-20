@@ -136,7 +136,7 @@
     methods: {
       fetchData () {
       var info = this;
-      axios.get(info.$root.serverURL + "/api/resources/2") // change to match resource id when login established
+      axios.get(info.$root.serverURL + "/api/resources/2")
       .then(response => {
         console.log(response.data);
         info.resource = response.data;

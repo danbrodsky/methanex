@@ -57,8 +57,6 @@
                 var redirect = this.$auth.redirect();
                 this.$auth.login({
                     data: this.data.body, // Axios
-                    rememberMe: this.data.rememberMe,
-                    redirect: {name: redirect ? redirect.from.name : 'Skill'},
                     fetchUser: this.data.fetchUser
                 })
                 .then(() => {
