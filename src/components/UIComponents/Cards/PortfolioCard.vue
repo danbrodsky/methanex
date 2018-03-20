@@ -19,7 +19,7 @@
 </template>
 <script>
   export default {
-    name: 'project-card',
+    name: 'portfolio-card',
     props: {
         id: {
             type: Number,
@@ -53,7 +53,7 @@
     },
     methods: {
       goToPortfolio () {
-        this.$router.push({path: '/admin/portfolio/${this.id}'});
+        this.$router.push({path: `/admin/portfolio/${this.id}`});
       }
     }
   }

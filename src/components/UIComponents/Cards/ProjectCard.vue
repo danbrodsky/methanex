@@ -7,10 +7,11 @@
     </div>
     <div class="card-body">
       <div class="body-data">
-          Status: <i>{{ projectStatus.name }}</i>
+          Status: <i>{{ projectStatus }}</i>
       </div>
       <div class="body-data" style="width: 100%; padding:0">
           <progress style="width:100%" :value="projectProgress" max="100"></progress>
+          <project-status-bar></project-status-bar>
       </div>
       <div class="body-data">
           <span style="color:green;margin:0;display:inline-block;width:50%"><b>$</b> {{ budget }}</span>
@@ -50,8 +51,13 @@
   </div>
 </template>
 <script>
+  import ProjectStatusBar from 'src/components/UIComponents/ProjectStatusBar.vue'
+
   export default {
     name: 'project-card',
+    components: {
+        ProjectStatusBar
+    },
     props: {
         projectId: {
             type: Number,

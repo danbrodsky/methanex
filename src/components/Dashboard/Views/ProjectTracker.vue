@@ -2,6 +2,11 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
+        <div class="col-12">
+        <project-status-bar width="100%"></project-status-bar>
+        </div>
+      </div>
+      <div class="row">
         <div class="col-7" id="addProjectForm">
           <label for="addProjectForm" class="col-form-label">ID: {{project.id}} </label>
           <div class="form-group align-items-left" style="min-width:380px">
@@ -158,6 +163,7 @@ import FilterBar from 'src/components/UIComponents/FilterBar.vue'
 import GanttChart from 'src/components/UIComponents/PortfolioComponents/GanttChart.vue'
 import ResourceBreakdown from 'src/components/UIComponents/PortfolioComponents/ResourceBreakdown.vue'
 import PieChart from 'src/components/UIComponents/PieChart.js'
+import ProjectStatusBar from 'src/components/UIComponents/ProjectStatusBar.vue'
 
 export default {
   components: {
@@ -165,7 +171,8 @@ export default {
     ResourceBreakdown,
     GanttChart,
     FilterBar,
-    PieChart
+    PieChart,
+    ProjectStatusBar
   },
 
 
@@ -362,18 +369,25 @@ export default {
 
       this.updatingStatus = "Saving...";
 
+      var info = this;
+
+      console.log("Project looks like:");
+      console.log(info.project);
+
       axios.post(this.$root.serverURL + `/api/portfolios/${this.portfolioId}/projects/`, {
-        "name": this.project.name
-        // "budget": this.project.budget,
-        // "rag_status": this.project.rag_status,
-        // "budget_used": this.project.budget_used,
-        // "budget_est_needed": this.project.est_cash_needed_to_complete,
-        // "start_date": this.project.start_date,
-        // "end_date": this.project.end_date
+        "name": info.project.name,
+        "budget": info.project.budget,
+        "rag_status": info.project.rag_status
+        // "status": info.project.status,
+        // "budget_used": info.project.budget_used,
+        // "budget_est_needed": info.project.est_cash_needed_to_complete,
+        // "start_date": info.project.start_date,
+        // "end_date": info.project.end_date
       })
       .then(function (res){
         console.log(res);
-        this.updatingStatus = "Saved!";
+        console.log(info.project.name);
+        info.updatingStatus = "Saved!";
       });
     },
     updateProject() {
