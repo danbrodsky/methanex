@@ -95,7 +95,7 @@ public class PortfolioController {
 //    }
 
     @PostMapping("/portfolios/{portfolioId}/projects")
-    public ResponseEntity addProjectsToPortfolio(@RequestParam(value = "portfolioId") Integer portfolioId,
+    public ResponseEntity addProjectsToPortfolio(@PathVariable(value = "portfolioId") Integer portfolioId,
                                                  @Valid @RequestBody Project project) {
         Portfolio portfolio = portfolioRepository.findOne(portfolioId);
         if (portfolio != null) {
