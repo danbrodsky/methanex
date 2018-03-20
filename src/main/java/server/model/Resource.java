@@ -26,7 +26,7 @@ public class Resource implements Serializable {
     private String location;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "team")
+    @JoinColumn(name = "team_id")
     private Group group;
 
     @JsonIdentityInfo(
