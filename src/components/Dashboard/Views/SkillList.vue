@@ -197,7 +197,6 @@
             j = j.replace(/id/g, "value");
             j = j.replace(/name/g, "text");
             info.addSkillCategoryOptions = JSON.parse(j);
-            console.log(j);
           })
       },
       addData() {
