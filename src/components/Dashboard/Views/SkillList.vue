@@ -203,11 +203,12 @@
         var info = this;
         if (!this.addSkillName || !this.addSkillCategory) {
           alert('Please enter name and category')
-        }
-        axios.post(this.$root.serverURL + "/api/technicalSkills", {
-          name: info.addSkillName,
-          category: info.addSkillCategory
+        } else {
+          axios.post(this.$root.serverURL + "/api/technicalSkills", {
+          name: addSkillName,
+          category: addSkillCategory
         })
+        }
         this.clearAdd()
         .then(function (response) {
           console.log(response);
@@ -222,9 +223,10 @@
       },
       hideModal () {
         this.$refs.addSkillModal.hide()
+        this.clearAdd()
       },
       clearAdd () {
-        this.addSkillName = '';
+        this.addSkillName = ''
         this.addSkillCategory = null;
       },
     }
