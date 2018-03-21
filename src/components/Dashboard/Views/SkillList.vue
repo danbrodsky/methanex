@@ -41,7 +41,7 @@
               <b-button class ="btn btn-success" @click="showModal">
                 Add a new Skill
               </b-button>
-              <b-modal ref="addSkillModal" 
+              <b-modal ref="addSkillModal"
                 @ok="addData"
                 @shown="clearAdd">
                 <div class="d-block">
@@ -131,10 +131,12 @@
     created() {
       this.fetchDataTechnical();
       this.fetchDataNonTechnical();
+      this.fetchCategories();
     },
     data() {
       return {
         allSelected: false,
+        categoryNames: "",
         columnsTechnical: [
           {
             label: '',
@@ -146,8 +148,8 @@
             filterable: true,
           },
           {
-            label: 'Category',
-            field: 'category',
+            label: 'Category(s)',
+            field: '%{this.categoryNames}',
             type: 'string',
             filterable: true,
           }
@@ -166,11 +168,7 @@
         rowsNonTechnical: [],
         addSkillName: '',
         addSkillCategory: null,
-        addSkillCategoryOptions: [
-          { value: '1', text: 'Language' },
-          { value: '2', text: 'Framework' },
-          { value: '3', text: 'Database' }
-        ],
+        addSkillCategoryOptions: []
       };
     },
     methods: {
@@ -179,6 +177,9 @@
         axios.get(this.$root.serverURL + "/api/technicalSkills")
           .then(response => {
             info.rowsTechnical = response.data;
+            for (i = 0; i < response.length; ++i) {
+              info.categoryNames += i == response.length - 1 ? Object.keys(response[i]).name : Object.keys(response[i]).name + ",";
+            }
           })
       },
       fetchDataNonTechnical() {
@@ -188,15 +189,25 @@
             info.rowsNonTechnical = response.data;
           })
       },
-
+      fetchCategories() {
+        var info = this;
+        axios.get(this.$root.serverURL + "/api/categories")
+          .then(response => {
+            var j = JSON.stringify(response.data);
+            j = j.replace(/id/g, "value");
+            j = j.replace(/name/g, "text");
+            info.addSkillCategoryOptions = JSON.parse(j);
+            console.log(j);
+          })
+      },
       addData() {
         var info = this;
         if (!this.addSkillName || !this.addSkillCategory) {
           alert('Please enter name and category')
         }
         axios.post(this.$root.serverURL + "/api/technicalSkills", {
-          name: addSkillName,
-          category: addSkillCategory
+          name: info.addSkillName,
+          category: info.addSkillCategory
         })
         this.clearAdd()
         .then(function (response) {
