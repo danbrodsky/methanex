@@ -51,6 +51,7 @@
     data() {
       return {
         allSelected: false,
+        hello: [],
         columns: [
           {
             label: '',
