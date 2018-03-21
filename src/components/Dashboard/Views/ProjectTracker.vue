@@ -128,6 +128,11 @@
           <span style="align:center">{{ updatingStatus }}</span>
       </div>
       <div class="row">
+        <button type="button" class="btn btn-primary btn-sm btn-fill float-right" v-on:click="addResources">
+          Add Resources
+        </button>
+      </div>
+      <div class="row">
         <filter-bar
           style="width: 100%;margin: 0.5%;box-shadow: 5px 5px 5px grey"
           v-model="filterFcn"
@@ -401,6 +406,10 @@ export default {
       });
 
       this.editMode = false;
+    },
+
+    addResources() {
+      this.$router.push({path: '/admin/project/' + this.$route.params.projectId + '/addResources'});
     },
 
     enableEdit(){
