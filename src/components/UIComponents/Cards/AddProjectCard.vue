@@ -12,7 +12,6 @@
     name: 'add-project-card',
     props: {
       portfolioId: {
-          type: Number,
           default: -1
       }
     },

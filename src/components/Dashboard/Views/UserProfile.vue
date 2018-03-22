@@ -129,10 +129,10 @@
     },
     mounted() {
       this.$upload.reset('brand-logo', {
-        url: 'brands/' + this.brand.id + '/logo'
+      //   url: 'brands/' + this.brand.id + '/logo'
       });
 
-      this.brandImage = this.brand.logo || '//www.gravatar.com/avatar/?d=identicon&s=100';
+      // this.brandImage = this.brand.logo || '//www.gravatar.com/avatar/?d=identicon&s=100';
     },
     created() {
       this.fetchData();
@@ -174,8 +174,10 @@
     watch: {
       values: function (val) {
         var allSkills = this.resource.skills;
-        this.newSkills.push(allSkills[allSkills.length - 1].id);
-        console.log(this.newSkills);
+        if (allSkills > 0){
+          this.newSkills.push(allSkills[allSkills.length - 1].id);
+          console.log(this.newSkills);
+        }
       }
     },
     methods: {

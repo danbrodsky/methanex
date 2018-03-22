@@ -1,8 +1,7 @@
 <template>
   <div class="sidebar"
        :style="sidebarStyle"
-       :data-color="backgroundColor"
-       :data-image="backgroundImage">
+       :data-color="backgroundColor">
     <div class="sidebar-wrapper">
       <slot name="content"></slot>
       <ul class="nav">
@@ -61,7 +60,7 @@
     computed: {
       sidebarStyle () {
         return {
-          backgroundImage: `url(${this.backgroundImage})`
+          // backgroundImage: `url(${this.backgroundImage})`
         }
       }
     }

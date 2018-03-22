@@ -25,8 +25,7 @@
 export default {
     props: {
         dates: {
-            type: Object,
-            default: {}
+            type: Object
         }
     },
     created() {
