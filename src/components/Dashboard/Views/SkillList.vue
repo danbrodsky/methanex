@@ -92,27 +92,6 @@
               </template>
             </vue-good-table>
           </card>
-          <card>
-            <template slot="header">
-              <div class="row">
-              <div class="col-8">
-                <h4 class="card-title">Test</h4>
-              </div>
-              </div>
-            </template>
-            <div class="table-responsive">
-              <l-table class="table-hover table-striped"
-                       :columns="hardColumns"
-                       :data="hardData"
-                       :filter-key="searchQuery2">
-              </l-table>
-              <b-table class="table-hover table-striped"
-                       :columns="hardColumns"
-                       :data="hardData"
-                       :filter-key="searchQuery2">
-              </b-table>
-            </div>
-          </card>
         </div>
       </div>
     </div>
@@ -136,7 +115,6 @@
     data() {
       return {
         allSelected: false,
-        categoryNames: "",
         columnsTechnical: [
           {
             label: '',
@@ -177,7 +155,7 @@
         axios.get(this.$root.serverURL + "/api/technicalSkills")
           .then(response => {
             info.rowsTechnical = response.data;
-            for (i = 0; i < response.length; ++i) {
+            for (let i = 0; i < response.length; ++i) {
               info.categoryNames += i == response.length - 1 ? Object.keys(response[i]).name : Object.keys(response[i]).name + ",";
             }
           })
@@ -193,7 +171,7 @@
         var info = this;
         axios.get(this.$root.serverURL + "/api/categories")
           .then(response => {
-            var j = JSON.stringify(response.data);
+            let j = JSON.stringify(response.data);
             j = j.replace(/id/g, "value");
             j = j.replace(/name/g, "text");
             info.addSkillCategoryOptions = JSON.parse(j);

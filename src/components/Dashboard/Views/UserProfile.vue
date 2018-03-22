@@ -1,96 +1,120 @@
 <template>
   <div class="content">
+    <img :src="brandImage || '//www.gravatar.com/avatar/?d=mysteryman&s=200'" />
+    <div class="col-3">
+    <div>
+      <button type="button" v-on:click="$upload.select('brand-logo')" :disabled="$upload.meta('brand-logo').status === 'sending'">
+        Select Logo
+      </button>
+
+      <button type="button" v-on:click="$upload.start('brand-logo')" :disabled="$upload.meta('brand-logo').status === 'sending'">
+        <span v-show="$upload.meta('brand-logo').status === 'sending'">Saving...</span>
+        <span v-show="!$upload.meta('brand-logo').status === 'sending'">Save Logo</span>
+      </button>
+    </div>
+    <div v-if="$upload.files('brand-logo').error.length" class="text-danger">
+      {{ $upload.files('brand-logo').error[0].errors[0].message }}
+    </div>
+      <div>
+        <h4>BITCHES BE LIKE YO WHERE'S MY APPLE STRUDEL AT BRO</h4>
+      </div>
+    </div>
     <div class="container-fluid">
-  <card>
-    <h4 slot="header" class="card-title">Edit Resource</h4>
-    <form>
-      <div class="row">
-        <div class="col-md-3">
-          <fg-input type="text"
-                    label="Resource ID"
-                    :disabled="true"
-                    placeholder="Resource ID"
-                    v-model="resource.id">
-          </fg-input>
-        </div>
-        <div class="col-md-5">
-          <fg-input type="text"
-                    label="Location"
-                    placeholder="Location"
-                    v-model="resource.location">
-          </fg-input>
-        </div>
-        <div class="col-md-4">
-          <label for="selStatus">Status</label>
-          <select v-model="resource.status" class="form-control" id="selStatus">
-          <option selected>Normal</option>
-          <option>On Vacation</option>
-          <option>Training</option>
-          <option>Terminated</option>
-          </select>
-        </div>
-      </div>
+      <card>
+        <h4 slot="header" class="card-title">Edit Resource</h4>
+        <form>
+          <div class="row">
+            <div class="col-md-3">
+              <fg-input type="text"
+                        label="Resource ID"
+                        :disabled="true"
+                        placeholder="Resource ID"
+                        v-model="resource.id">
+              </fg-input>
+            </div>
+            <div class="col-md-5">
+              <fg-input type="text"
+                        label="Location"
+                        placeholder="Location"
+                        v-model="resource.location">
+              </fg-input>
+            </div>
+            <div class="col-md-4">
+              <label for="selStatus">Status</label>
+              <select v-model="resource.status" class="form-control" id="selStatus">
+                <option selected>Normal</option>
+                <option>On Vacation</option>
+                <option>Training</option>
+                <option>Terminated</option>
+              </select>
+            </div>
+          </div>
 
-      <div class="row">
-        <div class="col-md-6">
-          <fg-input type="text"
-                    label="Name"
-                    placeholder="Name"
-                    v-model="resource.name">
-          </fg-input>
-        </div>
-        <div class="col-md-6">
-          <fg-input type="email"
-                    label="Email"
-                    placeholder="Email"
-                    v-model="resource.email">
-          </fg-input>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <fg-input type="text"
-                    label="Role"
-                    placeholder="Role"
-                    v-model="resource.role">
-          </fg-input>
-        </div>
-        <div class="col-md-4">
-          <label for="selGroup">Group</label>
-          <select v-model="resource.group" class="form-control" id="selGroup">
-          <option>Alpha</option>
-          <option>Bravo</option>
-          <option selected>Charlie</option>
-          <option>Delta</option>
-          </select>
-        </div>
-        <div class="col-md-4">
-          <label for="selPeerGroup">Peer Group</label>
-          <select v-model="resource.peerGroup" class="form-control" id="selPeerGroup">
-          <option selected>Full-Stack</option>
-          <option>QA</option>
-          <option>Dev-ops</option>
-          </select>
-        </div>
-      </div>
+          <div class="row">
+            <div class="col-md-6">
+              <fg-input type="text"
+                        label="Name"
+                        placeholder="Name"
+                        v-model="resource.name">
+              </fg-input>
+            </div>
+            <div class="col-md-6">
+              <fg-input type="email"
+                        label="Email"
+                        placeholder="Email"
+                        v-model="resource.email">
+              </fg-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <fg-input type="text"
+                        label="Role"
+                        placeholder="Role"
+                        v-model="resource.role">
+              </fg-input>
+            </div>
+            <div class="col-md-4">
+              <label for="selGroup">Group</label>
+              <select v-model="resource.group" class="form-control" id="selGroup">
+                <option>Alpha</option>
+                <option>Bravo</option>
+                <option selected>Charlie</option>
+                <option>Delta</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="selPeerGroup">Peer Group</label>
+              <select v-model="resource.peerGroup" class="form-control" id="selPeerGroup">
+                <option selected>Full-Stack</option>
+                <option>QA</option>
+                <option>Dev-ops</option>
+              </select>
+            </div>
+          </div>
 
-      <div class="row">
-        <div class="col-md-12">
-          <label for="skillTech">Skills:</label>
-            <multiselect v-model="values" :options="options1" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" :preserve-search="true" placeholder="Pick some" label="name" track-by="name">
-              <template slot="tag" slot-scope="props"><span class="custom__tag"><span>{{ props.option.name }}</span><span class="custom__remove" @click="props.remove(props.option)"> ❌ </span></span></template>
-            </multiselect>
-        </div>
-      </div>
-      <div class="text-center">
-        <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProfile">
-          Update Profile
-        </button>
-      </div>
-      <div class="clearfix"></div>
-    </form>
-  </card>
-  </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label for="skillTech">Skills:</label>
+              <multiselect v-model="values" :options="options1" :multiple="true" :close-on-select="false"
+                           :clear-on-select="false" :hide-selected="true" :preserve-search="true"
+                           placeholder="Pick some" label="name" track-by="name">
+                <template slot="tag" slot-scope="props"><span
+                  class="custom__tag"><span>{{ props.option.name }}</span><span class="custom__remove"
+                                                                                @click="props.remove(props.option)"> ❌ </span></span>
+                </template>
+              </multiselect>
+            </div>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProfile">
+              Update Profile
+            </button>
+          </div>
+          <div class="clearfix"></div>
+        </form>
+      </card>
+    </div>
   </div>
 </template>
 <script>
@@ -103,17 +127,38 @@
       Card,
       Multiselect
     },
-    created () {
-      this.fetchData();
+    mounted() {
+      this.$upload.reset('brand-logo', {
+        url: 'brands/' + this.brand.id + '/logo'
+      });
+
+      this.brandImage = this.brand.logo || '//www.gravatar.com/avatar/?d=identicon&s=100';
     },
-    data () {
+    created() {
+      this.fetchData();
+      this.$upload.new('brand-logo', {
+        startOnSelect: false,
+        onSuccess(res) {
+          this.$msgbag.success('Brand logo uploaded successfully.');
+          this.brand = res.data.data;
+        },
+        onError() {
+          this.$msgbag.error('Error uploading brand logo.');
+        },
+        onSelect(files) {
+          files[0].preview((file) => {
+            this.brandImage = file.raw;
+          });
+        }
+      });
+    },
+    data() {
       return {
-      options1: [
-      ],
-      options2: [
-      ],
-      values: [],
-      newSkills: [],
+        brandImage: null,
+        options1: [],
+        options2: [],
+        values: [],
+        newSkills: [],
         resource: {
           id: -1,
           name: '',
@@ -127,31 +172,31 @@
       }
     },
     watch: {
-    values: function (val) {
-      var allSkills = this.resource.skills;
-      this.newSkills.push(allSkills[allSkills.length-1].id);
-      console.log(this.newSkills);
-    }
-  },
-    methods: {
-      fetchData () {
-      var info = this;
-      axios.get(info.$root.serverURL + "/api/resources/2")
-      .then(response => {
-        console.log(response.data);
-        info.resource = response.data;
-        info.values = info.resource.skills;
-        console.log(info.resource.skills);
-      })
-      axios.get(info.$root.serverURL + "/api/skills")
-      .then(response => {
-        console.log(response.data);
-        info.options1 = response.data;
-      })
+      values: function (val) {
+        var allSkills = this.resource.skills;
+        this.newSkills.push(allSkills[allSkills.length - 1].id);
+        console.log(this.newSkills);
+      }
     },
-      updateProfile () {
-      var info = this;
-      axios.put(info.$root.serverURL + "/api/resources/" + info.resource.id, {
+    methods: {
+      fetchData() {
+        var info = this;
+        axios.get(info.$root.serverURL + "/api/resources/2")
+          .then(response => {
+            console.log(response.data);
+            info.resource = response.data;
+            info.values = info.resource.skills;
+            console.log(info.resource.skills);
+          })
+        axios.get(info.$root.serverURL + "/api/skills")
+          .then(response => {
+            console.log(response.data);
+            info.options1 = response.data;
+          })
+      },
+      updateProfile() {
+        var info = this;
+        axios.put(info.$root.serverURL + "/api/resources/" + info.resource.id, {
           "id": info.resource.id,
           "name": info.resource.name,
           "email": info.resource.email,
@@ -159,24 +204,24 @@
           "group": info.resource.group,
           "manager": info.resource.manager,
           "status": info.resource.status
-      })
-      .then(function (res){
-        let notifications = [];
-        for (let i = 0; i < info.newSkills.length; i++){
-          let notification = {};
-          notification['skillId'] = info.newSkills[i];
-          notifications['managerId'] = info.resource.manager;
-          notifications.push(notification);
-        }
-        axios.post(info.$root.serverURL + "/api/notifications/" + info.resource.manager, {  // change to match manager id when login established
-          notifications: notifications
-      }).then(function (res){
-        console.log(res);
-      });
-      });
+        })
+          .then(function (res) {
+            let notifications = [];
+            for (let i = 0; i < info.newSkills.length; i++) {
+              let notification = {};
+              notification['skillId'] = info.newSkills[i];
+              notifications['managerId'] = info.resource.manager;
+              notifications.push(notification);
+            }
+            axios.post(info.$root.serverURL + "/api/notifications/" + info.resource.manager, {  // change to match manager id when login established
+              notifications: notifications
+            }).then(function (res) {
+              console.log(res);
+            });
+          });
       }
     }
-    }
+  }
 
 </script>
 <style>
