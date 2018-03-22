@@ -99,10 +99,10 @@ public class ProjectController {
 
     @PostMapping("/projects/addResource")
     public ResponseEntity addResourceToProject(@RequestParam(value = "projectId") Integer projectId,
-                                               @RequestBody IDRequest request) {
+                                               @RequestBody List<Integer> request) {
         Project project = repository.findOne(projectId);
         if (project != null) {
-            List<Resource> resources = resourceRepository.findAll(request.getIds());
+            List<Resource> resources = resourceRepository.findAll(request);
             project.getResources().addAll(resources);
             resources.forEach(resource -> resource.getProjects().add(project));
             repository.save(project);
