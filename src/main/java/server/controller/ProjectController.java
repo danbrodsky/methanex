@@ -6,8 +6,12 @@ import org.springframework.web.bind.annotation.*;
 import server.model.Project;
 import server.model.Resource;
 import server.repository.ProjectRepository;
+import server.repository.ResourceRepository;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @CrossOrigin
@@ -17,6 +21,9 @@ public class ProjectController {
 
     @Autowired
     private ProjectRepository repository;
+
+    @Autowired
+    private ResourceRepository resourceRepository;
 
     @PostMapping("/projects")
     public Project createProject(@Valid @RequestBody Project project) {
@@ -88,5 +95,32 @@ public class ProjectController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/projects/addResource")
+    public ResponseEntity addResourceToProject(@RequestParam(value = "projectId") Integer projectId,
+                                               @RequestBody IDRequest request) {
+        Project project = repository.findOne(projectId);
+        if (project != null) {
+            List<Resource> resources = resourceRepository.findAll(request.getIds());
+            project.getResources().addAll(resources);
+            resources.forEach(resource -> resource.getProjects().add(project));
+            repository.save(project);
+            resourceRepository.save(resources);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    public static final class IDRequest {
+        List<Integer> ids;
+
+        public List<Integer> getIds() {
+            return ids;
+        }
+
+        public void setIds(List<Integer> ids) {
+            this.ids = ids;
+        }
     }
 }
