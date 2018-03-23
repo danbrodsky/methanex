@@ -7,6 +7,28 @@
             <template slot="header">
               <div class="row">
                 <div class="col-8">
+                  <h4 class="card-title">All Portfolios</h4>
+                  <p class="card-category">Filter attributes to see desired portfolios</p>
+                </div>
+                <div class="col-4">
+                </div>
+              </div>
+            </template>
+            <vue-good-table
+              :columns="columnsPortfolio"
+              :paginate="true"
+              :rows="rowsPortfolio"
+              :globalSearch = "false"
+              styleClass="table table-bordered table-striped">
+              <template slot="table-column" slot-scope="props">
+                {{props.column.label}}
+              </template>
+            </vue-good-table>
+          </card>
+          <card>
+            <template slot="header">
+              <div class="row">
+                <div class="col-8">
                   <h4 class="card-title">All Projects</h4>
                   <p class="card-category">Filter projects to see desired project report</p>
                 </div>
@@ -15,32 +37,37 @@
               </div>
             </template>
             <vue-good-table
-              :columns="columns"
+              :columns="columnsProject"
               :paginate="true"
-              :rows="rows"
+              :rows="rowsProject"
               :globalSearch = "false"
               styleClass="table table-bordered table-striped">
               <template slot="table-column" slot-scope="props">
-                <span v-if="props.column.label =='SelectAll'">
-                  <label class="checkbox">
-                    <input
-                      type="checkbox"
-                      @click="toggleSelectAll()">
-                  </label>
-                </span>
-                <span v-else>
                     {{props.column.label}}
-                </span>
-              </template>
-              <template slot="table-row-before" slot-scope="props">
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="rows[props.row.originalIndex].selected">
-                  </label>
-                </td>
               </template>
             </vue-good-table>
-            <button type="submit" aria-hidden="true" v-on:click="createPortfolio()" style='margin-right:16px' class="btn btn-success btn-sm btn-fill float-right">Create</button>
+          </card>
+          <card>
+            <template slot="header">
+              <div class="row">
+                <div class="col-8">
+                  <h4 class="card-title">All Resources</h4>
+                  <p class="card-category">Filter resources to see desired report</p>
+                </div>
+                <div class="col-4">
+                </div>
+              </div>
+            </template>
+            <vue-good-table
+              :columns="columnsResource"
+              :paginate="true"
+              :rows="rowsResource"
+              :globalSearch = "false"
+              styleClass="table table-bordered table-striped">
+              <template slot="table-column" slot-scope="props">
+                {{props.column.label}}
+              </template>
+            </vue-good-table>
           </card>
         </div>
       </div>
@@ -48,10 +75,8 @@
   </div>
 </template>
 <script>
-  import LTable from 'src/components/UIComponents/Table.vue'
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   import axios from 'axios'
-  const tableColumns = ['Name', 'Manager', 'ProjectOwner', 'Status'];
   import Vue from 'vue';
   import VueGoodTable from 'vue-good-table';
 
@@ -59,7 +84,6 @@
 
   export default {
     components: {
-      LTable,
       Card
     },
     name: 'Checkbox-table',
@@ -69,12 +93,30 @@
 
     data () {
       return {
-        allSelected: false,
-        columns: [
+        columnsPortfolio: [
           {
-            label: 'Add project',
-            sortable: false,
+            label: 'ID',
+            field: 'id',
+            filterable: true,
           },
+          {
+            label: 'Classification',
+            field: 'classification',
+            type: 'string',
+            filterable: true,
+          },
+          {
+            label: 'Business Owner',
+            field: 'businessOwner',
+            filterable: true,
+          },
+          {
+            label: 'Resource Breakdown',
+            field: 'resourceBreakdown',
+            filterable: true,
+          },
+        ],
+        columnsProject: [
           {
             label: 'Name',
             field: 'name',
@@ -92,32 +134,58 @@
             filterable: true,
           },
         ],
-        rows: [
-          {selected: false, name:"John", age:20, joined: '20120201'},
-          {selected: false, name:"Jane", age:24, joined: '20120305'},
-          //...
+        columnsResource: [
+          {
+            label: 'Name',
+            field: 'name',
+            filterable: true,
+          },
+          {
+            label: 'Email',
+            field: 'email',
+            type: 'string',
+            filterable: true,
+          },
+          {
+            label: 'Location',
+            field: 'location',
+            filterable: true,
+          },
+          {
+            label: 'Group',
+            field: 'group',
+            filterable: true,
+          },
         ],
+        rowsProject: [],
+        rowsResource: [],
+        rowsPortfolio: [],
       };
     },
     methods: {
       fetchData() {
-        var info = this;
+        let info = this;
+        axios.get(this.$root.serverURL + "/api/portfolios")
+          .then(response => {
+            info.rowsPortfolio = response.data;
+            for (let i = 0; i < info.rowsPortfolio.length; i++){
+              info.rowsPortfolio[i].businessOwner = info.rowsPortfolio[i].businessOwner.name;
+              info.rowsPortfolio[i].classification = info.rowsPortfolio[i].classification.name;
+            }
+            console.log(response.data);
+          })
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
-            info.rows = response.data;
-            for (let i = 0; i < info.rows.length; i++){
-              info.rows[i].manager = info.rows[i].manager.name;
+            info.rowsProject = response.data;
+            for (let i = 0; i < info.rowsProject.length; i++){
+              info.rowsProject[i].manager = info.rowsProject[i].manager.name;
             }
-            console.log(info.rows);
+          })
+        axios.get(this.$root.serverURL + "/api/resources")
+          .then(response => {
+            info.rowsResource = response.data;
           })
       },
-      addRow(id){
-        this.added.push(id);
-        console.log(id);
-      },
-      createPortfolio(){
-        //axios post request here
-      }
     }
   }
 </script>
