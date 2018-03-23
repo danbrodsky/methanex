@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="customtooltip">
         <svg ref="statusBar"
             width="100%"
             max-height="50px"
@@ -21,6 +21,7 @@
                 <rect ref="actual6" x="500" y="25" width="100" height="25" style="fill: green" />
                 <rect ref="actual7" x="600" y="25" width="100" height="25" style="fill: green" />
         </svg>
+        <span class="customtooltiptext">Some Text</span>
     </div>
 </template>
 
@@ -145,6 +146,40 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
+.customtooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.customtooltip .customtooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.customtooltip .customtooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+.customtooltip:hover .customtooltiptext {
+    visibility: visible;
+}
 </style>
