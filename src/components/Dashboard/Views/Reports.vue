@@ -51,7 +51,8 @@
   import LTable from 'src/components/UIComponents/Table.vue'
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   import axios from 'axios'
-  const tableColumns = ['Name', 'Manager', 'ProjectOwner', 'Status'];
+  const tableColumns = ['Name', 'ProjectStatus', 'Manager', 'ProjectOwner', 'Status', 'ProjectResources', 'Budget', 'Budget Used'];
+  // 'Start Date', 'End Date'
   import Vue from 'vue';
   import VueGoodTable from 'vue-good-table';
 
@@ -62,10 +63,24 @@
       LTable,
       Card
     },
+
     name: 'Checkbox-table',
     created () {
       this.fetchData();
     },
+    status: 'Checkbox-table',
+    created () {
+      this.fetchData();
+    },
+    rag_status: 'Checkbox-table',
+    created () {
+      this.fetchData();
+    },
+    businessOwner: 'Checkbox-table',
+    created () {
+      this.fetchData();
+    },
+
 
     data () {
       return {
@@ -81,6 +96,11 @@
             filterable: true,
           },
           {
+            label: 'Project Status',
+            field: 'status',
+            filterable: true,
+          },
+          {
             label: 'Manager',
             field: 'manager',
             type: 'string',
@@ -88,15 +108,45 @@
           },
           {
             label: 'Project Owner',
-            field: 'ProjectOwner',
+            field: 'businessOwner',
             filterable: true,
           },
+          {
+            label: 'RAG Status',
+            field: 'rag_status',
+            filterable: true,
+          },
+          {
+            label: 'Number of Resources',
+            field: 'projectResourses',
+            filterable: true,
+          },
+          {
+            label: 'Budget',
+            field: 'budget',
+            filterable: true,
+          },
+          {
+            label: 'Budget Used',
+            field: 'budget_used',
+            filterable: true,
+          }
+          // {
+          //   label: 'Start Date',
+          //   field: 'start_date',
+          //   filterable: true,
+          // },
+          // {
+          //   label: 'End Date',
+          //   field: 'end_date',
+          //   filterable: true,
+          // },
         ],
-        rows: [
-          {selected: false, name:"John", age:20, joined: '20120201'},
-          {selected: false, name:"Jane", age:24, joined: '20120305'},
-          //...
-        ],
+        rows: [],
+        displayProjectReport: [],
+
+        // {selected: false, name:"John", age:20, joined: '20120201'},
+        // {selected: false, name:"Jane", age:24, joined: '20120305'},
       };
     },
     methods: {
@@ -105,19 +155,20 @@
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
             info.rows = response.data;
+            console.log('info.rows:' +info.rows);
             for (let i = 0; i < info.rows.length; i++){
-              info.rows[i].manager = info.rows[i].manager.name;
+              // info.rows[i].manager = info.rows[i].manager.name.toString();    *may need this to display name later
+              info.displayProjectReport[i] = info.rows[i];
+              console.log('info.rows['+i+']', info.rows[i]);
             }
-            console.log(info.rows);
-          })
+          });
+        console.log('info.displayProjectReport:', info.displayProjectReport);
+
       },
       addRow(id){
         this.added.push(id);
         console.log(id);
       },
-      createPortfolio(){
-        //axios post request here
-      }
     }
   }
 </script>
