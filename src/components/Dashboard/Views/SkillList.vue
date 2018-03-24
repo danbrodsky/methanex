@@ -38,21 +38,25 @@
               </template>
             </vue-good-table>
             <div>
-              <b-button class ="btn btn-success" @click="showModal">
+              <b-button v-b-modal.modalPrevent1 class ="btn btn-success">
                 Add a new Skill
               </b-button>
-              <b-modal ref="addSkillModal"
-                @ok="addData"
-                @shown="clearAdd">
+              <b-modal 
+                id="modalPrevent1"
+                ref="addModal1"
+                title = "Add a new skill"
+                @ok="handleOk1"
+                @shown="clearAdd1">
                 <div class="d-block">
-                  <h3>New Skill</h3>
-                  <div>
-                    <span>Name: <b-form-input>{{addSkillName}}</b-form-input></span>
-                  </div>
-                  <div>
+                  <form @submit.stop.prevent="handleSubmit1">
+                    Name: 
+                    <b-form-input 
+                      v-model="addName1"
+                      type="text"
+                      placeholder="Enter name"></b-form-input>
                     Category:
-                    <b-form-select v-model="addSkillCategory" :options="addSkillCategoryOptions" id='add-ddown'/>
-                  </div>
+                    <b-form-select v-model="addCategory" :options="addCategoryOptions" id='add-ddown'/>
+                  </form>
                 </div>
               </b-modal>
             </div>
@@ -84,13 +88,29 @@
                 </span>
               </template>
               <template slot="table-row-before" slot-scope="props">
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="rowsNonTechnical[props.row.originalIndex].selected">
-                  </label>
-                </td>
               </template>
             </vue-good-table>
+            <div>
+              <b-button v-b-modal.modalPrevent2 class ="btn btn-success">
+                Add a new Skill
+              </b-button>
+              <b-modal 
+                id="modalPrevent2"
+                ref="addModal2"
+                title = "Add a new skill"
+                @ok="handleOk2"
+                @shown="clearAdd2">
+                <div class="d-block">
+                  <form @submit.stop.prevent="handleSubmit2">
+                    Name: 
+                    <b-form-input 
+                      v-model="addName2"
+                      type="text"
+                      placeholder="Enter name"></b-form-input>
+                  </form>
+                </div>
+              </b-modal>
+            </div>
           </card>
         </div>
       </div>
@@ -114,6 +134,8 @@
     },
     data() {
       return {
+        addName1: "",
+        addName2: "",
         allSelected: false,
         columnsTechnical: [
           {
@@ -144,9 +166,8 @@
           }],
         rowsTechnical: [],
         rowsNonTechnical: [],
-        addSkillName: '',
-        addSkillCategory: null,
-        addSkillCategoryOptions: []
+        addCategory: null,
+        addCategoryOptions: [],
       };
     },
     methods: {
@@ -174,36 +195,54 @@
             let j = JSON.stringify(response.data);
             j = j.replace(/id/g, "value");
             j = j.replace(/name/g, "text");
-            info.addSkillCategoryOptions = JSON.parse(j);
+            info.addCategoryOptions = JSON.parse(j);
           })
       },
-      addData() {
+      addData1() {
         var info = this;
-        if (!this.addSkillName || !this.addSkillCategory) {
+          axios.post(this.$root.serverURL + "/api/technicalSkills", {
+          name: this.addName1,
+          category: this.addCategory
+        })
+      },
+      addData2() {
+        var info = this;
+          axios.post(this.$root.serverURL + "/api/nonTechnicalskills", {
+          name: this.addName2
+        })
+      },
+      clearAdd1 () {
+        this.addName1 = ''
+        this.addCategory = null;
+      },
+      clearAdd2 () {
+        this.addName2 = ''
+      },
+      handleOk1 (evt) {
+        evt.preventDefault()
+        if (!this.addName1) {
           alert('Please enter name and category')
+        } else {
+          this.addData1()
         }
-        axios.post(this.$root.serverURL + "/api/technicalSkills", {
-          name: info.addSkillName,
-          category: info.addSkillCategory
-        })
-        this.clearAdd()
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .then(fetchData());
       },
-      showModal () {
-        this.$refs.addSkillModal.show()
+      handleOk2 (evt) {
+        evt.preventDefault()
+        if (!this.addName2) {
+          alert('Please enter name')
+        } else {
+          this.addData2()
+        }
       },
-      hideModal () {
-        this.$refs.addSkillModal.hide()
+      handleSubmit1 () {
+        this.addData1()
+        this.clearAdd1()
+        this.$refs.addModal1.hide()
       },
-      clearAdd () {
-        this.addSkillName = '';
-        this.addSkillCategory = null;
+      handleSubmit2 () {
+        this.addData2()
+        this.clearAdd2()
+        this.$refs.addModal2.hide()
       },
     }
   }
