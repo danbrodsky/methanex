@@ -34,7 +34,7 @@
 
             <label for="addProjectForm" class="col-form-label">Project Manager</label>
             <input type="text" class="form-control form-control-sm-4"
-                   v-model="project.manager" v-bind:disabled="!project.isProjectManager && !editMode">
+                   v-model="project.manager.name" v-bind:disabled="!project.isProjectManager && !editMode">
             <label for="addProjectForm" class="col-form-label">RAG Status</label>
             <select type="text" class="form-control form-control-sm-4"
                    v-model="project.rag_status" v-bind:disabled="!project.isProjectManager && !editMode">
@@ -215,7 +215,7 @@ export default {
         "actual_closed_date": new Date(),
 
         "current_status_percent": -1,
-        "current_status": "",
+        "current_status": ""
       },
       projectResouces: [],
       resourceData: [],
