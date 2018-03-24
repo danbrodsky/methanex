@@ -1,22 +1,46 @@
 <template>
   <div class="content">
-    <img :src="brandImage || '//www.gravatar.com/avatar/?d=mysteryman&s=200'" />
-    <div class="col-3">
-    <div>
-      <button type="button" v-on:click="$upload.select('brand-logo')" :disabled="$upload.meta('brand-logo').status === 'sending'">
-        Select Logo
-      </button>
-
-      <!--<button type="button" v-on:click="$upload.start('brand-logo')" :disabled="$upload.meta('brand-logo').status === 'sending'">-->
-        <!--<span v-show="$upload.meta('brand-logo').status === 'sending'">Saving...</span>-->
-        <!--<span v-show="!$upload.meta('brand-logo').status === 'sending'">Save Logo</span>-->
-      <!--</button>-->
+    <h1 id="example-title" class="example-title">Simple Example</h1>
+    <div class="upload">
+      <ul>
+        <li v-for="(file, index) in files" :key="file.id">
+          <span>{{file.name}}</span> -
+          <span v-if="file.error">{{file.error}}</span>
+          <span v-else-if="file.success">success</span>
+          <span v-else-if="file.active">active</span>
+          <span v-else-if="file.active">active</span>
+          <span v-else></span>
+        </li>
+      </ul>
+      <div class="example-btn">
+        <file-upload
+          class="btn btn-primary"
+          post-action="https://peaceful-hamlet-75445.herokuapp.com/upload"
+          :headers="headers"
+          extensions="gif,jpg,jpeg,png,webp"
+          accept="image/png,image/gif,image/jpeg,image/webp"
+          :multiple="true"
+          :size="1024 * 1024 * 10"
+          v-model="files"
+          @input-filter="inputFilter"
+          @input-file="inputFile"
+          ref="upload">
+          <i class="fa fa-plus"></i>
+          Select files
+        </file-upload>
+        <button type="button" class="btn btn-success" v-if="!$refs.upload || !$refs.upload.active" @click.prevent="$refs.upload.active = true">
+          <i class="fa fa-arrow-up" aria-hidden="true"></i>
+          Start Upload
+        </button>
+        <button type="button" class="btn btn-danger"  v-else @click.prevent="$refs.upload.active = false">
+          <i class="fa fa-stop" aria-hidden="true"></i>
+          Stop Upload
+        </button>
+      </div>
     </div>
     <div v-if="$upload.files('brand-logo').error.length" class="text-danger">
       {{ $upload.files('brand-logo').error[0].errors[0].message }}
     </div>
-    </div>
-    <div class="container-fluid">
       <card>
         <h4 slot="header" class="card-title">Edit Resource</h4>
         <form>
@@ -111,43 +135,19 @@
           <div class="clearfix"></div>
         </form>
       </card>
-    </div>
-  </div>
+      </div>
 </template>
 <script>
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   import Multiselect from 'vue-multiselect'
   import axios from 'axios'
+  import FileUpload from 'vue-upload-component'
 
   export default {
     components: {
       Card,
-      Multiselect
-    },
-    mounted() {
-      this.$upload.reset('brand-logo', {
-        url: 'brands/' + this.brand.id + '/logo'
-      });
-
-      this.brandImage = this.brand.logo || '//www.gravatar.com/avatar/?d=identicon&s=100';
-    },
-    created() {
-      this.fetchData();
-      this.$upload.new('brand-logo', {
-        startOnSelect: false,
-        onSuccess(res) {
-          this.$msgbag.success('Brand logo uploaded successfully.');
-          this.brand = res.data.data;
-        },
-        onError() {
-          this.$msgbag.error('Error uploading brand logo.');
-        },
-        onSelect(files) {
-          files[0].preview((file) => {
-            this.brandImage = file.raw;
-          });
-        }
-      });
+      Multiselect,
+      FileUpload
     },
     data() {
       return {
@@ -165,14 +165,23 @@
           manager: '',
           status: '',
           skills: []
-        }
+        },
+        files: [],
+        headers: {}
       }
+    },
+    created() {
+      var token = 'Bearer ' + this.$auth.token('default_auth_token');
+      this.headers['Authorization'] = token;
+      console.log(this.headers);
     },
     watch: {
       values: function (val) {
         var allSkills = this.resource.skills;
-        this.newSkills.push(allSkills[allSkills.length - 1].id);
-        console.log(this.newSkills);
+        if (allSkills > 0){
+          this.newSkills.push(allSkills[allSkills.length - 1].id);
+          console.log(this.newSkills);
+        }
       }
     },
     methods: {
@@ -183,9 +192,8 @@
             console.log(response.data);
             info.resource = response.data;
             info.values = info.resource.skills;
-            console.log(info.resource.skills);
           })
-        axios.get(info.$root.serverURL + "/api/skills")
+        axios.get(info.$root.serverURL + "/api/technicalSkills")
           .then(response => {
             console.log(response.data);
             info.options1 = response.data;
@@ -210,15 +218,39 @@
               notifications['managerId'] = info.resource.manager;
               notifications.push(notification);
             }
-            axios.post(info.$root.serverURL + "/api/notifications/" + info.resource.manager, {  // change to match manager id when login established
+            axios.post("localhost:8080/api/notifications/" + info.resource.manager, {  // change to match manager id when login established
               notifications: notifications
             }).then(function (res) {
               console.log(res);
             });
           });
+      },
+    inputFilter(newFile, oldFile, prevent) {
+      if (newFile && !oldFile) {
+        if (/(\/|^)(Thumbs\.db|desktop\.ini|\..+)$/.test(newFile.name)) {
+          return prevent()
+        }
+        if (/\.(php5?|html?|jsx?)$/i.test(newFile.name)) {
+          return prevent()
+        }
+      }
+    },
+    inputFile(newFile, oldFile) {
+      if (newFile && !oldFile) {
+        // add
+        console.log('add', newFile)
+      }
+      if (newFile && oldFile) {
+        // update
+        console.log('update', newFile)
+      }
+      if (!newFile && oldFile) {
+        // remove
+        console.log('remove', oldFile)
       }
     }
   }
+}
 
 </script>
 <style>

@@ -59,11 +59,13 @@ export default {
     },
 
   created() {
-    console.log("Created in resourceBreakdown")
-    this.unfilteredData = this.resourceData;
-    if(this.unfilteredData.length > 0) {
-      this.calculateChartData();
-    }
+    // This is being called too early, consider calling on a different event
+
+    // console.log("Created in resourceBreakdown")
+    // this.unfilteredData = this.resourceData;
+    // if(this.unfilteredData.length > 0) {
+    //   this.calculateChartData();
+    // }
   },
 
   mounted() {

@@ -88,11 +88,6 @@
                 </span>
               </template>
               <template slot="table-row-before" slot-scope="props">
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="rowsNonTechnical[props.row.originalIndex].selected">
-                  </label>
-                </td>
               </template>
             </vue-good-table>
             <div>

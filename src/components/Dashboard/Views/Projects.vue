@@ -106,7 +106,8 @@
           .then(response => {
             info.rows = response.data;
             for (let i = 0; i < info.rows.length; i++){
-              info.rows[i].manager = info.rows[i].manager.name;
+              if (info.rows[i].manager != null)
+                info.rows[i].manager = info.rows[i].manager.name;
             }
             console.log(info.rows);
           })
