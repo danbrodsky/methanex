@@ -27,9 +27,9 @@ public class NotificationController {
     @Autowired
     private SkillRepository skillRepository;
 
-    @GetMapping("/notifications/manager/{managerId}")
+    @GetMapping("/notifications/manager")
     public @ResponseBody
-    ResponseEntity<List<Notification>> getManagerNotifications(@PathVariable(value = "managerId") Integer managerId) {
+    ResponseEntity<List<Notification>> getManagerNotifications(@RequestParam(value = "managerId") Integer managerId) {
         List<Notification> notifications = repository.findByManagerId(managerId);
         if (!notifications.isEmpty()) {
             return ResponseEntity.ok(notifications);
