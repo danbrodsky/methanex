@@ -41,11 +41,11 @@ public class Project implements Serializable {
     private Integer budget;
 
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "status")
+    @JoinColumn(name = "status_id")
     private ProjectStatus status;
 
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="rag_status")
+    @JoinColumn(name="rag_status_id")
     private RagStatus ragStatus;
 
     @Column(name = "exp_pa_status_date")
