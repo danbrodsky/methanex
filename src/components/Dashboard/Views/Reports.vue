@@ -210,9 +210,7 @@
             filterable: true,
           },
         ],
-        rowsProject: [],
-        rowsResource: [],
-        rowsPortfolio: [],
+        rows: []
       };
     },
     methods: {
@@ -230,17 +228,16 @@
 
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
-            info.rows = response.data;
-            for (let i = 0; i < info.rows.length; i++){
-              if (info.rows[i].manager != null)
-                info.rows[i].manager = info.rows[i].manager.name;
-              }
-            console.log(info.rows);
-            axios.get(this.$root.serverURL + "/api/resources")
-              .then(response => {
-                info.rowsResource = response.data;
+            info.rowsProject = response.data;
+            for (let i = 0; i < info.rowsProject.length; i++){
+              info.rowsProject[i].manager = info.rowsProject[i].manager.name;
+            }
+          });
+        axios.get(this.$root.serverURL + "/api/resources")
+          .then(response => {
+            info.rowsResource = response.data;
           })
-      })
+      },
     }
   }
 </script>

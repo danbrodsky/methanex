@@ -6,6 +6,7 @@ import VueAxios from 'vue-axios'
 import LightBootstrap from './light-bootstrap-main'
 import routes from './routes/routes'
 import BootstrapVue from 'bootstrap-vue'
+import http from 'http'
 
 Vue.use(VueAxios, axios);
 Vue.use(VueRouter)
