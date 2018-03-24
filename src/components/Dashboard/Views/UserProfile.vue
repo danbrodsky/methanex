@@ -7,17 +7,14 @@
         Select Logo
       </button>
 
-      <button type="button" v-on:click="$upload.start('brand-logo')" :disabled="$upload.meta('brand-logo').status === 'sending'">
-        <span v-show="$upload.meta('brand-logo').status === 'sending'">Saving...</span>
-        <span v-show="!$upload.meta('brand-logo').status === 'sending'">Save Logo</span>
-      </button>
+      <!--<button type="button" v-on:click="$upload.start('brand-logo')" :disabled="$upload.meta('brand-logo').status === 'sending'">-->
+        <!--<span v-show="$upload.meta('brand-logo').status === 'sending'">Saving...</span>-->
+        <!--<span v-show="!$upload.meta('brand-logo').status === 'sending'">Save Logo</span>-->
+      <!--</button>-->
     </div>
     <div v-if="$upload.files('brand-logo').error.length" class="text-danger">
       {{ $upload.files('brand-logo').error[0].errors[0].message }}
     </div>
-      <div>
-        <h4>BITCHES BE LIKE YO WHERE'S MY APPLE STRUDEL AT BRO</h4>
-      </div>
     </div>
     <div class="container-fluid">
       <card>
