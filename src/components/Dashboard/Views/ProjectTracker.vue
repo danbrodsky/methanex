@@ -3,7 +3,9 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
-        <project-status-bar width="100%"></project-status-bar>
+        <project-status-bar width="100%"
+          :editable="true"
+          v-model="datesData"></project-status-bar>
         </div>
       </div>
       <div class="row">
@@ -57,66 +59,10 @@
             <label for="addProjectForm" class="col-form-label">End Date</label>
             <input type="text" class="form-control form-control-sm-4"
                    v-model="project.end_date" v-bind:disabled="!project.isProjectManager && !editMode">
-            <label for="addProjectForm" class="col-form-label">Expected Preapproval Date</label>
-            <input type="text" class="form-control form-control-sm-4"
-                   v-model="project.exp_preapproval_date" v-bind:disabled="!project.isProjectManager && !editMode">
-
-            <label for="addProjectForm" class="col-form-label">Expected Seeking Funding Date</label>
-            <input type="text" class="form-control form-control-sm-4"
-                   v-model="project.exp_seeking_funding_date" v-bind:disabled="!project.isProjectManager && !editMode">
-
-            <label for="addProjectForm" class="col-form-label">Expected Pipeline Date</label>
-            <input type="text" class="form-control form-control-sm-4"
-                   v-model="project.exp_pipeline_date" v-bind:disabled="!project.isProjectManager && !editMode">
-
-            <label for="addProjectForm" class="col-form-label">Expected To Confirm Date</label>
-            <input type="text" class="form-control form-control-sm-4"
-                   v-model="project.exp_to_confirm_date" v-bind:disabled="!project.isProjectManager && !editMode">
-
-            <label for="addProjectForm" class="col-form-label">Expected Closing Date</label>
-            <input type="text" class="form-control form-control-sm-4"
-                   v-model="project.exp_closing_date" v-bind:disabled="!project.isProjectManager && !editMode">
-
-            <label for="addProjectForm" class="col-form-label">Expected Closed Date</label>
-            <input type="text" class="form-control form-control-sm-4"
-                   v-model="project.exp_closed_date" v-bind:disabled="!project.isProjectManager && !editMode">
-
-
-
-            <!--<label for="addProjectForm" class="col-form-label">Actual Preapproval Date</label>
-            <input type="text" class="form-control form-control-sm-4"
-                   v-model="project.actual_preapproval_date" v-bind:disabled="!project.isProjectManager && !editMode">
-
-            <label for="addProjectForm" class="col-form-label">Actual Seeking Funding Date</label>
-            <input type="text" class="form-control form-control-sm-4"
-                   v-model="project.actual_seeking_funding_date" v-bind:disabled="!project.isProjectManager && !editMode">
-
-            <label for="addProjectForm" class="col-form-label">Actual Pipeline Date</label>
-            <input type="text" class="form-control form-control-sm-4"
-                   v-model="project.actual_pipeline_date" v-bind:disabled="!project.isProjectManager && !editMode">
-
-            <label for="addProjectForm" class="col-form-label">Actual To Confirm Date</label>
-            <input type="text" class="form-control form-control-sm-4"
-                   v-model="project.actual_to_confirm_date" v-bind:disabled="!project.isProjectManager && !editMode">
-
-            <label for="addProjectForm" class="col-form-label">Actual Closing Date</label>
-            <input type="text" class="form-control form-control-sm-4"
-                   v-model="project.actual_closing_date" v-bind:disabled="!project.isProjectManager && !editMode">
-
-            <label for="addProjectForm" class="col-form-label">Actual Closed Date</label>
-            <input type="text" class="form-control form-control-sm-4"
-                   v-model="project.actual_closed_date" v-bind:disabled="!project.isProjectManager && !editMode">-->
 
           </div>
         </div>
-        <!--<div class="col-2">-->
-          <!--<div class="form-group" style="width: 100px">-->
-            <!--<button type="button" v-if="isNewProject" v-on:click="addNewProject" style="display:block" class="btn btn-block">Add New Project</button>-->
-            <!--<button type="button" v-if="!isNewProject && isProjectManager && !editMode" v-on:click="enableEdit" style="display:block" class="btn btn-success btn-block">Edit</button>-->
-            <!--<button type="button" v-else-if="!isNewProject && isProjectManager" style="display:block;" class="btn btn-success btn-block" v-on:click="updateProject">Update</button>-->
-            <!--<button type="button" class="mt-2 btn btn-danger btn-block" v-if="!isNewProject && isProjectManager" >Delete</button>-->
-          <!--</div>-->
-        <!--</div>-->
+
         <div class ="col-5" style="height:100%">
           <resource-breakdown v-bind:resourceData="resourceData"></resource-breakdown>
         </div>
@@ -179,6 +125,7 @@ export default {
    created() {
     this.setIsNewAndPermissions();
     this.fetchData();
+    this.packageDatesForStatusBar();
   },
 
   data () {
@@ -200,12 +147,12 @@ export default {
         "start_date": new Date(),
         "end_date": new Date(),
 
-        "exp_preapproval_date": new Date(),
-        "exp_seeking_funding_date": new Date(),
-        "exp_pipeline_date": new Date(),
-        "exp_to_confirm_date": new Date(),
-        "exp_closing_date": new Date(),
-        "exp_closed_date": new Date(),
+        "expectedPreApprovalStatusDate": new Date(),
+        "expectedSeekFundingStatusDate": new Date(),
+        "expectedPipelineStatusDate": new Date(),
+        "expectedConfirmedStatusDate": new Date(),
+        "expectedClosingStatusDate": new Date(),
+        "expectedClosedStatusDate": new Date(),
 
         "actual_preapproval_date": new Date(),
         "actual_seeking_funding_date": new Date(),
@@ -217,20 +164,12 @@ export default {
         "current_status_percent": -1,
         "current_status": ""
       },
+
+      datesData: {},
+
       projectResouces: [],
       resourceData: [],
       resourcesDisplayed: [],
-
-      /*statusList: {
-      <option>Approved</option>
-      <option>Pending</option>
-      <option>Pipeline</option>
-      <option>Active</option>
-      <option>Complete</option>
-
-        {value: 'Approved'},
-        {value: }
-      },*/
 
       sortingOptions: [
           { value: 'resourceName', text: 'Name' },
@@ -364,6 +303,27 @@ export default {
       //and have the api return a list of resources that are in a project with this project id
     },
 
+    packageDatesForStatusBar() {
+      this.datesData = {
+        "expectedPreApprovalStatusDate": "2018-03-19",
+        "expectedSeekFundingStatusDate": "2018-03-20",
+        "expectedPipelineStatusDate": "2018-03-25",
+        "expectedConfirmedStatusDate": "2018-03-28",
+        "expectedClosingStatusDate": "2018-03-30",
+        "expectedClosedStatusDate": "2018-03-31",
+
+        "actual_preapproval_date": "2018-03-19",
+        "actual_seeking_funding_date": "2018-03-20",
+        "actual_pipeline_date": "2018-03-25",
+        "actual_to_confirm_date": "2018-03-28",
+        "actual_closing_date": "2018-03-30",
+        "actual_closed_date": "2018-03-31",
+
+        "current_status_percent": 30,
+        "current_status": "Seeking Funding"
+      }
+    },
+
     addNewProject() {
       console.log("posting to: " + this.$root.serverURL + `/api/portfolios/${this.portfolioId}/projects/`);
 
@@ -377,7 +337,14 @@ export default {
       axios.post(this.$root.serverURL + `/api/portfolios/${this.portfolioId}/projects/`, {
         "name": info.project.name,
         "budget": info.project.budget,
-        "rag_status": info.project.rag_status
+        "ragStatus": info.project.rag_status,
+        "expectedPreApprovalStatusDate": datesData.expectedPreApprovalStatusDate,
+        "expectedSeekFundingStatusDate": datesData.expectedSeekFundingStatusDate,
+        "expectedPipelineStatusDate": datesData.expectedPipelineStatusDate,
+        "expectedConfirmedStatusDate": datesData.expectedConfirmedStatusDate,
+        "expectedClosingStatusDate": datesData.expectedClosingStatusDate,
+        "expectedClosedStatusDate": datesData.expectedClosedStatusDate
+
         // "status": info.project.status,
         // "budget_used": info.project.budget_used,
         // "budget_est_needed": info.project.est_cash_needed_to_complete,
@@ -394,7 +361,7 @@ export default {
       axios.put(this.$root.serverURL + "/api/projects/" + this.project.id, {
         "name": this.project.name,
         "budget": this.project.budget,
-        "effort": this.project.effort
+        "ragStatus": this.project.effort
       })
       .then(function (res){
         console.log(res);

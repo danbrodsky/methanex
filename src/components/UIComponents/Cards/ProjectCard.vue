@@ -10,8 +10,8 @@
           Status: <i>{{ projectStatus }}</i>
       </div>
       <div class="body-data" style="width: 100%; padding:0">
-          <progress style="width:100%" :value="projectProgress" max="100"></progress>
-          <project-status-bar></project-status-bar>
+          <!-- <progress style="width:100%" :value="projectProgress" max="100"></progress> -->
+          <project-status-bar :showToolTip="true"></project-status-bar>
       </div>
       <div class="body-data">
           <span style="color:green;margin:0;display:inline-block;width:50%"><b>$</b> {{ budget }}</span>
