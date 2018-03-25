@@ -13,9 +13,13 @@
         </li>
       </ul>
       <div class="example-btn">
+        <!--<upload-file>-->
+
+        <!--</upload-file>-->
+
         <file-upload
           class="btn btn-primary"
-          post-action="https://peaceful-hamlet-75445.herokuapp.com/upload"
+          post-action="http://localhost:8080/api/upload"
           :headers="headers"
           extensions="gif,jpg,jpeg,png,webp"
           accept="image/png,image/gif,image/jpeg,image/webp"
@@ -142,9 +146,11 @@
   import Multiselect from 'vue-multiselect'
   import axios from 'axios'
   import FileUpload from 'vue-upload-component'
+  import UploadFile from 'src/components/Dashboard/Views/UploadFile.vue';
 
   export default {
     components: {
+      UploadFile,
       Card,
       Multiselect,
       FileUpload
@@ -218,7 +224,7 @@
               notifications['managerId'] = info.resource.manager;
               notifications.push(notification);
             }
-            axios.post("localhost:8080/api/notifications/" + info.resource.manager, {  // change to match manager id when login established
+            axios.post(info.$root.serverURL + "/api/notifications/" + info.resource.manager, {  // change to match manager id when login established
               notifications: notifications
             }).then(function (res) {
               console.log(res);
