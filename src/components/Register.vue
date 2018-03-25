@@ -5,8 +5,6 @@
 
         <form v-on:submit.prevent="register()">
             <table><tr>
-                <td>Avatar</td>
-                <td><input v-on:change="setAvatar" type="file" /></td>
             <tr>
                 <td>Username:</td>
                 <td><input v-model="data.body.username" /></td>
@@ -26,7 +24,7 @@
 
             <hr/>
 
-            <div v-show="error" style="color:red; word-wrap:break-word;">{{ error | json }}</div>
+            <div v-show="error" style="color:red; word-wrap:break-word;">{{ error }}</div>
             </form>
     </div>
 </template>
@@ -63,14 +61,13 @@
             },
             register() {
                 var formData = new FormData();
-                if (this.data.body.avatar) {
-                    formData.append('avatar', this.data.body.avatar);
-                }
+                var newUser = {};
+                newUser['username'] = this.data.body.username;
+                newUser['password'] = this.data.body.password;
                 formData.append('username', this.data.body.username);
                 formData.append('password', this.data.body.password);
                 this.$auth.register({
-                    body: formData, // Vue-resoruce
-                    data: formData, // Axios
+                    data: newUser, // Axios
                     autoLogin: this.data.autoLogin,
                     rememberMe: this.data.rememberMe,
                     success: function () {

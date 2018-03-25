@@ -74,6 +74,8 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  
   export default {
     /*
       Variables used by the drag and drop component
