@@ -15,12 +15,13 @@
               </div>
             </template>
             <modal v-if="showModal" @close="showModal = false" v-bind:message="modalMessage" v-bind:success="requestSuccess"></modal>
+            <date-modal v-if="showDateModal" v-bind:dateType="dateModalType" v-bind:index="selectedRowIndex"
+                        @receiveDate="updateDateColumn" ></date-modal>
             <vue-good-table
               :columns="columns"
               :paginate="true"
               :rows="rows"
               :globalSearch = "false"
-              :onClick="goToResource"
               styleClass="table table-bordered table-striped">
               <template slot="table-column" slot-scope="props">
                 <span v-if="props.column.label =='SelectAll'">
@@ -43,14 +44,14 @@
               </template>
               <template slot="table-row" slot-scope="props">
                 <td class="fancy">{{props.row.name}}</td>
-                <td class="align-right">{{props.row.location}}</td>
+                <td class="align-right" style="max-width: 50px">{{props.row.location}}</td>
                 <td class="align-right">{{props.row.group}}</td>
                 <td class="align-right">{{props.row.status}}</td>
-                <td class="align-right">
-                  <input type="text" class="form-control" v-model="props.row.startDate">
+                <td class="align-right" v-model="rows[props.row.originalIndex].startDate" @click="openDateInput('start', props.row.originalIndex)">
+                  {{rows[props.row.originalIndex].startDate}}
                 </td>
-                <td class="align-right">
-                  <input type="text" class="form-control" v-model="props.row.endDate">
+                <td class="align-right" v-model="rows[props.row.originalIndex].endDate" @click="openDateInput('end', props.row.originalIndex)">
+                  {{rows[props.row.originalIndex].endDate}}
                 </td>
               </template>
             </vue-good-table>
@@ -69,16 +70,22 @@
   import LTable from 'src/components/UIComponents/Table.vue'
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   import Modal from 'src/components/UIComponents/ProjectComponents/Modal.vue'
+  import DatePicker from 'vue2-datepicker'
+  import DateModal from 'src/components/UIComponents/ProjectComponents/DateModal.vue'
 
   Vue.use(VueGoodTable);
     //<date-input-modal v-if="showModal" v-bind:index="selectedRowIndex" v-bind:show="showModal" @receiveDate="updateDateColumn" ></date-input-modal>
+  //<input type="text" class="form-control" v-model="props.row.startDate">
+  //
     export default {
       name: "add-resources",
 
       components: {
         LTable,
         Card,
-        Modal
+        Modal,
+        DateModal,
+        DatePicker
       },
 
       name: 'Checkbox-table',
@@ -93,6 +100,7 @@
           showModal: false,
           startDateInput: "",
           endDateInput: "",
+          showDateModal: false,
           selectedRowIndex: -1,
 
           columns: [
@@ -143,7 +151,8 @@
 
           goToResource: function(row, index){
             console.log(row);
-            this.$router.push({path: '/admin/user/' + row.id});
+            // if(index > 0)
+            //   this.$router.push({path: '/admin/user/' + row.id});
           }
         };
       },
@@ -173,6 +182,15 @@
           return resources;
         },
 
+        openDateInput(type, rowIndex){
+          console.log(type);
+          console.log("rowIndex");
+          console.log(rowIndex);
+          this.selectedRowIndex = rowIndex;
+          this.dateModalType = type;
+          this.showDateModal = true;
+        },
+
         addRow(id){
           this.added.push(id);
           console.log(id);
@@ -180,17 +198,28 @@
 
         addResources(){
           var resourcesToAdd = [];
+          var resourceIds = [];
           var projectId = this.$route.params.projectId;
 
           for(var i = 0; i<this.rows.length; i++){
             if(this.rows[i].selected){
               resourcesToAdd.push(this.rows[i]);
+              resourceIds.push(this.rows[i].id);
             }
           }
           //whatever we dont care about efficiency
+          var resource_ids = [];
           if(resourcesToAdd.length > 0){
             for(var i=0; i<resourcesToAdd.length; i++){
               var info = this;
+
+              axios.post(info.$root.serverURL + `/api/projects/addResource?projectId=` + projectId, info.resourceIds)
+                .then(function(res){
+
+                }).catch(function (error){
+                console.log(error);
+              });
+
               axios.post(info.$root.serverURL + `/api/resourceHistory`, {
                 "resource_id": resourcesToAdd[i].id,
                 "durr_start": resourcesToAdd[i].startDate,
@@ -208,16 +237,32 @@
                   info.requestSuccess = false;
                   info.showModal = true;
                 });
+
+
             }
+
           }
         },
-
         updateDateColumn: function(params) {
-          this.showModal=false;
-          console.log("showModal");
-          console.log(this.showModal);
+          console.log("updateDateColumn");
           console.log(params);
+          this.showDateModal =false;
+          var index = params[0];
+          var date = params[1];
+          var dateType = params[2];
+          var row = this.rows[index];
+
+          date = str.substring(1, 10);
+          console.log(row);
+
+          if(dateType == 'start'){
+            row['startDate'] = date;
+          }
+          else {
+            row['endDate'] = date;
+          }
         }
+
       }
     }
 
