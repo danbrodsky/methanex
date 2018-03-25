@@ -10,7 +10,7 @@ public class GanttChart implements Serializable {
     private static final long serialVersionUID = 8194877105433257008L;
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(name = "file_name")
@@ -23,7 +23,6 @@ public class GanttChart implements Serializable {
     private String contentType;
 
     @Column(name = "data")
-    @Lob
     private byte[] data;
 
     public int getId() {
