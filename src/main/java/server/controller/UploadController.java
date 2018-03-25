@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import server.model.GanttChart;
 import server.repository.GanttChartRepository;
-
 import java.time.LocalDate;
 
 @CrossOrigin
@@ -27,6 +26,7 @@ public class UploadController {
                 chart.setUploadDate(LocalDate.now());
                 chart.setData(imageAsBytes);
                 repository.save(chart);
+                ResponseEntity.ok().build();
             }
             catch (Exception e) {
                 return ResponseEntity.badRequest().build();
@@ -34,4 +34,14 @@ public class UploadController {
         }
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/image")
+    public ResponseEntity getImage(@RequestParam("id") Integer id) {
+        GanttChart chart = repository.findOne(id);
+        if (chart != null) {
+            return ResponseEntity.ok(chart);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 }

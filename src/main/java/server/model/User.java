@@ -20,6 +20,15 @@ public class User {
     @JoinColumn(name = "resource_id", unique = true, nullable = false, updatable = false)
     private Resource resource;
 
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
+
     public long getId() {
         return id;
     }
