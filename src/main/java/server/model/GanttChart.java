@@ -19,6 +19,9 @@ public class GanttChart implements Serializable {
     @Column(name = "upload_date")
     private LocalDate uploadDate;
 
+    @Column(name = "content_type")
+    private String contentType;
+
     @Column(name = "data")
     @Lob
     private byte[] data;
@@ -53,5 +56,13 @@ public class GanttChart implements Serializable {
 
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 }

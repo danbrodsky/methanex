@@ -18,15 +18,15 @@ public class UploadController {
     private GanttChartRepository repository;
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity uploadFile(@RequestParam("filename") String filename,
-                                     @RequestParam("file") MultipartFile file) {
+    public ResponseEntity uploadFile(@RequestParam("file") MultipartFile file) {
         if (!file.isEmpty()) {
             try {
                 byte[] imageAsBytes = file.getBytes();
                 GanttChart chart = new GanttChart();
-                chart.setFileName(filename);
+                chart.setFileName(file.getName());
                 chart.setUploadDate(LocalDate.now());
                 chart.setData(imageAsBytes);
+                repository.save(chart);
             }
             catch (Exception e) {
                 return ResponseEntity.badRequest().build();
