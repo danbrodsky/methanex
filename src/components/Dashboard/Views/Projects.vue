@@ -102,6 +102,8 @@
     methods: {
       fetchData() {
         var info = this;
+        console.log("server url:")
+        console.log(this.$root.serverUrl);
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
             info.rows = response.data;
