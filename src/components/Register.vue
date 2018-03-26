@@ -34,7 +34,7 @@
         data() {
             return {
                 context: 'register context',
-                
+
                 data: {
                     body: {
                         username: '',
@@ -56,7 +56,7 @@
                 reader.onload = (e) => {
                     _this.data.body.avatar = e.target.result;
                 };
-      
+
                 reader.readAsDataURL(file);
             },
             register() {
@@ -67,7 +67,7 @@
                 formData.append('username', this.data.body.username);
                 formData.append('password', this.data.body.password);
                 this.$auth.register({
-                    data: newUser, // Axios
+                    data: newUser,
                     autoLogin: this.data.autoLogin,
                     rememberMe: this.data.rememberMe,
                     success: function () {
