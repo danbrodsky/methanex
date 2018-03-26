@@ -2,6 +2,14 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
+        <div>
+          <b-alert :show=skillAddedSuccessBanner dismissible variant="success">
+            <h4 class="alert-heading">Skill was added</h4>
+            <p>
+              Please refresh the page to view any changes
+            </p>
+          </b-alert>
+        </div>
         <div class="col-12">
           <card>
             <template slot="header">
@@ -38,26 +46,42 @@
               </template>
             </vue-good-table>
             <div>
-              <b-button v-b-modal.modalPrevent1 class="btn btn-success">
+              <b-button v-b-modal.addResourceModal1 class="btn btn-success">
                 Add a new Skill
               </b-button>
               <b-modal
-                id="modalPrevent1"
-                ref="addModal1"
-                title="Add a new skill"
-                @ok="handleOk1"
-                @shown="clearAdd1"
-                @click="handleSubmit1">
-                <div class="d-block">
-                  <form>
-                    Name:
-                    <b-form-input
-                      v-model="addName1"
-                      type="text"
-                      placeholder="Enter name"></b-form-input>
-                    Category:
-                    <b-form-select v-model="addCategories" :options="addCategoryOptions" id='add-ddown'/>
-                  </form>
+                id="addResourceModal1"
+                @ok="handleOk1">
+                <div>
+                  <b-card bg-variant="light">
+                    <b-form-group horizontal
+                                  breakpoint="lg"
+                                  label="Skill"
+                                  label-size="lg"
+                                  label-class="font-weight-bold pt-0"
+                                  class="mb-0">
+                      <b-form-group horizontal
+                                    label="Name:"
+                                    label-class="text-sm-right"
+                                    label-for="nestedName">
+                        <b-form-input id="nestedName"
+                                      v-model="addName1"
+                                      type="text"
+                                      placeholder="Enter your name"></b-form-input>
+                      </b-form-group>
+
+                      <b-form-group horizontal
+                                    label="Category:"
+                                    type="text"
+                                    label-class="text-sm-right"
+                                    label-for="nestedEmail">
+                        <b-form-select v-model="addCategories"
+                                       :options="addCategoryOptions"
+                                       id='add-ddown'>
+                        </b-form-select>
+                      </b-form-group>
+                    </b-form-group>
+                  </b-card>
                 </div>
               </b-modal>
             </div>
@@ -97,24 +121,33 @@
               </template>
             </vue-good-table>
             <div>
-              <b-button v-b-modal.modalPrevent2 class="btn btn-success">
+              <b-button v-b-modal.addResourceModal2 class="btn btn-success">
                 Add a new Skill
               </b-button>
+
               <b-modal
-                id="modalPrevent2"
-                ref="addModal2"
-                title="Add a new skill"
-                @ok="handleOk2"
-                @shown="clearAdd2"
-                @click="handleSubmit2">
-                <div class="d-block">
-                  <b-form @submit="handleSubmit2">
-                    Name:
-                    <b-form-input
-                      v-model="addName2"
-                      type="text"
-                      placeholder="Enter name"></b-form-input>
-                  </b-form>
+                id="addResourceModal2"
+                @ok="handleOk2">
+                <div>
+                  <b-card bg-variant="light">
+                    <b-form-group horizontal
+                                  breakpoint="lg"
+                                  label="Skill"
+                                  label-size="lg"
+                                  label-class="font-weight-bold pt-0"
+                                  class="mb-0">
+                      <b-form-group horizontal
+                                    label="Name:"
+                                    label-class="text-sm-right"
+                                    label-for="nestedName">
+                        <b-form-input id="nestedName"
+                                      v-model="addName2"
+                                      type="text"
+                                      placeholder="Enter your name">
+                        </b-form-input>
+                      </b-form-group>
+                    </b-form-group>
+                  </b-card>
                 </div>
               </b-modal>
             </div>
@@ -141,6 +174,7 @@
     },
     data() {
       return {
+        skillAddedSuccessBanner: false,
         addName1: "",
         addName2: "",
         allSelected: false,
@@ -208,52 +242,39 @@
       },
       addData1() {
         var info = this;
+        info.skillAddedSuccessBanner = false;
         axios.post(this.$root.serverURL + "/api/technicalSkills", {
           name: info.addName1,
           category: info.addCategories
+
         })
+          .then(() => info.skillAddedSuccessBanner = true)
           .catch(() => console.log("error adding tech skills"))
 
       },
       addData2() {
+        var info = this;
+        info.skillAddedSuccessBanner = false;
         axios.post(this.$root.serverURL + "/api/nonTechnicalSkills", {
-          name: this.addName2
+          name: info.addName2
         })
-          .catch(() => console.log("error adding non tech skills"))
+          .then(() => info.skillAddedSuccessBanner = true)
+          .catch(() => console.log("error adding non-tech skills"))
 
       },
-      clearAdd1() {
-        this.addName1 = '';
-        this.addCategories = [];
-      },
-      clearAdd2() {
-        this.addName2 = ''
-      },
-      handleOk1(evt) {
-        evt.preventDefault()
+      handleOk1() {
         if (!this.addName1) {
           alert('Please enter name and category')
         } else {
           this.addData1()
         }
       },
-      handleOk2(evt) {
-        evt.preventDefault()
+      handleOk2() {
         if (!this.addName2) {
           alert('Please enter name')
         } else {
           this.addData2()
         }
-      },
-      handleSubmit1() {
-        this.addData1()
-        this.clearAdd1()
-        this.$refs.addModal1.hide()
-      },
-      handleSubmit2() {
-        this.addData2()
-        this.clearAdd2()
-        this.$refs.addModal2.hide()
       }
     }
   }

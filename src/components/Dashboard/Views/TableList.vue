@@ -3,6 +3,14 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
+          <div>
+            <b-alert :show=resourceAddedSuccessBanner dismissible variant="success">
+              <h4 class="alert-heading">Resource was added</h4>
+              <p>
+                Please refresh the page to view any changes
+              </p>
+            </b-alert>
+          </div>
           <card>
             <vue-good-table
               :columns="columns"
@@ -115,6 +123,7 @@
     },
     data() {
       return {
+        resourceAddedSuccessBanner: false,
         addName: '',
         addEmail: '',
         addLocation: '',
@@ -173,13 +182,14 @@
       },
       addResource() {
         let info = this;
+        this.skillAddedSuccessBanner = false;
         axios.post(this.$root.serverURL + "/api/resources", {
           name: info.addName,
           email: info.addEmail,
           location: info.addLocation,
           group: info.addGroup
         })
-          .then(() => console.log("successfully added resource"))
+          .then(() => info.resourceAddedSuccessBanner = true)
           .catch(() => console.log("error while adding resource"))
       },
       nameState() {

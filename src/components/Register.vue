@@ -30,7 +30,8 @@
 </template>
 
 <script>
-    export default {
+  import axios from 'axios'
+  export default {
         data() {
             return {
                 context: 'register context',
@@ -60,24 +61,25 @@
                 reader.readAsDataURL(file);
             },
             register() {
-                var formData = new FormData();
                 var newUser = {};
                 newUser['username'] = this.data.body.username;
                 newUser['password'] = this.data.body.password;
-                formData.append('username', this.data.body.username);
-                formData.append('password', this.data.body.password);
-                this.$auth.register({
-                    data: newUser,
-                    autoLogin: this.data.autoLogin,
-                    rememberMe: this.data.rememberMe,
-                    success: function () {
-                        console.log('success ' + this.context);
-                    },
-                    error: function (res) {
-                        console.log('error ' + this.context);
-                        this.error = res.data;
-                    }
-                });
+                // this.$auth.register({
+                //     data: newUser,
+                //     autoLogin: this.data.autoLogin,
+                //     rememberMe: this.data.rememberMe,
+                //     success: function () {
+                //         console.log('success ' + this.context);
+                //     },
+                //     error: function (res) {
+                //         console.log('error ' + this.context);
+                //         this.error = res.data;
+                //     }
+                // });
+              axios
+                .post(this.$root.serverURL + "/register", newUser)
+                .then(() => console.log("success"))
+                .catch(() => console.log("fail"));
             }
         }
     }
