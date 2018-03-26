@@ -201,7 +201,6 @@
         },
 
         addResources(){
-          console.log("clicked");
           var resourcesToAdd = [];
           var resourceIds = [];
           var projectId = this.$route.params.projectId;
@@ -216,7 +215,7 @@
           if(resourcesToAdd.length > 0){
             for(var i=0; i<resourcesToAdd.length; i++){
               var info = this;
-              axios.post(info.$root.serverURL + `/api/projects/addResource?projectId=` + projectId, resourceIds)
+              axios.post("http://localhost:8080/api/projects/addResource?projectId=" + projectId, resourceIds)
                 .then(function(res){
                   info.modalMessage = "Added resources successfully.";
                   info.requestSuccess = true;
@@ -228,16 +227,14 @@
                 info.requestSuccess = false;
                 info.showModal = true;
               });
-
-              axios.post(info.$root.serverURL + `/api/resourceHistory`, {
-                "resource_id": resourcesToAdd[i].id,
-                "project_id": projectId,
-                "dur_start": resourcesToAdd[i].startDate,
-                "dur_end": resourcesToAdd[i].endDate
-              })
+              console.log("resource ID: " + resourcesToAdd[i].id);
+              console.log("project ID: " + projectId);
+              console.log("start date: " + resourcesToAdd[i].startDate);
+              console.log("end date: " + resourcesToAdd[i].endDate);
+              let url = "http://localhost:8080/api/resourceHistory?resourceId=" + resourcesToAdd[i].id + "&projectId=" + projectId + "&dur_start=" + resourcesToAdd[i].startDate + "&dur_end=" + resourcesToAdd[i].endDate;
+              axios.post(url)
                 .then(function (res){
                   console.log(res);
-
                 })
                 .catch(function (error) {
                   console.log("add to resource history failure");
