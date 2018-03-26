@@ -53,7 +53,7 @@
                         <b-form-input id="nestedName"
                                       v-model="addName"
                                       type="text"
-                                      :state="nameState"
+                                      :state=nameState
                                       placeholder="Enter your name"></b-form-input>
                       </b-form-group>
                       <b-form-group horizontal
@@ -62,7 +62,7 @@
                                     label-class="text-sm-right"
                                     label-for="nestedEmail">
                         <b-form-input id="nestedEmail"
-                                      :state="emailState"
+                                      :state=emailState
                                       v-model="addEmail"
                                       type="text"
                                       placeholder="Enter your email"></b-form-input>
@@ -149,6 +149,11 @@
             label: 'Group',
             field: 'group',
             filterable: true,
+          },
+          {
+            label: 'Manager',
+            field: 'manager.name',
+            filterable: true
           }
         ],
         rows: [],
@@ -170,7 +175,7 @@
       },
       addResource() {
         let info = this;
-        axios.post(this.$root.serverURL + "/api/resources", {
+        axios.post("http://localhost:8080/api/resources", {
           name: info.addName,
           email: info.addEmail,
           location: info.addLocation,
