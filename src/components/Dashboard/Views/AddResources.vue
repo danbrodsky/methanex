@@ -79,6 +79,7 @@
   //
     export default {
       name: "add-resources",
+      props: ['existingResources'],
 
       components: {
         LTable,
@@ -90,6 +91,9 @@
 
       name: 'Checkbox-table',
       created () {
+        console.log("Existing resources:");
+        console.log(this.existingResources);
+        console.log("Existing resources end");
         this.fetchData();
         this.showModal = false;
       },
@@ -197,6 +201,7 @@
         },
 
         addResources(){
+          console.log("clicked");
           var resourcesToAdd = [];
           var resourceIds = [];
           var projectId = this.$route.params.projectId;
@@ -208,34 +213,35 @@
             }
           }
           //whatever we dont care about efficiency
-          var resource_ids = [];
           if(resourcesToAdd.length > 0){
             for(var i=0; i<resourcesToAdd.length; i++){
               var info = this;
-
-              axios.post(info.$root.serverURL + `/api/projects/addResource?projectId=` + projectId, info.resourceIds)
+              axios.post(info.$root.serverURL + `/api/projects/addResource?projectId=` + projectId, resourceIds)
                 .then(function(res){
-
+                  info.modalMessage = "Added resources successfully.";
+                  info.requestSuccess = true;
+                  info.showModal = true;
                 }).catch(function (error){
+                console.log("add to project error");
                 console.log(error);
+                info.modalMessage = "Failed to add resources."
+                info.requestSuccess = false;
+                info.showModal = true;
               });
 
               axios.post(info.$root.serverURL + `/api/resourceHistory`, {
                 "resource_id": resourcesToAdd[i].id,
-                "durr_start": resourcesToAdd[i].startDate,
-                "durr_end": resourcesToAdd[i].endDate
+                "project_id": projectId,
+                "dur_start": resourcesToAdd[i].startDate,
+                "dur_end": resourcesToAdd[i].endDate
               })
                 .then(function (res){
                   console.log(res);
-                  info.modalMessage = "Added resources successfully.";
-                  info.requestSuccess = true;
-                  info.showModal = true;
+
                 })
                 .catch(function (error) {
+                  console.log("add to resource history failure");
                   console.log(error);
-                  info.modalMessage = "Failed to add resources."
-                  info.requestSuccess = false;
-                  info.showModal = true;
                 });
 
 
@@ -252,7 +258,8 @@
           var dateType = params[2];
           var row = this.rows[index];
 
-          date = str.substring(1, 10);
+          date = JSON.stringify(date).substring(1, 11);
+          console.log(date);
           console.log(row);
 
           if(dateType == 'start'){

@@ -91,7 +91,8 @@ const routes = [
       {
         path: 'project/:projectId/addResources',
         name: 'addResources',
-        component: AddResources
+        component: AddResources,
+        props: true
       },
       {
         path: 'project',
