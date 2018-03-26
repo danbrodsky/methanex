@@ -130,23 +130,21 @@
     created() {
       var token = 'Bearer ' + this.$auth.token('default_auth_token');
       this.headers['Authorization'] = token;
-      console.log(this.headers);
+      this.fetchData();
     },
     watch: {
       values: function (val) {
         var allSkills = this.resource.skills;
         if (allSkills > 0){
           this.newSkills.push(allSkills[allSkills.length - 1].id);
-          console.log(this.newSkills);
         }
       }
     },
     methods: {
       fetchData() {
-        var info = this;
+        let info = this;
         axios.get(info.$root.serverURL + "/api/resources/2")
           .then(response => {
-            console.log(response.data);
             info.resource = response.data;
             info.values = info.resource.skills;
           })
