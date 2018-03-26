@@ -283,37 +283,43 @@
           var resourcesToAdd = [];
           var resourceIds = [];
           var projectId = this.$route.params.projectId;
+          var remaining = [];
 
           for(var i = 0; i<this.rows.length; i++){
             if(this.rows[i].selected){
               resourcesToAdd.push(this.rows[i]);
               resourceIds.push(this.rows[i].id);
+            }else{
+              remaining.push(this.rows[i]);
             }
           }
 
-          var info = this;
-          axios.post("http://localhost:8080/api/projects/addResource?projectId=" + projectId, resourceIds)
-            .then(function(res){
-              info.modalMessage = "Added resources successfully.";
-              info.requestSuccess = true;
-              info.showModal = true;
-            }).catch(function (error){
-            console.log("add to project error");
-            console.log(error);
-            info.modalMessage = "Failed to add resources."
-            info.requestSuccess = false;
-            info.showModal = true;
-          });
-
           //whatever we dont care about efficiency
           if(resourcesToAdd.length > 0){
+            var info = this;
+            console.log(resourcesToAdd);
+            axios.post(this.$root.serverURL + "/api/projects/addResource?projectId=" + projectId, resourceIds)
+              .then(function(res){
+                info.modalMessage = "Added resources successfully.";
+                info.requestSuccess = true;
+                info.showModal = true;
+                info.rows = remaining;
+
+              }).catch(function (error){
+              console.log("add to project error");
+              console.log(error);
+              info.modalMessage = "Failed to add resources."
+              info.requestSuccess = false;
+              info.showModal = true;
+            });
+
             for(var i=0; i<resourcesToAdd.length; i++){
 
               console.log("resource ID: " + resourcesToAdd[i].id);
               console.log("project ID: " + projectId);
               console.log("start date: " + resourcesToAdd[i].startDate);
               console.log("end date: " + resourcesToAdd[i].endDate);
-              let url = "http://localhost:8080/api/resourceHistory?resourceId="
+              let url = this.$root.serverURL + "/api/resourceHistory?resourceId="
                 + resourcesToAdd[i].id
                 + "&projectId=" + projectId
                 + "&dur_start=" + resourcesToAdd[i].startDate
