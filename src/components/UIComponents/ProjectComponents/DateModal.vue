@@ -6,20 +6,35 @@
 
           <div class="modal-header">
             <slot name="header">
+              Enter start and end date:
             </slot>
           </div>
 
           <div class="modal-body">
             <slot name="body">
-              <date-picker v-model="date" editable lang="en"></date-picker>
+              <div>Start date:</div>
+              <date-picker v-model="startDate" editable lang="en"></date-picker>
+              <div>End date:</div>
+              <date-picker v-model="endDate" editable lang="en"></date-picker>
+              <div v-if="showWarning" style="color:orangered">{{warningMessage}}</div>
             </slot>
           </div>
 
           <div class="modal-footer">
             <slot name="footer">
-              <button class="btn btn-success" @click="sendDates">
-                OK
-              </button>
+              <div class="row">
+                <div class="col">
+                  <button class="btn btn-success btn-fill" @click="sendDates">
+                    OK
+                  </button>
+                </div>
+                <div class="col">
+                  <button class="btn btn-danger btn-fill" @click="$emit('closeDateModal')">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+
             </slot>
           </div>
         </div>
@@ -34,7 +49,7 @@
 
   export default {
     name: "date-modal",
-    props: ['index', 'dateType'],
+    props: ['index'],
 
     components: {
       DatePicker
@@ -42,7 +57,10 @@
 
     data(){
       return {
-        date: ""
+        startDate: "",
+        endDate: "",
+        showWarning: false,
+        warningMessage: ""
       };
     },
 
@@ -52,13 +70,40 @@
 
     methods: {
       sendDates() {
-        console.log(this.date);
-        if(this.dateType == 'start'){
-          this.$emit('receiveDate', [this.index, this.date, 'start']);
-        } else {
-          this.$emit('receiveDate', [this.index, this.date, 'end']);
+        if(typeof(this.startDate) == "undefined"){
+          this.warningMessage = "Please enter a start date.";
+          this.showWarning = true;
         }
+        else if(typeof(this.endDate) == "undefined"){
+          this.showWarning  = true;
+          this.warningMessage = "Please enter a end date.";
+        }
+        else{
+          if(this.validateDates()){
+            this.showWarning = false;
+            this.$emit('receiveDate', [this.index, this.startDate, this.endDate]);
+          }
+        }
+        //var start = new Date(this.startDate);
+        //var start = new Date(this.endDate);
+        //console.log(JSON.stringify(this.date));
+
       },
+
+      validateDates(){
+        this.showWarning = false;
+        if(typeof(this.startDate) != "undefined" && typeof(this.endDate) != "undefined"){
+          var start = new Date(this.startDate);
+          var end = new Date(this.endDate);
+
+          if(start > end){
+            this.warningMessage = "Start date must be before end date.";
+            this.showWarning =  true;
+            return false;
+          }
+          return true;
+        }
+      }
     }
   }
 </script>
