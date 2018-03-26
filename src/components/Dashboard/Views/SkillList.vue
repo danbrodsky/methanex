@@ -89,6 +89,11 @@
                 </span>
               </template>
               <template slot="table-row-before" slot-scope="props">
+                <td>
+                  <label class="checkbox">
+                    <input type="checkbox" v-model="rowsTechnical[props.row.originalIndex].selected">
+                  </label>
+                </td>
               </template>
             </vue-good-table>
             <div>
@@ -139,7 +144,6 @@
         addName1: "",
         addName2: "",
         allSelected: false,
-        categoryNames: "",
         columnsTechnical: [
           {
             label: '',
@@ -152,7 +156,7 @@
           },
           {
             label: 'Category(s)',
-            field: '%{this.categoryNames}',
+            field: 'category[0].name',
             type: 'string',
             filterable: true,
           }
@@ -179,9 +183,6 @@
         axios.get(this.$root.serverURL + "/api/technicalSkills")
           .then(response => {
             info.rowsTechnical = response.data;
-            for (i = 0; i < response.length; ++i) {
-              info.categoryNames += i == response.length - 1 ? Object.keys(response[i]).name : Object.keys(response[i]).name + ",";
-            }
           })
           .catch(() => console.log("error fetching technical skills"))
       },

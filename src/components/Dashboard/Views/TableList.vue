@@ -170,7 +170,7 @@
       },
       addResource() {
         let info = this;
-        axios.post("http://localhost:8080/api/resources", {
+        axios.post(this.$root.serverURL + "/api/resources", {
           name: info.addName,
           email: info.addEmail,
           location: info.addLocation,
