@@ -128,6 +128,7 @@
       }
     },
     created() {
+      console.log(this.$root.selfId);
       var token = 'Bearer ' + this.$auth.token('default_auth_token');
       this.headers['Authorization'] = token;
       this.fetchData();
@@ -156,6 +157,7 @@
       },
       updateProfile() {
         var info = this;
+        console.log(info.resource.id);
         axios.put(info.$root.serverURL + "/api/resources/" + info.resource.id, {
           "id": info.resource.id,
           "name": info.resource.name,

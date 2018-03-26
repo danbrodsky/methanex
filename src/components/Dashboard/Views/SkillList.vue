@@ -1,15 +1,15 @@
 <template>
   <div class="content">
     <div class="container-fluid">
+      <div>
+        <b-alert :show=skillAddedSuccessBanner dismissible variant="success">
+          <h4 class="alert-heading">Skill was added</h4>
+          <p>
+            Please refresh the page to view any changes
+          </p>
+        </b-alert>
+      </div>
       <div class="row">
-        <div>
-          <b-alert :show=skillAddedSuccessBanner dismissible variant="success">
-            <h4 class="alert-heading">Skill was added</h4>
-            <p>
-              Please refresh the page to view any changes
-            </p>
-          </b-alert>
-        </div>
         <div class="col-12">
           <card>
             <template slot="header">

@@ -49,6 +49,7 @@
 </template>
 
 <script>
+  import axios from 'axios';
   export default {
     data() {
       return {
@@ -65,22 +66,23 @@
         error: null
       };
     },
-    mounted() {
-      console.log(this.$auth.redirect());
-      // Can set query parameter here for auth redirect or just do it silently in login redirect.
-    },
     methods: {
       login() {
         let info = this;
-        var redirect = this.$auth.redirect();
         this.$auth.login({
           data: this.data.body, // Axios
           fetchUser: this.data.fetchUser
         })
           .then(() => {
-            console.log('success ' + this.context);
-            console.log(this.$auth);
-            this.$auth.redirect();
+            info
+              .axios
+              .get(info.$root.serverURL + "/user/?username=" + info.data.body.username)
+              .then((response) => {
+                this.$root.selfId = response.data;
+                this.$root.serverURL = "";
+              })
+              .catch(() => console.log("error getting resource ID"));
+            info.$auth.redirect();
           }, (res) => {
             this.showInvalidLoginBanner = true;
           });
