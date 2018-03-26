@@ -280,75 +280,75 @@ export default {
         })
 
       // for wip purposes display stub data if there is no resource data available for the project
-      if(this.resourcesDisplayed.length == 0){
-        this.resourceData = [];
-        this.resourceData.push({
-          resourceId: 1,
-          resourceName: "Lecia",
-          group: "Wind",
-          peerGroup: "Sword",
-          status: "Available",
-          location: "Nalhagrande"
-        });
-
-        this.resourceData.push({
-          resourceId: 2,
-          resourceName: "Rosetta",
-          group: "Wind",
-          peerGroup: "Dagger",
-          status: "Available",
-          location: "Nalhagrande"
-        });
-
-        this.resourceData.push({
-          resourceId: 3,
-          resourceName: "Beatrix",
-          peerGroup: "Sword",
-          group: "Fire",
-          status: "Sick",
-          location: "Somewhere"
-        });
-
-        this.resourceData.push({
-          resourceId: 4,
-          resourceName: "Diantha",
-          group: "Water",
-          peerGroup: "Harp",
-          status: "On Leave",
-          location: "Phantagrande"
-        });
-
-        this.resourceData.push({
-          resourceId: 5,
-          resourceName: "Ilsa",
-          group: "Earth",
-          peerGroup: "Gun",
-          status: "MIA",
-          location: "Nalhagrande"
-        });
-
-        this.resourceData.push({
-          resourceId: 6,
-          resourceName: "Sorn",
-          group: "Light",
-          peerGroup: "Bow",
-          status: "Available",
-          location: "With Silva"
-        });
-
-        this.resourceData.push({
-          resourceId: 7,
-          resourceName: "Silva",
-          group: "Water",
-          peerGroup: "Gun",
-          status: "Available",
-          location: "With Sorn"
-        });
-
-        this.resourcesDisplayed = this.resourceData.slice();
-        this.resourcesDisplayed.sort();
-
-      }
+      // if(this.resourcesDisplayed.length == 0){
+      //   this.resourceData = [];
+      //   this.resourceData.push({
+      //     resourceId: 1,
+      //     resourceName: "Lecia",
+      //     group: "Wind",
+      //     peerGroup: "Sword",
+      //     status: "Available",
+      //     location: "Nalhagrande"
+      //   });
+      //
+      //   this.resourceData.push({
+      //     resourceId: 2,
+      //     resourceName: "Rosetta",
+      //     group: "Wind",
+      //     peerGroup: "Dagger",
+      //     status: "Available",
+      //     location: "Nalhagrande"
+      //   });
+      //
+      //   this.resourceData.push({
+      //     resourceId: 3,
+      //     resourceName: "Beatrix",
+      //     peerGroup: "Sword",
+      //     group: "Fire",
+      //     status: "Sick",
+      //     location: "Somewhere"
+      //   });
+      //
+      //   this.resourceData.push({
+      //     resourceId: 4,
+      //     resourceName: "Diantha",
+      //     group: "Water",
+      //     peerGroup: "Harp",
+      //     status: "On Leave",
+      //     location: "Phantagrande"
+      //   });
+      //
+      //   this.resourceData.push({
+      //     resourceId: 5,
+      //     resourceName: "Ilsa",
+      //     group: "Earth",
+      //     peerGroup: "Gun",
+      //     status: "MIA",
+      //     location: "Nalhagrande"
+      //   });
+      //
+      //   this.resourceData.push({
+      //     resourceId: 6,
+      //     resourceName: "Sorn",
+      //     group: "Light",
+      //     peerGroup: "Bow",
+      //     status: "Available",
+      //     location: "With Silva"
+      //   });
+      //
+      //   this.resourceData.push({
+      //     resourceId: 7,
+      //     resourceName: "Silva",
+      //     group: "Water",
+      //     peerGroup: "Gun",
+      //     status: "Available",
+      //     location: "With Sorn"
+      //   });
+      //
+      //   this.resourcesDisplayed = this.resourceData.slice();
+      //   this.resourcesDisplayed.sort();
+      //
+      // }
 
       //
       /*this.project.id = this.$route.params.projectId;
@@ -409,7 +409,8 @@ export default {
     },
 
     addResources() {
-      this.$router.push({path: '/admin/project/' + this.$route.params.projectId + '/addResources'});
+      //this.$router.push({path: '/admin/project/' + this.$route.params.projectId + '/addResources'});
+      this.$router.push({name: 'addResources', params: {projectId: this.$route.params.projectId, existingResources: this.resourceData} } );
     },
 
     enableEdit(){
