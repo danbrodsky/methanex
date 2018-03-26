@@ -410,7 +410,7 @@ export default {
 
     addResources() {
       //this.$router.push({path: '/admin/project/' + this.$route.params.projectId + '/addResources'});
-      this.$router.push({name: 'addResources', params: {projectId: this.$route.params.projectId, existingResources: this.resourceData} } );
+      this.$router.push({name: 'addResources', params: {projectId: this.$route.params.projectId, existingResources: this.resourceData, add: true} } );
     },
 
     enableEdit(){
