@@ -53,7 +53,6 @@
                         <b-form-input id="nestedName"
                                       v-model="addName"
                                       type="text"
-                                      :state=nameState
                                       placeholder="Enter your name"></b-form-input>
                       </b-form-group>
                       <b-form-group horizontal
@@ -62,7 +61,6 @@
                                     label-class="text-sm-right"
                                     label-for="nestedEmail">
                         <b-form-input id="nestedEmail"
-                                      :state=emailState
                                       v-model="addEmail"
                                       type="text"
                                       placeholder="Enter your email"></b-form-input>
