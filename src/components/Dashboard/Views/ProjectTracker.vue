@@ -211,9 +211,9 @@ export default {
         "manager": null,    // stored as id of manager?
         "project_owner": -1,
         "rag_status": -1,
-        "budget": -1,
-        "budget_used": -1,
-        "est_cash_needed_to_complete": -1,
+        "budget": 0,
+        "budget_used": 0,
+        "est_cash_needed_to_complete": 0,
         "start_date": new Date(),
         "end_date": new Date(),
 
@@ -385,6 +385,41 @@ export default {
     },
 
     addNewProject() {
+
+      //Valid Data Check
+      if (this.project.name === ''){
+        alert('The Project is Required to Have a Name')
+        return;
+      } 
+      if ((this.project.name).length > 20){
+        alert('The Project Name is too long, must be less than 20 Charecters')
+        return;
+      } 
+      if (typeof(this.project.status) !== 'string'){
+        alert('The Project Must Have a Status')
+        return;
+      } 
+      if (typeof(this.project.businessOwner) !== 'string'){
+        alert('The Project Must Have a Business Owner')
+        return;
+      }
+      if (typeof(parseInt(this.project.budget)) !== 'number' || (parseInt(this.project.budget) < 0)){
+        alert('The Project Must Have a Non-Negative Numerical Budget')
+        return;
+      }
+      if (typeof(parseInt(this.project.budget_used)) !== 'number' || (parseInt(this.project.budget_used) < 0)){
+        alert('The Project Must Have a Non-Negative Numerical Budget Used')
+        return;
+      }
+      if (typeof(parseInt(this.project.budget_est_needed)) !== 'number' || (parseInt(this.project.budget_est_needed) < 0)){
+        alert('The Project Must Have a Non-Negative Numerical Budget Estimate')
+        return;
+      }
+      if (this.project.start_date > this.project.end_date){
+        alert('The Project Start Date bust precede End Date')
+        return;
+      }
+       else {
       console.log("posting to: " + this.$root.serverURL + `/api/portfolios/${this.portfolioId}/projects/`);
 
       this.updatingStatus = "Saving...";
@@ -393,7 +428,6 @@ export default {
 
       console.log("Project looks like:");
       console.log(info.project);
-
       axios.post(this.$root.serverURL + `/api/portfolios/${this.portfolioId}/projects/`, {
         "name": info.project.name,
         "budget": info.project.budget,
@@ -409,6 +443,7 @@ export default {
         console.log(info.project.name);
         info.updatingStatus = "Saved!";
       });
+      }
     },
     updateProject() {
       axios.put(this.$root.serverURL + "/api/projects/" + this.project.id, {
