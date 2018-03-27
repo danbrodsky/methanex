@@ -35,9 +35,9 @@ export default {
 
           filterOptions: [
             {id: 0, name: "Group", value: "group"},
-            {id: 1, name: "Peer Group",value: "peerGroup"},
-            {id: 2, name: "Status", value: "status"},
-            {id: 3, name: "Location", value: "location"}
+            //{id: 1, name: "Peer Group",value: "peerGroup"},
+            {id: 1, name: "Status", value: "status"},
+            {id: 2, name: "Location", value: "location"}
            // {id: 5, name: "Hours worked", value: "hours"}
           ],
 
