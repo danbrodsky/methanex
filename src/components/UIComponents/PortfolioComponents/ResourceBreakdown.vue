@@ -1,9 +1,9 @@
 <template>
   <div class="card" id="resourceBreakdownClass">
     <div class="card-title">Resource Breakdown</div>
-    <pie-chart v-if="!useBarChart" :chart-data="chartData" v-model="chartOptions" ></pie-chart>
-    <bar-chart v-else="useBarChart" :chart-data="chartData" v-model="chartOptions" ></bar-chart>
-    <select class="form-control mr-sm-2" id="breakdownFilterSelect" v-model="filterFieldId" @change="switchChart">
+    <pie-chart v-if="!useBarChart" :chart-data="calculateChartData" v-model="chartOptions" ></pie-chart>
+    <bar-chart v-else="useBarChart" :chart-data="calculateChartData" v-model="chartOptions" ></bar-chart>
+    <select class="form-control mr-sm-2" id="breakdownFilterSelect" v-model="filterFieldId" >
       <option v-for="option in filterOptions" v-bind:value="option.id">{{option.name}}</option>
     </select>
   </div>
@@ -26,7 +26,7 @@ export default {
 
     data () {
         return {
-          //chartData: [],
+          chartData: [],
           unfilteredData: [],
           chartOptions: [],
           useBarChart: false,
@@ -35,20 +35,11 @@ export default {
 
           filterOptions: [
             {id: 0, name: "Group", value: "group"},
-            {id: 1, name: "Peer Group",value: "peerGroup"},
-            {id: 2, name: "Status", value: "status"},
-            {id: 3, name: "Location", value: "location"}
+            //{id: 1, name: "Peer Group",value: "peerGroup"},
+            {id: 1, name: "Status", value: "status"},
+            {id: 2, name: "Location", value: "location"}
            // {id: 5, name: "Hours worked", value: "hours"}
           ],
-
-          // since portfolio data is pretty barebones right now, display stub data for resource break down in portfolios
-          chartData: {
-            labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
-            datasets: [{
-              backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1BFF'],
-              data: [40, 20, 80, 10]
-            }]
-          },
 
           chartOptions: {
             responsive: true,
@@ -58,29 +49,44 @@ export default {
         }
     },
 
-  created() {
-    // This is being called too early, consider calling on a different event
+  computed: {
+      calculateChartData: function() {
+        console.log("Calculate chart data");
+        var filterId = this.filterFieldId;
+        self = this;
+        console.log(this.filterOptions);
+        var filterType = this.filterOptions[filterId].value;
+        console.log(this.filterOptions[filterId].value);
+        console.log(self.resourceData);
+        var result = this.calculateDistribution(filterType);
 
-    // console.log("Created in resourceBreakdown")
-    // this.unfilteredData = this.resourceData;
-    // if(this.unfilteredData.length > 0) {
-    //   this.calculateChartData();
-    // }
-  },
+        console.log("After calculate distribution");
+        console.log(this.chartData);
 
-  mounted() {
-    document.getElementById("pie-chart").addEventListener("click",
-    function(e){
-      console.log(e);
-      console.log(e.target);
-    })
+        var numItems = result.count.length;
+        var colours = [];
+        for(var i=0; i<numItems; i++){
+          colours.push(randomColor());
+        }
+
+        this.chartData = {
+          labels: result.labels,
+          datasets:[{
+            backgroundColor: colours,
+            data: result.count
+          }]
+        }
+        console.log("return chart data");
+        console.log(this.chartData);
+        return this.chartData;
+      }
   },
 
   methods: {
 
     calculateDistribution(labelType) {
       var labelMap = new Map();
-      var data = this.unfilteredData;
+      var data = this.resourceData;
 
       console.log(data.length);
       for(var i = 0; i < data.length; i++){
@@ -89,6 +95,9 @@ export default {
         if(elem.hasOwnProperty(labelType)){
           //console.log(elem.resourceName);
           var labelName = elem[labelType];
+          if(labelName == null){
+            labelName = "N/A";
+          }
           if(labelMap.has(labelName) == false){
             labelMap.set(labelName, 1);
           } else {
@@ -117,71 +126,6 @@ export default {
       }
       return result;
     },
-
-    calculateChartData() {
-      var filterId = this.filterFieldId;
-      self = this;
-      console.log(this.filterOptions);
-      var filterType = this.filterOptions[filterId].value;
-      console.log(this.filterOptions[filterId].value);
-      console.log(self.resourceData);
-      var result = this.calculateDistribution(filterType);
-
-      this.chartData.datasets.data = [];
-      this.chartData.datasets.backgroundColor = [];
-
-
-      var numItems = result.count.length;
-      var colours = [];
-      for(var i=0; i<numItems; i++){
-        colours.push(randomColor());
-      }
-
-      this.chartData = {
-        labels: result.labels,
-        datasets:[{
-          backgroundColor: colours,
-          data: result.count
-        }]
-      }
-      console.log(this.chartData);
-
-        // chartData: {
-        // labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
-        //   datasets: [{
-        //   backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1BFF'],
-        //   data: [40, 20, 80, 10]
-        // }]
-
-      //console.log(labelName);
-      // switch(filter) {
-      //   case 1:
-      //     console.log(filter);
-      //     labelName =
-      //     break;
-      //   case 2:
-      //     console.log(filter);
-      //     break;
-      //   case 3:
-      //     console.log(filter);
-      //     break;
-      //   case 4:
-      //     console.log(filter);
-      //     break;
-      //   default:
-      //     console.log("default");
-      //     console.log(filter);
-      //     console.log("end");
-      // }
-    },
-
-      switchChart() {
-        if(this.filterField == 4){
-          userBarChart = true;
-        }
-        this.calculateChartData();
-      },
-
 
       testClickChart(event) {
         console.log('clicked chart')

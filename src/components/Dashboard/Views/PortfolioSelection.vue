@@ -92,13 +92,17 @@
     methods: {
       fetchData() {
         var info = this;
-        console.log("hello my dudes");
         axios.get(this.$root.serverURL + "/api/portfolios")
           .then(response => {
-            info.portfoliosDisplayed = response.data;
-            console.log(info.portfoliosDisplayed[0].id);
+            info.portfolios = response.data;
+            for (var p of info.portfolios){
+              p.numProjects = p.projects.length;
+            }
+            info.portfoliosDisplayed = info.portfolios.slice();
+            // console.log('portfolios:', info.portfolios);
           })
       },
+
       filterPortfolios: _.debounce(function () {
         this.portfoliosDisplayed = [];
         for(var aPortfolio of this.portfolios) {

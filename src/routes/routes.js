@@ -13,12 +13,15 @@ import PortfolioSelection from 'src/components/Dashboard/Views/PortfolioSelectio
 import SkillList from 'src/components/Dashboard/Views/SkillList.vue'
 import Register from '../components/Register.vue'
 import Projects from '../components/Dashboard/Views/Projects.vue'
+import Reports from 'src/components/Dashboard/Views/Reports.vue'
+import AddResources from 'src/components/Dashboard/Views/AddResources.vue'
+import RemoveResources from 'src/components/Dashboard/Views/RemoveResources.vue'
 
 const routes = [
   {
     path: '/',
     component: DashboardLayout,
-    redirect: '/admin/portfolio-selection',
+    redirect: '/admin/user',
     meta: {
       auth: true
     }
@@ -36,7 +39,7 @@ const routes = [
   {
     path: '/admin',
     component: DashboardLayout,
-    redirect: '/admin/portfolio-selection',
+    redirect: '/admin/user',
     meta: {
       auth: true
     },
@@ -87,6 +90,18 @@ const routes = [
         component: ProjectTracker
       },
       {
+        path: 'project/:projectId/addResources',
+        name: 'addResources',
+        component: AddResources,
+        props: true
+      },
+      {
+        path: 'project/:projectId/removeResources',
+        name: 'removeResources',
+        component: RemoveResources,
+        props: true
+      },
+      {
         path: 'project',
         name: 'project',
         component: ProjectTracker
@@ -95,6 +110,11 @@ const routes = [
         path: 'notifications',
         name: 'Notifications',
         component: Notifications
+      },
+      {
+        path: 'reports',
+        name: 'Reports',
+        component: Reports
       }
     ]
   },
