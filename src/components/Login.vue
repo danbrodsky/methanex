@@ -2,7 +2,7 @@
   <div>
     <h1>Login</h1>
 
-    <b>Test users:</b> (admin / password)
+    <b>Test users:</b> (a@b.com / test1234)
 
     <hr/>
     <div>
@@ -57,8 +57,8 @@
         context: 'login context',
         data: {
           body: {
-            username: 'admin',
-            password: 'password'
+            username: 'a@b.com',
+            password: 'test1234'
           },
           rememberMe: false,
           fetchUser: false
@@ -78,10 +78,9 @@
               .axios
               .get(info.$root.serverURL + "/user/?username=" + info.data.body.username)
               .then((response) => {
-                this.$root.selfId = response.data;
-                this.$root.serverURL = "";
+                info.$root.$data.cookies.set('user',response.data);
               })
-              .catch(() => console.log("error getting resource ID"));
+              // .catch(() => console.log("error getting resource ID"));
             info.$auth.redirect();
           }, (res) => {
             this.showInvalidLoginBanner = true;

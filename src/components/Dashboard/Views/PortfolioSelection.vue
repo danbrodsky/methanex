@@ -41,6 +41,7 @@
     },
     created() {
       this.fetchData();
+      console.log(this.$root.$data.cookies.get('user'));
     },
     data() {
       return {
