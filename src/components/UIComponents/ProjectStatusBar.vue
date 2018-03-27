@@ -48,27 +48,27 @@
             <div class="row">
                 <div class="col-3">
                     <label>Target "Preapproval" Date: </label><br />
-                    <date-picker lang="en" change="notifyParent" v-model="datesData.expectedPreApprovalStatusDate"></date-picker>
+                    <date-picker lang="en" format="yyyy-MM-dd" v-on:change="notifyParent" v-model="datesData.expectedPreApprovalStatusDate"></date-picker>
                 </div>
                 <div class="col-3">
                     <label>Target "Seeking Funding" Date: </label><br />
-                    <date-picker lang="en" change="notifyParent" v-model="datesData.expectedSeekFundingStatusDate"></date-picker>
+                    <date-picker lang="en" format="yyyy-MM-dd" v-on:change="notifyParent" v-model="datesData.expectedSeekFundingStatusDate"></date-picker>
                 </div>
                 <div class="col-3">
                     <label>Target "Pipeline" Date: </label><br />
-                    <date-picker lang="en" change="notifyParent" v-model="datesData.expectedPipelineStatusDate"></date-picker>
+                    <date-picker lang="en" format="yyyy-MM-dd" v-on:change="notifyParent" v-model="datesData.expectedPipelineStatusDate"></date-picker>
                 </div>
                 <div class="col-3">
                     <label>Target "To Confirm" Date: </label><br />
-                    <date-picker lang="en" change="notifyParent" v-model="datesData.expectedConfirmedStatusDate"></date-picker>
+                    <date-picker lang="en" format="yyyy-MM-dd" v-on:change="notifyParent" v-model="datesData.expectedConfirmedStatusDate"></date-picker>
                 </div>
                 <div class="col-3">
                     <label>Target "Closing" Date: </label><br />
-                    <date-picker lang="en" change="notifyParent" v-model="datesData.expectedClosingStatusDate"></date-picker>
+                    <date-picker lang="en" format="yyyy-MM-dd" v-on:change="notifyParent" v-model="datesData.expectedClosingStatusDate"></date-picker>
                 </div>
                 <div class="col-3">
                     <label>Target "Closed" Date: </label><br />
-                    <date-picker lang="en" change="notifyParent" v-model="datesData.expectedClosedStatusDate"></date-picker>
+                    <date-picker lang="en" format="yyyy-MM-dd" v-on:change="notifyParent" v-model="datesData.expectedClosedStatusDate"></date-picker>
                 </div>
             </div>
             <div style="text-align:right; width:100%">
@@ -100,7 +100,7 @@ export default {
         }
     },
     created() {
-        this.datesData = value;
+        this.datesData = this.value;
     },
     mounted() {
         this.drawStatusBar();
@@ -206,6 +206,8 @@ export default {
             }
         },
         notifyParent() {
+            console.log("HELLO:");
+            console.log(this.datesData);
             this.$emit('input', this.datesData);
         }
     }

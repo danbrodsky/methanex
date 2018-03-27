@@ -338,12 +338,12 @@ export default {
         "name": info.project.name,
         "budget": info.project.budget,
         "ragStatus": info.project.rag_status,
-        "expectedPreApprovalStatusDate": datesData.expectedPreApprovalStatusDate,
-        "expectedSeekFundingStatusDate": datesData.expectedSeekFundingStatusDate,
-        "expectedPipelineStatusDate": datesData.expectedPipelineStatusDate,
-        "expectedConfirmedStatusDate": datesData.expectedConfirmedStatusDate,
-        "expectedClosingStatusDate": datesData.expectedClosingStatusDate,
-        "expectedClosedStatusDate": datesData.expectedClosedStatusDate
+        "expectedPreApprovalStatusDate": this.datesData.expectedPreApprovalStatusDate,
+        "expectedSeekFundingStatusDate": this.datesData.expectedSeekFundingStatusDate,
+        "expectedPipelineStatusDate": this.datesData.expectedPipelineStatusDate,
+        "expectedConfirmedStatusDate": this.datesData.expectedConfirmedStatusDate,
+        "expectedClosingStatusDate": this.datesData.expectedClosingStatusDate,
+        "expectedClosedStatusDate": this.datesData.expectedClosedStatusDate
 
         // "status": info.project.status,
         // "budget_used": info.project.budget_used,
