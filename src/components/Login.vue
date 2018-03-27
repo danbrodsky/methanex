@@ -76,12 +76,12 @@
           .then(() => {
             info
               .axios
-              .get(info.$root.serverURL + "/user/?username=" + info.data.body.username)
+              .get(info.$root.serverURL + "/user?username=" + info.data.body.username)
               .then((response) => {
-                this.$root.selfId = response.data;
-                this.$root.serverURL = "";
+                console.log(response.data);
+                sessionStorage.setItem("selfId", response.data);
               })
-              .catch(() => console.log("error getting resource ID"));
+              .catch(() => console.log("error getting resource"));
             info.$auth.redirect();
           }, (res) => {
             this.showInvalidLoginBanner = true;

@@ -6,7 +6,6 @@ import VueAxios from 'vue-axios'
 import LightBootstrap from './light-bootstrap-main'
 import routes from './routes/routes'
 import BootstrapVue from 'bootstrap-vue'
-import http from 'http'
 
 Vue.use(VueAxios, axios);
 Vue.use(VueRouter)
@@ -14,7 +13,7 @@ Vue.use(LightBootstrap)
 Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios);
 Vue.use(require('@websanova/vue-upload'));
-Vue.axios.defaults.baseURL = 'https://peaceful-hamlet-75445.herokuapp.com'; //update to backend after testing
+Vue.axios.defaults.baseURL = 'https://peaceful-hamlet-75445.herokuapp.com0'; //update to backend after testing
 
 // configure router
 const router = new VueRouter({
@@ -36,7 +35,7 @@ Vue.use(require('@websanova/vue-auth'), {
     registerData: {url: '/register', method: 'POST', redirect: '/login'},
     authRedirect: {path: 'login'},
     token: [{request: 'Authorization', response: 'Authorization', authType: 'bearer', foundIn: 'header'}, {request: 'token', response: 'token', authType: 'bearer', foundIn: 'response'}],
-    tokenExpired: false,
+    tokenExpired: false
 });
 
 new Vue({
@@ -44,7 +43,6 @@ new Vue({
   render: h => h(App),
   router,
   data: {
-    selfId: -1,
     // serverURL: 'http://localhost:8080'
     serverURL: 'https://peaceful-hamlet-75445.herokuapp.com'
   }

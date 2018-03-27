@@ -190,7 +190,7 @@
           },
           {
             label: 'Category(s)',
-            field: 'category[0].name',
+            field: 'categories',
             type: 'string',
             filterable: true,
           }
@@ -216,7 +216,13 @@
         var info = this;
         axios.get(this.$root.serverURL + "/api/technicalSkills")
           .then(response => {
+            response.data.forEach(obj => {
+              let temp = "";
+              obj.categories.forEach(category => temp += category.name + ", ");
+              obj.categories = temp.substring(0, temp.length-2);
+            });
             info.rowsTechnical = response.data;
+            console.log(info.rowsTechnical);
           })
           .catch(() => console.log("error fetching technical skills"))
       },
