@@ -2,31 +2,11 @@
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <div class="collapse navbar-collapse justify-content-end">
-        <ul class="nav navbar-nav mr-auto">
-          <drop-down tag="li">
-            <template slot="title">
-              <i class="nc-icon nc-planet"></i>
-              <b class="caret"></b>
-              <span class="notification">5</span>
-            </template>
-            <a class="dropdown-item" href="#">Notification 1</a>
-            <a class="dropdown-item" href="#">Notification 2</a>
-            <a class="dropdown-item" href="#">Notification 3</a>
-            <a class="dropdown-item" href="#">Notification 4</a>
-            <a class="dropdown-item" href="#">Another notification</a>
-          </drop-down>
-        </ul>
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a href="#" class="nav-link">
-                <span v-show="$auth.check()">
-                  <a v-on:click="logout()" href="javascript:void(0);">Logout</a>
-              </span>
-              <span v-show="$auth.impersonating()">
-                &bull;
-                <a v-on:click="unimpersonate()" href="javascript:void(0);">(logout {{ $auth.user().username }})</a>
-              </span>
-            </a>
+            <b-button @click="logout" :size="size" variant="primary">
+              Logout
+            </b-button>
           </li>
         </ul>
       </div>
@@ -36,30 +16,30 @@
 <script>
   export default {
     computed: {
-      routeName () {
+      routeName() {
         const {name} = this.$route
         return this.capitalizeFirstLetter(name)
       }
     },
-    data () {
+    data() {
       return {
         activeNotifications: false
       }
     },
     methods: {
-      capitalizeFirstLetter (string) {
+      capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1)
       },
-      toggleNotificationDropDown () {
+      toggleNotificationDropDown() {
         this.activeNotifications = !this.activeNotifications
       },
-      closeDropDown () {
+      closeDropDown() {
         this.activeNotifications = false
       },
-      toggleSidebar () {
+      toggleSidebar() {
         this.$sidebar.displaySidebar(!this.$sidebar.showSidebar)
       },
-      hideSidebar () {
+      hideSidebar() {
         this.$sidebar.displaySidebar(false)
       },
       logout() {
@@ -77,10 +57,10 @@
       unimpersonate() {
         this.$auth.unimpersonate({
           success() {
-              console.log('success ' + this.context);
+            console.log('success ' + this.context);
           },
           error() {
-              console.log('error ' + this.context);
+            console.log('error ' + this.context);
           }
         });
       }

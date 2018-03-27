@@ -21,7 +21,7 @@ Vue.use(LightBootstrap)
 Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios);
 Vue.use(require('@websanova/vue-upload'));
-Vue.axios.defaults.baseURL = 'https://peaceful-hamlet-75445.herokuapp.com'; //update to backend after testing
+Vue.axios.defaults.baseURL = 'http://localhost:8080'; //update to backend after testing
 // Vue.axios.defaults.baseURL = 'http://localhost:8080';
 
 // configure router
@@ -40,7 +40,7 @@ Vue.use(require('@websanova/vue-auth'), {
     refreshData: {url: '', method: 'GET', enabled: false, interval: 30},
     loginData: {url: 'login', method: 'POST', redirect: 'admin/user', fetchUser: false},
     fetchData: {url: 'login', method: 'POST', enabled: false},
-    logoutData: {url: 'logout', method: 'POST', redirect: '/logout', makeRequest: true},
+    logoutData: {url: 'logout', method: 'POST', redirect: '/login', makeRequest: true},
     registerData: {url: '/register', method: 'POST', redirect: '/login'},
     authRedirect: {path: 'login'},
     token: [{request: 'Authorization', response: 'Authorization', authType: 'bearer', foundIn: 'header'}, {request: 'token', response: 'token', authType: 'bearer', foundIn: 'response'}],
@@ -52,8 +52,8 @@ new Vue({
   render: h => h(App),
   router,
   data: {
-    // serverURL: 'http://localhost:8080',
+    serverURL: 'http://localhost:8080',
     cookies: Cookies,
-    serverURL: 'https://peaceful-hamlet-75445.herokuapp.com'
+    // serverURL: 'https://peaceful-hamlet-75445.herokuapp.com'
   }
 })

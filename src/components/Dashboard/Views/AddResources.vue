@@ -297,8 +297,7 @@
           //whatever we dont care about efficiency
           if(resourcesToAdd.length > 0){
             var info = this;
-            console.log(resourcesToAdd);
-            axios.post(this.$root.serverURL + "/api/projects/addResource?projectId=" + projectId, resourceIds)
+            axios.post(this.$root.serverURL + "/projects/" + projectId + "/resources", resourceIds)
               .then(function(res){
                 info.modalMessage = "Added resources successfully.";
                 info.requestSuccess = true;
