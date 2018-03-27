@@ -44,6 +44,10 @@
                   </label>
                 </td>
               </template>
+              <template slot="table-row-after" slot-scope="props">
+                <td><button class="btn btn-warning btn-sm" @click="edit1(props.row.originalIndex)">edit</button>
+                  <button class="btn btn-danger btn-sm" @click="delete1(props.row.originalIndex)">delete</button></td>
+              </template>
             </vue-good-table>
             <div>
               <b-button v-b-modal.addResourceModal1 class="btn btn-success">
@@ -119,6 +123,10 @@
                   </label>
                 </td>
               </template>
+              <template slot="table-row-after" slot-scope="props">
+                <td><button class="btn btn-warning btn-sm" @click="edit2(props.index)">edit</button>
+                  <button class="btn btn-danger btn-sm" @click="delete2(props.index)">delete</button></td>
+              </template>
             </vue-good-table>
             <div>
               <b-button v-b-modal.addResourceModal2 class="btn btn-success">
@@ -190,10 +198,14 @@
           },
           {
             label: 'Category(s)',
-            field: 'category[0].name',
+            field: 'categories["0"].name',
             type: 'string',
             filterable: true,
+          },
+          {
+            label: 'Actions'
           }
+
         ],
         columnsNonTechnical: [
           {
@@ -209,6 +221,8 @@
         rowsNonTechnical: [],
         addCategories: [],
         addCategoryOptions: [],
+        skillTechnical: [],
+        skillNonTech: [],
       };
     },
     methods: {
@@ -217,6 +231,7 @@
         axios.get(this.$root.serverURL + "/api/technicalSkills")
           .then(response => {
             info.rowsTechnical = response.data;
+            console.log(response.data);
           })
           .catch(() => console.log("error fetching technical skills"))
       },
@@ -225,6 +240,7 @@
         axios.get(this.$root.serverURL + "/api/nonTechnicalSkills")
           .then(response => {
             info.rowsNonTechnical = response.data;
+            console.log(response.data);
           })
           .catch(() => console.log("error fetching non technical skills"))
       },
@@ -275,7 +291,29 @@
         } else {
           this.addData2()
         }
-      }
+      },
+      edit1(index) {
+        let skillId = this.rowsTechnical[index.toString()].id;
+        console.log(skillId);
+      },
+      edit2(index) {
+        let skillId = this.rowsNonTechnical[index.toString()];
+        console.log(skillId);
+      },
+      delete1(index) {
+        let skillId = this.rowsTechnical[index.toString()].id;
+        console.log(skillId);
+        axios.delete(this.$root.serverURL + "/api/technicalSkills/" + skillId)
+          .then()
+          .catch(() => console.log("error deleting tech skills"))
+      },
+      delete2(index) {
+        let skillId = this.rowsNonTechnical[index.toString()];
+        console.log(skillId);
+        axios.delete(this.$root.serverURL + "/api/nonTechnicalSkills/" + skillId)
+          .then()
+          .catch(() => console.log("error deleting nonTech skills"))
+      },
     }
   }
 </script>
