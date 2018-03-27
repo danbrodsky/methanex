@@ -141,7 +141,6 @@
       }
     },
     created() {
-      console.log(sessionStorage.getItem("selfId"));
       var token = 'Bearer ' + this.$auth.token('default_auth_token');
       this.headers['Authorization'] = token;
       this.fetchData();
@@ -150,11 +149,15 @@
       fetchData() {
         let info = this;
         axios
-          .get(info.$root.serverURL + "/api/resources/2")
+          .get(info.$root.serverURL + "/api/resources/" + JSON.parse(info.$root.$data.cookies.get('user')).id)
           .then(response => {
             info.resource = response.data;
             info.values = info.resource.skills;
-          });
+          })
+          .catch(error => {
+            info.resource = JSON.parse(info.$root.$data.cookies.get('user'));
+            info.values = info.resource.skills;
+          })
         axios
           .get(info.$root.serverURL + "/api/technicalSkills")
           .then(response => {
@@ -192,9 +195,10 @@
               .catch(() => console.log("error while adding notifications"));
           })
           .catch(() => console.log("error while updating resource"));
-      }
+      },
     }
   }
+
 </script>
 <style>
 </style>

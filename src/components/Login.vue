@@ -79,9 +79,9 @@
               .get(info.$root.serverURL + "/user?username=" + info.data.body.username)
               .then((response) => {
                 info.$root.$data.cookies.set('user',response.data);
+                info.$router.push("admin");
               })
               // .catch(() => console.log("error getting resource ID"));
-            info.$auth.redirect();
           }, (res) => {
             this.showInvalidLoginBanner = true;
           });

@@ -20,7 +20,7 @@ const routes = [
   {
     path: '/',
     component: DashboardLayout,
-    redirect: '/admin/portfolio-selection',
+    redirect: '/admin/user',
     meta: {
       auth: true
     }
@@ -38,7 +38,7 @@ const routes = [
   {
     path: '/admin',
     component: DashboardLayout,
-    redirect: '/admin/portfolio-selection',
+    redirect: '/admin/user',
     meta: {
       auth: true
     },

@@ -38,7 +38,7 @@ Vue.use(require('@websanova/vue-auth'), {
     http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
     router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
     refreshData: {url: '', method: 'GET', enabled: false, interval: 30},
-    loginData: {url: 'login', method: 'POST', redirect: 'admin/user', fetchUser: false},
+    loginData: {url: 'login', method: 'POST', redirect: '', fetchUser: false},
     fetchData: {url: 'login', method: 'POST', enabled: false},
     logoutData: {url: 'logout', method: 'POST', redirect: '/login', makeRequest: true},
     registerData: {url: '/register', method: 'POST', redirect: '/login'},
