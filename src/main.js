@@ -23,6 +23,7 @@ Vue.use(VueAxios, axios);
 Vue.use(require('@websanova/vue-upload'));
 Vue.axios.defaults.baseURL = 'https://peaceful-hamlet-75445.herokuapp.com'; //update to backend after testing
 // Vue.axios.defaults.baseURL = 'http://localhost:8080';
+
 // configure router
 const router = new VueRouter({
   routes,
@@ -43,7 +44,7 @@ Vue.use(require('@websanova/vue-auth'), {
     registerData: {url: '/register', method: 'POST', redirect: '/login'},
     authRedirect: {path: 'login'},
     token: [{request: 'Authorization', response: 'Authorization', authType: 'bearer', foundIn: 'header'}, {request: 'token', response: 'token', authType: 'bearer', foundIn: 'response'}],
-    tokenExpired: false,
+    tokenExpired: false
 });
 
 new Vue({

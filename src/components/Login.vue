@@ -76,7 +76,7 @@
           .then(() => {
             info
               .axios
-              .get(info.$root.serverURL + "/user/?username=" + info.data.body.username)
+              .get(info.$root.serverURL + "/user?username=" + info.data.body.username)
               .then((response) => {
                 info.$root.$data.cookies.set('user',response.data);
               })

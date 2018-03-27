@@ -144,8 +144,8 @@
       <div class="row">
         <resource-card
           v-for="resource of resourcesDisplayed"
-          v-bind:key="resource.resourceId"
-          v-bind:resourceName="resource.resourceName"
+          v-bind:key="resource.id"
+          v-bind:resourceName="resource.name"
           v-bind:status="resource.status"
           v-bind:location="resource.location"></resource-card>
 
@@ -276,7 +276,8 @@ export default {
         .then(response => {
           console.log("Received response from resource api")
           console.log(response.data);
-          info.resourcesDisplayed = response.data;
+          info.resourceData = response.data;
+          info.resourcesDisplayed = info.resourceData;
         })
 
       // for wip purposes display stub data if there is no resource data available for the project
