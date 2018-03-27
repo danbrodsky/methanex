@@ -7,17 +7,17 @@
         </template>
         <div class="row">
           <div class="col-md-12">
-            <NotificationRow    v-for="(notification,index) of receivedNotifications"
-                                v-bind:skillName="notification.skill.name"
-                                v-bind:skillId="notification.skill.id"
-                                v-bind:resourceName="notification.resource.name"
-                                v-bind:resourceId="notification.resource.id"
-                                v-bind:managerId="notification.manager.id"
-                                v-bind:key="notification.id"
-                                v-bind:id="index"
-                                v-bind:notification="notification"
-                                v-on:notification-remove="remove"
-                                v-bind="notifications">
+            <NotificationRow v-for="(notification,index) of receivedNotifications"
+                             v-bind:skillName="notification.skill.name"
+                             v-bind:skillId="notification.skill.id"
+                             v-bind:resourceName="notification.resource.name"
+                             v-bind:resourceId="notification.resource.id"
+                             v-bind:managerId="notification.manager.id"
+                             v-bind:key="notification.id"
+                             v-bind:id="index"
+                             v-bind:notification="notification"
+                             v-on:notification-remove="remove"
+                             v-bind="notifications">
             </NotificationRow>
           </div>
         </div>
@@ -38,7 +38,7 @@
     created() {
       this.fetchData();
     },
-    data () {
+    data() {
       return {
         type: ['', 'info', 'success', 'warning', 'danger'],
         notifications: {
@@ -48,17 +48,16 @@
       }
     },
     methods: {
-        fetchData() {
-      axios.get(this.$root.serverURL + "/api/notifications/manager/2") // add manager id here when there's login
+      fetchData() {
+        axios.get(this.$root.serverURL + "/api/notifications?managerId=3") // add manager id here when there's login
           .then(response => {
             console.log(response.data);
-              this.receivedNotifications = response.data;
+            this.receivedNotifications = response.data;
           })
-        },
-        remove(id) {
-          console.log("got here");
-           this.receivedNotifications.splice(id, 1);
-        }
+      },
+      remove(id) {
+        this.receivedNotifications.splice(id, 1);
+      }
     }
   }
 
