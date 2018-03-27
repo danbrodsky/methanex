@@ -15,6 +15,7 @@ import Register from '../components/Register.vue'
 import Projects from '../components/Dashboard/Views/Projects.vue'
 import Reports from 'src/components/Dashboard/Views/Reports.vue'
 import AddResources from 'src/components/Dashboard/Views/AddResources.vue'
+import RemoveResources from 'src/components/Dashboard/Views/RemoveResources.vue'
 
 const routes = [
   {
@@ -92,6 +93,12 @@ const routes = [
         path: 'project/:projectId/addResources',
         name: 'addResources',
         component: AddResources,
+        props: true
+      },
+      {
+        path: 'project/:projectId/removeResources',
+        name: 'removeResources',
+        component: RemoveResources,
         props: true
       },
       {

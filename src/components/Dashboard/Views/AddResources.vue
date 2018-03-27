@@ -193,7 +193,6 @@
                           console.log(inProject[j]);
                         }
 
-
                       }
                       if(!alreadyInProj){
                         diff.push(info.rows[i]);
@@ -298,7 +297,7 @@
           if(resourcesToAdd.length > 0){
             var info = this;
             console.log(resourcesToAdd);
-            axios.post(this.$root.serverURL + "/api/projects/addResource?projectId=" + projectId, resourceIds)
+            axios.post(this.$root.serverURL + "/api/projects/" + projectId + "/resources", resourceIds)
               .then(function(res){
                 info.modalMessage = "Added resources successfully.";
                 info.requestSuccess = true;

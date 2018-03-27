@@ -6,10 +6,15 @@
     </div>
     <div class="card-body">
       <div class="body-data">
-          <span>Status: {{ status }}</span>
+          <span>Status: {{ getResourceStatus }}</span>
       </div>
       <div class="body-data">
-          <span><i class="fa fa-globe"></i> {{ location }}</span>
+          <span><i class="fa fa-globe"></i> {{ getLocation }}</span>
+      </div>
+      <div class="body-data">
+        <span>
+          Group: {{ getGroup }}
+        </span>
       </div>
     </div>
   </div>
@@ -29,11 +34,42 @@
         location: {
             type: String,
             default: 'Canada'
+        },
+        group: {
+            type: String,
+            default: 'N/A'
         }
     },
     data () {
         return {}
     },
+
+    computed: {
+      getResourceStatus: function(){
+        if(!this.status){
+          return "N/A";
+        }
+        return this.status;
+      },
+
+      getLocation: function(){
+        if(!this.location){
+          return "N/A";
+        }
+        return this.location;
+      },
+
+      getGroup: function(){
+        if(!this.group){
+          return "N/A";
+        }
+        console.log("this.group:");
+        console.log(this.group);
+        console.log(this.group == "null");
+        return this.group;
+      }
+    },
+
     methods: {
       goToResource () {
         this.$router.push({path: '/admin/table-list'});
