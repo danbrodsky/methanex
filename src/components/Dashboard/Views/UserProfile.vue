@@ -141,6 +141,7 @@
       }
     },
     created() {
+      console.log(sessionStorage.getItem("selfId"));
       var token = 'Bearer ' + this.$auth.token('default_auth_token');
       this.headers['Authorization'] = token;
       this.fetchData();
@@ -191,10 +192,9 @@
               .catch(() => console.log("error while adding notifications"));
           })
           .catch(() => console.log("error while updating resource"));
-      },
+      }
     }
   }
-
 </script>
 <style>
 </style>
