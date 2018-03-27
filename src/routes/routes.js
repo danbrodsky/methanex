@@ -14,6 +14,7 @@ import SkillList from 'src/components/Dashboard/Views/SkillList.vue'
 import Register from '../components/Register.vue'
 import Projects from '../components/Dashboard/Views/Projects.vue'
 import Reports from 'src/components/Dashboard/Views/Reports.vue'
+import CreatePortfolio from 'src/components/Dashboard/Views/CreatePortfolio.vue'
 
 
 const routes = [
@@ -102,6 +103,11 @@ const routes = [
         path: 'reports',
         name: 'Reports',
         component: Reports
+      },
+      {
+        path: 'create-portfolio',
+        name: 'Create Portfolio',
+        component: CreatePortfolio
       }
     ]
   },

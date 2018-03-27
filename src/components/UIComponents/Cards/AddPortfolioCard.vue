@@ -12,7 +12,7 @@
     name: 'add-portfolio-card',
     methods: {
       createNewPortfolio() {
-        this.$router.push({path: '/admin/portfolio/add'});         // need to make 'create-portfolio'
+        this.$router.push({path: '/admin/create-portfolio'});         // need to make 'create-portfolio'
       }
     }
   }
