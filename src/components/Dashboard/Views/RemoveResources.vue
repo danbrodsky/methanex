@@ -182,6 +182,7 @@
                 info.showModal = true;
                 info.modalMessage = "Removed resources successfully.";
                 info.requestSuccess = true;
+                info.rows = remaining;
               })
               .catch(function(error){
                 info.showModal = false;
