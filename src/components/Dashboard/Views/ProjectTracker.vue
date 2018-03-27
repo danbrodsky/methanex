@@ -118,7 +118,7 @@
           <!--</div>-->
         <!--</div>-->
         <div class ="col-5" style="height:100%">
-          <resource-breakdown v-bind:resourceData="resourceData"></resource-breakdown>
+          <resource-breakdown v-if="!isNewProject" v-bind:resourceData="resourceData"></resource-breakdown>
         </div>
       </div>
       <div class="row">
@@ -153,6 +153,7 @@
       </div>
       <div class="row">
         <resource-card
+          v-if="!isNewProject"
           v-for="resource of resourcesDisplayed"
           v-bind:key="resource.id"
           v-bind:resourceName="resource.name"
@@ -279,6 +280,8 @@ export default {
         .then(response => {
           console.log(response.data);
           info.project = response.data;
+          console.log("project info:");
+          console.log(info.project);
         })
       //currently portfolio controller has not been setup so i dont have access to project id
       // fetchProjectResources();
