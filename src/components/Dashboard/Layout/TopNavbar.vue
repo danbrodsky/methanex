@@ -24,7 +24,7 @@
               </span>
               <span v-show="$auth.impersonating()">
                 &bull;
-                <a v-on:click="unimpersonate()" href="javascript:void(0);">(logout {{ $auth.user().username }})</a>
+                <a v-on:click="unimpersonate()" href="javascript:void(0);">(logout)</a>
               </span>
             </a>
           </li>
@@ -63,16 +63,17 @@
         this.$sidebar.displaySidebar(false)
       },
       logout() {
-        this.$auth.logout({
-          makeRequest: true,
-          success() {
-            console.log('success ' + this.context);
-            this.$router.push({ name: 'Login' })
-          },
-          error() {
-            console.log('error ' + this.context);
-          }
-        });
+        // this.$auth.logout({
+        //   makeRequest: true,
+        //   success() {
+        //     console.log('success ' + this.context);
+        //   },
+        //   error() {
+        //     console.log('error ' + this.context);
+        //   }
+        // });
+        localStorage.removeItem('default_auth_token');
+        this.$router.push("/login");
       },
       unimpersonate() {
         this.$auth.unimpersonate({
