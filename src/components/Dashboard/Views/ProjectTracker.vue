@@ -128,9 +128,19 @@
           <span style="align:center">{{ updatingStatus }}</span>
       </div>
       <div class="row">
-        <button type="button" class="btn btn-primary btn-sm btn-fill float-right" v-on:click="addResources">
-          Add Resources
-        </button>
+        <div class="col-6">
+          <button class="btn btn-outline-primary btn-fill btn-block" style="padding-right:30px; padding-left:30px" v-on:click="addResources"
+                  v-if="!isNewProject && isProjectManager">
+            Add Resources
+          </button>
+        </div>
+        <div class="col-6">
+          <button class="btn btn-outline-danger btn-fill btn-block" style="padding-right:30px; padding-left:30px" v-on:click="removeResources"
+                  v-if="!isNewProject && isProjectManager">
+            Remove Resources
+          </button>
+        </div>
+
       </div>
       <div class="row">
         <filter-bar
@@ -147,7 +157,8 @@
           v-bind:key="resource.id"
           v-bind:resourceName="resource.name"
           v-bind:status="resource.status"
-          v-bind:location="resource.location"></resource-card>
+          v-bind:location="resource.location"
+          v-bind:group="resource.group"></resource-card>
 
       </div>
       <!-- <div class="col-2">
@@ -412,6 +423,10 @@ export default {
     addResources() {
       //this.$router.push({path: '/admin/project/' + this.$route.params.projectId + '/addResources'});
       this.$router.push({name: 'addResources', params: {projectId: this.$route.params.projectId, existingResources: this.resourceData, add: true} } );
+    },
+
+    removeResources() {
+      this.$router.push({name: 'removeResources', params: {projectId: this.$route.params.projectId} } );
     },
 
     enableEdit(){
