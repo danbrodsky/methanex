@@ -49,7 +49,7 @@
     },
     methods: {
       fetchData() {
-        axios.get(this.$root.serverURL + "/api/notifications?managerId=3") // add manager id here when there's login
+        axios.get(this.$root.serverURL + "/api/notifications?managerId=" + JSON.parse(info.$root.$data.cookies.get('user')).id) // add manager id here when there's login
           .then(response => {
             console.log(response.data);
             this.receivedNotifications = response.data;
