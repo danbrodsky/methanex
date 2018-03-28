@@ -21,8 +21,7 @@ Vue.use(LightBootstrap)
 Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios);
 Vue.use(require('@websanova/vue-upload'));
-Vue.axios.defaults.baseURL = 'http://localhost:8080'; //update to backend after testing
-// Vue.axios.defaults.baseURL = 'http://localhost:8080';
+Vue.axios.defaults.baseURL = 'http://localhost:8080';
 
 // configure router
 const router = new VueRouter({
@@ -52,8 +51,8 @@ new Vue({
   render: h => h(App),
   router,
   data: {
-    serverURL: 'http://localhost:8080',
     cookies: Cookies,
     // serverURL: 'https://peaceful-hamlet-75445.herokuapp.com'
+    serverURL: 'http://localhost:8080'
   }
 })

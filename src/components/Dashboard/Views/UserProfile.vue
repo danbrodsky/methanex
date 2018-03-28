@@ -176,6 +176,7 @@
           "status": info.resource.status
         })
           .then(function () {
+            info.fetchData();
             let notifications = [];
             let currentSkills = info.resource.skills;
             info.updatedResourceSuccessBanner = true;

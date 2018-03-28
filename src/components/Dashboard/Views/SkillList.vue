@@ -4,9 +4,16 @@
       <div>
         <b-alert :show=skillAddedSuccessBanner dismissible variant="success">
           <h4 class="alert-heading">Skill was added</h4>
-          <p>
-            Please refresh the page to view any changes
-          </p>
+        </b-alert>
+      </div>
+      <div>
+        <b-alert :show=skillDeletedBanner dismissible variant="success">
+          <h4 class="alert-heading">A skill was deleted</h4>
+        </b-alert>
+      </div>
+      <div>
+        <b-alert :show=skillEditedBanner dismissible variant="success">
+          <h4 class="alert-heading">A skill was updated</h4>
         </b-alert>
       </div>
       <div class="row">
@@ -51,7 +58,7 @@
             </vue-good-table>
             <div>
               <b-button v-b-modal.addResourceModal1 class="btn btn-success">
-                Add a new Skill
+                Add skill
               </b-button>
               <b-modal
                 id="addResourceModal1"
@@ -80,6 +87,7 @@
                                     label-class="text-sm-right"
                                     label-for="nestedEmail">
                         <b-form-select v-model="addCategories"
+                                       multiple
                                        :options="addCategoryOptions"
                                        id='add-ddown'>
                         </b-form-select>
@@ -119,20 +127,19 @@
               <template slot="table-row-before" slot-scope="props">
                 <td>
                   <label class="checkbox">
-                    <input type="checkbox" v-model="rowsTechnical[props.row.originalIndex].selected">
+                    <input type="checkbox" v-model="rowsNonTechnical[props.row.originalIndex].selected">
                   </label>
                 </td>
               </template>
               <template slot="table-row-after" slot-scope="props">
-                <td><button class="btn btn-warning btn-sm" @click="edit2(props.index)">edit</button>
-                  <button class="btn btn-danger btn-sm" @click="delete2(props.index)">delete</button></td>
+                <td><button class="btn btn-warning btn-sm" @click="edit2(props.row.originalIndex)">edit</button>
+                  <button class="btn btn-danger btn-sm" @click="delete2(props.row.originalIndex)">delete</button></td>
               </template>
             </vue-good-table>
             <div>
               <b-button v-b-modal.addResourceModal2 class="btn btn-success">
-                Add a new Skill
+                Add skill
               </b-button>
-
               <b-modal
                 id="addResourceModal2"
                 @ok="handleOk2">
@@ -151,8 +158,7 @@
                         <b-form-input id="nestedName"
                                       v-model="addName2"
                                       type="text"
-                                      placeholder="Enter your name">
-                        </b-form-input>
+                                      placeholder="Enter your name"></b-form-input>
                       </b-form-group>
                     </b-form-group>
                   </b-card>
@@ -186,6 +192,8 @@
         addName1: "",
         addName2: "",
         allSelected: false,
+        skillDeletedBanner: false,
+        skillEditedBanner: false,
         columnsTechnical: [
           {
             label: '',
@@ -216,6 +224,9 @@
             label: 'Name',
             field: 'name',
             filterable: true,
+          },
+          {
+            label: 'Actions'
           }],
         rowsTechnical: [],
         rowsNonTechnical: [],
@@ -236,7 +247,6 @@
               obj.categories = temp.substring(0, temp.length-2);
             });
             info.rowsTechnical = response.data;
-            console.log(info.rowsTechnical);
           })
           .catch(() => console.log("error fetching technical skills"))
       },
@@ -263,23 +273,23 @@
       },
       addData1() {
         var info = this;
-        info.skillAddedSuccessBanner = false;
-        axios.post(this.$root.serverURL + "/api/technicalSkills", {
-          name: info.addName1,
-          category: info.addCategories
-
-        })
-          .then(() => info.skillAddedSuccessBanner = true)
+        axios.post(this.$root.serverURL + "/api/technicalSkills?name=" + info.addName1, info.addCategories)
+          .then(() => {
+            info.update();
+            info.skillAddedSuccessBanner = true
+          })
           .catch(() => console.log("error adding tech skills"))
 
       },
       addData2() {
         var info = this;
-        info.skillAddedSuccessBanner = false;
         axios.post(this.$root.serverURL + "/api/nonTechnicalSkills", {
           name: info.addName2
         })
-          .then(() => info.skillAddedSuccessBanner = true)
+          .then(() => {
+            info.update();
+            info.skillAddedSuccessBanner = true
+          })
           .catch(() => console.log("error adding non-tech skills"))
 
       },
@@ -306,17 +316,25 @@
         console.log(skillId);
       },
       delete1(index) {
+        let info = this;
         let skillId = this.rowsTechnical[index.toString()].id;
         console.log(skillId);
         axios.delete(this.$root.serverURL + "/api/technicalSkills/" + skillId)
-          .then()
+          .then(() => {
+            info.skillDeletedBanner = true;
+            info.update();
+          })
           .catch(() => console.log("error deleting tech skills"))
       },
       delete2(index) {
+        let info = this;
         let skillId = this.rowsNonTechnical[index.toString()];
         console.log(skillId);
         axios.delete(this.$root.serverURL + "/api/nonTechnicalSkills/" + skillId)
-          .then()
+          .then(() => {
+            info.skillDeletedBanner = true;
+            info.created();
+          })
           .catch(() => console.log("error deleting nonTech skills"))
       },
     }

@@ -153,13 +153,10 @@
           rows: [
             {selected: false, name:"John", age:20, joined: '20120201'},
             {selected: false, name:"Jane", age:24, joined: '20120305'},
-            //...
           ],
 
           goToResource: function(row, index){
             console.log(row);
-            // if(index > 0)
-            //   this.$router.push({path: '/admin/user/' + row.id});
           }
         };
       },
