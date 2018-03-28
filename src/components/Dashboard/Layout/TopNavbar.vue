@@ -4,9 +4,15 @@
       <div class="collapse navbar-collapse justify-content-end">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <b-button @click="logout" :size="size" variant="primary">
-              Logout
-            </b-button>
+            <a href="#" class="nav-link">
+                <span v-show="$auth.check()">
+                  <a v-on:click="logout()" href="javascript:void(0);">Logout</a>
+              </span>
+              <span v-show="$auth.impersonating()">
+                &bull;
+                <a v-on:click="unimpersonate()" href="javascript:void(0);">(logout)</a>
+              </span>
+            </a>
           </li>
         </ul>
       </div>
@@ -43,16 +49,17 @@
         this.$sidebar.displaySidebar(false)
       },
       logout() {
-        this.$auth.logout({
-          makeRequest: true,
-          success() {
-            console.log('success ' + this.context);
-            this.$router.push({ name: 'Login' })
-          },
-          error() {
-            console.log('error ' + this.context);
-          }
-        });
+        // this.$auth.logout({
+        //   makeRequest: true,
+        //   success() {
+        //     console.log('success ' + this.context);
+        //   },
+        //   error() {
+        //     console.log('error ' + this.context);
+        //   }
+        // });
+        localStorage.removeItem('default_auth_token');
+        this.$router.push("/login");
       },
       unimpersonate() {
         this.$auth.unimpersonate({

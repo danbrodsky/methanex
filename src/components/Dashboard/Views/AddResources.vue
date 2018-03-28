@@ -153,10 +153,13 @@
           rows: [
             {selected: false, name:"John", age:20, joined: '20120201'},
             {selected: false, name:"Jane", age:24, joined: '20120305'},
+            //...
           ],
 
           goToResource: function(row, index){
             console.log(row);
+            // if(index > 0)
+            //   this.$router.push({path: '/admin/user/' + row.id});
           }
         };
       },
@@ -189,7 +192,6 @@
                           console.log("found someone thats already in the project");
                           console.log(inProject[j]);
                         }
-
 
                       }
                       if(!alreadyInProj){
@@ -294,7 +296,8 @@
           //whatever we dont care about efficiency
           if(resourcesToAdd.length > 0){
             var info = this;
-            axios.post(this.$root.serverURL + "/projects/" + projectId + "/resources", resourceIds)
+            console.log(resourcesToAdd);
+            axios.post(this.$root.serverURL + "/api/projects/" + projectId + "/resources", resourceIds)
               .then(function(res){
                 info.modalMessage = "Added resources successfully.";
                 info.requestSuccess = true;

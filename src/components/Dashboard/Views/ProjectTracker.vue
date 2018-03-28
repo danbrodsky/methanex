@@ -118,7 +118,7 @@
           <!--</div>-->
         <!--</div>-->
         <div class ="col-5" style="height:100%">
-          <resource-breakdown v-bind:resourceData="resourceData"></resource-breakdown>
+          <resource-breakdown v-if="!isNewProject" v-bind:resourceData="resourceData"></resource-breakdown>
         </div>
       </div>
       <div class="row">
@@ -128,9 +128,19 @@
           <span style="align:center">{{ updatingStatus }}</span>
       </div>
       <div class="row">
-        <button type="button" class="btn btn-primary btn-sm btn-fill float-right" v-on:click="addResources">
-          Add Resources
-        </button>
+        <div class="col-6">
+          <button class="btn btn-outline-primary btn-fill btn-block" style="padding-right:30px; padding-left:30px" v-on:click="addResources"
+                  v-if="!isNewProject && isProjectManager">
+            Add Resources
+          </button>
+        </div>
+        <div class="col-6">
+          <button class="btn btn-outline-danger btn-fill btn-block" style="padding-right:30px; padding-left:30px" v-on:click="removeResources"
+                  v-if="!isNewProject && isProjectManager">
+            Remove Resources
+          </button>
+        </div>
+
       </div>
       <div class="row">
         <filter-bar
@@ -143,11 +153,13 @@
       </div>
       <div class="row">
         <resource-card
+          v-if="!isNewProject"
           v-for="resource of resourcesDisplayed"
           v-bind:key="resource.id"
           v-bind:resourceName="resource.name"
           v-bind:status="resource.status"
-          v-bind:location="resource.location"></resource-card>
+          v-bind:location="resource.location"
+          v-bind:group="resource.group"></resource-card>
 
       </div>
       <!-- <div class="col-2">
@@ -199,9 +211,9 @@ export default {
         "manager": null,    // stored as id of manager?
         "project_owner": -1,
         "rag_status": -1,
-        "budget": -1,
-        "budget_used": -1,
-        "est_cash_needed_to_complete": -1,
+        "budget": 0,
+        "budget_used": 0,
+        "est_cash_needed_to_complete": 0,
         "start_date": new Date(),
         "end_date": new Date(),
 
@@ -268,6 +280,8 @@ export default {
         .then(response => {
           console.log(response.data);
           info.project = response.data;
+          console.log("project info:");
+          console.log(info.project);
         })
       //currently portfolio controller has not been setup so i dont have access to project id
       // fetchProjectResources();
@@ -371,6 +385,41 @@ export default {
     },
 
     addNewProject() {
+
+      //Valid Data Check
+      if (this.project.name === ''){
+        alert('The Project is Required to Have a Name')
+        return;
+      } 
+      if ((this.project.name).length > 20){
+        alert('The Project Name is too long, must be less than 20 Charecters')
+        return;
+      } 
+      if (typeof(this.project.status) !== 'string'){
+        alert('The Project Must Have a Status')
+        return;
+      } 
+      if (typeof(this.project.businessOwner) !== 'string'){
+        alert('The Project Must Have a Business Owner')
+        return;
+      }
+      if (typeof(parseInt(this.project.budget)) !== 'number' || (parseInt(this.project.budget) < 0)){
+        alert('The Project Must Have a Non-Negative Numerical Budget')
+        return;
+      }
+      if (typeof(parseInt(this.project.budget_used)) !== 'number' || (parseInt(this.project.budget_used) < 0)){
+        alert('The Project Must Have a Non-Negative Numerical Budget Used')
+        return;
+      }
+      if (typeof(parseInt(this.project.budget_est_needed)) !== 'number' || (parseInt(this.project.budget_est_needed) < 0)){
+        alert('The Project Must Have a Non-Negative Numerical Budget Estimate')
+        return;
+      }
+      if (this.project.start_date > this.project.end_date){
+        alert('The Project Start Date bust precede End Date')
+        return;
+      }
+       else {
       console.log("posting to: " + this.$root.serverURL + `/api/portfolios/${this.portfolioId}/projects/`);
 
       this.updatingStatus = "Saving...";
@@ -379,7 +428,6 @@ export default {
 
       console.log("Project looks like:");
       console.log(info.project);
-
       axios.post(this.$root.serverURL + `/api/portfolios/${this.portfolioId}/projects/`, {
         "name": info.project.name,
         "budget": info.project.budget,
@@ -395,6 +443,7 @@ export default {
         console.log(info.project.name);
         info.updatingStatus = "Saved!";
       });
+      }
     },
     updateProject() {
       axios.put(this.$root.serverURL + "/api/projects/" + this.project.id, {
@@ -412,6 +461,10 @@ export default {
     addResources() {
       //this.$router.push({path: '/admin/project/' + this.$route.params.projectId + '/addResources'});
       this.$router.push({name: 'addResources', params: {projectId: this.$route.params.projectId, existingResources: this.resourceData, add: true} } );
+    },
+
+    removeResources() {
+      this.$router.push({name: 'removeResources', params: {projectId: this.$route.params.projectId} } );
     },
 
     enableEdit(){

@@ -95,6 +95,9 @@ export default {
         if(elem.hasOwnProperty(labelType)){
           //console.log(elem.resourceName);
           var labelName = elem[labelType];
+          if(labelName == null){
+            labelName = "N/A";
+          }
           if(labelMap.has(labelName) == false){
             labelMap.set(labelName, 1);
           } else {

@@ -166,6 +166,65 @@
               </b-modal>
             </div>
           </card>
+
+          <div>
+            <b-modal
+              id="editSkillModal"
+              @ok="handleOk3">
+              <div>
+                <b-card bg-variant="light">
+                  <b-form-group horizontal
+                                breakpoint="lg"
+                                label="Edit Skill"
+                                label-size="lg"
+                                label-class="font-weight-bold pt-0"
+                                class="mb-0">
+                    <b-form-group horizontal
+                                  label="Name:"
+                                  label-class="text-sm-right"
+                                  label-for="nestedName">
+                      <b-form-input id="nestedName"
+                                    v-model="editName"
+                                    type="text"
+                                    placeholder="Enter your name"></b-form-input>
+                    </b-form-group>
+
+                    <b-form-group horizontal
+                                  label="Category:"
+                                  type="text"
+                                  label-class="text-sm-right"
+                                  label-for="nestedEmail">
+                      <b-form-select v-model="editCategories"
+                                     :options="addCategoryOptions">
+                      </b-form-select>
+                    </b-form-group>
+                  </b-form-group>
+                </b-card>
+              </div>
+            </b-modal>
+            <b-modal title="Manage Categories"
+                     id="manageCategoryModal">
+              <div class="row">
+                <div class="col-9">
+                <b-form-input id="nestedName"
+                              v-model="addCategoryName"
+                              type="text"
+                              placeholder="Enter category name">
+                </b-form-input>
+                </div>
+                <div class="col-2">
+                <button class="btn btn-success btn-sm" @click="addSkillCategory">Add</button>
+                </div>
+                  <b-table striped
+                  :items="addCategoryOptions" :fields="columnsCategory">
+                    <template slot="del" slot-scope="props">
+                      <button class="btn btn-danger btn-xs" @click="deleteCategory(props.index)">X</button>
+                    </template>
+                  </b-table>
+              </div>
+            </b-modal>
+          </div>
+
         </div>
       </div>
     </div>
@@ -191,6 +250,9 @@
         skillAddedSuccessBanner: false,
         addName1: "",
         addName2: "",
+        addCategoryName: "",
+        editName: "",
+        editId: "",
         allSelected: false,
         skillDeletedBanner: false,
         skillEditedBanner: false,
@@ -228,15 +290,32 @@
           {
             label: 'Actions'
           }],
+        columnsCategory: [
+          {
+            key:'text',
+            label:'name',
+            sortable: true,
+          },
+          {
+            key: 'del',
+            label: ''
+          }
+        ],
         rowsTechnical: [],
         rowsNonTechnical: [],
         addCategories: [],
+        editCategories: "",
         addCategoryOptions: [],
         skillTechnical: [],
         skillNonTech: [],
       };
     },
     methods: {
+      update() {
+        this.fetchDataTechnical();
+        this.fetchDataNonTechnical();
+        this.fetchCategories();
+      },
       fetchDataTechnical() {
         var info = this;
         axios.get(this.$root.serverURL + "/api/technicalSkills")
@@ -297,7 +376,7 @@
         if (!this.addName1) {
           alert('Please enter name and category')
         } else {
-          this.addData1()
+          this.addData1();
         }
       },
       handleOk2() {
@@ -307,13 +386,28 @@
           this.addData2()
         }
       },
-      edit1(index) {
-        let skillId = this.rowsTechnical[index.toString()].id;
-        console.log(skillId);
+      handleOk3() {
+        if (!this.editName) {
+          alert('Please enter name')
+        } else {
+          this.submitEdit()
+        }
       },
-      edit2(index) {
-        let skillId = this.rowsNonTechnical[index.toString()];
-        console.log(skillId);
+      edit1(index) {
+        this.editId = this.rowsTechnical[index.toString()].id;
+        this.editName = this.rowsTechnical[index.toString()].name;
+        this.editCategories = this.rowsTechnical[index.toString()].categories;
+      },
+      submitEdit() {
+        let info = this;
+        axios.put(this.$root.serverURL + "/api/technicalSkills/" + this.editId, {
+          name: info.editName,
+          categories: [{
+            id: info.editCategories
+          }]
+        })
+          .then(() => this.editName = "")
+          .catch(() => console.log("error editing tech skills"))
       },
       delete1(index) {
         let info = this;
@@ -328,15 +422,26 @@
       },
       delete2(index) {
         let info = this;
-        let skillId = this.rowsNonTechnical[index.toString()];
+        let skillId = this.rowsNonTechnical[index.toString()].id;
         console.log(skillId);
         axios.delete(this.$root.serverURL + "/api/nonTechnicalSkills/" + skillId)
           .then(() => {
             info.skillDeletedBanner = true;
-            info.created();
+            info.update();
           })
           .catch(() => console.log("error deleting nonTech skills"))
       },
+      addSkillCategory() {
+        axios.post(this.$root.serverURL + "/api/categories", {
+          name: this.addCategoryName
+        })
+          .then(this.fetchCategories)
+          .catch(() => console.log("error adding skill category"))
+      },
+      deleteCategory(index) {
+        let skillId = this.addCategoryOptions[index.toString()].value;
+        console.log(skillId);
+      }
     }
   }
 </script>
