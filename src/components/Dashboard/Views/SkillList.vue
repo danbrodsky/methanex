@@ -297,7 +297,7 @@
         ],
         rowsTechnical: [],
         rowsNonTechnical: [],
-        addCategories: [],
+        addCategories: "",
         editCategories: "",
         addCategoryOptions: [],
         skillTechnical: [],
@@ -341,13 +341,13 @@
 
       },
       addData1() {
-        var info = this;
+        let info = this;
         info.skillAddedSuccessBanner = false;
         axios.post(this.$root.serverURL + "/api/technicalSkills", {
           name: info.addName1,
-          categories: [{
-            id: info.addCategories
-          }]
+          categories: [
+            {'id': this.addCategories}
+          ]
 
         })
           .then(() => info.skillAddedSuccessBanner = true)
@@ -355,7 +355,7 @@
 
       },
       addData2() {
-        var info = this;
+        let info = this;
         info.skillAddedSuccessBanner = false;
         axios.post(this.$root.serverURL + "/api/nonTechnicalSkills", {
           name: info.addName2
@@ -368,8 +368,7 @@
         if (!this.addName1) {
           alert('Please enter name and category')
         } else {
-          this.addData1().then(
-            this.fetchDataTechnical())
+          this.addData1();
         }
       },
       handleOk2() {
@@ -377,16 +376,13 @@
           alert('Please enter name')
         } else {
           this.addData2()
-          this.fetchDataNonTechnical()
         }
       },
       handleOk3() {
         if (!this.editName) {
           alert('Please enter name')
         } else {
-          this.submitEdit().then(
-            this.fetchDataTechnical()
-          )
+          this.submitEdit()
         }
       },
       edit1(index) {
