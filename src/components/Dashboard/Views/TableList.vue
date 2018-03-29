@@ -130,7 +130,6 @@
         addGroup: null,
         selectedRole: -1,
         allSelected: false,
-        hello: [],
         columns: [
           {
             label: '',
@@ -197,6 +196,16 @@
       },
       emailState() {
         return this.addEmail.contains("methanex");
+      },
+      delete() {
+        let info = this;
+        let skillId = this.rowsNonTechnical[index.toString()].id;
+        axios.delete(this.$root.serverURL + "/api/resources/" + resourceId)
+          .then(() => {
+            info.skillDeletedBanner = true;
+            info.update();
+          })
+          .catch(() => console.log("error deleting nonTech skills"))
       }
     }
   }

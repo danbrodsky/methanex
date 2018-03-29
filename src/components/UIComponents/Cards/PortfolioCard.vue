@@ -43,11 +43,6 @@
     },
     data () {
         return {
-          // id: this.id
-            // classification: this.classification,
-            // businessOwner: this.businessOwner,
-            // numProjects: this.numProjects,
-            // totalBudget: this.totalBudget
         }
     },
     methods: {
