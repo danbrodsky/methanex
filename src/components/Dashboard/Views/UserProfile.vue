@@ -189,11 +189,13 @@
                 notifications.push(notification);
               }
             });
-            axios.post(info.$root.serverURL + "/api/notifications", notifications)
-              .then(function (res) {
-                info.notificationSendBanner = true;
-              })
-              .catch(() => console.log("error while adding notifications"));
+            if (notifications.length > 0) {
+              axios.post(info.$root.serverURL + "/api/notifications", notifications)
+                .then(function (res) {
+                  info.notificationSendBanner = true;
+                })
+                .catch(() => console.log("error while adding notifications"));
+            }
           })
           .catch(() => console.log("error while updating resource"));
       },
