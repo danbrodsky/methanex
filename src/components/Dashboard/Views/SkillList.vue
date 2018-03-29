@@ -45,20 +45,18 @@
                 </span>
               </template>
               <template slot="table-row-before" slot-scope="props">
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="rowsTechnical[props.row.originalIndex].selected">
-                  </label>
-                </td>
               </template>
               <template slot="table-row-after" slot-scope="props">
-                <td><button class="btn btn-warning btn-sm" @click="edit1(props.row.originalIndex)">edit</button>
+                <td><b-button v-b-modal.editSkillModal class="btn btn-warning btn-sm" @click="edit1(props.row.originalIndex)">edit</b-button>
                   <button class="btn btn-danger btn-sm" @click="delete1(props.row.originalIndex)">delete</button></td>
               </template>
             </vue-good-table>
             <div>
               <b-button v-b-modal.addResourceModal1 class="btn btn-success">
                 Add skill
+              </b-button>
+              <b-button v-b-modal.manageCategoryModal class="btn btn-info">
+                Manage Category
               </b-button>
               <b-modal
                 id="addResourceModal1"
@@ -132,8 +130,7 @@
                 </td>
               </template>
               <template slot="table-row-after" slot-scope="props">
-                <td><button class="btn btn-warning btn-sm" @click="edit2(props.row.originalIndex)">edit</button>
-                  <button class="btn btn-danger btn-sm" @click="delete2(props.row.originalIndex)">delete</button></td>
+                <td><button class="btn btn-danger btn-sm" @click="delete2(props.row.originalIndex)">delete</button></td>
               </template>
             </vue-good-table>
             <div>
@@ -189,13 +186,16 @@
                                     placeholder="Enter your name"></b-form-input>
                     </b-form-group>
 
+
                     <b-form-group horizontal
-                                  label="Category:"
-                                  type="text"
-                                  label-class="text-sm-right"
-                                  label-for="nestedEmail">
+                                     label="Category:"
+                                     type="text"
+                                     label-class="text-sm-right"
+                                     label-for="nestedEmail">
                       <b-form-select v-model="editCategories"
-                                     :options="addCategoryOptions">
+                                     multiple
+                                     :options="addCategoryOptions"
+                                     id='add-ddown'>
                       </b-form-select>
                     </b-form-group>
                   </b-form-group>
@@ -258,10 +258,6 @@
         skillEditedBanner: false,
         columnsTechnical: [
           {
-            label: '',
-            sortable: false,
-          },
-          {
             label: 'Name',
             field: 'name',
             filterable: true,
@@ -304,7 +300,7 @@
         rowsTechnical: [],
         rowsNonTechnical: [],
         addCategories: [],
-        editCategories: "",
+        editCategories: [],
         addCategoryOptions: [],
         skillTechnical: [],
         skillNonTech: [],
@@ -342,6 +338,7 @@
         var info = this;
         axios.get(this.$root.serverURL + "/api/categories")
           .then(response => {
+            console.log(response.data);
             var j = JSON.stringify(response.data);
             j = j.replace(/id/g, "value");
             j = j.replace(/name/g, "text");
@@ -396,17 +393,13 @@
       edit1(index) {
         this.editId = this.rowsTechnical[index.toString()].id;
         this.editName = this.rowsTechnical[index.toString()].name;
-        this.editCategories = this.rowsTechnical[index.toString()].categories;
       },
       submitEdit() {
         let info = this;
-        axios.put(this.$root.serverURL + "/api/technicalSkills/" + this.editId, {
-          name: info.editName,
-          categories: [{
-            id: info.editCategories
-          }]
-        })
-          .then(() => this.editName = "")
+        axios.put(this.$root.serverURL + "/api/technicalSkills", this.editId, this.editName, info.editCategories)
+          .then(() => {
+            info.update();
+          })
           .catch(() => console.log("error editing tech skills"))
       },
       delete1(index) {
@@ -432,15 +425,23 @@
           .catch(() => console.log("error deleting nonTech skills"))
       },
       addSkillCategory() {
+        let info = this;
         axios.post(this.$root.serverURL + "/api/categories", {
           name: this.addCategoryName
         })
-          .then(this.fetchCategories)
+          .then(() => {
+            this.addCategoryName = '';
+            info.update();
+          })
           .catch(() => console.log("error adding skill category"))
       },
       deleteCategory(index) {
-        let skillId = this.addCategoryOptions[index.toString()].value;
-        console.log(skillId);
+        let info = this;
+        let categoryId = this.addCategoryOptions[index.toString()].value;
+        console.log(categoryId);
+        axios.delete(this.$root.serverURL + "/api/categories/" + categoryId)
+          .then(info.update)
+          .catch(() => console.log("error deleting skill category"))
       }
     }
   }
