@@ -210,7 +210,9 @@
             filterable: true,
           },
         ],
-        rows: []
+        rowsPortfolio: [],
+        rowsProject: [],
+        rowsResource: []
       };
     },
     methods: {
@@ -220,17 +222,18 @@
           .then(response => {
             info.rowsPortfolio = response.data;
             for (let i = 0; i < info.rowsPortfolio.length; i++){
-              info.rowsPortfolio[i].businessOwner = info.rowsPortfolio[i].businessOwner.name;
-              info.rowsPortfolio[i].classification = info.rowsPortfolio[i].classification.name;
+               info.rowsPortfolio[i].businessOwner = info.rowsPortfolio[i].businessOwner.name;
+               info.rowsPortfolio[i].classification = info.rowsPortfolio[i].classification.name;
             }
             console.log(response.data);
           });
 
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
+            console.log('response:' +response);
             info.rowsProject = response.data;
             for (let i = 0; i < info.rowsProject.length; i++){
-              info.rowsProject[i].manager = info.rowsProject[i].manager.name;
+               info.rowsProject[i].manager = info.rowsProject[i].manager.name;
             }
           });
         axios.get(this.$root.serverURL + "/api/resources")
