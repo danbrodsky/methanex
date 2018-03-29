@@ -5,8 +5,6 @@
 
         <form v-on:submit.prevent="register()">
             <table><tr>
-                <td>Avatar</td>
-                <td><input v-on:change="setAvatar" type="file" /></td>
             <tr>
                 <td>Username:</td>
                 <td><input v-model="data.body.username" /></td>
@@ -26,17 +24,18 @@
 
             <hr/>
 
-            <div v-show="error" style="color:red; word-wrap:break-word;">{{ error | json }}</div>
+            <div v-show="error" style="color:red; word-wrap:break-word;">{{ error }}</div>
             </form>
     </div>
 </template>
 
 <script>
-    export default {
+  import axios from 'axios'
+  export default {
         data() {
             return {
                 context: 'register context',
-                
+
                 data: {
                     body: {
                         username: '',
@@ -58,29 +57,29 @@
                 reader.onload = (e) => {
                     _this.data.body.avatar = e.target.result;
                 };
-      
+
                 reader.readAsDataURL(file);
             },
             register() {
-                var formData = new FormData();
-                if (this.data.body.avatar) {
-                    formData.append('avatar', this.data.body.avatar);
-                }
-                formData.append('username', this.data.body.username);
-                formData.append('password', this.data.body.password);
-                this.$auth.register({
-                    body: formData, // Vue-resoruce
-                    data: formData, // Axios
-                    autoLogin: this.data.autoLogin,
-                    rememberMe: this.data.rememberMe,
-                    success: function () {
-                        console.log('success ' + this.context);
-                    },
-                    error: function (res) {
-                        console.log('error ' + this.context);
-                        this.error = res.data;
-                    }
-                });
+                var newUser = {};
+                newUser['username'] = this.data.body.username;
+                newUser['password'] = this.data.body.password;
+                // this.$auth.register({
+                //     data: newUser,
+                //     autoLogin: this.data.autoLogin,
+                //     rememberMe: this.data.rememberMe,
+                //     success: function () {
+                //         console.log('success ' + this.context);
+                //     },
+                //     error: function (res) {
+                //         console.log('error ' + this.context);
+                //         this.error = res.data;
+                //     }
+                // });
+              axios
+                .post(this.$root.serverURL + "/register", newUser)
+                .then(() => console.log("success"))
+                .catch(() => console.log("fail"));
             }
         }
     }

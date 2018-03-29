@@ -187,7 +187,6 @@
           //   filterable: true,
           // },
         ],
-
         columnsResource: [
           {
             label: 'Name',
@@ -211,9 +210,7 @@
             filterable: true,
           },
         ],
-        rowsProject: [],
-        rowsResource: [],
-        rowsPortfolio: [],
+        rows: []
       };
     },
     methods: {
@@ -231,7 +228,6 @@
 
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
-
             info.rowsProject = response.data;
             for (let i = 0; i < info.rowsProject.length; i++){
               info.rowsProject[i].manager = info.rowsProject[i].manager.name;

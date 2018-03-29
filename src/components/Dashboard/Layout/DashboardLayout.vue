@@ -44,8 +44,7 @@
       <dashboard-content @click="toggleSidebar">
 
       </dashboard-content>
-
-      <content-footer></content-footer>
+      
     </div>
   </div>
 </template>

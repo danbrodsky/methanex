@@ -30,7 +30,6 @@
             default: { id: -1, name: ""}
         },
         businessOwner: {
-            type: String,
             default: 'Business Owner Name'
         },
         numProjects: {
@@ -44,7 +43,7 @@
     },
     data () {
         return {
-          id: this.id
+          // id: this.id
             // classification: this.classification,
             // businessOwner: this.businessOwner,
             // numProjects: this.numProjects,
