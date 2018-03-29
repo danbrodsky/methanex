@@ -316,6 +316,7 @@
         var info = this;
         axios.get(this.$root.serverURL + "/api/technicalSkills")
           .then(response => {
+            console.log(response.data);
             response.data.forEach(obj => {
               let temp = "";
               obj.categories.forEach(category => temp += category.name + ", ");
@@ -330,7 +331,6 @@
         axios.get(this.$root.serverURL + "/api/nonTechnicalSkills")
           .then(response => {
             info.rowsNonTechnical = response.data;
-            console.log(response.data);
           })
           .catch(() => console.log("error fetching non technical skills"))
       },
@@ -338,7 +338,6 @@
         var info = this;
         axios.get(this.$root.serverURL + "/api/categories")
           .then(response => {
-            console.log(response.data);
             var j = JSON.stringify(response.data);
             j = j.replace(/id/g, "value");
             j = j.replace(/name/g, "text");
@@ -396,7 +395,9 @@
       },
       submitEdit() {
         let info = this;
-        axios.put(this.$root.serverURL + "/api/technicalSkills", this.editId, this.editName, info.editCategories)
+        console.log(this.editId);
+        console.log(info.editCategories);
+        axios.put(this.$root.serverURL + "/api/technicalSkills/" + this.editId + "?name=" + this.editName, info.editCategories)
           .then(() => {
             info.update();
           })
