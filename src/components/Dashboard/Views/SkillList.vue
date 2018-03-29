@@ -399,6 +399,9 @@
         console.log(info.editCategories);
         axios.put(this.$root.serverURL + "/api/technicalSkills/" + this.editId + "?name=" + this.editName, info.editCategories)
           .then(() => {
+            info.editId = '';
+            info.editName = '';
+            info.editCategories = [];
             info.update();
           })
           .catch(() => console.log("error editing tech skills"))

@@ -30,8 +30,7 @@
               <div class="row">
                 <div class="col-8">
                   <h4 class="card-title">All Projects</h4>
-                  <p class="card-category">Filter projects to see desired project report</p>
-                  <label class="typo__label">Select columns to display:</label>
+                  <p class="card-category">Select desired columns to display in project report</p>
                   <div class="row">
                     <div class="col-8">
                       <multiselect v-model="selectedProjectColumns"
@@ -41,11 +40,11 @@
                                    :options="columnFilterNames"
                                    :multiple="true"></multiselect>
                     </div>
-                    <div class="col-4">
-                      <div class="btn-toolbar">
+                    <div class="col-2">
                         <button type="submit" id="projectColumnFilterSubmit" class="btn btn-info btn-fill float-left" style="margin-right: 5px;" @click="selectProjectColumns">Apply</button>
-                        <button type="submit" id="projectColumnSelectAll" class="btn btn-info btn-fill float-left" style="margin-right: 5px;" @click="selectAllProjectColumns">Show All</button>
-                      </div>
+                    </div>
+                    <div class="col-2">
+                      <button type="submit" id="projectColumnSelectAll" class="btn btn-info btn-fill float-left" style="margin-right: 5px;" @click="selectAllProjectColumns">Show All</button>
                     </div>
                   </div>
                   <pre class="language-json"></pre>
@@ -267,11 +266,11 @@
 
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
-            console.log('response:' +response);
             info.rowsProject = response.data;
             for (let i = 0; i < info.rowsProject.length; i++){
                info.rowsProject[i].manager = info.rowsProject[i].manager.name;
             }
+            console.log(rowsProject);
           });
         axios.get(this.$root.serverURL + "/api/resources")
           .then(response => {
@@ -309,5 +308,6 @@
     }
   }
 </script>
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css">
+</style>
 
