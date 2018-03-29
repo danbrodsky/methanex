@@ -31,6 +31,24 @@
                 <div class="col-8">
                   <h4 class="card-title">All Projects</h4>
                   <p class="card-category">Filter projects to see desired project report</p>
+                  <label class="typo__label">Select columns to display:</label>
+                  <div class="row">
+                    <div class="col-8">
+                      <multiselect v-model="selectedProjectColumns"
+                                   placeholder="Pick a column(s)"
+                                   label="name"
+                                   track-by="name"
+                                   :options="columnFilterNames"
+                                   :multiple="true"></multiselect>
+                    </div>
+                    <div class="col-4">
+                      <div class="btn-toolbar">
+                        <button type="submit" id="projectColumnFilterSubmit" class="btn btn-info btn-fill float-left" style="margin-right: 5px;" @click="selectProjectColumns">Apply</button>
+                        <button type="submit" id="projectColumnSelectAll" class="btn btn-info btn-fill float-left" style="margin-right: 5px;" @click="selectAllProjectColumns">Show All</button>
+                      </div>
+                    </div>
+                  </div>
+                  <pre class="language-json"></pre>
                 </div>
                 <div class="col-4">
                 </div>
@@ -76,6 +94,7 @@
 </template>
 <script>
   import Card from 'src/components/UIComponents/Cards/Card.vue'
+  import Multiselect from 'vue-multiselect'
   import axios from 'axios'
 
   const tableColumns = ['Name', 'ProjectStatus', 'Manager', 'ProjectOwner', 'Status', 'ProjectResources', 'Budget', 'Budget Used'];
@@ -88,7 +107,8 @@
 
   export default {
     components: {
-      Card
+      Card,
+      Multiselect
     },
 
     name: 'Checkbox-table',
@@ -108,9 +128,26 @@
       this.fetchData();
     },
 
+    mounted: function(){
+      this.initProjectColumnMap();
+    },
+
 
     data () {
       return {
+        selectedProjectColumns: [],
+        projectColumnsMap: new Map(),
+        columnFilterNames: [
+          {name: "Name"},
+          {name: "Project Status"},
+          {name: "Manager"},
+          {name: "Project Owner"},
+          {name: "RAG Status"},
+          {name: "Number of resources"},
+          {name: "Budget"},
+          {name: "Budget used"}
+        ],
+
         columnsPortfolio: [
           {
             label: 'ID',
@@ -241,8 +278,36 @@
             info.rowsResource = response.data;
           })
       },
+
+      initProjectColumnMap(){
+        for(var i = 0; i<this.columnsProject.length; i++){
+          this.projectColumnsMap.set(this.columnsProject[i].label, this.columnsProject[i]);
+        }
+      },
+
+      selectProjectColumns(){
+        var columnsToDisplay = this.selectedProjectColumns;
+        if(this.selectedProjectColumns.length > 0){
+          this.columnsProject = [];
+          for (var i=0; i<columnsToDisplay.length; i++){
+            this.columnsProject.push(this.projectColumnsMap.get(columnsToDisplay[i].name));
+          }
+        }
+      },
+
+      selectAllProjectColumns() {
+        var iterator = this.projectColumnsMap.entries();
+        var entry = iterator.next();
+        if(!entry.done){
+          this.columnsProject = [];
+        }
+        while(!entry.done){
+          this.columnsProject.push(entry.value[1]);
+          entry = iterator.next();
+        }
+      },
     }
   }
 </script>
-<style>
-</style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
