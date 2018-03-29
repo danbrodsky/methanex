@@ -32,7 +32,7 @@
                   <h4 class="card-title">All Projects</h4>
                   <p class="card-category">Select desired columns to display in project report</p>
                   <div class="row">
-                    <div class="col-8">
+                    <div class="col-10">
                       <multiselect v-model="selectedProjectColumns"
                                    placeholder="Pick a column(s)"
                                    label="name"
@@ -41,10 +41,10 @@
                                    :multiple="true"></multiselect>
                     </div>
                     <div class="col-2">
-                        <button type="submit" id="projectColumnFilterSubmit" class="btn btn-info btn-fill float-left" style="margin-right: 5px;" @click="selectProjectColumns">Apply</button>
-                    </div>
-                    <div class="col-2">
+                      <div class="btn-group">
+                      <button type="submit" id="projectColumnFilterSubmit" class="btn btn-info btn-fill float-left" @click="selectProjectColumns">Apply</button>
                       <button type="submit" id="projectColumnSelectAll" class="btn btn-info btn-fill float-left" style="margin-right: 5px;" @click="selectAllProjectColumns">Show All</button>
+                      </div>
                     </div>
                   </div>
                   <pre class="language-json"></pre>
@@ -267,8 +267,8 @@
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
             info.rowsProject = response.data;
-            for (let i = 0; i < info.rowsProject.length; i++){
-               info.rowsProject[i].manager = info.rowsProject[i].manager.name;
+            for (let i = 0; i < info.rowsProject.length; i++) {
+              info.rowsProject[i].status = info.rowsProject[i].status != null ? info.rowsProject[i].status.name : null;
             }
             console.log(rowsProject);
           });
@@ -309,5 +309,8 @@
   }
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css">
+  .btn-group {
+    display: inline;
+  }
 </style>
 
