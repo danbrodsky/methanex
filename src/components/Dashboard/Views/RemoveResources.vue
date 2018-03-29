@@ -50,7 +50,7 @@
                 <td class="align-right">{{props.row.status}}</td>
               </template>
             </vue-good-table>
-            <button type="submit" aria-hidden="true" v-on:click="removeResources" style='margin-right:16px' class="btn btn-success btn-sm btn-fill float-right">Remove resources</button>
+            <button type="submit" aria-hidden="true" v-on:click="removeResources" style='margin-top: 16px; margin-right:16px' class="btn btn-success btn-fill float-right">Remove resources</button>
           </card>
         </div>
       </div>
