@@ -45,11 +45,6 @@
                 </span>
               </template>
               <template slot="table-row-before" slot-scope="props">
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="rowsTechnical[props.row.originalIndex].selected">
-                  </label>
-                </td>
               </template>
               <template slot="table-row-after" slot-scope="props">
                 <td><button class="btn btn-warning btn-sm" @click="edit1(props.row.originalIndex)">edit</button>
@@ -257,10 +252,6 @@
         skillDeletedBanner: false,
         skillEditedBanner: false,
         columnsTechnical: [
-          {
-            label: '',
-            sortable: false,
-          },
           {
             label: 'Name',
             field: 'name',
