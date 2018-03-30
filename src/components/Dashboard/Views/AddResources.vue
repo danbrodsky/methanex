@@ -58,7 +58,7 @@
                 </td>
               </template>
             </vue-good-table>
-            <button type="submit" aria-hidden="true" v-on:click="addResources" style='margin-right:16px' class="btn btn-success btn-sm btn-fill float-right">Add resource</button>
+            <button type="submit" aria-hidden="true" v-on:click="addResources" style='margin-top: 16px; margin-right:16px' class="btn btn-success btn-fill float-right">Add resource</button>
           </card>
         </div>
       </div>

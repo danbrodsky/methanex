@@ -6,10 +6,6 @@
           <label for="addPortfolioForm" class="col-form-label">ID </label>
           <div class="form-group align-items-left" style="min-width:380px">
             <div class="col-xs-6">
-              <label for="status" class="col-form-label">Portfolio Name</label>
-              <textarea type="title" class="form-control form-control-lg" id="status"></textarea>
-            </div>
-            <div class="col-xs-6">
               <label for="addPortfolioForm" class="col-form-label">Classification</label>
               <input type="text" style="width:25%;" class="form-control form-control-sm-4"
                      id="classificationInput" v-bind:value="classification">
@@ -40,6 +36,7 @@
 
 <script>
   import Portfolio from 'src/components/Dashboard/Views/Portfolio.vue'
+  import axios from 'axios'
 
   export default {
         name: "create-portfolio",
@@ -50,7 +47,6 @@
       return {
         portfolio: {
           "id": -1,
-          "name": null,
           "classification": null,
           "businessOwner": null,
           "totalBudget": -1
@@ -58,15 +54,37 @@
       }
     },
     methods: {
-
-        }
+      addNewPortfolio() {
+        // Valid Data Check
+        // if ((this.classification) === null) {
+        //   alert('The Portfolio must have a Classification')
+        //   return;
+        // }
+        // if (typeof(this.businessOwner) === null) {
+        //   alert('The Portfolio must have a Business Owner')
+        //   return;
+        // }
+        // if (typeof(this.totalBudget) !== 'number' || this.totalBudget < 0) {
+        //   alert('Total Budget must be a positive number')
+        //   return;
+        // }
+        // else {
+        console.log("posting to: " + this.$root.serverURL + "/api/portfolios/" + this.porfolio.classification);
+        this.updatingStatus = "Saving...";
+        console.log("Portfolio looks like:");
+        axios.post(this.$root.serverURL + `/api/portfolios/` + this.portfolio.classification, {
+          "classification": this.classification,
+          "businessOwner": this.businessOwner,
+          "totalBudget": this.totalBudget
+        })
+          .then(function (res) {
+            console.log(res);
+            console.log(this.portfolio.classification);
+            this.updatingStatus = "Saved!";
+          });
+      }
+    }
   }
-
-
-
-
-
-
 </script>
 
 <style scoped>

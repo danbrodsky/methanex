@@ -56,9 +56,18 @@
           </div>
         </div>
         <div class="text-center">
-          <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProject">
-            Update Project
-          </button>
+          <div class="btn-toolbar float-right">
+            <button type="submit" class="btn btn-info btn-fill float-right" style="margin-right: 5px;" @click.prevent="addResources">
+              Add Resource
+            </button>
+            <button type="submit" class="btn btn-info btn-fill float-right" style="margin-right: 5px;" @click.prevent="removeResources">
+              Remove Resource
+            </button>
+            <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProject">
+              Update Project
+            </button>
+          </div>
+
         </div>
         <div class="clearfix"></div>
       </form>
@@ -158,6 +167,16 @@
             info.project = response.data;
           })
           .catch(() => console.log("problem updating project"));
+      },
+
+      addResources(){
+        var projectId = this.$route.params.projectId;
+        this.$router.push({name: "addResources"}, {projectId: projectId});
+      },
+
+      removeResources(){
+        var projectId = this.$route.params.projectId;
+        this.$router.push({name: "removeResources"}, {projectId: projectId});
       }
     }
   }
