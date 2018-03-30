@@ -5,6 +5,16 @@
         <h4 class="alert-heading">Project information has been updated</h4>
       </b-alert>
     </div>
+    <div>
+      <b-alert :show=addedResourcesBanner dismissible variant="success">
+        <h4 class="alert-heading">Resource(s) added to this project</h4>
+      </b-alert>
+    </div>
+    <div>
+      <b-alert :show=deletedResourceBanner dismissible variant="success">
+        <h4 class="alert-heading">Resource(s) removed from this project</h4>
+      </b-alert>
+    </div>
     <card>
       <h4 slot="header" class="card-title">Edit Project</h4>
       <form>
@@ -15,13 +25,6 @@
                       :disabled="true"
                       placeholder="Project ID"
                       v-model="project.id">
-            </fg-input>
-          </div>
-          <div class="col-md-5">
-            <fg-input type="text"
-                      label="Name"
-                      placeholder="Name"
-                      v-model="project.name">
             </fg-input>
           </div>
           <div class="col-md-5">
@@ -57,28 +60,56 @@
         </div>
         <div class="text-center">
           <div class="btn-toolbar float-right">
-            <button type="submit" class="btn btn-info btn-fill float-right" style="margin-right: 5px;" @click.prevent="addResources">
-              Add Resource
-            </button>
-            <button type="submit" class="btn btn-info btn-fill float-right" style="margin-right: 5px;" @click.prevent="removeResources">
-              Remove Resource
-            </button>
             <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProject">
               Update Project
             </button>
           </div>
-
         </div>
         <div class="clearfix"></div>
       </form>
     </card>
-    <vue-good-table
-      :columns="columns"
-      :paginate="true"
-      :rows="resources"
-      :globalSearch="false"
-      styleClass="table table-striped condensed">
-    </vue-good-table>
+    <card>
+      <vue-good-table
+        :columns="columns"
+        :paginate="true"
+        :rows="resources"
+        :globalSearch="false"
+        styleClass="table table-striped condensed">
+        <template slot="table-column" slot-scope="props">
+          <span v-if="props.column.field =='name'">
+            <i class="fa fa-user"></i> {{props.column.label}}
+          </span>
+          <span v-else-if="props.column.field == 'joined'">
+            <i class="fa fa-calendar"></i> {{props.column.label}}
+          </span>
+          <span v-else-if="props.column.label =='SelectAll'">
+                  <label class="checkbox">
+                    <input
+                      type="checkbox"
+                      @click="toggleSelectAll()">
+                  </label>
+                </span>
+          <span v-else>
+                    {{props.column.label}}
+                </span>
+        </template>
+        <template slot="table-row-before" slot-scope="props">
+          <td>
+            <label class="checkbox">
+              <input type="checkbox" v-model="resources[props.row.originalIndex].selected">
+            </label>
+          </td>
+        </template>
+      </vue-good-table>
+      <button type="submit" class="btn btn-info btn-fill float-right" style="margin-right: 5px;"
+              @click.prevent="addResources">
+        Add Resource
+      </button>
+      <button type="submit" class="btn btn-info btn-fill float-right" style="margin-right: 5px;"
+              @click.prevent="removeResources">
+        Remove Resource
+      </button>
+    </card>
   </div>
 </template>
 <script>
@@ -87,12 +118,19 @@
 
   export default {
     components: {
-      Card,
+      Card
     },
     data() {
       return {
         updatedProjectSuccessBanner: false,
+        addedResourcesBanner: false,
+        deletedResourceBanner: false,
+        removed: false,
         columns: [
+          {
+            label: 'SelectAll',
+            sortable: false,
+          },
           {
             label: 'Name',
             field: 'name',
@@ -139,6 +177,12 @@
       this.fetchData();
     },
     methods: {
+      toggleSelectAll() {
+        this.allSelected = !this.allSelected;
+        this.resources.forEach(row => {
+          row.selected = this.allSelected;
+        });
+      },
       fetchData() {
         let info = this;
         axios
@@ -149,7 +193,7 @@
               .then((response) => {
                 info.resources = response.data;
                 info.resources.forEach((resource) => {
-                  console.log(resource);
+                  resource["selected"] = false;
                   if (typeof resource.manager !== 'string' && resource.manager != null) {
                     resource.manager = resource.manager.name;
                   }
@@ -168,15 +212,47 @@
           })
           .catch(() => console.log("problem updating project"));
       },
-
-      addResources(){
+      addResources() {
         var projectId = this.$route.params.projectId;
-        this.$router.push({name: "addResources"}, {projectId: projectId});
+        let info = this;
+        let data = [];
+        this.resources.forEach(resource => {
+          if (resource.selected) {
+            data.push(resource.id);
+          }
+        });
+        console.log(data);
+        if (data.length > 0) {
+          axios.post(this.$root.serverURL + "/api/projects/" + projectId + "/resources", data)
+            .then((response) => {
+              info.fetchData();
+              info.addedResourcesBanner = true
+            })
+            .catch((error) => console.log(error));
+        }
       },
-
-      removeResources(){
+      removeResources() {
         var projectId = this.$route.params.projectId;
-        this.$router.push({name: "removeResources"}, {projectId: projectId});
+        let info = this;
+        let data = [];
+        this.resources.forEach(resource => {
+          if (resource.selected) {
+            data.push(resource.id);
+          }
+        });
+        if (data.length > 0) {
+          let path = this.$root.serverURL + "/api/projects/" + projectId + "/resources?";
+          data.forEach(resource => {
+            path += "resourceId=" + resource + "&";
+          });
+          path = path.substring(0, path.length-1);
+          axios.delete(path)
+            .then((response) => {
+              info.fetchData();
+              info.deletedResourceBanner = true
+            })
+            .catch((error) => console.log(error));
+        }
       }
     }
   }
