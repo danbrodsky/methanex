@@ -139,8 +139,11 @@
             axios.get(info.$root.serverURL + "/api/projects/" + this.$route.params.projectId + "/resources")
               .then((response) => {
                 info.resources = response.data;
-                console.log(info.resources);
                 info.resources.forEach((resource) => {
+                  console.log(resource);
+                  if (typeof resource.manager !== 'string' && resource.manager != null) {
+                    resource.manager = resource.manager.name;
+                  }
                 });
               })
               .catch(() => console.log("error getting project resources"));
