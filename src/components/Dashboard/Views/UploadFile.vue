@@ -220,7 +220,7 @@
         /*
           Make the request to the POST /file-drag-drop URL
         */
-        axios.post(this.$root.serverURL + '/api/upload',
+        axios.post(this.$root.serverURL + '/api/upload/' + this.$root._route.params.portfolioId,
           formData,
           {
             headers: {

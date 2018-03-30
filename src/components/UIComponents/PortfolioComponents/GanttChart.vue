@@ -1,9 +1,9 @@
 <template>
   <div class="card" style="display: block; margin: auto;" id="img_container">
-    <img style="display: block; margin: auto;width:100%;height:100%" v-bind:src="info.image">
-      <b-button style="position:absolute; top: 85%;width: 30%;left:65%;"v-b-modal.modalPrevent2 class="btn btn-success">
+    <img style="display: block; margin: auto;width:100%;height:100%" v-bind:src="info.image" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/d/d2/Solid_white.png';">
+      <button style="position:absolute; top: 85%;width: 30%;left:65%;"v-b-modal.modalPrevent2 class="btn btn-success btn-fill">
         Change Gantt
-      </b-button>
+      </button>
       <b-modal 
         hide-footer
         title="Select the image you wish to upload"
@@ -12,7 +12,7 @@
         <div class="d-block">
         <file-upload
           class="btn btn-primary"
-          v-bind:post-action="this.axios.defaults.baseURL + '/api/upload'"
+          v-bind:post-action="this.axios.defaults.baseURL + '/api/upload?portfolioId=' + this.$root._route.params.portfolioId"
           :headers="headers"
           extensions="gif,jpg,jpeg,png,webp"
           accept="image/png,image/gif,image/jpeg,image/webp"
@@ -76,6 +76,7 @@ export default {
     },
 
   created: function(){
+  	// console.log(this.$root);
       var token = 'Bearer ' + this.$auth.token('default_auth_token');
       this.headers['Authorization'] = token;
       this.getInfo();
@@ -84,7 +85,7 @@ export default {
   methods: {
     getInfo(){
     	let that = this;
-    	axios.get(this.$root.serverURL + "/api/image?id=132")
+    	axios.get(this.$root.serverURL + "/api/image?id=" + this.$root._route.params.portfolioId)
         .then(response => {
         console.log(response);
         that.info.image = 'data:image/jpeg;base64,' + response.data.data;
