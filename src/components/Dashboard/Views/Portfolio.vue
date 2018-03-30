@@ -2,8 +2,7 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
-        <gantt-chart style="width: 58%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></gantt-chart>
-        <resource-breakdown style="width: 40%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></resource-breakdown>
+        <gantt-chart style="width: 80%;height: 500px;margin: auto;box-shadow: 5px 5px 5px grey;"></gantt-chart>
       </div>
       <div class="row">
         <filter-bar style="width: 100%;margin: 0.5%;box-shadow: 5px 5px 5px grey"
@@ -13,13 +12,14 @@
           v-on:newSearch="performSearch">
         </filter-bar>
       </div>
-      <div class="row">
+      <div class="row" style="margin-left: 5%;">
           <project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;"
             v-for="project of displayProjects"
             v-bind:key="project.id"
             v-bind:projectId="project.id"
             v-bind:projectName="project.name"
             v-bind:projectStatus="project.ragStatus"
+            v-bind:projectManager="project.manager"
             v-bind:budget="project.budget">
           </project-card>
           <add-project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;" v-bind:portfolioId="portfolioId"></add-project-card>
@@ -108,6 +108,7 @@
           this.portfolioId = this.$route.params.portfolioId;
         axios.get(this.$root.serverURL + "/api/portfolios/" + this.portfolioId + "/projects")
           .then(response => {
+            console.log(response);
             info.projects = response.data.slice();
             info.displayProjects = response.data.slice();
           })
@@ -115,9 +116,9 @@
       },
       performSearch() {
         this.displayProjects = this.filterFcn(this.projects);
-      }
     }
   }
+}
 </script>
 <style scoped>
   div.filters {

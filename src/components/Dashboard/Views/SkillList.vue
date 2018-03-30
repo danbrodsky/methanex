@@ -47,12 +47,12 @@
               <template slot="table-row-before" slot-scope="props">
               </template>
               <template slot="table-row-after" slot-scope="props">
-                <td><b-button v-b-modal.editSkillModal class="btn btn-warning btn-sm" @click="edit1(props.row.originalIndex)">edit</b-button>
-                  <button class="btn btn-danger btn-sm" @click="delete1(props.row.originalIndex)">delete</button></td>
+                <td><button class="btn btn-warning btn-fill btn-sm" @click="edit1(props.row.originalIndex)">edit</button></td>
+                <td><button class="btn btn-danger btn-fill btn-sm" @click="delete1(props.row.originalIndex)">delete</button></td>
               </template>
             </vue-good-table>
             <div>
-              <b-button v-b-modal.addResourceModal1 class="btn btn-success">
+              <b-button v-b-modal.addResourceModal1 class="btn btn-success btn-fill">
                 Add skill
               </b-button>
               <b-button v-b-modal.manageCategoryModal class="btn btn-info">
@@ -122,19 +122,13 @@
                     {{props.column.label}}
                 </span>
               </template>
-              <template slot="table-row-before" slot-scope="props">
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="rowsNonTechnical[props.row.originalIndex].selected">
-                  </label>
-                </td>
-              </template>
               <template slot="table-row-after" slot-scope="props">
-                <td><button class="btn btn-danger btn-sm" @click="delete2(props.row.originalIndex)">delete</button></td>
+                <td><button class="btn btn-warning btn-fill btn-sm" @click="edit2(props.row.originalIndex)">edit</button></td>
+                <td><button class="btn btn-danger btn-fill btn-sm" @click="delete2(props.row.originalIndex)">delete</button></td>
               </template>
             </vue-good-table>
             <div>
-              <b-button v-b-modal.addResourceModal2 class="btn btn-success">
+              <b-button v-b-modal.addResourceModal2 class="btn btn-success btn-fill">
                 Add skill
               </b-button>
               <b-modal
@@ -269,22 +263,23 @@
             filterable: true,
           },
           {
-            label: 'Actions'
+            label: ''
+          },
+          {
+            label: ''
           }
-
         ],
         columnsNonTechnical: [
-          {
-            label: '',
-            sortable: false,
-          },
           {
             label: 'Name',
             field: 'name',
             filterable: true,
           },
           {
-            label: 'Actions'
+            label: ''
+          },
+          {
+            label: ''
           }],
         columnsCategory: [
           {
@@ -293,7 +288,9 @@
             sortable: true,
           },
           {
-            key: 'del',
+            label: ''
+          },
+          {
             label: ''
           }
         ],

@@ -12,7 +12,7 @@
     name: 'add-portfolio-card',
     methods: {
       createNewPortfolio() {
-        this.$router.push({path: '/admin/create-portfolio'});         // need to make 'create-portfolio'
+        this.$router.push({path: '/admin/portfolio/add'});         // need to make 'create-portfolio'
       }
     }
   }
@@ -20,7 +20,7 @@
 </script>
 <style scoped>
     div.card {
-        min-width: 280px;
+        width: 24%;
     }
     div.body-data {
         padding-top: 0.5em;
