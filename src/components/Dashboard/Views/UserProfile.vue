@@ -152,6 +152,8 @@
           .get(info.$root.serverURL + "/api/resources/" + JSON.parse(info.$root.$data.cookies.get('user')).id)
           .then(response => {
             info.resource = response.data;
+            console.log("info.values");
+            console.log(info.values);
             info.values = info.resource.skills;
           })
           .catch(error => {
@@ -162,6 +164,8 @@
           .get(info.$root.serverURL + "/api/technicalSkills")
           .then(response => {
             info.options1 = response.data;
+            console.log("info.options1");
+            console.log(info.options1);
           })
       },
       updateProfile() {
@@ -189,13 +193,11 @@
                 notifications.push(notification);
               }
             });
-            if (notifications.length > 0) {
-              axios.post(info.$root.serverURL + "/api/notifications", notifications)
-                .then(function (res) {
-                  info.notificationSendBanner = true;
-                })
-                .catch(() => console.log("error while adding notifications"));
-            }
+            axios.post(info.$root.serverURL + "/api/notifications", notifications)
+              .then(function (res) {
+                info.notificationSendBanner = true;
+              })
+              .catch(() => console.log("error while adding notifications"));
           })
           .catch(() => console.log("error while updating resource"));
       },

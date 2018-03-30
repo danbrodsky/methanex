@@ -1,6 +1,7 @@
 <template>
+<div v-if='hasId()'>
   <div class="card" style="display: block; margin: auto;" id="img_container">
-    <img style="display: block; margin: auto;width:100%;height:100%" v-bind:src="info.image" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/d/d2/Solid_white.png';">
+    <img style="display: block; margin: auto;width:70%;height:500px;" v-bind:src="info.image" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/d/d2/Solid_white.png';">
       <button style="position:absolute; top: 85%;width: 30%;left:65%;"v-b-modal.modalPrevent2 class="btn btn-success btn-fill">
         Change Gantt
       </button>
@@ -53,6 +54,7 @@
       </div>
     </b-modal>
   </div>
+  </div>
 </template>
 
 <script>
@@ -90,6 +92,9 @@ export default {
         console.log(response);
         that.info.image = 'data:image/jpeg;base64,' + response.data.data;
       })
+    },
+    hasId(){
+    	return this.$root._route.params.portfolioId != null;
     },
     inputFilter(newFile, oldFile, prevent) {
       if (newFile && !oldFile) {

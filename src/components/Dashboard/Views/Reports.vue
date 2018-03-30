@@ -30,7 +30,24 @@
               <div class="row">
                 <div class="col-8">
                   <h4 class="card-title">All Projects</h4>
-                  <p class="card-category">Filter projects to see desired project report</p>
+                  <p class="card-category">Select desired columns to display in project report</p>
+                  <div class="row">
+                    <div class="col-10">
+                      <multiselect v-model="selectedProjectColumns"
+                                   placeholder="Pick a column(s)"
+                                   label="name"
+                                   track-by="name"
+                                   :options="columnFilterNames"
+                                   :multiple="true"></multiselect>
+                    </div>
+                    <div class="col-2">
+                      <div class="btn-group">
+                      <button type="submit" id="projectColumnFilterSubmit" class="btn btn-info btn-fill float-left" @click="selectProjectColumns">Apply</button>
+                      <button type="submit" id="projectColumnSelectAll" class="btn btn-info btn-fill float-left" style="margin-right: 5px;" @click="selectAllProjectColumns">Show All</button>
+                      </div>
+                    </div>
+                  </div>
+                  <pre class="language-json"></pre>
                 </div>
                 <div class="col-4">
                 </div>
@@ -76,6 +93,7 @@
 </template>
 <script>
   import Card from 'src/components/UIComponents/Cards/Card.vue'
+  import Multiselect from 'vue-multiselect'
   import axios from 'axios'
 
   const tableColumns = ['Name', 'ProjectStatus', 'Manager', 'ProjectOwner', 'Status', 'ProjectResources', 'Budget', 'Budget Used'];
@@ -88,7 +106,8 @@
 
   export default {
     components: {
-      Card
+      Card,
+      Multiselect
     },
 
     name: 'Checkbox-table',
@@ -108,9 +127,26 @@
       this.fetchData();
     },
 
+    mounted: function(){
+      this.initProjectColumnMap();
+    },
+
 
     data () {
       return {
+        selectedProjectColumns: [],
+        projectColumnsMap: new Map(),
+        columnFilterNames: [
+          {name: "Name"},
+          {name: "Project Status"},
+          {name: "Manager"},
+          {name: "Project Owner"},
+          {name: "RAG Status"},
+          {name: "Number of resources"},
+          {name: "Budget"},
+          {name: "Budget used"}
+        ],
+
         columnsPortfolio: [
           {
             label: 'ID',
@@ -230,19 +266,51 @@
 
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
-            console.log('response:' +response);
             info.rowsProject = response.data;
-            for (let i = 0; i < info.rowsProject.length; i++){
-               info.rowsProject[i].manager = info.rowsProject[i].manager.name;
+            for (let i = 0; i < info.rowsProject.length; i++) {
+              info.rowsProject[i].status = info.rowsProject[i].status != null ? info.rowsProject[i].status.name : null;
             }
+            console.log(rowsProject);
           });
         axios.get(this.$root.serverURL + "/api/resources")
           .then(response => {
             info.rowsResource = response.data;
           })
       },
+
+      initProjectColumnMap(){
+        for(var i = 0; i<this.columnsProject.length; i++){
+          this.projectColumnsMap.set(this.columnsProject[i].label, this.columnsProject[i]);
+        }
+      },
+
+      selectProjectColumns(){
+        var columnsToDisplay = this.selectedProjectColumns;
+        if(this.selectedProjectColumns.length > 0){
+          this.columnsProject = [];
+          for (var i=0; i<columnsToDisplay.length; i++){
+            this.columnsProject.push(this.projectColumnsMap.get(columnsToDisplay[i].name));
+          }
+        }
+      },
+
+      selectAllProjectColumns() {
+        var iterator = this.projectColumnsMap.entries();
+        var entry = iterator.next();
+        if(!entry.done){
+          this.columnsProject = [];
+        }
+        while(!entry.done){
+          this.columnsProject.push(entry.value[1]);
+          entry = iterator.next();
+        }
+      },
     }
   }
 </script>
-<style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css">
+  .btn-group {
+    display: inline;
+  }
 </style>
+

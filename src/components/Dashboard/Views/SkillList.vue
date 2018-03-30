@@ -55,6 +55,9 @@
               <b-button v-b-modal.addResourceModal1 class="btn btn-success btn-fill">
                 Add skill
               </b-button>
+              <b-button v-b-modal.manageCategoryModal class="btn btn-info">
+                Manage Category
+              </b-button>
               <b-modal
                 id="addResourceModal1"
                 @ok="handleOk1">
@@ -177,13 +180,16 @@
                                     placeholder="Enter your name"></b-form-input>
                     </b-form-group>
 
+
                     <b-form-group horizontal
-                                  label="Category:"
-                                  type="text"
-                                  label-class="text-sm-right"
-                                  label-for="nestedEmail">
+                                     label="Category:"
+                                     type="text"
+                                     label-class="text-sm-right"
+                                     label-for="nestedEmail">
                       <b-form-select v-model="editCategories"
-                                     :options="addCategoryOptions">
+                                     multiple
+                                     :options="addCategoryOptions"
+                                     id='add-ddown'>
                       </b-form-select>
                     </b-form-group>
                   </b-form-group>
@@ -291,7 +297,7 @@
         rowsTechnical: [],
         rowsNonTechnical: [],
         addCategories: [],
-        editCategories: "",
+        editCategories: [],
         addCategoryOptions: [],
         skillTechnical: [],
         skillNonTech: [],
@@ -307,6 +313,7 @@
         var info = this;
         axios.get(this.$root.serverURL + "/api/technicalSkills")
           .then(response => {
+            console.log(response.data);
             response.data.forEach(obj => {
               let temp = "";
               obj.categories.forEach(category => temp += category.name + ", ");
@@ -321,7 +328,6 @@
         axios.get(this.$root.serverURL + "/api/nonTechnicalSkills")
           .then(response => {
             info.rowsNonTechnical = response.data;
-            console.log(response.data);
           })
           .catch(() => console.log("error fetching non technical skills"))
       },
@@ -383,17 +389,18 @@
       edit1(index) {
         this.editId = this.rowsTechnical[index.toString()].id;
         this.editName = this.rowsTechnical[index.toString()].name;
-        this.editCategories = this.rowsTechnical[index.toString()].categories;
       },
       submitEdit() {
         let info = this;
-        axios.put(this.$root.serverURL + "/api/technicalSkills/" + this.editId, {
-          name: info.editName,
-          categories: [{
-            id: info.editCategories
-          }]
-        })
-          .then(() => this.editName = "")
+        console.log(this.editId);
+        console.log(info.editCategories);
+        axios.put(this.$root.serverURL + "/api/technicalSkills/" + this.editId + "?name=" + this.editName, info.editCategories)
+          .then(() => {
+            info.editId = '';
+            info.editName = '';
+            info.editCategories = [];
+            info.update();
+          })
           .catch(() => console.log("error editing tech skills"))
       },
       delete1(index) {
@@ -419,15 +426,23 @@
           .catch(() => console.log("error deleting nonTech skills"))
       },
       addSkillCategory() {
+        let info = this;
         axios.post(this.$root.serverURL + "/api/categories", {
           name: this.addCategoryName
         })
-          .then(this.fetchCategories)
+          .then(() => {
+            this.addCategoryName = '';
+            info.update();
+          })
           .catch(() => console.log("error adding skill category"))
       },
       deleteCategory(index) {
-        let skillId = this.addCategoryOptions[index.toString()].value;
-        console.log(skillId);
+        let info = this;
+        let categoryId = this.addCategoryOptions[index.toString()].value;
+        console.log(categoryId);
+        axios.delete(this.$root.serverURL + "/api/categories/" + categoryId)
+          .then(info.update)
+          .catch(() => console.log("error deleting skill category"))
       }
     }
   }
