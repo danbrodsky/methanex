@@ -66,7 +66,7 @@ const routes = [
         component: Portfolio
       },
       {
-        path: 'user/:userId',
+        path: 'user/:resourceId',
         name: 'User',
         component: UserProfile
       },

@@ -73,6 +73,7 @@
         :columns="columns"
         :paginate="true"
         :rows="resources"
+        :onClick="goToResource"
         :globalSearch="false"
         styleClass="table table-striped condensed">
         <template slot="table-column" slot-scope="props">
@@ -205,6 +206,7 @@
       },
       updateProject() {
         var info = this;
+        console.log(info.project);
         axios.put(info.$root.serverURL + "/api/projects/" + info.project.id, info.project)
           .then(response => {
             info.updatedProjectSuccessBanner = true;
@@ -230,6 +232,9 @@
             })
             .catch((error) => console.log(error));
         }
+      },
+      goToResource(row, index) {
+        this.$router.push({path: `/admin/user/${row.id}`});
       },
       removeResources() {
         var projectId = this.$route.params.projectId;

@@ -216,10 +216,10 @@
             field: 'manager',
             filterable: true
           },
-          {           
+          {
             label: ''
           },
-          {           
+          {
             label: ''
           }
         ],

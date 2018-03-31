@@ -148,12 +148,13 @@
     methods: {
       fetchData() {
         let info = this;
+        let pathId = this.$route.params.resourceId;
+        console.log(pathId);
+        pathId = pathId != undefined ? pathId : JSON.parse(info.$root.$data.cookies.get('user')).id;
         axios
-          .get(info.$root.serverURL + "/api/resources/" + JSON.parse(info.$root.$data.cookies.get('user')).id)
+          .get(info.$root.serverURL + "/api/resources/" + pathId)
           .then(response => {
             info.resource = response.data;
-            console.log("info.values");
-            console.log(info.values);
             info.values = info.resource.skills;
           })
           .catch(error => {
@@ -164,8 +165,6 @@
           .get(info.$root.serverURL + "/api/technicalSkills")
           .then(response => {
             info.options1 = response.data;
-            console.log("info.options1");
-            console.log(info.options1);
           })
       },
       updateProfile() {
