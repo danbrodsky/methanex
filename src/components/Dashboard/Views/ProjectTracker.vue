@@ -1,5 +1,8 @@
 <template>
   <div class="content">
+  <div class="row">
+    <gantt-chart style="width: 80%;margin: auto;box-shadow: 5px 5px 5px grey;"></gantt-chart>
+  </div>
     <div>
       <b-alert :show=updatedProjectSuccessBanner dismissible variant="success">
         <h4 class="alert-heading">Project information has been updated</h4>
@@ -54,7 +57,7 @@
           <div class="col-md-6">
             <fg-input label="Project Owner"
                       placeholder="Project Owner"
-                      v-model="project.projectOwner.name">
+                      v-model="project.projectOwnerName">
             </fg-input>
           </div>
         </div>
@@ -115,10 +118,12 @@
 <script>
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   import axios from 'axios'
+  import GanttChart from 'src/components/UIComponents/PortfolioComponents/GanttChart.vue'
 
   export default {
     components: {
-      Card
+      Card,
+      GanttChart
     },
     data() {
       return {
@@ -196,6 +201,9 @@
                   resource["selected"] = false;
                   if (typeof resource.manager !== 'string' && resource.manager != null) {
                     resource.manager = resource.manager.name;
+                  }
+                  if (typeof project.projectOwner !== 'string' && project.projectOwner != null) {
+                    project.projectOwnerName = project.projectOwner.name;
                   }
                 });
               })
