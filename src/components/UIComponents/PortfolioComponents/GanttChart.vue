@@ -1,10 +1,12 @@
 <template>
 <div v-if='hasId()'>
   <div class="card" style="display: block; margin: auto;" id="img_container">
-    <img style="display: block; margin: auto;width:70%;height:500px;" v-bind:src="info.image" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/d/d2/Solid_white.png';">
-      <button style="position:absolute; top: 85%;width: 30%;left:65%;"v-b-modal.modalPrevent2 class="btn btn-success btn-fill">
+    <img style="display: block; margin: auto;width:100%;height:500px;" v-bind:src="info.image" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/d/d2/Solid_white.png';">
+    <div v-if="hasAccess()">
+      <button style="position:absolute; top: 85%;width: 200px;left:65%;"v-b-modal.modalPrevent2 class="btn btn-success btn-fill">
         Change Gantt
       </button>
+    </div>
       <b-modal 
         hide-footer
         title="Select the image you wish to upload"
@@ -13,7 +15,7 @@
         <div class="d-block">
         <file-upload
           class="btn btn-primary"
-          v-bind:post-action="this.axios.defaults.baseURL + '/api/upload?portfolioId=' + this.$root._route.params.portfolioId"
+          v-bind:post-action="this.axios.defaults.baseURL + '/api/upload?projectId=' + this.$root._route.params.projectId"
           :headers="headers"
           extensions="gif,jpg,jpeg,png,webp"
           accept="image/png,image/gif,image/jpeg,image/webp"
@@ -87,14 +89,23 @@ export default {
   methods: {
     getInfo(){
     	let that = this;
-    	axios.get(this.$root.serverURL + "/api/image?id=" + this.$root._route.params.portfolioId)
+    	console.log(this.$root._route.params.projectId);
+    	axios.get(this.$root.serverURL + "/api/image?id=" + this.$root._route.params.projectId)
         .then(response => {
         console.log(response);
         that.info.image = 'data:image/jpeg;base64,' + response.data.data;
       })
     },
     hasId(){
-    	return this.$root._route.params.portfolioId != null;
+    	return this.$root._route.params.projectId != null;
+    },
+    hasAccess(){
+    	let that = this;
+    	axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
+        .then(response => {
+        console.log(response);
+        // if ('admin')
+      })
     },
     inputFilter(newFile, oldFile, prevent) {
       if (newFile && !oldFile) {
