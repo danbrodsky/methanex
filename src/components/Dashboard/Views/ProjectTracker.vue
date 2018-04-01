@@ -76,33 +76,26 @@
         :columns="columns"
         :paginate="true"
         :rows="resources"
-        :onClick="goToResource"
+        :search-options="{ enabled: true, trigger: 'enter' }"
+        :pagination-options="{enabled: true, perPage: 5}"
         :globalSearch="false"
         styleClass="table table-striped condensed">
         <template slot="table-column" slot-scope="props">
-          <span v-if="props.column.field =='name'">
-            <i class="fa fa-user"></i> {{props.column.label}}
-          </span>
-          <span v-else-if="props.column.field == 'joined'">
-            <i class="fa fa-calendar"></i> {{props.column.label}}
-          </span>
-          <span v-else-if="props.column.label =='SelectAll'">
-                  <label class="checkbox">
-                    <input
-                      type="checkbox"
-                      @click="toggleSelectAll()">
-                  </label>
+                <span v-if="props.column.label ==''">
+                  <input @click="toggleSelectAll" type="checkbox"/>
                 </span>
+
           <span v-else>
                     {{props.column.label}}
                 </span>
         </template>
-        <template slot="table-row-before" slot-scope="props">
-          <td>
-            <label class="checkbox">
+        <template slot="table-row" slot-scope="props">
+            <span v-if="props.column.field === 'chkbx'">
               <input type="checkbox" v-model="resources[props.row.originalIndex].selected">
-            </label>
-          </td>
+            </span>
+          <span v-else>
+            {{ props.formattedRow[props.column.field] }}
+          </span>
         </template>
       </vue-good-table>
       <div v-if="hasAccess()">
@@ -137,7 +130,9 @@
         role: '',
         columns: [
           {
-            label: 'SelectAll',
+            label: '', // checkbox
+            field: 'chkbx',
+
             sortable: false,
           },
           {
@@ -234,23 +229,7 @@
         return this.role == "ROLE_ADMIN";
       },
       addResources() {
-        var projectId = this.$route.params.projectId;
-        let info = this;
-        let data = [];
-        this.resources.forEach(resource => {
-          if (resource.selected) {
-            data.push(resource.id);
-          }
-        });
-        console.log(data);
-        if (data.length > 0) {
-          axios.post(this.$root.serverURL + "/api/projects/" + projectId + "/resources", data)
-            .then((response) => {
-              info.fetchData();
-              info.addedResourcesBanner = true
-            })
-            .catch((error) => console.log(error));
-        }
+        this.$router.push({path: `/admin/add-resources/${this.project.id}`});
       },
       goToResource(row, index) {
         this.$router.push({path: `/admin/user/${row.id}`});

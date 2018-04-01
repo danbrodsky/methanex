@@ -28,27 +28,22 @@
             </template>
             <vue-good-table
               :columns="columnsTechnical"
-              :paginate="true"
               :rows="rowsTechnical"
-              :globalSearch="false"
-              styleClass="table table-striped condensed">
+              :paginate="true"
+              :search-options="{ enabled: true, trigger: 'enter' }"
+              :pagination-options="{enabled: true, perPage: 5}"
+              styleClass="vgt-table striped bordered">
               <template slot="table-column" slot-scope="props">
-                <span v-if="props.column.label =='SelectAll'">
-                  <label class="checkbox">
-                    <input
-                      type="checkbox"
-                      @click="toggleSelectAll()">
-                  </label>
+                {{props.column.label}}
+              </template>
+              <template slot="table-row" slot-scope="props">
+                <span v-if="props.column.field === 'btn'">
+                  <button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" @click="edit1(props.row.originalIndex)">edit</button>
+                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete1(props.row.originalIndex)">delete</button>
                 </span>
                 <span v-else>
-                    {{props.column.label}}
+                    {{ props.formattedRow[props.column.field] }}
                 </span>
-              </template>
-              <template slot="table-row-before" slot-scope="props">
-              </template>
-              <template slot="table-row-after" slot-scope="props">
-                <td><button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" @click="edit1(props.row.originalIndex)">edit</button></td>
-                <td><button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete1(props.row.originalIndex)">delete</button></td>
               </template>
             </vue-good-table>
             <div v-if='hasAccess()'>
@@ -106,25 +101,22 @@
             </template>
             <vue-good-table
               :columns="columnsNonTechnical"
-              :paginate="true"
               :rows="rowsNonTechnical"
-              :globalSearch="false"
-              styleClass="table table-striped condensed">
+              :paginate="true"
+              :search-options="{ enabled: true, trigger: 'enter' }"
+              :pagination-options="{enabled: true, perPage: 5}"
+              styleClass="vgt-table striped bordered">
               <template slot="table-column" slot-scope="props">
-                <span v-if="props.column.label =='SelectAll'">
-                  <label class="checkbox">
-                    <input
-                      type="checkbox"
-                      @click="toggleSelectAll()">
-                  </label>
+                {{props.column.label}}
+              </template>
+              <template slot="table-row" slot-scope="props">
+                <span v-if="props.column.field === 'btn'">
+                  <button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" @click="edit2(props.row.originalIndex)">edit</button>
+                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete2(props.row.originalIndex)">delete</button>
                 </span>
                 <span v-else>
-                    {{props.column.label}}
+                    {{ props.formattedRow[props.column.field] }}
                 </span>
-              </template>
-              <template slot="table-row-after" slot-scope="props">
-                <td><button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" @click="edit2(props.row.originalIndex)">edit</button></td>
-                <td><button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete2(props.row.originalIndex)">delete</button></td>
               </template>
             </vue-good-table>
             <div v-if='hasAccess()'>
@@ -269,10 +261,9 @@
             filterable: true,
           },
           {
-            label: ''
-          },
-          {
-            label: ''
+            label: '', // checkbox
+            field: 'btn',
+            sortable: false,
           }
         ],
         columnsNonTechnical: [
@@ -282,11 +273,11 @@
             filterable: true,
           },
           {
-            label: ''
-          },
-          {
-            label: ''
-          }],
+            label: '', // checkbox
+            field: 'btn',
+            sortable: false,
+          }
+          ],
         columnsCategory: [
           {
             key:'text',
@@ -294,11 +285,10 @@
             sortable: true,
           },
           {
-            label: ''
-          },
-          {
-            label: ''
-          }
+            label: '', // checkbox
+            field: 'btn',
+            sortable: false,
+         }
         ],
         rowsTechnical: [],
         rowsNonTechnical: [],
