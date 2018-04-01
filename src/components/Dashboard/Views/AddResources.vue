@@ -10,7 +10,7 @@
               </div>
               <div class="row" style="padding-top: 25px">
                 <div class="col-8">
-                  <h4 class="card-title">Add reources</h4>
+                  <h4 class="card-title">Add Resources</h4>
                   <p class="card-category">Select which resources to add to this project</p>
                 </div>
                 <div class="col-4">

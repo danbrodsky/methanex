@@ -177,6 +177,11 @@
       Card
     },
     created() {
+      let that = this;
+      axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
+        .then(response => {
+          that.role = response.data[0].name;
+      })
       this.fetchData();
     },
     data() {
@@ -236,14 +241,13 @@
             for (let i = 0; i < info.rows.length; i++) {
               if (info.rows[i].manager != null)
                 info.rows[i].manager = info.rows[i].manager.name;
+              if (info.rows[i].group != null)
+                info.rows[i].group = info.rows[i].group.name;
             }
           })
       },
       addRow(id) {
         this.added.push(id);
-      },
-      hasAccess() {
-        return this.role == "ROLE_ADMIN";
       },
       removeResources(id) {
         let info = this;
@@ -270,6 +274,9 @@
         })
           .then(() => info.SuccessBanner = true)
           .catch(() => console.log("error while adding resource"))
+      },
+      hasAccess() {
+        return this.role == "ROLE_ADMIN";
       },
       editResource() {
         let info = this;

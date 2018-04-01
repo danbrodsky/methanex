@@ -30,12 +30,7 @@
           </div>
         </div>
         <div class="text-center">
-          <button type="submit" class="btn btn-info btn-fill float-left" @click.prevent="goToAddProjectsPage">
-            Add Existing Projects
-          </button>
-        </div>
-        <div class="text-center">
-          <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProfile">
+          <button type="submit" class="btn btn-info btn-fill float-right" @click="updateProfile">
             Save
           </button>
         </div>
@@ -54,6 +49,7 @@
     },
     data() {
       return {
+        modalShow: false,
         values: [],
         portfolio: {
           classification: '',
@@ -61,8 +57,6 @@
           resourceBreakdown: ''
         }
       }
-    },
-    created() {
     },
     methods: {
       updateProfile() {
@@ -73,11 +67,9 @@
           "resourceBreakdown": info.portfolio.resourceBreakdown
         })
           .then(function () {
+            info.$router.push({path: `/admin/portfolio`});
           })
           .catch(() => console.log("error while creating portfolio"));
-      },
-      goToAddProjectsPage() {
-        this.$router.push({path: '/admin/addProjects'})
       }
     }
   }

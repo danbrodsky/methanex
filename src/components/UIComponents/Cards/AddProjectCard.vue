@@ -17,7 +17,7 @@
     },
     methods: {
       createNewProject() {
-        this.$router.push({path: '/admin/project', query: { portfolioId: this.portfolioId }});
+        this.$router.push({path: `/admin/addProjects/${this.portfolioId}`});
       }
     }
   }
