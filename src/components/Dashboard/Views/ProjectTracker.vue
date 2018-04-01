@@ -1,7 +1,7 @@
 <template>
   <div class="content">
-  <div class="row">
-    <gantt-chart style="width: 80%;margin: auto;box-shadow: 5px 5px 5px grey;"></gantt-chart>
+  <div class="row" style="margin: 1%;">
+    <gantt-chart style="width: 80%;margin: auto;"></gantt-chart>
   </div>
     <div>
       <b-alert :show=updatedProjectSuccessBanner dismissible variant="success">
@@ -19,7 +19,7 @@
       </b-alert>
     </div>
     <card>
-      <h4 slot="header" class="card-title">Edit Project</h4>
+      <h4 slot="header" class="card-title">Project</h4>
       <form>
         <div class="row">
           <div class="col-md-3">
@@ -62,7 +62,7 @@
           </div>
         </div>
         <div class="text-center">
-          <div class="btn-toolbar float-right">
+          <div class="btn-toolbar float-right" v-if="hasAccess()">
             <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProject">
               Update Project
             </button>
@@ -105,6 +105,7 @@
           </td>
         </template>
       </vue-good-table>
+      <div v-if="hasAccess()">
       <button type="submit" class="btn btn-info btn-fill float-right" style="margin-right: 5px;"
               @click.prevent="addResources">
         Add Resource
@@ -113,6 +114,7 @@
               @click.prevent="removeResources">
         Remove Resource
       </button>
+      </div>
     </card>
   </div>
 </template>
@@ -132,6 +134,7 @@
         addedResourcesBanner: false,
         deletedResourceBanner: false,
         removed: false,
+        role: '',
         columns: [
           {
             label: 'SelectAll',
@@ -180,6 +183,11 @@
       }
     },
     created() {
+      let that = this;
+      axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
+        .then(response => {
+          that.role = response.data[0].name;
+      })
       this.fetchData();
     },
     methods: {
@@ -221,6 +229,9 @@
             info.project = response.data;
           })
           .catch(() => console.log("problem updating project"));
+      },
+      hasAccess() {
+        return this.role == "ROLE_ADMIN";
       },
       addResources() {
         var projectId = this.$route.params.projectId;

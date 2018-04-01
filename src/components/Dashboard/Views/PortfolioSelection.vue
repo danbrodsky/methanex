@@ -5,17 +5,19 @@
         <div class="filters">
           <span>Search: </span>
           <input v-model="searchKeyword" v-on:input="filterPortfolios" />
+          <div class="row" style="margin: 0.5%;" v-if='hasAccess()'>
+            <button type="submit" class="btn btn-info btn-fill float-right" v-on:click="createPortfolio()">
+              Add Portfolio
+            </button>
+          </div>
         </div>
       </div>
       <div class="row">
-          <portfolio-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;"
+          <portfolio-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;"
             v-for="portfolio of portfoliosDisplayed"
             v-bind:key="portfolio.id"
             v-bind="portfolio">
           </portfolio-card>
-
-        <add-portfolio-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;"></add-portfolio-card>
-
       </div>
     </div>
   </div>
@@ -40,52 +42,18 @@
       AddPortfolioCard
     },
     created() {
+      let that = this;
+      axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
+        .then(response => {
+          that.role = response.data[0].name;
+      })
       this.fetchData();
     },
     data() {
       return {
         portfolios: [],
         portfoliosDisplayed: [],
-        // portfolios: [
-        //   {
-        //     classification: 'Top Secret',
-        //     businessOwner: 'Mark Penderson',
-        //     numProjects: 52,
-        //     totalBudget: 800000
-        //   },
-        //   {
-        //     classification: 'Sheep hunting operations',
-        //     businessOwner: 'Nigel',
-        //     numProjects: 8,
-        //     totalBudget: 1000000
-        //   },
-        //   {
-        //     classification: 'Financials',
-        //     businessOwner: 'John Doe',
-        //     numProjects: 29,
-        //     totalBudget: 550000
-        //   }
-        // ],
-        // portfoliosDisplayed: [
-        //   {
-        //     classification: 'Top Secret',
-        //     businessOwner: 'Mark Penderson',
-        //     numProjects: 52,
-        //     totalBudget: 800000
-        //   },
-        //   {
-        //     classification: 'Sheep hunting operations',
-        //     businessOwner: 'Nigel',
-        //     numProjects: 8,
-        //     totalBudget: 1000000
-        //   },
-        //   {
-        //     classification: 'Financials',
-        //     businessOwner: 'John Doe',
-        //     numProjects: 29,
-        //     totalBudget: 550000
-        //   }
-        // ],
+        role: '',
         searchKeyword: ''
       }
     },
@@ -99,10 +67,14 @@
               p.numProjects = p.projects.length;
             }
             info.portfoliosDisplayed = info.portfolios.slice();
-            // console.log('portfolios:', info.portfolios);
           })
       },
-
+      hasAccess() {
+        return this.role == "ROLE_ADMIN";
+      },
+      createPortfolio(){
+        this.$router.push({path: '/admin/create-portfolio'});
+      },
       filterPortfolios: _.debounce(function () {
         this.portfoliosDisplayed = [];
         for(var aPortfolio of this.portfolios) {

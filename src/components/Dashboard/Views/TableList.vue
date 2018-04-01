@@ -33,11 +33,11 @@
               <template slot="table-row-before" slot-scope="props">
               </template>
               <template slot="table-row-after" slot-scope="props">
-                <td><button  v-b-modal.editResourceModal class="btn btn-warning btn-fill btn-sm" @click="populateEdit(props.row.originalIndex)">edit</button></td>
-                <td><button class="btn btn-danger btn-fill btn-sm" @click="removeResources(props.row.id)">delete</button></td>
+                <td><button v-if='hasAccess()' v-b-modal.editResourceModal class="btn btn-warning btn-fill btn-sm" @click="populateEdit(props.row.originalIndex)">edit</button></td>
+                <td><button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="removeResources(props.row.id)">delete</button></td>
               </template>
             </vue-good-table>
-            <div>
+            <div v-if='hasAccess()'>
               <button v-b-modal.addResourceModal class="btn btn-success btn-fill float-right">
                 Create a resource
               </button>
@@ -189,6 +189,7 @@
         editId: -1,
         selectedRole: -1,
         allSelected: false,
+        role: '',
         columns: [
           {
             label: 'Name',
@@ -240,6 +241,9 @@
       },
       addRow(id) {
         this.added.push(id);
+      },
+      hasAccess() {
+        return this.role == "ROLE_ADMIN";
       },
       removeResources(id) {
         let info = this;

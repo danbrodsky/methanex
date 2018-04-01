@@ -47,11 +47,11 @@
               <template slot="table-row-before" slot-scope="props">
               </template>
               <template slot="table-row-after" slot-scope="props">
-                <td><button class="btn btn-warning btn-fill btn-sm" @click="edit1(props.row.originalIndex)">edit</button></td>
-                <td><button class="btn btn-danger btn-fill btn-sm" @click="delete1(props.row.originalIndex)">delete</button></td>
+                <td><button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" @click="edit1(props.row.originalIndex)">edit</button></td>
+                <td><button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete1(props.row.originalIndex)">delete</button></td>
               </template>
             </vue-good-table>
-            <div>
+            <div v-if='hasAccess()'>
               <b-button v-b-modal.addResourceModal1 class="btn btn-success btn-fill">
                 Add skill
               </b-button>
@@ -123,11 +123,11 @@
                 </span>
               </template>
               <template slot="table-row-after" slot-scope="props">
-                <td><button class="btn btn-warning btn-fill btn-sm" @click="edit2(props.row.originalIndex)">edit</button></td>
-                <td><button class="btn btn-danger btn-fill btn-sm" @click="delete2(props.row.originalIndex)">delete</button></td>
+                <td><button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" @click="edit2(props.row.originalIndex)">edit</button></td>
+                <td><button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete2(props.row.originalIndex)">delete</button></td>
               </template>
             </vue-good-table>
-            <div>
+            <div v-if='hasAccess()'>
               <b-button v-b-modal.addResourceModal2 class="btn btn-success btn-fill">
                 Add skill
               </b-button>
@@ -235,6 +235,11 @@
       Card
     },
     created() {
+      let that = this;
+      axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
+        .then(response => {
+          that.role = response.data[0].name;
+      })
       this.fetchDataTechnical();
       this.fetchDataNonTechnical();
       this.fetchCategories();
@@ -250,6 +255,7 @@
         allSelected: false,
         skillDeletedBanner: false,
         skillEditedBanner: false,
+        role: '',
         columnsTechnical: [
           {
             label: 'Name',
@@ -342,6 +348,9 @@
           })
           .catch(() => console.log("error fetching categories"))
 
+      },
+      hasAccess() {
+        return this.role == "ROLE_ADMIN";
       },
       addData1() {
         var info = this;
