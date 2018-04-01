@@ -53,8 +53,7 @@
     methods: {
       approve() {
         let info = this;
-        let managerId = JSON.parse(info.$root.$data.cookies.get('user')).manager.id;
-        console.log(JSON.parse(info.$root.$data.cookies.get('user')));
+        let managerId = JSON.parse(info.$root.$data.cookies.get('user')).resource.manager.id;
         axios.post(info.$root.serverURL + "/api/notifications?resourceId=" + info.resourceId + "&skillId=" + info.skillId + "&managerId=" + managerId)
           .then(function (res) {
           });

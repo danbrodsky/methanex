@@ -1,7 +1,7 @@
 <template>
   <div class="content">
-  <div class="row">
-    <gantt-chart style="width: 80%;margin: auto;box-shadow: 5px 5px 5px grey;"></gantt-chart>
+  <div class="row" style="margin: 1%;">
+    <gantt-chart style="width: 80%;margin: auto;"></gantt-chart>
   </div>
     <div>
       <b-alert :show=updatedProjectSuccessBanner dismissible variant="success">
@@ -19,7 +19,7 @@
       </b-alert>
     </div>
     <card>
-      <h4 slot="header" class="card-title">Edit Project</h4>
+      <h4 slot="header" class="card-title">Project</h4>
       <form>
         <div class="row">
           <div class="col-md-3">
@@ -62,7 +62,7 @@
           </div>
         </div>
         <div class="text-center">
-          <div class="btn-toolbar float-right">
+          <div class="btn-toolbar float-right" v-if="hasAccess()">
             <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProject">
               Update Project
             </button>
@@ -76,35 +76,29 @@
         :columns="columns"
         :paginate="true"
         :rows="resources"
-        :onClick="goToResource"
+        :search-options="{ enabled: true, trigger: 'enter' }"
+        :pagination-options="{enabled: true, perPage: 5}"
         :globalSearch="false"
         styleClass="table table-striped condensed">
         <template slot="table-column" slot-scope="props">
-          <span v-if="props.column.field =='name'">
-            <i class="fa fa-user"></i> {{props.column.label}}
-          </span>
-          <span v-else-if="props.column.field == 'joined'">
-            <i class="fa fa-calendar"></i> {{props.column.label}}
-          </span>
-          <span v-else-if="props.column.label =='SelectAll'">
-                  <label class="checkbox">
-                    <input
-                      type="checkbox"
-                      @click="toggleSelectAll()">
-                  </label>
+                <span v-if="props.column.label ==''">
+                  <input @click="toggleSelectAll" type="checkbox"/>
                 </span>
+
           <span v-else>
                     {{props.column.label}}
                 </span>
         </template>
-        <template slot="table-row-before" slot-scope="props">
-          <td>
-            <label class="checkbox">
+        <template slot="table-row" slot-scope="props">
+            <span v-if="props.column.field === 'chkbx'">
               <input type="checkbox" v-model="resources[props.row.originalIndex].selected">
-            </label>
-          </td>
+            </span>
+          <span v-else>
+            {{ props.formattedRow[props.column.field] }}
+          </span>
         </template>
       </vue-good-table>
+      <div v-if="hasAccess()">
       <button type="submit" class="btn btn-info btn-fill float-right" style="margin-right: 5px;"
               @click.prevent="addResources">
         Add Resource
@@ -113,6 +107,7 @@
               @click.prevent="removeResources">
         Remove Resource
       </button>
+      </div>
     </card>
   </div>
 </template>
@@ -132,9 +127,12 @@
         addedResourcesBanner: false,
         deletedResourceBanner: false,
         removed: false,
+        role: '',
         columns: [
           {
-            label: 'SelectAll',
+            label: '', // checkbox
+            field: 'chkbx',
+
             sortable: false,
           },
           {
@@ -180,6 +178,11 @@
       }
     },
     created() {
+      let that = this;
+      axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
+        .then(response => {
+          that.role = response.data[0].name;
+      })
       this.fetchData();
     },
     methods: {
@@ -222,24 +225,11 @@
           })
           .catch(() => console.log("problem updating project"));
       },
+      hasAccess() {
+        return this.role == "ROLE_ADMIN";
+      },
       addResources() {
-        var projectId = this.$route.params.projectId;
-        let info = this;
-        let data = [];
-        this.resources.forEach(resource => {
-          if (resource.selected) {
-            data.push(resource.id);
-          }
-        });
-        console.log(data);
-        if (data.length > 0) {
-          axios.post(this.$root.serverURL + "/api/projects/" + projectId + "/resources", data)
-            .then((response) => {
-              info.fetchData();
-              info.addedResourcesBanner = true
-            })
-            .catch((error) => console.log(error));
-        }
+        this.$router.push({path: `/admin/add-resources/${this.project.id}`});
       },
       goToResource(row, index) {
         this.$router.push({path: `/admin/user/${row.id}`});

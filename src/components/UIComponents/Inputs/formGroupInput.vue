@@ -11,6 +11,15 @@
       </span>
     </slot>
     <input
+      v-if="!clickHandler"
+      :value="value"
+      @input="$emit('input',$event.target.value)"
+      v-bind="$attrs"
+      class="form-control"
+      aria-describedby="addon-right addon-left">
+    <input
+      v-else
+      @click="clickHandler.method"
       :value="value"
       @input="$emit('input',$event.target.value)"
       v-bind="$attrs"
@@ -32,7 +41,8 @@
       label: String,
       value: [String, Number],
       addonRightIcon: String,
-      addonLeftIcon: String
+      addonLeftIcon: String,
+      clickHandler: Object,
     },
     computed: {
       hasIcon () {

@@ -14,30 +14,25 @@
           <card>
             <vue-good-table
               :columns="columns"
-              :paginate="true"
               :rows="rows"
-              :globalSearch="false"
-              styleClass="table table-striped condensed">
+              :paginate="true"
+              :search-options="{ enabled: true, trigger: 'enter' }"
+              :pagination-options="{enabled: true, perPage: 5}"
+              styleClass="vgt-table striped bordered">
               <template slot="table-column" slot-scope="props">
-                <span v-if="props.column.label =='SelectAll'">
-                  <label class="checkbox">
-                    <input
-                      type="checkbox"
-                      @click="toggleSelectAll()">
-                  </label>
+                  {{props.column.label}}
+              </template>
+              <template slot="table-row" slot-scope="props">
+                <span v-if="props.column.field === 'btn'">
+                  <button v-if='hasAccess()' v-b-modal.editResourceModal class="btn btn-warning btn-fill btn-sm" @click="populateEdit(props.row.originalIndex)">edit</button>
+                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="removeResources(props.row.id)">delete</button>
                 </span>
                 <span v-else>
-                    {{props.column.label}}
+                  {{ props.formattedRow[props.column.field] }}
                 </span>
               </template>
-              <template slot="table-row-before" slot-scope="props">
-              </template>
-              <template slot="table-row-after" slot-scope="props">
-                <td><button  v-b-modal.editResourceModal class="btn btn-warning btn-fill btn-sm" @click="populateEdit(props.row.originalIndex)">edit</button></td>
-                <td><button class="btn btn-danger btn-fill btn-sm" @click="removeResources(props.row.id)">delete</button></td>
-              </template>
             </vue-good-table>
-            <div>
+            <div v-if='hasAccess()'>
               <button v-b-modal.addResourceModal class="btn btn-success btn-fill float-right">
                 Create a resource
               </button>
@@ -177,6 +172,11 @@
       Card
     },
     created() {
+      let that = this;
+      axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
+        .then(response => {
+          that.role = response.data[0].name;
+      })
       this.fetchData();
     },
     data() {
@@ -189,6 +189,7 @@
         editId: -1,
         selectedRole: -1,
         allSelected: false,
+        role: '',
         columns: [
           {
             label: 'Name',
@@ -217,10 +218,9 @@
             filterable: true
           },
           {
-            label: ''
-          },
-          {
-            label: ''
+            label: '', // checkbox
+            field: 'btn',
+            sortable: false,
           }
         ],
         rows: [],
@@ -235,6 +235,8 @@
             for (let i = 0; i < info.rows.length; i++) {
               if (info.rows[i].manager != null)
                 info.rows[i].manager = info.rows[i].manager.name;
+              if (info.rows[i].group != null)
+                info.rows[i].group = info.rows[i].group.name;
             }
           })
       },
@@ -266,6 +268,9 @@
         })
           .then(() => info.SuccessBanner = true)
           .catch(() => console.log("error while adding resource"))
+      },
+      hasAccess() {
+        return this.role == "ROLE_ADMIN";
       },
       editResource() {
         let info = this;

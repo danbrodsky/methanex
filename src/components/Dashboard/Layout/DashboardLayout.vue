@@ -5,10 +5,6 @@
         <i class="nc-icon nc-bullet-list-67"></i>
         <p>Portfolio Selection</p>
       </sidebar-link>
-      <sidebar-link to="/admin/portfolio">
-        <i class="nc-icon nc-chart-pie-35"></i>
-        <p>Portfolio Manager</p>
-      </sidebar-link>
       <sidebar-link to="/admin/user">
         <i class="nc-icon nc-circle-09"></i>
         <p>Profile</p>

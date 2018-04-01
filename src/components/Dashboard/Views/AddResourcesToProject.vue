@@ -29,7 +29,7 @@
               </template>
             </vue-good-table>
             <div class="text-center">
-              <button type="submit" class="btn btn-info btn-fill float-left" @click.prevent="addProjects">
+              <button type="submit" class="btn btn-info btn-fill float-left" @click.prevent="addResources">
                 Save
               </button>
             </div>
@@ -66,50 +66,24 @@
             filterable: true,
           },
           {
+            label: 'Email',
+            field: 'email',
+            type: 'string',
+            filterable: true,
+          },
+          {
+            label: 'Location',
+            field: 'location',
+            filterable: true,
+          },
+          {
+            label: 'Group',
+            field: 'group',
+            filterable: true,
+          },
+          {
             label: 'Manager',
             field: 'manager',
-            type: 'string',
-            filterable: true,
-          },
-          {
-            label: 'Project Owner',
-            field: 'projectOwner',
-            type: 'string',
-            filterable: true,
-          },
-          {
-            label: 'Start',
-            field: 'startDate',
-            filterable: true,
-          },
-          {
-            label: 'End',
-            field: 'endDate',
-            filterable: true,
-          },
-          {
-            label: 'Budget',
-            field: 'budget',
-            filterable: true,
-          },
-          {
-            label: 'Status',
-            field: 'status',
-            filterable: true
-          },
-          {
-            label: 'RAG',
-            field: 'ragStatus',
-            filterable: true
-          },
-          {
-            label: '% Complete',
-            field: 'percentageComplete',
-            filterable: true
-          },
-          {
-            label: 'Est. Remaining Cost',
-            field: 'estimatedRemainingCost',
             filterable: true
           }
         ],
@@ -124,34 +98,39 @@
         });
       },
       fetchData() {
-        var info = this;
-        axios.get(this.$root.serverURL + "/api/projects")
+        let info = this;
+        let projectId = this.$route.params.projectId;
+        axios
+          .get(this.$root.serverURL + "/api/projects/difference?projectId=" + projectId)
           .then(response => {
             info.rows = response.data;
-            for (let i = 0; i < info.rows.length; i++) {
-              if (info.rows[i].manager != null) {
-                info.rows[i].manager = info.rows[i].manager.name;
+            info.rows.forEach(row => {
+              if (row.manager != null) {
+                row.manager = row.manager.name;
               }
-              if (info.rows[i].projectOwner != null) {
-                info.rows[i].projectOwner = info.rows[i].projectOwner.name;
+              if (row.group != null) {
+                row.group = row.group.name;
               }
-            }
+            });
           })
+          .catch(error => console.log(error));
       },
-      addProjects() {
+      addResources() {
         let info = this;
-        let portfolioId = this.$route.params.portfolioId;
-        let projects = [];
+        let projectId = this.$route.params.projectId;
+        let resources = [];
         this.rows.forEach(row => {
           if (row.selected) {
-            projects.push(row.id);
+            resources.push(row.id);
           }
         });
-        axios.post(this.$root.serverURL + "/api/portfolios/" + portfolioId + "/" + "projects", projects)
-          .then(() => {
-            info.$router.push({path: `/admin/portfolio/${portfolioId}`});
-          })
-          .catch(() => console.log("error while adding resource"))
+        if (resources.length > 0) {
+          axios.post(this.$root.serverURL + "/api/projects/" + projectId + "/" + "resources", resources)
+            .then(() => {
+              info.$router.push({path: `/admin/project/${projectId}`});
+            })
+            .catch(() => console.log("error while adding resources"))
+        }
       }
     }
   }
