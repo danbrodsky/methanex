@@ -20,7 +20,6 @@
                       @click="openBusinessOwnerPicker">
             </fg-input>
             <business-owner-picker v-if="modalShow" @receiveBusinessOwner="getBusinessOwner"></business-owner-picker>
-            <button type="button" class="btn btn-primary btn-fill" @click="modalShow = true"></button>
           </div>
         </div>
 
