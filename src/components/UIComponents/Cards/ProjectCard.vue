@@ -1,45 +1,46 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <div name="header" style="align: center; width: 75%"><span style="font-weight:bold">{{ projectName }}</span> <span style="color:#888888">({{ projectId }})</span></div>
+      <div name="header" style="align: center; width: 75%"><span style="font-weight:bold">{{ project.name }}</span> <span style="color:#888888">({{ project.id }})</span></div>
       <div name="header" style="font-weight:bold; color:#888888"></div>
       <button class="btn" style="position:absolute;right:5%;top:5%;border-color:black;color:black;" v-on:click="goToProject"> Details </button>
     </div>
     <div class="card-body">
       <div class="body-data">
-      <span v-if="projectStatus != null">
-          Status: <i>{{ projectStatus.name }}</i>
+      <span v-if="project.status != null">
+          Status: <i>{{ project.status.name }}</i>
       </span>
       </div>
       <div class="body-data" style="width: 100%; padding:0">
-          <progress style="width:100%" :value="projectProgress" max="100"></progress>
-          <project-status-bar></project-status-bar>
+          <project-status-bar
+            v-bind:startDate="project.startDate"
+            v-bind:expectedPreApprovalStatusDate="project.expectedPreApprovalStatusDate"
+            v-bind:expectedSeekFundingStatusDate="project.expectedSeekFundingStatusDate"
+            v-bind:expectedPipelineStatusDate="project.expectedPipelineStatusDate"
+            v-bind:expectedConfirmedStatusDate="project.expectedConfirmedStatusDate"
+            v-bind:expectedClosingStatusDate="project.expectedClosingStatusDate"
+            v-bind:expectedClosedStatusDate="project.expectedClosedStatusDate"
+            v-bind:actualPreApprovalStatusDate="project.actualPreApprovalStatusDate"
+            v-bind:actualSeekFundingStatusDate="project.actualSeekFundingStatusDate"
+            v-bind:actualPipelineStatusDate="project.actualPipelineStatusDate"
+            v-bind:actualConfirmedStatusDate="project.actualConfirmedStatusDate"
+            v-bind:actualClosingStatusDate="project.actualClosingStatusDate"
+            v-bind:actualClosedStatusDate="project.actualClosedStatusDate"
+            >
+          </project-status-bar>
       </div>
       <div class="body-data">
-          <span style="color:green;margin:0;display:inline-block;width:50%"><b>$</b> {{ budget }}</span>
-          <span style="color:red;margin:0;display:inline-block"><b>$</b> {{ budgetUsed }}</span>
+          <span style="color:green;margin:0;display:inline-block;width:50%"><b>$</b> {{ project.budget }}</span>
+          <span style="color:red;margin:0;display:inline-block"><b>$</b> {{ 8 }}</span>
       </div>
       <div class="body-data">
           <span style="margin:0;display:inline-block"><i class="fa fa-calendar"></i> {{ displayStartDate }}</span>
           <span style="margin:0;display:inline-block"><i class="fa fa-calendar"></i> {{ displayEndDate }}</span>
       </div>
       <div class="body-data">
-      <span v-if="projectManager != null">
-        <span style="margin:0;display:inline-block;width:50%"><i class="fa fa-user"></i> {{ projectManager.name }}</span>
+      <span v-if="project.manager != null">
+        <span style="margin:0;display:inline-block;width:50%"><i class="fa fa-user"></i> {{ project.manager.name }}</span>
       </span>
-        <!--<span style="margin:0;display:inline-block">-->
-        <!--<drop-down tag="ul">-->
-          <!--<template slot="title">-->
-            <!--<span style="margin:0;display:inline-block"><i class="fa fa-users"></i> {{ numPeopleOnTeam }}</span>-->
-            <!--<b class="caret"></b>-->
-          <!--</template>-->
-          <!--<a class="dropdown-item" href="#">Person 1</a>-->
-          <!--<a class="dropdown-item" href="#">Person 2</a>-->
-          <!--<a class="dropdown-item" href="#">Person 3</a>-->
-          <!--<a class="dropdown-item" href="#">Person 4</a>-->
-          <!--<a class="dropdown-item" href="#">Person 5</a>-->
-        <!--</drop-down>-->
-        <!--</span>-->
         </div>
     </div>
   </div>
@@ -53,45 +54,9 @@
         ProjectStatusBar
     },
     props: {
-        projectId: {
-            type: Number,
-            default: -1
-        },
-        projectName: {
-            type: String,
-            default: 'Project Name'
-        },
-        projectStatus: {
+        project: {
             type: Object,
-            default: 'The Status'
-        },
-        projectProgress: {
-            type: Number,
-            default: 8
-        },
-        projectManager: {
-            type: Object,
-            default: 'Manager Name'
-        },
-        numPeopleOnTeam: {
-            type: Number,
-            default: 8
-        },
-        startDate: {
-            type: Date,
-            default: function () { return new Date() }
-        },
-        endDate: {
-            type: Date,
-            default: function () { return new Date() }
-        },
-        budget: {
-            type: Number,
-            default: 8
-        },
-        budgetUsed: {
-            type: Number,
-            default: 8
+            default() { return {} }
         }
     },
     data () {
@@ -110,10 +75,12 @@
     },
     computed: {
         displayStartDate: function() {
-            return this.abbreviateMonth(this.startDate.getMonth()) + " " + this.startDate.getDate() + " " + this.startDate.getFullYear();
+            if (this.project.startDate == null) return "";
+            return this.abbreviateMonth(this.project.startDate.getMonth()) + " " + this.project.startDate.getDate() + " " + this.project.startDate.getFullYear();
         },
         displayEndDate: function() {
-            return this.abbreviateMonth(this.endDate.getMonth()) + " " + this.endDate.getDate() + " " + this.endDate.getFullYear();
+            if (this.project.endDate == null) return "";
+            return this.abbreviateMonth(this.project.endDate.getMonth()) + " " + this.project.endDate.getDate() + " " + this.project.endDate.getFullYear();
         },
     },
     methods: {

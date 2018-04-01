@@ -1,94 +1,99 @@
 <template>
     <div>
-        <svg ref="statusBar"
-            width="100%"
-            max-height="50px"
-            viewBox="0 0 600 50"
-            preserveAspectRatio="none">
-                <rect ref="target1" x="0" y="0" width="100" height="25" style="fill: grey" />
-                <rect ref="target2" x="100" y="0" width="100" height="25" style="fill: grey" />
-                <rect ref="target3" x="200" y="0" width="100" height="25" style="fill: grey" />
-                <rect ref="target4" x="300" y="0" width="100" height="25" style="fill: grey" />
-                <rect ref="target5" x="400" y="0" width="100" height="25" style="fill: grey" />
-                <rect ref="target6" x="500" y="0" width="100" height="25" style="fill: grey" />
-                <rect ref="target7" x="600" y="0" width="100" height="25" style="fill: grey" />
-
-                <rect ref="actual1" x="0" y="25" width="100" height="25" style="fill: green" />
-                <rect ref="actual2" x="100" y="25" width="100" height="25" style="fill: green" />
-                <rect ref="actual3" x="200" y="25" width="100" height="25" style="fill: green" />
-                <rect ref="actual4" x="300" y="25" width="100" height="25" style="fill: green" />
-                <rect ref="actual5" x="400" y="25" width="100" height="25" style="fill: green" />
-                <rect ref="actual6" x="500" y="25" width="100" height="25" style="fill: green" />
-                <rect ref="actual7" x="600" y="25" width="100" height="25" style="fill: green" />
-        </svg>
+        <canvas ref="myCanvas" width="600" height="100`" style="width:100%;height:30px;border-radius:3px;overflow:hidden"></canvas>
     </div>
 </template>
 
 <script>
 export default {
-    // props: {
-    //     dates: {
-    //         type: Object,
-    //         default() { return {}; }
-    //     }
-    // },
+    props: {
+        "startDate": {
+            type: String,
+            default: "2012-12-21"
+        },
+        "expectedPreApprovalStatusDate": {
+            type: String,
+            default: "2012-12-21"
+        },
+        "expectedSeekFundingStatusDate": {
+            type: String,
+            default: "2012-12-21"
+        },
+        "expectedPipelineStatusDate": {
+            type: String,
+            default: "2012-12-21"
+        },
+        "expectedConfirmedStatusDate": {
+            type: String,
+            default: "2012-12-21"
+        },
+        "expectedClosingStatusDate": {
+            type: String,
+            default: "2012-12-21"
+        },
+        "expectedClosedStatusDate": {
+            type: String,
+            default: "2012-12-21"
+        },
+        "actualPreApprovalStatusDate": {
+            type: String,
+            default: "2012-12-21"
+        },
+        "actualSeekFundingStatusDate": {
+            type: String,
+            default: "2012-12-21"
+        },
+        "actualPipelineStatusDate": {
+            type: String,
+            default: "2012-12-21"
+        },
+        "actualConfirmedStatusDate": {
+            type: String,
+            default: "2012-12-21"
+        },
+        "actualClosingStatusDate": {
+            type: String,
+            default: "2012-12-21"
+        },
+        "actualClosedStatusDate": {
+            type: String,
+            default: "2012-12-21"
+        },
+        "currentStatusPercent": {
+            type: Number,
+            default: 30
+        },
+        "currentStatus": {
+            type: String,
+            default: "Pipeline"
+        }
+    },
     data() {
         dates: {}
     },
     mounted() {
-        this.dates = {
-            "exp_preapproval_date": "2018-03-19",
-            "exp_seeking_funding_date": "2018-03-20",
-            "exp_pipeline_date": "2018-03-25",
-            "exp_to_confirm_date": "2018-03-28",
-            "exp_closing_date": "2018-03-30",
-            "exp_closed_date": "2018-03-31",
-
-            "actual_preapproval_date": "2018-03-19",
-            "actual_seeking_funding_date": "2018-03-20",
-            "actual_pipeline_date": "2018-03-25",
-            "actual_to_confirm_date": "2018-03-28",
-            "actual_closing_date": "2018-03-30",
-            "actual_closed_date": "2018-03-31",
-
-            "current_status_percent": 30,
-            "current_status": "Seeking Funding"
-        };
-
-        var target_segments = [
-            this.$refs.target1,
-            this.$refs.target2,
-            this.$refs.target3,
-            this.$refs.target4,
-            this.$refs.target5,
-            this.$refs.target6,
-            this.$refs.target7
-        ];
-        var actual_segments = [
-            this.$refs.actual1,
-            this.$refs.actual2,
-            this.$refs.actual3,
-            this.$refs.actual4,
-            this.$refs.actual5,
-            this.$refs.actual6,
-            this.$refs.actual7
-        ];
+        
         var target_dates = [
-            new Date(this.dates.exp_preapproval_date),
-            new Date(this.dates.exp_seeking_funding_date),
-            new Date(this.dates.exp_pipeline_date),
-            new Date(this.dates.exp_to_confirm_date),
-            new Date(this.dates.exp_closing_date),
-            new Date(this.dates.exp_closed_date)
+            new Date(this.startDate),
+            new Date(this.expectedPreApprovalStatusDate),
+            new Date(this.expectedSeekFundingStatusDate),
+            new Date(this.expectedPipelineStatusDate),
+            new Date(this.expectedConfirmedStatusDate),
+            new Date(this.expectedClosingStatusDate),
+            new Date(this.expectedClosedStatusDate)
         ];
         var actual_dates = [
-            new Date(this.dates.actual_preapproval_date),
-            new Date(this.dates.actual_seeking_funding_date),
-            new Date(this.dates.actual_pipeline_date),
-            new Date(this.dates.actual_to_confirm_date),
-            new Date(this.dates.actual_closing_date),
-            new Date(this.dates.actual_closed_date)
+            new Date(this.startDate),
+            new Date(this.actualPreApprovalStatusDate),
+            new Date(this.actualSeekFundingStatusDate),
+            new Date(this.actualPipelineStatusDate),
+            new Date(this.actualConfirmedStatusDate),
+            new Date(this.actualClosingStatusDate),
+            new Date(this.actualClosedStatusDate)
         ];
+
+        var canvas = this.$refs.myCanvas;
+        var ctx = canvas.getContext("2d");
 
         var today = new Date();
         today.setHours = 0;
@@ -96,45 +101,37 @@ export default {
         today.setSeconds = 0;
         today.setMilliseconds = 0;
 
-        var fillColor = "#888888"; //filled
-        var total = target_segments.length
-        for(var i=0; i<total-1; i++) {
-            if ((i==0 || target_dates[i-1] < today) && today <= target_dates[i]){
-                
-                var finishedPercent = Math.floor(100 * (today - target_dates[i-1])/(target_dates[i] - target_dates[i-1]));
-                target_segments[i].style.fill = fillColor;
-                target_segments[i].setAttribute("x", i*100);
-                target_segments[i].setAttribute("width", finishedPercent);
+        var gradient = ctx.createLinearGradient(0,0,0,50);
+        gradient.addColorStop(0, "#2222FF");
+        gradient.addColorStop(0.4, "#0000AA");
+        
+        ctx.fillStyle = gradient;
 
-                fillColor = "#FFFFFF"; //unfilled
-                target_segments[total-1].style.fill = fillColor;
-                target_segments[total-1].setAttribute("x", i*100 + finishedPercent);
-                target_segments[total-1].setAttribute("width", 100 - finishedPercent);
+        for(var i=0; i<target_dates.length-1; i++) {
+            var tDate = target_dates[i+1]
+            if(today < tDate) {
+                var percent = Math.max(0, Math.floor(100 * (today - target_dates[i])/(target_dates[i+1] - target_dates[i])));
+                ctx.fillRect(i*100, 0, percent,50);
             }
             else {
-                target_segments[i].setAttribute("x", i*100);
-                target_segments[i].style.fill = fillColor;
+                ctx.fillRect(i*100,0,100,50);
             }
         }
 
-        fillColor = "green"; //filled
-        total = actual_segments.length
-        for(var i=0; i<total-1; i++) {
-            if ((i==0 || actual_dates[i-1] < today) && today <= actual_dates[i]){
-                
-                var finishedPercent = Math.floor(100 * (today - actual_dates[i-1])/(actual_dates[i] - actual_dates[i-1]));
-                actual_segments[i].style.fill = fillColor;
-                actual_segments[i].setAttribute("x", i*100);
-                actual_segments[i].setAttribute("width", finishedPercent);
+        gradient = ctx.createLinearGradient(0,50,0,100);
+        gradient.addColorStop(0.6, "#00AA00");
+        gradient.addColorStop(1, "#22CC22");
 
-                fillColor = "#FFFFFF"; //unfilled
-                actual_segments[total-1].style.fill = fillColor;
-                actual_segments[total-1].setAttribute("x", i*100 + finishedPercent);
-                actual_segments[total-1].setAttribute("width", 100 - finishedPercent);
+        ctx.fillStyle = gradient;
+
+        for(var i=0; i<actual_dates.length-1; i++) {
+            var aDate = actual_dates[i+1]
+            if(today < aDate) {
+                var percent = Math.max(0, Math.floor(100 * (today - actual_dates[i])/(actual_dates[i+1] - actual_dates[i])));
+                ctx.fillRect(i*100, 50, percent,50);
             }
             else {
-                actual_segments[i].setAttribute("x", i*100);
-                actual_segments[i].style.fill = fillColor;
+                ctx.fillRect(i*100,50,100,50);
             }
         }
 

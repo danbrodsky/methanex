@@ -16,11 +16,12 @@
           <project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;"
             v-for="project of displayProjects"
             v-bind:key="project.id"
-            v-bind:projectId="project.id"
+            v-bind:project="project">
+            <!-- v-bind:projectId="project.id"
             v-bind:projectName="project.name"
             v-bind:projectStatus="project.ragStatus"
             v-bind:projectManager="project.manager"
-            v-bind:budget="project.budget">
+            v-bind:budget="project.budget"> -->
           </project-card>
           <add-project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;" v-bind:portfolioId="portfolioId"></add-project-card>
       </div>
