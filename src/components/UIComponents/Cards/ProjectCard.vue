@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header">
       <div name="header" style="align: center; width: 75%"><span style="font-weight:bold">{{ projectName }}</span> <span style="color:#888888">({{ projectId }})</span></div>
-      <!--<div name="header" style="font-weight:bold; color:#888888"></div>-->
+      <div name="header" style="font-weight:bold; color:#888888"></div>
       <button class="btn" style="position:absolute;right:5%;top:5%;border-color:black;color:black;" v-on:click="goToProject"> Details </button>
     </div>
     <div class="card-body">
