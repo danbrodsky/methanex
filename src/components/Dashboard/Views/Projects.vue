@@ -51,9 +51,9 @@
   import LTable from 'src/components/UIComponents/Table.vue'
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   import axios from 'axios'
-  const tableColumns = ['Name', 'Manager', 'ProjectOwner', 'Status'];
   import Vue from 'vue';
   import VueGoodTable from 'vue-good-table';
+  import 'vue-good-table/dist/vue-good-table.css'
 
   Vue.use(VueGoodTable);
 

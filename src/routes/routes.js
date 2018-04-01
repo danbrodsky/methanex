@@ -18,6 +18,7 @@ import CreatePortfolio from 'src/components/Dashboard/Views/CreatePortfolio.vue'
 import AddResources from 'src/components/Dashboard/Views/AddResources.vue'
 import RemoveResources from 'src/components/Dashboard/Views/RemoveResources.vue'
 import AddProjectsToPortfolio from 'src/components/Dashboard/Views/AddProjectsToPortfolio.vue'
+import AddResourcesToProject from 'src/components/Dashboard/Views/AddResourcesToProject.vue'
 
 const routes = [
   {
@@ -98,7 +99,7 @@ const routes = [
         props: true
       },
       {
-        path: 'addProjects',
+        path: 'addProjects/:portfolioId',
         name: 'addProjectsToPortfolio',
         component: AddProjectsToPortfolio
       },
@@ -127,6 +128,11 @@ const routes = [
         path: 'create-portfolio',
         name: 'Create Portfolio',
         component: CreatePortfolio
+      },
+      {
+        path: 'add-resources/:projectId',
+        name: 'addResourcesToProject',
+        component: AddResourcesToProject
       }
     ]
   },
