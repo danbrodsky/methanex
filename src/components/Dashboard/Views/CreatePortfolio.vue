@@ -17,9 +17,11 @@
                       label="Business Owner"
                       placeholder="Business Owner"
                       v-model="portfolio.businessOwner"
-                      :clickHandler="businessOwnerFunc">
+                      :clickHandler="openBusinessOwnerFunc">
             </fg-input>
-            <business-owner-picker v-if="modalShow" @receiveBusinessOwner="getBusinessOwner"></business-owner-picker>
+            <business-owner-picker
+              v-if="modalShow" @receiveBusinessOwner="getBusinessOwner"
+              @close="modalShow = false"></business-owner-picker>
           </div>
         </div>
 
@@ -56,12 +58,13 @@
       return {
         modalShow: false,
         values: [],
-        businessOwnerFunc: {method: this.openBusinessOwnerPicker},
+        openBusinessOwnerFunc: {method: this.openBusinessOwnerPicker},
         portfolio: {
           classification: '',
           businessOwner: '',
           resourceBreakdown: ''
         },
+        businessOwnerId: null,
 
       }
     },
@@ -83,10 +86,11 @@
       getBusinessOwner: function(params){
         console.log(params);
         this.modalShow = false;
+        this.portfolio.businessOwner = params[0];
+        this.businessOwnerId = params[1];
       },
 
       openBusinessOwnerPicker: function(){
-        console.log("ahajkhja")
         this.modalShow = true;
       }
     },
