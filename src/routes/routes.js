@@ -17,6 +17,7 @@ import Reports from 'src/components/Dashboard/Views/Reports.vue'
 import CreatePortfolio from 'src/components/Dashboard/Views/CreatePortfolio.vue'
 import AddResources from 'src/components/Dashboard/Views/AddResources.vue'
 import RemoveResources from 'src/components/Dashboard/Views/RemoveResources.vue'
+import AddProjectsToPortfolio from 'src/components/Dashboard/Views/AddProjectsToPortfolio.vue'
 
 const routes = [
   {
@@ -97,6 +98,11 @@ const routes = [
         props: true
       },
       {
+        path: 'addProjects',
+        name: 'addProjectsToPortfolio',
+        component: AddProjectsToPortfolio
+      },
+      {
         path: 'project/:projectId/removeResources',
         name: 'removeResources',
         component: RemoveResources,
@@ -126,18 +132,4 @@ const routes = [
   },
   { path: '*', component: NotFound }
 ]
-
-/**
- * Asynchronously load view (Webpack Lazy loading compatible)
- * The specified component must be inside the Views folder
- * @param  {string} name  the filename (basename) of the view to load.
-<<<<<<< HEAD
-function view(name) {
-=======
- function view(name) {
->>>>>>> heroku/master
-   var res= require('../components/Dashboard/Views/' + name + '.vue');
-   return res;
-};**/
-
 export default routes
