@@ -17,10 +17,10 @@
 
           <div class="modal-footer">
             <slot name="footer">
-              <button v-if="success" class="btn btn-success btn-fill" @click="$emit('close')">
+              <button type="button" v-if="success" class="btn btn-success btn-fill" @click="$emit('close')">
                 OK
               </button>
-              <button v-else class="btn btn-danger btn-fill" @click="$emit('close')">
+              <button type="button" v-else class="btn btn-danger btn-fill" @click="$emit('close')">
                 OK
               </button>
             </slot>
