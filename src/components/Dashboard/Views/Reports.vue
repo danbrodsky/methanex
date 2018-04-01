@@ -144,7 +144,9 @@
           {name: "RAG Status"},
           {name: "Number of resources"},
           {name: "Budget"},
-          {name: "Budget used"}
+          {name: "Budget used"},
+          {name: "Start Date"},
+          {name: "End Date"},
         ],
 
         columnsPortfolio: [
@@ -211,17 +213,17 @@
             label: 'Budget Used',
             field: 'budget_used',
             filterable: true,
+          },
+          {
+            label: 'Start Date',
+            field: 'start_date',
+            filterable: true,
+          },
+          {
+            label: 'End Date',
+            field: 'end_date',
+            filterable: true,
           }
-          // {
-          //   label: 'Start Date',
-          //   field: 'start_date',
-          //   filterable: true,
-          // },
-          // {
-          //   label: 'End Date',
-          //   field: 'end_date',
-          //   filterable: true,
-          // },
         ],
         columnsResource: [
           {
@@ -243,6 +245,26 @@
           {
             label: 'Group',
             field: 'group',
+            filterable: true,
+          },
+          {
+            label: 'Manager',
+            field: 'manager',
+            filterable: true,
+          },
+          {
+            label: 'Status',
+            field: 'status',
+            filterable: true,
+          },
+          {
+            label: 'Skills',
+            field: 'skills',
+            filterable: true,
+          },
+          {
+            label: 'Non-Technical Skills',
+            field: 'nonTechnicalSkills',
             filterable: true,
           },
         ],
@@ -275,6 +297,9 @@
         axios.get(this.$root.serverURL + "/api/resources")
           .then(response => {
             info.rowsResource = response.data;
+            for (let i = 0; i < info.rowsResource.length; i++){
+              info.rowsResource[i].manager = info.rowsPortfolio[i].manager.name;
+            }
           })
       },
 
