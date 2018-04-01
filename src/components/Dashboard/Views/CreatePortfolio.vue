@@ -17,7 +17,7 @@
                       label="Business Owner"
                       placeholder="Business Owner"
                       v-model="portfolio.businessOwner"
-                      @click="openBusinessOwnerPicker">
+                      :clickHandler="businessOwnerFunc">
             </fg-input>
             <business-owner-picker v-if="modalShow" @receiveBusinessOwner="getBusinessOwner"></business-owner-picker>
           </div>
@@ -56,6 +56,7 @@
       return {
         modalShow: false,
         values: [],
+        businessOwnerFunc: {method: this.openBusinessOwnerPicker},
         portfolio: {
           classification: '',
           businessOwner: '',
