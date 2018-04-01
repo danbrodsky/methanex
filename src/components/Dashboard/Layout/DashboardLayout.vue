@@ -5,10 +5,6 @@
         <i class="nc-icon nc-bullet-list-67"></i>
         <p>Portfolio Selection</p>
       </sidebar-link>
-      <sidebar-link to="/admin/portfolio">
-        <i class="nc-icon nc-chart-pie-35"></i>
-        <p>Portfolio Manager</p>
-      </sidebar-link>
       <sidebar-link to="/admin/user">
         <i class="nc-icon nc-circle-09"></i>
         <p>Profile</p>
@@ -21,14 +17,6 @@
         <i class="nc-icon nc-notes"></i>
         <p>resource list</p>
       </sidebar-link>
-      <sidebar-link to="/admin/project">
-        <i class="nc-icon nc-single-copy-04"></i>
-        <p>Project</p>
-      </sidebar-link>
-      <!-- <sidebar-link to="/admin/project2">
-        <i class="nc-icon nc-single-copy-04"></i>
-        <p>Project 2</p>
-      </sidebar-link> -->
       <sidebar-link to="/admin/notifications">
         <i class="nc-icon nc-bell-55"></i>
         <p>Notifications</p>
@@ -44,7 +32,7 @@
       <dashboard-content @click="toggleSidebar">
 
       </dashboard-content>
-      
+
     </div>
   </div>
 </template>

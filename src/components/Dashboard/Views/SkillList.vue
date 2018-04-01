@@ -4,9 +4,16 @@
       <div>
         <b-alert :show=skillAddedSuccessBanner dismissible variant="success">
           <h4 class="alert-heading">Skill was added</h4>
-          <p>
-            Please refresh the page to view any changes
-          </p>
+        </b-alert>
+      </div>
+      <div>
+        <b-alert :show=skillDeletedBanner dismissible variant="success">
+          <h4 class="alert-heading">A skill was deleted</h4>
+        </b-alert>
+      </div>
+      <div>
+        <b-alert :show=skillEditedBanner dismissible variant="success">
+          <h4 class="alert-heading">A skill was updated</h4>
         </b-alert>
       </div>
       <div class="row">
@@ -21,37 +28,30 @@
             </template>
             <vue-good-table
               :columns="columnsTechnical"
-              :paginate="true"
               :rows="rowsTechnical"
-              :globalSearch="false"
-              styleClass="table table-striped condensed">
+              :paginate="true"
+              :search-options="{ enabled: true, trigger: 'enter' }"
+              :pagination-options="{enabled: true, perPage: 5}"
+              styleClass="vgt-table striped bordered">
               <template slot="table-column" slot-scope="props">
-                <span v-if="props.column.label =='SelectAll'">
-                  <label class="checkbox">
-                    <input
-                      type="checkbox"
-                      @click="toggleSelectAll()">
-                  </label>
+                {{props.column.label}}
+              </template>
+              <template slot="table-row" slot-scope="props">
+                <span v-if="props.column.field === 'btn'">
+                  <button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" @click="edit1(props.row.originalIndex)">edit</button>
+                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete1(props.row.originalIndex)">delete</button>
                 </span>
                 <span v-else>
-                    {{props.column.label}}
+                    {{ props.formattedRow[props.column.field] }}
                 </span>
               </template>
-              <template slot="table-row-before" slot-scope="props">
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="rowsTechnical[props.row.originalIndex].selected">
-                  </label>
-                </td>
-              </template>
-              <template slot="table-row-after" slot-scope="props">
-                <td><button class="btn btn-warning btn-sm" @click="edit1(props.row.originalIndex)">edit</button>
-                  <button class="btn btn-danger btn-sm" @click="delete1(props.row.originalIndex)">delete</button></td>
-              </template>
             </vue-good-table>
-            <div>
-              <b-button v-b-modal.addResourceModal1 class="btn btn-success">
-                Add a new Skill
+            <div v-if='hasAccess()'>
+              <b-button v-b-modal.addResourceModal1 class="btn btn-success btn-fill">
+                Add skill
+              </b-button>
+              <b-button v-b-modal.manageCategoryModal class="btn btn-info">
+                Manage Category
               </b-button>
               <b-modal
                 id="addResourceModal1"
@@ -80,6 +80,7 @@
                                     label-class="text-sm-right"
                                     label-for="nestedEmail">
                         <b-form-select v-model="addCategories"
+                                       multiple
                                        :options="addCategoryOptions"
                                        id='add-ddown'>
                         </b-form-select>
@@ -100,39 +101,28 @@
             </template>
             <vue-good-table
               :columns="columnsNonTechnical"
-              :paginate="true"
               :rows="rowsNonTechnical"
-              :globalSearch="false"
-              styleClass="table table-striped condensed">
+              :paginate="true"
+              :search-options="{ enabled: true, trigger: 'enter' }"
+              :pagination-options="{enabled: true, perPage: 5}"
+              styleClass="vgt-table striped bordered">
               <template slot="table-column" slot-scope="props">
-                <span v-if="props.column.label =='SelectAll'">
-                  <label class="checkbox">
-                    <input
-                      type="checkbox"
-                      @click="toggleSelectAll()">
-                  </label>
+                {{props.column.label}}
+              </template>
+              <template slot="table-row" slot-scope="props">
+                <span v-if="props.column.field === 'btn'">
+                  <button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" @click="edit2(props.row.originalIndex)">edit</button>
+                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete2(props.row.originalIndex)">delete</button>
                 </span>
                 <span v-else>
-                    {{props.column.label}}
+                    {{ props.formattedRow[props.column.field] }}
                 </span>
               </template>
-              <template slot="table-row-before" slot-scope="props">
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="rowsTechnical[props.row.originalIndex].selected">
-                  </label>
-                </td>
-              </template>
-              <template slot="table-row-after" slot-scope="props">
-                <td><button class="btn btn-warning btn-sm" @click="edit2(props.index)">edit</button>
-                  <button class="btn btn-danger btn-sm" @click="delete2(props.index)">delete</button></td>
-              </template>
             </vue-good-table>
-            <div>
-              <b-button v-b-modal.addResourceModal2 class="btn btn-success">
-                Add a new Skill
+            <div v-if='hasAccess()'>
+              <b-button v-b-modal.addResourceModal2 class="btn btn-success btn-fill">
+                Add skill
               </b-button>
-
               <b-modal
                 id="addResourceModal2"
                 @ok="handleOk2">
@@ -151,8 +141,7 @@
                         <b-form-input id="nestedName"
                                       v-model="addName2"
                                       type="text"
-                                      placeholder="Enter your name">
-                        </b-form-input>
+                                      placeholder="Enter your name"></b-form-input>
                       </b-form-group>
                     </b-form-group>
                   </b-card>
@@ -160,6 +149,68 @@
               </b-modal>
             </div>
           </card>
+
+          <div>
+            <b-modal
+              id="editSkillModal"
+              @ok="handleOk3">
+              <div>
+                <b-card bg-variant="light">
+                  <b-form-group horizontal
+                                breakpoint="lg"
+                                label="Edit Skill"
+                                label-size="lg"
+                                label-class="font-weight-bold pt-0"
+                                class="mb-0">
+                    <b-form-group horizontal
+                                  label="Name:"
+                                  label-class="text-sm-right"
+                                  label-for="nestedName">
+                      <b-form-input id="nestedName"
+                                    v-model="editName"
+                                    type="text"
+                                    placeholder="Enter your name"></b-form-input>
+                    </b-form-group>
+
+
+                    <b-form-group horizontal
+                                     label="Category:"
+                                     type="text"
+                                     label-class="text-sm-right"
+                                     label-for="nestedEmail">
+                      <b-form-select v-model="editCategories"
+                                     multiple
+                                     :options="addCategoryOptions"
+                                     id='add-ddown'>
+                      </b-form-select>
+                    </b-form-group>
+                  </b-form-group>
+                </b-card>
+              </div>
+            </b-modal>
+            <b-modal title="Manage Categories"
+                     id="manageCategoryModal">
+              <div class="row">
+                <div class="col-9">
+                <b-form-input id="nestedName"
+                              v-model="addCategoryName"
+                              type="text"
+                              placeholder="Enter category name">
+                </b-form-input>
+                </div>
+                <div class="col-2">
+                <button class="btn btn-success btn-sm" @click="addSkillCategory">Add</button>
+                </div>
+                  <b-table striped
+                  :items="addCategoryOptions" :fields="columnsCategory">
+                    <template slot="del" slot-scope="props">
+                      <button class="btn btn-danger btn-xs" @click="deleteCategory(props.index)">X</button>
+                    </template>
+                  </b-table>
+              </div>
+            </b-modal>
+          </div>
+
         </div>
       </div>
     </div>
@@ -176,6 +227,11 @@
       Card
     },
     created() {
+      let that = this;
+      axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
+        .then(response => {
+          that.role = response.data[0].name;
+      })
       this.fetchDataTechnical();
       this.fetchDataNonTechnical();
       this.fetchCategories();
@@ -185,12 +241,14 @@
         skillAddedSuccessBanner: false,
         addName1: "",
         addName2: "",
+        addCategoryName: "",
+        editName: "",
+        editId: "",
         allSelected: false,
+        skillDeletedBanner: false,
+        skillEditedBanner: false,
+        role: '',
         columnsTechnical: [
-          {
-            label: '',
-            sortable: false,
-          },
           {
             label: 'Name',
             field: 'name',
@@ -203,40 +261,61 @@
             filterable: true,
           },
           {
-            label: 'Actions'
+            label: '', // checkbox
+            field: 'btn',
+            sortable: false,
           }
-
         ],
         columnsNonTechnical: [
-          {
-            label: '',
-            sortable: false,
-          },
           {
             label: 'Name',
             field: 'name',
             filterable: true,
-          }],
+          },
+          {
+            label: '', // checkbox
+            field: 'btn',
+            sortable: false,
+          }
+          ],
+        columnsCategory: [
+          {
+            key:'text',
+            label:'name',
+            sortable: true,
+          },
+          {
+            label: '', // checkbox
+            field: 'btn',
+            sortable: false,
+         }
+        ],
         rowsTechnical: [],
         rowsNonTechnical: [],
         addCategories: [],
+        editCategories: [],
         addCategoryOptions: [],
         skillTechnical: [],
         skillNonTech: [],
       };
     },
     methods: {
+      update() {
+        this.fetchDataTechnical();
+        this.fetchDataNonTechnical();
+        this.fetchCategories();
+      },
       fetchDataTechnical() {
         var info = this;
         axios.get(this.$root.serverURL + "/api/technicalSkills")
           .then(response => {
+            console.log(response.data);
             response.data.forEach(obj => {
               let temp = "";
               obj.categories.forEach(category => temp += category.name + ", ");
               obj.categories = temp.substring(0, temp.length-2);
             });
             info.rowsTechnical = response.data;
-            console.log(info.rowsTechnical);
           })
           .catch(() => console.log("error fetching technical skills"))
       },
@@ -245,7 +324,6 @@
         axios.get(this.$root.serverURL + "/api/nonTechnicalSkills")
           .then(response => {
             info.rowsNonTechnical = response.data;
-            console.log(response.data);
           })
           .catch(() => console.log("error fetching non technical skills"))
       },
@@ -261,25 +339,28 @@
           .catch(() => console.log("error fetching categories"))
 
       },
+      hasAccess() {
+        return this.role == "ROLE_ADMIN";
+      },
       addData1() {
         var info = this;
-        info.skillAddedSuccessBanner = false;
-        axios.post(this.$root.serverURL + "/api/technicalSkills", {
-          name: info.addName1,
-          category: info.addCategories
-
-        })
-          .then(() => info.skillAddedSuccessBanner = true)
+        axios.post(this.$root.serverURL + "/api/technicalSkills?name=" + info.addName1, info.addCategories)
+          .then(() => {
+            info.update();
+            info.skillAddedSuccessBanner = true
+          })
           .catch(() => console.log("error adding tech skills"))
 
       },
       addData2() {
         var info = this;
-        info.skillAddedSuccessBanner = false;
         axios.post(this.$root.serverURL + "/api/nonTechnicalSkills", {
           name: info.addName2
         })
-          .then(() => info.skillAddedSuccessBanner = true)
+          .then(() => {
+            info.update();
+            info.skillAddedSuccessBanner = true
+          })
           .catch(() => console.log("error adding non-tech skills"))
 
       },
@@ -287,7 +368,7 @@
         if (!this.addName1) {
           alert('Please enter name and category')
         } else {
-          this.addData1()
+          this.addData1();
         }
       },
       handleOk2() {
@@ -297,28 +378,71 @@
           this.addData2()
         }
       },
-      edit1(index) {
-        let skillId = this.rowsTechnical[index.toString()].id;
-        console.log(skillId);
+      handleOk3() {
+        if (!this.editName) {
+          alert('Please enter name')
+        } else {
+          this.submitEdit()
+        }
       },
-      edit2(index) {
-        let skillId = this.rowsNonTechnical[index.toString()];
-        console.log(skillId);
+      edit1(index) {
+        this.editId = this.rowsTechnical[index.toString()].id;
+        this.editName = this.rowsTechnical[index.toString()].name;
+      },
+      submitEdit() {
+        let info = this;
+        console.log(this.editId);
+        console.log(info.editCategories);
+        axios.put(this.$root.serverURL + "/api/technicalSkills/" + this.editId + "?name=" + this.editName, info.editCategories)
+          .then(() => {
+            info.editId = '';
+            info.editName = '';
+            info.editCategories = [];
+            info.update();
+          })
+          .catch(() => console.log("error editing tech skills"))
       },
       delete1(index) {
+        let info = this;
         let skillId = this.rowsTechnical[index.toString()].id;
         console.log(skillId);
         axios.delete(this.$root.serverURL + "/api/technicalSkills/" + skillId)
-          .then()
+          .then(() => {
+            info.skillDeletedBanner = true;
+            info.update();
+          })
           .catch(() => console.log("error deleting tech skills"))
       },
       delete2(index) {
-        let skillId = this.rowsNonTechnical[index.toString()];
+        let info = this;
+        let skillId = this.rowsNonTechnical[index.toString()].id;
         console.log(skillId);
         axios.delete(this.$root.serverURL + "/api/nonTechnicalSkills/" + skillId)
-          .then()
+          .then(() => {
+            info.skillDeletedBanner = true;
+            info.update();
+          })
           .catch(() => console.log("error deleting nonTech skills"))
       },
+      addSkillCategory() {
+        let info = this;
+        axios.post(this.$root.serverURL + "/api/categories", {
+          name: this.addCategoryName
+        })
+          .then(() => {
+            this.addCategoryName = '';
+            info.update();
+          })
+          .catch(() => console.log("error adding skill category"))
+      },
+      deleteCategory(index) {
+        let info = this;
+        let categoryId = this.addCategoryOptions[index.toString()].value;
+        console.log(categoryId);
+        axios.delete(this.$root.serverURL + "/api/categories/" + categoryId)
+          .then(info.update)
+          .catch(() => console.log("error deleting skill category"))
+      }
     }
   }
 </script>

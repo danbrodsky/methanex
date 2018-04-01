@@ -53,8 +53,8 @@
     methods: {
       approve() {
         let info = this;
-        console.log(info.notification);
-        axios.post(info.$root.serverURL + "/api/notifications?resourceId=" + info.resourceId + "&skillId=" + info.skillId + "&managerId=" + info.managerId)
+        let managerId = JSON.parse(info.$root.$data.cookies.get('user')).resource.manager.id;
+        axios.post(info.$root.serverURL + "/api/notifications?resourceId=" + info.resourceId + "&skillId=" + info.skillId + "&managerId=" + managerId)
           .then(function (res) {
           });
         info.dropRow()

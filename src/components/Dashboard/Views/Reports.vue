@@ -30,7 +30,24 @@
               <div class="row">
                 <div class="col-8">
                   <h4 class="card-title">All Projects</h4>
-                  <p class="card-category">Filter projects to see desired project report</p>
+                  <p class="card-category">Select desired columns to display in project report</p>
+                  <div class="row">
+                    <div class="col-10">
+                      <multiselect v-model="selectedProjectColumns"
+                                   placeholder="Pick a column(s)"
+                                   label="name"
+                                   track-by="name"
+                                   :options="columnFilterNames"
+                                   :multiple="true"></multiselect>
+                    </div>
+                    <div class="col-2">
+                      <div class="btn-group">
+                      <button type="submit" id="projectColumnFilterSubmit" class="btn btn-info btn-fill float-left" @click="selectProjectColumns">Apply</button>
+                      <button type="submit" id="projectColumnSelectAll" class="btn btn-info btn-fill float-left" style="margin-right: 5px;" @click="selectAllProjectColumns">Show All</button>
+                      </div>
+                    </div>
+                  </div>
+                  <pre class="language-json"></pre>
                 </div>
                 <div class="col-4">
                 </div>
@@ -76,6 +93,7 @@
 </template>
 <script>
   import Card from 'src/components/UIComponents/Cards/Card.vue'
+  import Multiselect from 'vue-multiselect'
   import axios from 'axios'
 
   const tableColumns = ['Name', 'ProjectStatus', 'Manager', 'ProjectOwner', 'Status', 'ProjectResources', 'Budget', 'Budget Used'];
@@ -88,7 +106,8 @@
 
   export default {
     components: {
-      Card
+      Card,
+      Multiselect
     },
 
     name: 'Checkbox-table',
@@ -108,9 +127,28 @@
       this.fetchData();
     },
 
+    mounted: function(){
+      this.initProjectColumnMap();
+    },
+
 
     data () {
       return {
+        selectedProjectColumns: [],
+        projectColumnsMap: new Map(),
+        columnFilterNames: [
+          {name: "Name"},
+          {name: "Project Status"},
+          {name: "Manager"},
+          {name: "Project Owner"},
+          {name: "RAG Status"},
+          {name: "Number of resources"},
+          {name: "Budget"},
+          {name: "Budget used"},
+          {name: "Start Date"},
+          {name: "End Date"},
+        ],
+
         columnsPortfolio: [
           {
             label: 'ID',
@@ -147,7 +185,7 @@
           },
           {
             label: 'Manager',
-            field: 'manager',
+            field: 'manager.name',
             type: 'string',
             filterable: true,
           },
@@ -175,17 +213,17 @@
             label: 'Budget Used',
             field: 'budget_used',
             filterable: true,
+          },
+          {
+            label: 'Start Date',
+            field: 'start_date',
+            filterable: true,
+          },
+          {
+            label: 'End Date',
+            field: 'end_date',
+            filterable: true,
           }
-          // {
-          //   label: 'Start Date',
-          //   field: 'start_date',
-          //   filterable: true,
-          // },
-          // {
-          //   label: 'End Date',
-          //   field: 'end_date',
-          //   filterable: true,
-          // },
         ],
         columnsResource: [
           {
@@ -209,8 +247,30 @@
             field: 'group',
             filterable: true,
           },
+          {
+            label: 'Manager',
+            field: 'manager',
+            filterable: true,
+          },
+          {
+            label: 'Status',
+            field: 'status',
+            filterable: true,
+          },
+          {
+            label: 'Skills',
+            field: 'skills',
+            filterable: true,
+          },
+          {
+            label: 'Non-Technical Skills',
+            field: 'nonTechnicalSkills',
+            filterable: true,
+          },
         ],
-        rows: []
+        rowsPortfolio: [],
+        rowsProject: [],
+        rowsResource: []
       };
     },
     methods: {
@@ -220,8 +280,10 @@
           .then(response => {
             info.rowsPortfolio = response.data;
             for (let i = 0; i < info.rowsPortfolio.length; i++){
-              info.rowsPortfolio[i].businessOwner = info.rowsPortfolio[i].businessOwner.name;
-              info.rowsPortfolio[i].classification = info.rowsPortfolio[i].classification.name;
+              if (info.rowsPortfolio[i].businessOwner != null)
+                info.rowsPortfolio[i].businessOwner = info.rowsPortfolio[i].businessOwner.name;
+              if (info.rowsPortfolio[i].classification != null)
+                info.rowsPortfolio[i].classification = info.rowsPortfolio[i].classification.name;
             }
             console.log(response.data);
           });
@@ -229,17 +291,58 @@
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
             info.rowsProject = response.data;
-            for (let i = 0; i < info.rowsProject.length; i++){
-              info.rowsProject[i].manager = info.rowsProject[i].manager.name;
+            for (let i = 0; i < info.rowsProject.length; i++) {
+              if (info.rowsProject[i].status != null)
+                info.rowsProject[i].status = info.rowsProject[i].status.name;
             }
           });
         axios.get(this.$root.serverURL + "/api/resources")
           .then(response => {
             info.rowsResource = response.data;
+            for (let i = 0; i < info.rowsResource.length; i++){
+              if (info.rowsResource[i].manager != null)
+                info.rowsResource[i].manager = info.rowsResource[i].manager.name;
+              if (info.rowsResource[i].group != null)
+                info.rowsResource[i].group = info.rowsResource[i].group.name;
+              if (info.rowsResource[i].status != null)
+                info.rowsResource[i].status = info.rowsResource[i].status.name;
+            }
           })
+      },
+
+      initProjectColumnMap(){
+        for(var i = 0; i<this.columnsProject.length; i++){
+          this.projectColumnsMap.set(this.columnsProject[i].label, this.columnsProject[i]);
+        }
+      },
+
+      selectProjectColumns(){
+        var columnsToDisplay = this.selectedProjectColumns;
+        if(this.selectedProjectColumns.length > 0){
+          this.columnsProject = [];
+          for (var i=0; i<columnsToDisplay.length; i++){
+            this.columnsProject.push(this.projectColumnsMap.get(columnsToDisplay[i].name));
+          }
+        }
+      },
+
+      selectAllProjectColumns() {
+        var iterator = this.projectColumnsMap.entries();
+        var entry = iterator.next();
+        if(!entry.done){
+          this.columnsProject = [];
+        }
+        while(!entry.done){
+          this.columnsProject.push(entry.value[1]);
+          entry = iterator.next();
+        }
       },
     }
   }
 </script>
-<style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css">
+  .btn-group {
+    display: inline;
+  }
 </style>
+

@@ -14,8 +14,11 @@ import SkillList from 'src/components/Dashboard/Views/SkillList.vue'
 import Register from '../components/Register.vue'
 import Projects from '../components/Dashboard/Views/Projects.vue'
 import Reports from 'src/components/Dashboard/Views/Reports.vue'
+import CreatePortfolio from 'src/components/Dashboard/Views/CreatePortfolio.vue'
 import AddResources from 'src/components/Dashboard/Views/AddResources.vue'
 import RemoveResources from 'src/components/Dashboard/Views/RemoveResources.vue'
+import AddProjectsToPortfolio from 'src/components/Dashboard/Views/AddProjectsToPortfolio.vue'
+import AddResourcesToProject from 'src/components/Dashboard/Views/AddResourcesToProject.vue'
 
 const routes = [
   {
@@ -65,7 +68,7 @@ const routes = [
         component: Portfolio
       },
       {
-        path: 'user/:userId',
+        path: 'user/:resourceId',
         name: 'User',
         component: UserProfile
       },
@@ -96,6 +99,11 @@ const routes = [
         props: true
       },
       {
+        path: 'addProjects/:portfolioId',
+        name: 'addProjectsToPortfolio',
+        component: AddProjectsToPortfolio
+      },
+      {
         path: 'project/:projectId/removeResources',
         name: 'removeResources',
         component: RemoveResources,
@@ -115,23 +123,19 @@ const routes = [
         path: 'reports',
         name: 'Reports',
         component: Reports
+      },
+      {
+        path: 'create-portfolio',
+        name: 'Create Portfolio',
+        component: CreatePortfolio
+      },
+      {
+        path: 'add-resources/:projectId',
+        name: 'addResourcesToProject',
+        component: AddResourcesToProject
       }
     ]
   },
   { path: '*', component: NotFound }
 ]
-
-/**
- * Asynchronously load view (Webpack Lazy loading compatible)
- * The specified component must be inside the Views folder
- * @param  {string} name  the filename (basename) of the view to load.
-<<<<<<< HEAD
-function view(name) {
-=======
- function view(name) {
->>>>>>> heroku/master
-   var res= require('../components/Dashboard/Views/' + name + '.vue');
-   return res;
-};**/
-
 export default routes

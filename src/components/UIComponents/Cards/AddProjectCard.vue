@@ -17,7 +17,7 @@
     },
     methods: {
       createNewProject() {
-        this.$router.push({path: '/admin/project', query: { portfolioId: this.portfolioId }});
+        this.$router.push({path: `/admin/addProjects/${this.portfolioId}`});
       }
     }
   }
@@ -25,7 +25,7 @@
 </script>
 <style scoped>
     div.card {
-        min-width: 280px;
+        width: 30%;
     }
     div.body-data {
         padding-top: 0.5em;

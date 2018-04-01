@@ -1,13 +1,15 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <div name="header" style="align: center"><span style="font-weight:bold">{{ projectName }}</span> <span style="color:#888888">({{ projectId }})</span></div>
+      <div name="header" style="align: center; width: 75%"><span style="font-weight:bold">{{ projectName }}</span> <span style="color:#888888">({{ projectId }})</span></div>
       <div name="header" style="font-weight:bold; color:#888888"></div>
       <button class="btn" style="position:absolute;right:5%;top:5%;border-color:black;color:black;" v-on:click="goToProject"> Details </button>
     </div>
     <div class="card-body">
       <div class="body-data">
-          Status: <i>{{ projectStatus }}</i>
+      <span v-if="projectStatus != null">
+          Status: <i>{{ projectStatus.name }}</i>
+      </span>
       </div>
       <div class="body-data" style="width: 100%; padding:0">
           <progress style="width:100%" :value="projectProgress" max="100"></progress>
@@ -18,34 +20,26 @@
           <span style="color:red;margin:0;display:inline-block"><b>$</b> {{ budgetUsed }}</span>
       </div>
       <div class="body-data">
-          <span style="margin:0;display:inline-block;width:50%"><i class="fa fa-calendar"></i> {{ displayStartDate }}</span>
+          <span style="margin:0;display:inline-block"><i class="fa fa-calendar"></i> {{ displayStartDate }}</span>
           <span style="margin:0;display:inline-block"><i class="fa fa-calendar"></i> {{ displayEndDate }}</span>
       </div>
       <div class="body-data">
-        <span style="margin:0;display:inline-block;width:50%"><i class="fa fa-user"></i> {{ projectManager }}</span>
-        <span style="margin:0;display:inline-block">
-        <drop-down tag="ul">
-          <template slot="title">
-            <span style="margin:0;display:inline-block"><i class="fa fa-users"></i> {{ numPeopleOnTeam }}</span>
-            <b class="caret"></b>
-          </template>
-          <a class="dropdown-item" href="#">Person 1</a>
-          <a class="dropdown-item" href="#">Person 2</a>
-          <a class="dropdown-item" href="#">Person 3</a>
-          <a class="dropdown-item" href="#">Person 4</a>
-          <a class="dropdown-item" href="#">Person 5</a>
-        </drop-down>
-  <!--               <b-dropdown >
-          <template slot="title">
-            <span style="margin:0;display:inline-block"><i class="fa fa-users"></i> {{ numPeopleOnTeam }}</span>
-            <b class="caret"></b>
-          </template>
-          <b-dropdown-item>First Action</b-dropdown-item>
-          <b-dropdown-item>First Action</b-dropdown-item>
-          <b-dropdown-item>First Action</b-dropdown-item>
-          <b-dropdown-item>First Action</b-dropdown-item>
-        </b-dropdown> -->
-        </span>
+      <span v-if="projectManager != null">
+        <span style="margin:0;display:inline-block;width:50%"><i class="fa fa-user"></i> {{ projectManager.name }}</span>
+      </span>
+        <!--<span style="margin:0;display:inline-block">-->
+        <!--<drop-down tag="ul">-->
+          <!--<template slot="title">-->
+            <!--<span style="margin:0;display:inline-block"><i class="fa fa-users"></i> {{ numPeopleOnTeam }}</span>-->
+            <!--<b class="caret"></b>-->
+          <!--</template>-->
+          <!--<a class="dropdown-item" href="#">Person 1</a>-->
+          <!--<a class="dropdown-item" href="#">Person 2</a>-->
+          <!--<a class="dropdown-item" href="#">Person 3</a>-->
+          <!--<a class="dropdown-item" href="#">Person 4</a>-->
+          <!--<a class="dropdown-item" href="#">Person 5</a>-->
+        <!--</drop-down>-->
+        <!--</span>-->
         </div>
     </div>
   </div>
@@ -68,7 +62,7 @@
             default: 'Project Name'
         },
         projectStatus: {
-            type: String,
+            type: Object,
             default: 'The Status'
         },
         projectProgress: {
@@ -76,7 +70,7 @@
             default: 8
         },
         projectManager: {
-            type: String,
+            type: Object,
             default: 'Manager Name'
         },
         numPeopleOnTeam: {
@@ -124,7 +118,7 @@
     },
     methods: {
         goToProject() {
-            this.$router.push({ name: 'project', params: { projectId: this.projectId }});
+            this.$router.push({path: `/admin/project/${this.projectId}`});
         },
         abbreviateMonth (monthInteger) {
             switch(monthInteger) {
@@ -162,7 +156,7 @@
 </script>
 <style scoped>
     div.card {
-        min-width: 280px;
+        width: 30%;
     }
     div.body-data {
         padding-top: 0.5em;

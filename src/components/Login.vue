@@ -49,7 +49,6 @@
 </template>
 
 <script>
-  import axios from 'axios';
   export default {
     data() {
       return {
@@ -78,10 +77,11 @@
               .axios
               .get(info.$root.serverURL + "/user?username=" + info.data.body.username)
               .then((response) => {
+                console.log(response.data);
                 info.$root.$data.cookies.set('user',response.data);
                 info.$router.push("admin");
               })
-              // .catch(() => console.log("error getting resource ID"));
+              .catch(() => console.log("error getting resource ID"));
           }, (res) => {
             this.showInvalidLoginBanner = true;
           });

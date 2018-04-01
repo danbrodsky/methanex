@@ -2,8 +2,6 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
-        <gantt-chart style="width: 58%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></gantt-chart>
-        <resource-breakdown style="width: 40%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></resource-breakdown>
       </div>
       <div class="row">
         <filter-bar style="width: 100%;margin: 0.5%;box-shadow: 5px 5px 5px grey"
@@ -13,17 +11,21 @@
           v-on:newSearch="performSearch">
         </filter-bar>
       </div>
-      <div class="row">
+      <div class="row" style="margin: 0.5%;" v-if='hasAccess()'>
+          <button type="submit" class="btn btn-info btn-fill float-right" v-on:click="createProject(portfolioId)">
+            Add Project
+          </button>
+      </div>
+      <div class="row" style="margin-left: 5%;">
           <project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;"
             v-for="project of displayProjects"
             v-bind:key="project.id"
             v-bind:projectId="project.id"
             v-bind:projectName="project.name"
             v-bind:projectStatus="project.ragStatus"
+            v-bind:projectManager="project.manager"
             v-bind:budget="project.budget">
-            <!-- v-bind="project" -->
           </project-card>
-          <add-project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;" v-bind:portfolioId="portfolioId"></add-project-card>
       </div>
     </div>
   </div>
@@ -57,12 +59,17 @@
       AddProjectCard
     },
     created () {
+      let that = this;
+      axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
+        .then(response => {
+          that.role = response.data[0].name;
+      })
       this.fetchData();
-      console.log("got here");
     },
     data () {
       return {
         checkedIds: [],
+        role: '',
         portfolioId: -1,
         name: "",
         projects: [],
@@ -101,7 +108,6 @@
           this.isNewPortfolio = true;
           axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
-            console.log(response.data);
             info.projects = response.data.slice();
             info.displayProjects = response.data.slice();
           })
@@ -110,128 +116,23 @@
           this.portfolioId = this.$route.params.portfolioId;
         axios.get(this.$root.serverURL + "/api/portfolios/" + this.portfolioId + "/projects")
           .then(response => {
-            console.log(response.data);
+            console.log(response);
             info.projects = response.data.slice();
             info.displayProjects = response.data.slice();
           })
         }
-        // this.projects = [
-        //   {
-        //     id: 1,
-        //     name: 'ProjectName1',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 2,
-        //     name: 'ProjectName3',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 3,
-        //     name: 'ProjectName2',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 4,
-        //     name: 'ProjectName1',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 5,
-        //     name: 'ProjectName3',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 6,
-        //     name: 'ProjectName2',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 7,
-        //     name: 'ProjectName1',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 8,
-        //     name: 'ProjectName3',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   },
-        //   {
-        //     id: 9,
-        //     name: 'ProjectName2',
-        //     projectStatus: 'ProjectStatus1',
-        //     projectProgress: 50,
-        //     projectManager: 'PM1',
-        //     numPeopleOnTeam: 10,
-        //     startDate: new Date(),
-        //     endDate: new Date(),
-        //     budget: 800,
-        //     budgetUsed: 200
-        //   }
-        // ];
-        // this.displayProjects = this.projects.slice();
+      },
+      hasAccess() {
+        return this.role == "ROLE_ADMIN";
+      },
+      createProject(){
+        this.$router.push({path: '/admin/project', query: { portfolioId: this.portfolioId }});
       },
       performSearch() {
         this.displayProjects = this.filterFcn(this.projects);
-      }
     }
   }
+}
 </script>
 <style scoped>
   div.filters {

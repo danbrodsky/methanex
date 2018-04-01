@@ -2,10 +2,6 @@
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-                <gantt-chart style="width: 58%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></gantt-chart>
-                <resource-breakdown style="width: 40%;margin: 0.5%;box-shadow: 5px 5px 5px grey;"></resource-breakdown>
-            </div>
-            <div class="row">
                 <filter-bar style="width: 100%;margin: 0.5%;box-shadow: 5px 5px 5px grey"
                 v-model="filterFcn" 
                 v-bind:sortingOptions="sortingOptions" 
@@ -37,7 +33,6 @@
     import ProjectCard from 'src/components/UIComponents/Cards/ProjectCard.vue'
     import AddProjectCard from 'src/components/UIComponents/Cards/AddProjectCard.vue'
     import axios from 'axios'
-    import GanttChart from 'src/components/UIComponents/PortfolioComponents/GanttChart.vue'
     import ResourceBreakdown from 'src/components/UIComponents/PortfolioComponents/ResourceBreakdown.vue'
     import FilterBar from 'src/components/UIComponents/FilterBar.vue'
 
@@ -51,7 +46,6 @@
             StatsCard,
             ProjectCard,
             AddProjectCard,
-            GanttChart,
             ResourceBreakdown,
             FilterBar
         },

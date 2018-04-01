@@ -43,11 +43,6 @@
     },
     data () {
         return {
-          // id: this.id
-            // classification: this.classification,
-            // businessOwner: this.businessOwner,
-            // numProjects: this.numProjects,
-            // totalBudget: this.totalBudget
         }
     },
     methods: {
@@ -60,7 +55,7 @@
 </script>
 <style scoped>
     div.card {
-        min-width: 280px;
+        width: 24%;
     }
     div.body-data {
         padding-top: 0.5em;

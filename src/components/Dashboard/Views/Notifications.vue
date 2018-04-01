@@ -2,6 +2,11 @@
   <div class="content">
     <div class="container-fluid">
       <card>
+        <div>
+          <b-alert :show=noNotificationsBanner dismissible variant="warning">
+            <p> There are currently no notifications for you.</p>
+          </b-alert>
+        </div>
         <template slot="header">
           <h4 class="card-title">Notifications</h4>
         </template>
@@ -40,6 +45,7 @@
     },
     data() {
       return {
+        noNotificationsBanner: false,
         type: ['', 'info', 'success', 'warning', 'danger'],
         notifications: {
           topCenter: false
@@ -50,10 +56,12 @@
     methods: {
       fetchData() {
         let info = this;
-        axios.get(this.$root.serverURL + "/api/notifications?managerId=" + JSON.parse(info.$root.$data.cookies.get('user')).id) // add manager id here when there's login
+        axios.get(this.$root.serverURL + "/api/notifications?managerId=" + JSON.parse(info.$root.$data.cookies.get('user')).resource.id)
           .then(response => {
-            console.log(response.data);
-            this.receivedNotifications = response.data;
+            info.receivedNotifications = response.data;
+            if (this.receivedNotifications.length == 0) {
+              info.noNotificationsBanner = true;
+            }
           })
       },
       remove(id) {

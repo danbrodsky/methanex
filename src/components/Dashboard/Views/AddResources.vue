@@ -10,7 +10,7 @@
               </div>
               <div class="row" style="padding-top: 25px">
                 <div class="col-8">
-                  <h4 class="card-title">Add reources</h4>
+                  <h4 class="card-title">Add Resources</h4>
                   <p class="card-category">Select which resources to add to this project</p>
                 </div>
                 <div class="col-4">
@@ -58,7 +58,7 @@
                 </td>
               </template>
             </vue-good-table>
-            <button type="submit" aria-hidden="true" v-on:click="addResources" style='margin-right:16px' class="btn btn-success btn-sm btn-fill float-right">Add resource</button>
+            <button type="submit" aria-hidden="true" v-on:click="addResources" style='margin-top: 16px; margin-right:16px' class="btn btn-success btn-fill float-right">Add resource</button>
           </card>
         </div>
       </div>

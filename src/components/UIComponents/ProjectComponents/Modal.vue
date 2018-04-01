@@ -4,12 +4,12 @@
       <div class="modal-wrapper">
         <div class="modal-container">
 
-          <div class="modal-header">
+          <div class="modal-header text-center">
             <slot name="header">
             </slot>
           </div>
 
-          <div class="modal-body">
+          <div class="modal-body text-center">
             <slot name="body">
               {{message}}
             </slot>
@@ -17,10 +17,10 @@
 
           <div class="modal-footer">
             <slot name="footer">
-              <button v-if="success" class="btn btn-success" @click="$emit('close')">
+              <button type="button" v-if="success" class="btn btn-success btn-fill" @click="$emit('close')">
                 OK
               </button>
-              <button v-else class="btn btn-danger" @click="$emit('close')">
+              <button type="button" v-else class="btn btn-danger btn-fill" @click="$emit('close')">
                 OK
               </button>
             </slot>
