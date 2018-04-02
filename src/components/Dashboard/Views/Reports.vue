@@ -290,7 +290,6 @@
 
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
-            console.log(response.data);
             info.rowsProject = response.data;
             for (let i = 0; i < info.rowsProject.length; i++) {
               if (info.rowsProject[i].status != null)
@@ -301,6 +300,7 @@
           });
         axios.get(this.$root.serverURL + "/api/resources")
           .then(response => {
+            console.log(response.data);
             info.rowsResource = response.data;
             for (let i = 0; i < info.rowsResource.length; i++){
               if (info.rowsResource[i].manager != null)

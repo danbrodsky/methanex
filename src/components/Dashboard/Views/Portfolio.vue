@@ -1,78 +1,33 @@
 <template>
   <div class="content">
-    <b-navbar toggleable="md" type="light">
-
-      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-
-      <b-navbar-brand href="#">NavBar</b-navbar-brand>
-
-      <b-collapse is-nav id="nav_collapse">
-
-        <b-navbar-nav>
-          <b-nav-item href="#">Link</b-nav-item>
-          <b-nav-item href="#" disabled>Disabled</b-nav-item>
-        </b-navbar-nav>
-
-        <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
-
-          <b-nav-form>
-            <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search"/>
-            <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
-          </b-nav-form>
-
-          <b-nav-item-dropdown text="Lang" right>
-            <b-dropdown-item href="#">EN</b-dropdown-item>
-            <b-dropdown-item href="#">ES</b-dropdown-item>
-            <b-dropdown-item href="#">RU</b-dropdown-item>
-            <b-dropdown-item href="#">FA</b-dropdown-item>
-          </b-nav-item-dropdown>
-
-          <b-nav-item-dropdown right>
-            <!-- Using button-content slot -->
-            <template slot="button-content">
-              <em>User</em>
-            </template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Signout</b-dropdown-item>
-          </b-nav-item-dropdown>
-        </b-navbar-nav>
-
-      </b-collapse>
-    </b-navbar>
     <div class="container-fluid">
       <div class="row">
       </div>
       <div class="row">
-        <!--<filter-bar style="width: 100%;margin: 0.5%;box-shadow: 5px 5px 5px grey"-->
-          <!--v-model="filterFcn"-->
-          <!--v-bind:sortingOptions="sortingOptions"-->
-          <!--v-bind:filterOptions="filterOptions"-->
-          <!--v-on:newSearch="performSearch">-->
-        <!--</filter-bar>-->
+        <filter-bar style="width: 100%;margin: 0.5%;box-shadow: 5px 5px 5px grey"
+          v-model="filterFcn"
+          v-bind:sortingOptions="sortingOptions"
+          v-bind:filterOptions="filterOptions"
+          v-on:newSearch="performSearch">
+        </filter-bar>
       </div>
       <div class="row" style="margin: 0.5%;" v-if='hasAccess()'>
           <button type="submit" class="btn btn-info btn-fill float-right" v-on:click="createProject(portfolioId)">
             Add Project
           </button>
       </div>
-      <b-card-group>
-        <b-card
-                img-src="https://lorempixel.com/300/300/"
-                img-alt="Image"
-                img-top
-                tag="article"
-                style="max-width: 20rem;"
-                class="mb-2"
-                @click
-                v-for="project of displayProjects"
-                :title=project.name
-                v-on:click="goToProject(project.id)">
-          <p class="card-text">
-            Hello, my name is Mark
-          </p>
-        </b-card>
-      </b-card-group>
+      <div class="row" style="margin-left: 5%;">
+          <project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;"
+            v-for="project of displayProjects"
+            v-bind:key="project.id"
+            v-bind:project="project">
+            <!-- v-bind:projectId="project.id"
+            v-bind:projectName="project.name"
+            v-bind:projectStatus="project.ragStatus"
+            v-bind:projectManager="project.manager"
+            v-bind:budget="project.budget"> -->
+          </project-card>
+      </div>
     </div>
   </div>
 </template>
@@ -89,6 +44,8 @@
   import ResourceBreakdown from 'src/components/UIComponents/PortfolioComponents/ResourceBreakdown.vue'
   import FilterBar from 'src/components/UIComponents/FilterBar.vue'
 
+
+
   export default {
     components: {
       Checkbox,
@@ -100,14 +57,14 @@
       ResourceBreakdown,
       FilterBar,
       ProjectCard,
-      AddProjectCard,
+      AddProjectCard
     },
     created () {
       let that = this;
       axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
         .then(response => {
           that.role = response.data[0].name;
-      });
+      })
       this.fetchData();
     },
     data () {
@@ -146,9 +103,6 @@
       }
     },
     methods: {
-      goToProject(id) {
-        this.$router.push({path: `/admin/project/${id}`});
-      },
       fetchData() {
         var info = this;
         if (this.$route.params.portfolioId === undefined) {
@@ -163,6 +117,7 @@
           this.portfolioId = this.$route.params.portfolioId;
         axios.get(this.$root.serverURL + "/api/portfolios/" + this.portfolioId + "/projects")
           .then(response => {
+            console.log(response);
             info.projects = response.data.slice();
             info.displayProjects = response.data.slice();
           })
@@ -172,7 +127,7 @@
         return this.role == "ROLE_ADMIN";
       },
       createProject(){
-        this.$router.push({path: `/admin/addProjects/${this.portfolioId}`});
+        this.$router.push({path: '/admin/project', query: { portfolioId: this.portfolioId }});
       },
       performSearch() {
         this.displayProjects = this.filterFcn(this.projects);

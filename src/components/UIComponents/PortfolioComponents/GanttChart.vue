@@ -104,7 +104,7 @@ export default {
     	return this.$root._route.params.projectId != null;
     },
     hasAccess(){
-        return this.info.role == "ROLE_ADMIN";
+        return this.info.role == "ROLE_ADMIN" || this.isPM;
     },
     inputFilter(newFile, oldFile, prevent) {
       if (newFile && !oldFile) {
