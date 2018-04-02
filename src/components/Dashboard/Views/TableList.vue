@@ -5,10 +5,7 @@
         <div class="col-12">
           <div>
             <b-alert :show=SuccessBanner dismissible variant="success">
-              <h4 class="alert-heading">Change sucessful</h4>
-              <p>
-                Please refresh the page to view any changes
-              </p>
+              <h4 class="alert-heading">Change successful</h4>
             </b-alert>
           </div>
           <card>
