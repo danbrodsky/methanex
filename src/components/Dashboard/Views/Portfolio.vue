@@ -2,15 +2,11 @@
   <div class="content">
     <b-navbar toggleable="md" type="light">
 
-      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-
-      <b-navbar-brand href="#">NavBar</b-navbar-brand>
-
       <b-collapse is-nav id="nav_collapse">
-
         <b-navbar-nav>
-          <b-nav-item href="#">Link</b-nav-item>
-          <b-nav-item href="#" disabled>Disabled</b-nav-item>
+          <button type="submit" class="btn btn-success btn-fill float-right" v-on:click="createProject">
+            <b style="font-size: large">+</b>
+          </button>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -21,21 +17,6 @@
             <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
           </b-nav-form>
 
-          <b-nav-item-dropdown text="Lang" right>
-            <b-dropdown-item href="#">EN</b-dropdown-item>
-            <b-dropdown-item href="#">ES</b-dropdown-item>
-            <b-dropdown-item href="#">RU</b-dropdown-item>
-            <b-dropdown-item href="#">FA</b-dropdown-item>
-          </b-nav-item-dropdown>
-
-          <b-nav-item-dropdown right>
-            <!-- Using button-content slot -->
-            <template slot="button-content">
-              <em>User</em>
-            </template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Signout</b-dropdown-item>
-          </b-nav-item-dropdown>
         </b-navbar-nav>
 
       </b-collapse>
@@ -43,36 +24,13 @@
     <div class="container-fluid">
       <div class="row">
       </div>
-      <div class="row">
-        <!--<filter-bar style="width: 100%;margin: 0.5%;box-shadow: 5px 5px 5px grey"-->
-          <!--v-model="filterFcn"-->
-          <!--v-bind:sortingOptions="sortingOptions"-->
-          <!--v-bind:filterOptions="filterOptions"-->
-          <!--v-on:newSearch="performSearch">-->
-        <!--</filter-bar>-->
+      <div class="row" style="margin-left: 5%;">
+        <project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;"
+                      v-for="project of displayProjects"
+                      v-bind:key="project.id"
+                      v-bind:project="project">
+        </project-card>
       </div>
-      <div class="row" style="margin: 0.5%;" v-if='hasAccess()'>
-          <button type="submit" class="btn btn-info btn-fill float-right" v-on:click="createProject(portfolioId)">
-            Add Project
-          </button>
-      </div>
-      <b-card-group>
-        <b-card
-                img-src="https://lorempixel.com/300/300/"
-                img-alt="Image"
-                img-top
-                tag="article"
-                style="max-width: 20rem;"
-                class="mb-2"
-                @click
-                v-for="project of displayProjects"
-                :title=project.name
-                v-on:click="goToProject(project.id)">
-          <p class="card-text">
-            Hello, my name is Mark
-          </p>
-        </b-card>
-      </b-card-group>
     </div>
   </div>
 </template>
@@ -102,15 +60,15 @@
       ProjectCard,
       AddProjectCard,
     },
-    created () {
+    created() {
       let that = this;
       axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
         .then(response => {
           that.role = response.data[0].name;
-      });
+        });
       this.fetchData();
     },
-    data () {
+    data() {
       return {
         checkedIds: [],
         role: '',
@@ -119,30 +77,32 @@
         projects: [],
         displayProjects: [],
         sortingOptions: [
-          { value: 'id', text: 'ID' },
-          { value: 'name', text: 'Name' },
-          { value: 'projectStatus', text: 'StatusID' },
-          { value: 'projectProgress', text: 'Completion Progress' },
-          { value: 'projectManager', text: 'Manager' },
-          { value: 'numPeopleOnTeam', text: 'Team Size' },
-          { value: 'startDate',text: 'Start Date' },
-          { value: 'endDate', text: 'End Date' },
-          { value: 'budget', text: 'Budget' },
-          { value: 'budgetUsed', text: 'Budget Used' }
+          {value: 'id', text: 'ID'},
+          {value: 'name', text: 'Name'},
+          {value: 'projectStatus', text: 'StatusID'},
+          {value: 'projectProgress', text: 'Completion Progress'},
+          {value: 'projectManager', text: 'Manager'},
+          {value: 'numPeopleOnTeam', text: 'Team Size'},
+          {value: 'startDate', text: 'Start Date'},
+          {value: 'endDate', text: 'End Date'},
+          {value: 'budget', text: 'Budget'},
+          {value: 'budgetUsed', text: 'Budget Used'}
         ],
         filterOptions: [
-          { value: {category: 'id', type: Number}, text: 'ID' },
-          { value: {category: 'name', type: String}, text: 'Name' },
-          { value: {category: 'projectStatus', type: String}, text: 'StatusID' },
-          { value: {category: 'projectProgress', type: String}, text: 'Completion Progress' },
-          { value: {category: 'projectManager', type: String}, text: 'Manager' },
-          { value: {category: 'numPeopleOnTeam', type: Number}, text: 'Team Size' },
-          { value: {category: 'startDate', type: Date}, text: 'Start Date' },
-          { value: {category: 'endDate', type: Date}, text: 'End Date' },
-          { value: {category: 'budget', type: Number}, text: 'Budget' },
-          { value: {category: 'budgetUsed', type: Number}, text: 'Budget Used' }
+          {value: {category: 'id', type: Number}, text: 'ID'},
+          {value: {category: 'name', type: String}, text: 'Name'},
+          {value: {category: 'projectStatus', type: String}, text: 'StatusID'},
+          {value: {category: 'projectProgress', type: String}, text: 'Completion Progress'},
+          {value: {category: 'projectManager', type: String}, text: 'Manager'},
+          {value: {category: 'numPeopleOnTeam', type: Number}, text: 'Team Size'},
+          {value: {category: 'startDate', type: Date}, text: 'Start Date'},
+          {value: {category: 'endDate', type: Date}, text: 'End Date'},
+          {value: {category: 'budget', type: Number}, text: 'Budget'},
+          {value: {category: 'budgetUsed', type: Number}, text: 'Budget Used'}
         ],
-        filterFcn: function (list) { return list;}
+        filterFcn: function (list) {
+          return list;
+        }
       }
     },
     methods: {
@@ -154,31 +114,31 @@
         if (this.$route.params.portfolioId === undefined) {
           this.isNewPortfolio = true;
           axios.get(this.$root.serverURL + "/api/projects")
-          .then(response => {
-            info.projects = response.data.slice();
-            info.displayProjects = response.data.slice();
-          })
+            .then(response => {
+              info.projects = response.data.slice();
+              info.displayProjects = response.data.slice();
+            })
         }
         else {
           this.portfolioId = this.$route.params.portfolioId;
-        axios.get(this.$root.serverURL + "/api/portfolios/" + this.portfolioId + "/projects")
-          .then(response => {
-            info.projects = response.data.slice();
-            info.displayProjects = response.data.slice();
-          })
+          axios.get(this.$root.serverURL + "/api/portfolios/" + this.portfolioId + "/projects")
+            .then(response => {
+              info.projects = response.data.slice();
+              info.displayProjects = response.data.slice();
+            })
         }
       },
       hasAccess() {
         return this.role == "ROLE_ADMIN";
       },
-      createProject(){
+      createProject() {
         this.$router.push({path: `/admin/addProjects/${this.portfolioId}`});
       },
       performSearch() {
         this.displayProjects = this.filterFcn(this.projects);
+      }
     }
   }
-}
 </script>
 <style scoped>
   div.filters {

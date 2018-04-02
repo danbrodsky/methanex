@@ -17,7 +17,7 @@
       </b-alert>
     </div>
     <card>
-      <h4 slot="header" class="card-title">Profile</h4>
+      <h4 slot="header" class="card-title">Edit Resource</h4>
       <form>
         <div class="row">
           <div class="col-md-3">
@@ -30,72 +30,65 @@
           </div>
           <div class="col-md-5">
             <fg-input type="text"
-                      :disabled="true"
                       label="Location"
                       placeholder="Location"
                       v-model="resource.location">
             </fg-input>
           </div>
           <div class="col-md-4">
-            <fg-input type="status"
-                      :disabled="true"
-                      label="Status"
-                      placeholder="Status"
-                      v-model="resource.status">
-            </fg-input>
+            <label for="selStatus">Status</label>
+            <select v-model="resource.status" class="form-control" id="selStatus">
+              <option selected>Normal</option>
+              <option>On Vacation</option>
+              <option>Training</option>
+              <option>Terminated</option>
+            </select>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-6">
             <fg-input type="text"
-                      :disabled="true"
                       label="Name"
                       placeholder="Name"
                       v-model="resource.name">
             </fg-input>
           </div>
-          <div class="col-md-4">
-            <fg-input type="text"
-                      :disabled="true"
-                      label="Manager"
-                      placeholder="Manager"
-                      v-model="resource.manager">
-            </fg-input>
-          </div>
-          <div class="col-md-4">
-            <fg-input type="text"
-                      :disabled="true"
+          <div class="col-md-6">
+            <fg-input type="email"
                       label="Email"
                       placeholder="Email"
                       v-model="resource.email">
             </fg-input>
           </div>
         </div>
-        <div class="col-md-4">
-          <fg-input type="group"
-                    :disabled="true"
-                    label="Group"
-                    placeholder="Group"
-                    v-model="resource.group">
-          </fg-input>
-        </div>
-        <div class="col-md-4">
-          <fg-input type="peerGroup"
-                    :disabled="true"
-                    label="Peer Group"
-                    placeholder="Peer Group"
-                    v-model="resource.peerGroup">
-          </fg-input>
-        </div>
         <div class="row">
           <div class="col-md-4">
             <label class="typo__label">Skills:</label>
-            <ul id="example-1">
-              <li v-for="item in resource.skills">
-                {{ item.name }}
-              </li>
-            </ul>
+            <multiselect v-model="values"
+                         placeholder="Pick a skill(s)"
+                         label="name"
+                         track-by="name"
+                         :options="options1"
+                         :multiple="true"></multiselect>
+            <pre class="language-json"></pre>
+          </div>
+          <div class="col-md-4">
+            <label for="selGroup">Group</label>
+            <select v-model="resource.group" class="form-control" id="selGroup">
+              <option>Alpha</option>
+              <option>Bravo</option>
+              <option selected>Charlie</option>
+              <option>Delta</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="selPeerGroup">Peer Group</label>
+            <select v-model="resource.peerGroup" class="form-control" id="selPeerGroup">
+              <option selected>Full-Stack</option>
+              <option>QA</option>
+              <option>Dev-ops</option>
+            </select>
           </div>
         </div>
         <div class="text-center">
@@ -156,30 +149,6 @@
           .then(response => {
             info.resource = response.data;
             info.values = info.resource.skills;
-            if (info.resource.manager) {
-              info.resource.manager = info.resource.manager.name;
-            }
-            else {
-              info.resource.manager = "N/A";
-            }
-            if (info.resource.status) {
-              info.resource.status = info.resource.status.name;
-            }
-            else {
-              info.resource.status = "N/A";
-            }
-            if (info.resource.group) {
-              info.resource.group = info.resource.group.name;
-            }
-            else {
-              info.resource.group = "N/A";
-            }
-            if (info.resource.peerGroup) {
-              info.resource.peerGroup = info.resource.peerGroup.name;
-            }
-            else {
-              info.resource.peerGroup = "N/A";
-            }
           })
           .catch(error => {
             info.resource = JSON.parse(info.$root.$data.cookies.get('user')).resource;
@@ -191,9 +160,59 @@
             info.options1 = response.data;
           })
           .catch(error => console.log(error));
+        axios
+          .get(info.$root.serverURL + "/api/groups")
+          .then(response => {
+            info.resource.group = response.data;
+          })
+          .catch(error => console.log(error));
+
+        axios
+          .get(info.$root.serverURL + "/api/peergroups")
+          .then(response => {
+            info.resource.peerGroup = response.data;
+          })
+          .catch(error => console.log(error));
       },
       updateProfile() {
-        this.$router.push({path: `/admin/editUser`});
+        var info = this;
+        axios.put(info.$root.serverURL + "/api/resources/" + info.resource.id, {
+          "id": info.resource.id,
+          "name": info.resource.name,
+          "email": info.resource.email,
+          "location": info.resource.location,
+          "group": info.resource.group,
+          "manager": info.resource.manager,
+          "status": info.resource.status
+        })
+          .then(function () {
+            info.fetchData();
+            let notifications = [];
+            let currentSkills = info.resource.skills;
+            info.updatedResourceSuccessBanner = true;
+            if (info.resource.manager != null) {
+              info.values.forEach(value => {
+                let res = currentSkills.every(skill => skill.id != value.id);
+                if (res) {
+                  let notification = {};
+                  notification['skill'] = value;
+                  notification['resource'] = info.resource;
+                  notifications.push(notification);
+                }
+              });
+              if (notifications.length > 0) {
+                axios.post(info.$root.serverURL + "/api/notifications", notifications)
+                  .then(function (res) {
+                    info.notificationSendBanner = true;
+                  })
+                  .catch(() => console.log("error while adding notifications"));
+              }
+            }
+            else {
+              alert("bro you have no manager");
+            }
+          })
+          .catch(() => console.log("error while updating resource"));
       },
     }
   }

@@ -53,18 +53,23 @@
     methods: {
       approve() {
         let info = this;
-        let managerId = JSON.parse(info.$root.$data.cookies.get('user')).resource.manager.id;
-        axios.post(info.$root.serverURL + "/api/notifications?resourceId=" + info.resourceId + "&skillId=" + info.skillId + "&managerId=" + managerId)
+        let managerId = JSON.parse(info.$root.$data.cookies.get('user')).resource.id;
+        axios
+          .post(info.$root.serverURL + "/api/notifications?resourceId=" + info.resourceId + "&skillId=" + info.skillId + "&managerId=" + managerId)
           .then(function (res) {
-          });
+          })
+          .catch(error => console.log(error));
         info.dropRow()
       },
       dropRow() {
         let info = this;
+        let managerId = JSON.parse(info.$root.$data.cookies.get('user')).resource.id;
         this.$emit('notification-remove', this.id);
-        axios.delete(info.$root.serverURL + "/api/notifications?managerId=" + info.managerId + "&resourceId=" + info.resourceId + "&skillId=" + info.skillId)
+        axios
+          .delete(info.$root.serverURL + "/api/notifications?managerId=" + managerId + "&resourceId=" + info.resourceId + "&skillId=" + info.skillId)
           .then(function (res) {
-          });
+          })
+          .catch(error => console.log(error));
       }
     }
   }
