@@ -64,8 +64,7 @@
           businessOwner: '',
           resourceBreakdown: ''
         },
-        businessOwnerId: null,
-
+        businessOwnerId: null
       }
     },
 
