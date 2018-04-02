@@ -77,7 +77,7 @@
     },
     methods: {
         goToProject() {
-            this.$router.push({path: `/admin/project/${this.projectId}`});
+            this.$router.push({path: `/admin/project/${this.project.id}`});
         },
         abbreviateMonth (monthInteger) {
             switch(monthInteger) {
