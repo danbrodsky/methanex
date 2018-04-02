@@ -102,8 +102,8 @@ export default {
         today.setMilliseconds = 0;
 
         var gradient = ctx.createLinearGradient(0,0,0,50);
-        gradient.addColorStop(0, "#2222FF");
-        gradient.addColorStop(0.4, "#0000AA");
+        gradient.addColorStop(0, "#7386a3");
+        gradient.addColorStop(0.4, "#4d6fa5");
         
         ctx.fillStyle = gradient;
 
@@ -119,8 +119,8 @@ export default {
         }
 
         gradient = ctx.createLinearGradient(0,50,0,100);
-        gradient.addColorStop(0.6, "#00AA00");
-        gradient.addColorStop(1, "#22CC22");
+        gradient.addColorStop(0.6, "#4286f4");
+        gradient.addColorStop(1, "#70a1ef");
 
         ctx.fillStyle = gradient;
 
@@ -146,8 +146,9 @@ export default {
     canvas {
         width:          100%;
         height:         30px;
-        border-radius:  3px;
+        border-radius:  1px;
         overflow:       hidden;
-        border: solid black 2px;
+        border: solid black 1px;
+        border-radius: 3px;
     }
 </style>

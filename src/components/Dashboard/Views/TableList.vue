@@ -30,7 +30,7 @@
               </template>
             </vue-good-table>
             <div v-if='hasAccess()'>
-              <button v-b-modal.addResourceModal class="btn btn-success btn-fill float-right">
+              <button v-b-modal.addResourceModal class="btn btn-info btn-fill float-right">
                 Create a resource
               </button>
               <b-modal

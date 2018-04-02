@@ -216,6 +216,9 @@
                   if (typeof resource.manager !== 'string' && resource.manager != null) {
                     resource.manager = resource.manager.name;
                   }
+                  if (resource.group != null) {
+                    resource.group = resource.group.name;
+                  }
                 });
               })
               .catch(() => console.log("error getting project resources"));
