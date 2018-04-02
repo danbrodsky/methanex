@@ -185,7 +185,7 @@
           },
           {
             label: 'Manager',
-            field: 'manager.name',
+            field: 'manager',
             type: 'string',
             filterable: true,
           },
@@ -290,10 +290,13 @@
 
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
+            console.log(response.data);
             info.rowsProject = response.data;
             for (let i = 0; i < info.rowsProject.length; i++) {
               if (info.rowsProject[i].status != null)
                 info.rowsProject[i].status = info.rowsProject[i].status.name;
+              if (info.rowsProject[i].manager != null)
+                info.rowsProject[i].manager = info.rowsProject[i].manager.name;
             }
           });
         axios.get(this.$root.serverURL + "/api/resources")

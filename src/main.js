@@ -52,7 +52,7 @@ new Vue({
   router,
   data: {
     cookies: Cookies,
-    // serverURL: 'https://peaceful-hamlet-75445.herokuapp.com'
-    serverURL: 'http://localhost:8080'
+    serverURL: 'https://peaceful-hamlet-75445.herokuapp.com'
+    // serverURL: 'http://localhost:8080'
   }
 })
