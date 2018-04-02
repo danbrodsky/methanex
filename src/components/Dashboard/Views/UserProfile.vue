@@ -183,20 +183,27 @@
             let notifications = [];
             let currentSkills = info.resource.skills;
             info.updatedResourceSuccessBanner = true;
-            info.values.forEach(value => {
-              let res = currentSkills.every(skill => skill.id != value.id);
-              if (res) {
-                let notification = {};
-                notification['skill'] = value;
-                notification['resource'] = info.resource;
-                notifications.push(notification);
+            if (info.resource.manager != null) {
+              info.values.forEach(value => {
+                let res = currentSkills.every(skill => skill.id != value.id);
+                if (res) {
+                  let notification = {};
+                  notification['skill'] = value;
+                  notification['resource'] = info.resource;
+                  notifications.push(notification);
+                }
+              });
+              if (notifications.length > 0) {
+                axios.post(info.$root.serverURL + "/api/notifications", notifications)
+                  .then(function (res) {
+                    info.notificationSendBanner = true;
+                  })
+                  .catch(() => console.log("error while adding notifications"));
               }
-            });
-            axios.post(info.$root.serverURL + "/api/notifications", notifications)
-              .then(function (res) {
-                info.notificationSendBanner = true;
-              })
-              .catch(() => console.log("error while adding notifications"));
+            }
+            else {
+              alert("bro you have no manager");
+            }
           })
           .catch(() => console.log("error while updating resource"));
       },
