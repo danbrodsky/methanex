@@ -26,6 +26,7 @@
             v-bind:actualConfirmedStatusDate="project.actualConfirmedStatusDate"
             v-bind:actualClosingStatusDate="project.actualClosingStatusDate"
             v-bind:actualClosedStatusDate="project.actualClosedStatusDate"
+            v-bind:currentStatus="project.status"
             >
           </project-status-bar>
       </div>
@@ -60,27 +61,18 @@
         }
     },
     data () {
-        return {
-            // projectId: this.projectId,
-            // projectName: this.projectName,
-            // projectStatus: this.projectStatus,
-            // projectProgress: this.projectProgress,
-            // projectManager: this.projectManager,
-            // numPeopleOnTeam: this.numPeopleOnTeam,
-            // startDate: this.startDate,
-            // endDate: this.endDate,
-            // budget: this.budget,
-            // budgetUsed: this.budgetUsed
-        }
+        return {}
     },
     computed: {
         displayStartDate: function() {
-            if (this.project.startDate == null) return "";
-            return this.abbreviateMonth(this.project.startDate.getMonth()) + " " + this.project.startDate.getDate() + " " + this.project.startDate.getFullYear();
+            var startDate = new Date(this.project.startDate);
+            if (startDate == null) return "";
+            return this.abbreviateMonth(startDate.getMonth()) + " " + startDate.getDate() + " " + startDate.getFullYear();
         },
         displayEndDate: function() {
-            if (this.project.endDate == null) return "";
-            return this.abbreviateMonth(this.project.endDate.getMonth()) + " " + this.project.endDate.getDate() + " " + this.project.endDate.getFullYear();
+            var endDate = new Date(this.project.endDate);
+            if (endDate == null) return "";
+            return this.abbreviateMonth(endDate.getMonth()) + " " + endDate.getDate() + " " + endDate.getFullYear();
         },
     },
     methods: {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <canvas ref="myCanvas" width="600" height="100`" style="width:100%;height:30px;border-radius:3px;overflow:hidden"></canvas>
+        <canvas ref="myCanvas" width="600" height="100"></canvas>
     </div>
 </template>
 
@@ -64,8 +64,8 @@ export default {
             default: 30
         },
         "currentStatus": {
-            type: String,
-            default: "Pipeline"
+            type: Object,
+            default() { return {'id': 3, 'name': 'Pipeline'} }
         }
     },
     data() {
@@ -142,6 +142,12 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    canvas {
+        width:          100%;
+        height:         30px;
+        border-radius:  3px;
+        overflow:       hidden;
+        border: solid black 2px;
+    }
 </style>
