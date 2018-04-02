@@ -38,15 +38,15 @@
               </template>
               <template slot="table-row" slot-scope="props">
                 <span v-if="props.column.field === 'btn'">
-                  <button class="btn btn-warning btn-fill btn-sm" @click="edit1(props.row.originalIndex)">edit</button>
-                  <button class="btn btn-danger btn-fill btn-sm" @click="delete1(props.row.originalIndex)">delete</button>
+                  <button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" @click="edit1(props.row.originalIndex)">edit</button>
+                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete1(props.row.originalIndex)">delete</button>
                 </span>
                 <span v-else>
-                  {{ props.formattedRow[props.column.field] }}
+                    {{ props.formattedRow[props.column.field] }}
                 </span>
               </template>
             </vue-good-table>
-            <div>
+            <div v-if='hasAccess()'>
               <b-button v-b-modal.addResourceModal1 class="btn btn-success btn-fill">
                 Add skill
               </b-button>
@@ -111,15 +111,15 @@
               </template>
               <template slot="table-row" slot-scope="props">
                 <span v-if="props.column.field === 'btn'">
-                  <button class="btn btn-warning btn-fill btn-sm" @click="edit2(props.row.originalIndex)">edit</button>
-                  <button class="btn btn-danger btn-fill btn-sm" @click="delete2(props.row.originalIndex)">delete</button>
+                  <button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" @click="edit2(props.row.originalIndex)">edit</button>
+                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete2(props.row.originalIndex)">delete</button>
                 </span>
                 <span v-else>
-                  {{ props.formattedRow[props.column.field] }}
+                    {{ props.formattedRow[props.column.field] }}
                 </span>
               </template>
             </vue-good-table>
-            <div>
+            <div v-if='hasAccess()'>
               <b-button v-b-modal.addResourceModal2 class="btn btn-success btn-fill">
                 Add skill
               </b-button>
@@ -227,6 +227,11 @@
       Card
     },
     created() {
+      let that = this;
+      axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
+        .then(response => {
+          that.role = response.data[0].name;
+      })
       this.fetchDataTechnical();
       this.fetchDataNonTechnical();
       this.fetchCategories();
@@ -242,6 +247,7 @@
         allSelected: false,
         skillDeletedBanner: false,
         skillEditedBanner: false,
+        role: '',
         columnsTechnical: [
           {
             label: 'Name',
@@ -282,7 +288,7 @@
             label: '', // checkbox
             field: 'btn',
             sortable: false,
-          }
+         }
         ],
         rowsTechnical: [],
         rowsNonTechnical: [],
@@ -332,6 +338,9 @@
           })
           .catch(() => console.log("error fetching categories"))
 
+      },
+      hasAccess() {
+        return this.role == "ROLE_ADMIN";
       },
       addData1() {
         var info = this;

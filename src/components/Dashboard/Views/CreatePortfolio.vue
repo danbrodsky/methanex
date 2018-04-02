@@ -11,12 +11,17 @@
                       v-model="portfolio.location">
             </fg-input>
           </div>
-          <div class="col-md-5">
+          <div class="col-md-5" >
+
             <fg-input type="text"
                       label="Business Owner"
                       placeholder="Business Owner"
-                      v-model="portfolio.businessOwner">
+                      v-model="portfolio.businessOwner"
+                      :clickHandler="openBusinessOwnerFunc">
             </fg-input>
+            <business-owner-picker
+              v-if="modalShow" @receiveBusinessOwner="getBusinessOwner"
+              @close="modalShow = false"></business-owner-picker>
           </div>
         </div>
 
@@ -42,22 +47,28 @@
 <script>
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   import axios from 'axios'
+  import BusinessOwnerPicker from 'src/components/UIComponents/PortfolioComponents/BusinessOwnerPicker.vue'
 
   export default {
     components: {
+      BusinessOwnerPicker,
       Card
     },
     data() {
       return {
         modalShow: false,
         values: [],
+        openBusinessOwnerFunc: {method: this.openBusinessOwnerPicker},
         portfolio: {
           classification: '',
           businessOwner: '',
           resourceBreakdown: ''
-        }
+        },
+        businessOwnerId: null,
+
       }
     },
+
     methods: {
       updateProfile() {
         var info = this;
@@ -70,8 +81,20 @@
             info.$router.push({path: `/admin/portfolio`});
           })
           .catch(() => console.log("error while creating portfolio"));
+      },
+
+      getBusinessOwner: function(params){
+        console.log(params);
+        this.modalShow = false;
+        this.portfolio.businessOwner = params[0];
+        this.businessOwnerId = params[1];
+      },
+
+      openBusinessOwnerPicker: function(){
+        this.modalShow = true;
       }
-    }
+    },
+
   }
 </script>
 <style>

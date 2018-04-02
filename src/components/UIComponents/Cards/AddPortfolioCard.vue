@@ -20,7 +20,7 @@
 </script>
 <style scoped>
     div.card {
-        width: 24%;
+        width: 240px;
     }
     div.body-data {
         padding-top: 0.5em;

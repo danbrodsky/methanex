@@ -2,7 +2,6 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
-        <gantt-chart style="width: 80%;height: 500px;margin: auto;box-shadow: 5px 5px 5px grey;"></gantt-chart>
       </div>
       <div class="row">
         <filter-bar style="width: 100%;margin: 0.5%;box-shadow: 5px 5px 5px grey"
@@ -12,17 +11,22 @@
           v-on:newSearch="performSearch">
         </filter-bar>
       </div>
+      <div class="row" style="margin: 0.5%;" v-if='hasAccess()'>
+          <button type="submit" class="btn btn-info btn-fill float-right" v-on:click="createProject(portfolioId)">
+            Add Project
+          </button>
+      </div>
       <div class="row" style="margin-left: 5%;">
           <project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;"
             v-for="project of displayProjects"
             v-bind:key="project.id"
-            v-bind:projectId="project.id"
+            v-bind:project="project">
+            <!-- v-bind:projectId="project.id"
             v-bind:projectName="project.name"
             v-bind:projectStatus="project.ragStatus"
             v-bind:projectManager="project.manager"
-            v-bind:budget="project.budget">
+            v-bind:budget="project.budget"> -->
           </project-card>
-          <add-project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;" v-bind:portfolioId="portfolioId"></add-project-card>
       </div>
     </div>
   </div>
@@ -56,12 +60,17 @@
       AddProjectCard
     },
     created () {
+      let that = this;
+      axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
+        .then(response => {
+          that.role = response.data[0].name;
+      })
       this.fetchData();
-      console.log("got here");
     },
     data () {
       return {
         checkedIds: [],
+        role: '',
         portfolioId: -1,
         name: "",
         projects: [],
@@ -113,6 +122,12 @@
             info.displayProjects = response.data.slice();
           })
         }
+      },
+      hasAccess() {
+        return this.role == "ROLE_ADMIN";
+      },
+      createProject(){
+        this.$router.push({path: '/admin/project', query: { portfolioId: this.portfolioId }});
       },
       performSearch() {
         this.displayProjects = this.filterFcn(this.projects);

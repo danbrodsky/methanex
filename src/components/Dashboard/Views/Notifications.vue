@@ -56,7 +56,7 @@
     methods: {
       fetchData() {
         let info = this;
-        axios.get(this.$root.serverURL + "/api/notifications?managerId=" + JSON.parse(info.$root.$data.cookies.get('user')).id)
+        axios.get(this.$root.serverURL + "/api/notifications?managerId=" + JSON.parse(info.$root.$data.cookies.get('user')).resource.id)
           .then(response => {
             info.receivedNotifications = response.data;
             if (this.receivedNotifications.length == 0) {

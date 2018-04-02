@@ -95,12 +95,52 @@ export default {
                 var list = initialList.slice();
 
                 for(var filter of this.filters){
+                    var property = filter.filterBy.category;
+                    var type = filter.filterBy.type;
+
                     for(var i=list.length-1; i>=0; i--){
-                        if (list[i][filter.filterBy.category]==null || (filter.filterBy.type === String && list[i][filter.filterBy.category].toLowerCase().indexOf(filter.keyWord.toLowerCase())==-1)){
+                        var attribute = list[i][property];
+
+                        if (attribute==null || (type === String && attribute.toLowerCase().indexOf(filter.keyWord.toLowerCase())==-1)){
                             list.splice(i,1);
                         }
-                        if (filter.filterBy.type === Number && list[i][filter.filterBy.category] != filter.keyWord) {
-                            list.splice(i,1);
+                        if (type === Number) {
+                            
+                            if(filter.keyWord.charAt(0) === '<'){
+                                if(filter.keyWord.charAt(1) === '=') {
+                                    if(attribute>Number(filter.keyWord.substr(2).trim())){
+                                        list.splice(i,1);
+                                    }
+                                }
+                                else {
+                                    if(!(attribute<Number(filter.keyWord.substr(1).trim()))){
+                                        list.splice(i,1);
+                                    }
+                                }
+                            }
+                            else if(filter.keyWord.charAt(0) === '>'){
+                                if(filter.keyWord.charAt(1) === '=') {
+                                    if(attribute<Number(filter.keyWord.substr(2).trim())){
+                                        list.splice(i,1);
+                                    }
+                                }
+                                else {
+                                    if(!(attribute>Number(filter.keyWord.substr(1).trim()))){
+                                        list.splice(i,1);
+                                    }
+                                }
+                            }
+                            else if(filter.keyWord.charAt(0) === '='){
+                                if(!(attribute == Number(filter.keyWord.substr(1).trim()))){
+                                    list.splice(i,1);
+                                }
+                            }
+                            else {
+                                if(!(attribute == Number(filter.keyWord.trim()))){
+                                    list.splice(i,1);
+                                }
+                            }
+                            
                         }
                     }
                 }
@@ -121,6 +161,7 @@ export default {
         width: 100%;
         text-align: center;
         padding-bottom: 1em;
+        cursor: pointer;
     }
     select.invalid-category {
         border: 2px solid red;

@@ -185,7 +185,7 @@
           },
           {
             label: 'Manager',
-            field: 'manager',
+            field: 'manager.name',
             type: 'string',
             filterable: true,
           },
@@ -280,8 +280,10 @@
           .then(response => {
             info.rowsPortfolio = response.data;
             for (let i = 0; i < info.rowsPortfolio.length; i++){
-               info.rowsPortfolio[i].businessOwner = info.rowsPortfolio[i].businessOwner.name;
-               info.rowsPortfolio[i].classification = info.rowsPortfolio[i].classification.name;
+              if (info.rowsPortfolio[i].businessOwner != null)
+                info.rowsPortfolio[i].businessOwner = info.rowsPortfolio[i].businessOwner.name;
+              if (info.rowsPortfolio[i].classification != null)
+                info.rowsPortfolio[i].classification = info.rowsPortfolio[i].classification.name;
             }
             console.log(response.data);
           });
@@ -290,15 +292,20 @@
           .then(response => {
             info.rowsProject = response.data;
             for (let i = 0; i < info.rowsProject.length; i++) {
-              info.rowsProject[i].status = info.rowsProject[i].status != null ? info.rowsProject[i].status.name : null;
+              if (info.rowsProject[i].status != null)
+                info.rowsProject[i].status = info.rowsProject[i].status.name;
             }
-            console.log(rowsProject);
           });
         axios.get(this.$root.serverURL + "/api/resources")
           .then(response => {
             info.rowsResource = response.data;
             for (let i = 0; i < info.rowsResource.length; i++){
-              info.rowsResource[i].manager = info.rowsPortfolio[i].manager.name;
+              if (info.rowsResource[i].manager != null)
+                info.rowsResource[i].manager = info.rowsResource[i].manager.name;
+              if (info.rowsResource[i].group != null)
+                info.rowsResource[i].group = info.rowsResource[i].group.name;
+              if (info.rowsResource[i].status != null)
+                info.rowsResource[i].status = info.rowsResource[i].status.name;
             }
           })
       },

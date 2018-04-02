@@ -2,9 +2,9 @@
 <div v-if='hasId()'>
   <div class="card" style="display: block; margin: auto;" id="img_container">
     <img style="display: block; margin: auto;width:100%;height:500px;" v-bind:src="info.image" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/d/d2/Solid_white.png';">
-    <div v-if="hasAccess()">
-      <button style="position:absolute; top: 85%;width: 200px;left:65%;"v-b-modal.modalPrevent2 class="btn btn-success btn-fill">
-        Change Gantt
+    <div v-if='hasAccess()'>
+      <button style="position:absolute; top: 90%;width: 60px;left:90%;"v-b-modal.modalPrevent2 class="btn btn-success btn-fill">
+      <i class="fa fa-arrow-up"></i>
       </button>
     </div>
       <b-modal 
@@ -71,7 +71,7 @@ export default {
             info: {
                 name: '',
                 image: '',
-
+                role: ''
             },
             errors: [],
             headers: {},
@@ -80,9 +80,13 @@ export default {
     },
 
   created: function(){
-  	// console.log(this.$root);
+  	let that = this;
       var token = 'Bearer ' + this.$auth.token('default_auth_token');
       this.headers['Authorization'] = token;
+      axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
+        .then(response => {
+        	that.info.role = response.data[0].name;
+      })
       this.getInfo();
   },
 
@@ -100,12 +104,7 @@ export default {
     	return this.$root._route.params.projectId != null;
     },
     hasAccess(){
-    	let that = this;
-    	axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
-        .then(response => {
-        console.log(response);
-        // if ('admin')
-      })
+        return this.info.role == "ROLE_ADMIN";
     },
     inputFilter(newFile, oldFile, prevent) {
       if (newFile && !oldFile) {

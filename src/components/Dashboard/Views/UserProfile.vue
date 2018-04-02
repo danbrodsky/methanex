@@ -150,7 +150,7 @@
         let info = this;
         let pathId = this.$route.params.resourceId;
         console.log(pathId);
-        pathId = pathId != undefined ? pathId : JSON.parse(info.$root.$data.cookies.get('user')).id;
+        pathId = pathId != undefined ? pathId : JSON.parse(info.$root.$data.cookies.get('user')).resource.id;
         axios
           .get(info.$root.serverURL + "/api/resources/" + pathId)
           .then(response => {
@@ -158,7 +158,7 @@
             info.values = info.resource.skills;
           })
           .catch(error => {
-            info.resource = JSON.parse(info.$root.$data.cookies.get('user'));
+            info.resource = JSON.parse(info.$root.$data.cookies.get('user')).resource;
             info.values = info.resource.skills;
           })
         axios

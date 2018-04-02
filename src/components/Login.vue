@@ -77,6 +77,7 @@
               .axios
               .get(info.$root.serverURL + "/user?username=" + info.data.body.username)
               .then((response) => {
+                console.log(response.data);
                 info.$root.$data.cookies.set('user',response.data);
                 info.$router.push("admin");
               })
