@@ -41,6 +41,19 @@
       <div class="body-data">
       <span v-if="project.manager != null">
         <span style="margin:0;display:inline-block;width:50%"><i class="fa fa-user"></i> {{ project.manager.name }}</span>
+                <span style="margin:0;display:inline-block">
+        <drop-down tag="ul">
+          <template slot="title">
+            <span style="margin:0;display:inline-block"><i class="fa fa-users"></i> {{ numPeopleOnTeam }}</span>
+            <b class="caret"></b>
+          </template>
+          <a v-for="portfolio of portfoliosDisplayed" href="#">Person 1</a>
+          <a class="dropdown-item" href="#">Person 2</a>
+          <a class="dropdown-item" href="#">Person 3</a>
+          <a class="dropdown-item" href="#">Person 4</a>
+          <a class="dropdown-item" href="#">Person 5</a>
+        </drop-down>
+</span>
       </span>
         </div>
     </div>

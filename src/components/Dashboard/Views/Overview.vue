@@ -17,7 +17,6 @@
                               v-bind:projectName="project.name"
                               v-bind:projectStatus="project.effort"
                               v-bind:budget="project.budget">
-                    <!-- v-bind="project" -->
                 </project-card>
                 <add-project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;"></add-project-card>
             </div>

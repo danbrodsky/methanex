@@ -1,7 +1,7 @@
 <template>
   <div class="content">
   <div class="row" style="margin: 1%;">
-    <gantt-chart style="width: 80%;margin: auto;"></gantt-chart>
+    <gantt-chart v-bind:isPM="isPM" style="width: 80%;margin: auto;"></gantt-chart>
   </div>
     <div>
       <b-alert :show=updatedProjectSuccessBanner dismissible variant="success">
@@ -128,6 +128,7 @@
         deletedResourceBanner: false,
         removed: false,
         role: '',
+        isPM: false,
         columns: [
           {
             label: '', // checkbox
@@ -170,6 +171,7 @@
           group: null,
           manager: null,
           status: null,
+          projectOwnerName: null,
           projectOwner: null,
           estimatedRemainingCost: null,
           percentageComplete: null,
@@ -198,6 +200,14 @@
           .get(info.$root.serverURL + "/api/projects/" + this.$route.params.projectId)
           .then(response => {
             info.project = response.data;
+            console.log(response.data);
+            if (info.project.projectOwner != null) {
+              info.project.projectOwnerName = info.project.projectOwner.name;
+              // info.project.percentageComplete = info.project.
+              if (JSON.parse(info.$root.$data.cookies.get('user')).resource.id == info.project.projectOwner.id){
+                info.isPM = true;
+              }
+            }
             axios.get(info.$root.serverURL + "/api/projects/" + this.$route.params.projectId + "/resources")
               .then((response) => {
                 info.resources = response.data;
@@ -205,9 +215,6 @@
                   resource["selected"] = false;
                   if (typeof resource.manager !== 'string' && resource.manager != null) {
                     resource.manager = resource.manager.name;
-                  }
-                  if (typeof project.projectOwner !== 'string' && project.projectOwner != null) {
-                    project.projectOwnerName = project.projectOwner.name;
                   }
                 });
               })
@@ -217,7 +224,6 @@
       },
       updateProject() {
         var info = this;
-        console.log(info.project);
         axios.put(info.$root.serverURL + "/api/projects/" + info.project.id, info.project)
           .then(response => {
             info.updatedProjectSuccessBanner = true;
@@ -226,7 +232,7 @@
           .catch(() => console.log("problem updating project"));
       },
       hasAccess() {
-        return this.role == "ROLE_ADMIN";
+        return this.role == "ROLE_ADMIN" || this.isPM;
       },
       addResources() {
         this.$router.push({path: `/admin/add-resources/${this.project.id}`});

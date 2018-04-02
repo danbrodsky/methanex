@@ -1,31 +1,18 @@
 <template>
   <div class="content">
-    <div>
-      <b-alert :show=createPortfolioBanner dismissible variant="success">
-        <h4 class="alert-heading">Portfolio Added</h4>
-      </b-alert>
-    </div>
     <b-navbar toggleable="md" type="light">
 
+      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+
+      <b-navbar-brand href="#">NavBar</b-navbar-brand>
+
       <b-collapse is-nav id="nav_collapse">
+
         <b-navbar-nav>
-          <button v-b-modal.addPortfolioModal class="btn btn-success btn-fill float-right">
-            <b style="font-size: large">+</b>
-          </button>
-          <b-modal
-            id="addPortfolioModal"
-            ref="savePortfolio"
-            @ok="savePortfolio">
-            <div>
-              <b-card title="Add A Portfolio" bg-variant="light">
-                <b-form-input id="nestedName"
-                              v-model="newPortfolio.classification"
-                              type="text"
-                              placeholder="Enter a name"></b-form-input>
-              </b-card>
-            </div>
-          </b-modal>
+          <b-nav-item href="#">Link</b-nav-item>
+          <b-nav-item href="#" disabled>Disabled</b-nav-item>
         </b-navbar-nav>
+
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
 
@@ -34,17 +21,48 @@
             <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
           </b-nav-form>
 
+          <b-nav-item-dropdown text="Lang" right>
+            <b-dropdown-item href="#">EN</b-dropdown-item>
+            <b-dropdown-item href="#">ES</b-dropdown-item>
+            <b-dropdown-item href="#">RU</b-dropdown-item>
+            <b-dropdown-item href="#">FA</b-dropdown-item>
+          </b-nav-item-dropdown>
+
+          <b-nav-item-dropdown right>
+            <!-- Using button-content slot -->
+            <template slot="button-content">
+              <em>User</em>
+            </template>
+            <b-dropdown-item href="#">Profile</b-dropdown-item>
+            <b-dropdown-item href="#">Signout</b-dropdown-item>
+          </b-nav-item-dropdown>
         </b-navbar-nav>
 
       </b-collapse>
     </b-navbar>
     <div class="container-fluid">
-      <div class="row">
-        <portfolio-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;"
-                        v-for="portfolio of portfoliosDisplayed"
-                        v-bind:key="portfolio.id"
-                        v-bind="portfolio">
-        </portfolio-card>
+      <div>
+        <b-alert :show=createPortfolioBanner dismissible variant="success">
+          <h4 class="alert-heading">Portfolio Added</h4>
+        </b-alert>
+      </div>
+      <div>
+        <b-card-group>
+          <b-card title="Card Title"
+                  img-src="https://lorempixel.com/300/300/"
+                  img-alt="Image"
+                  img-top
+                  tag="article"
+                  style="max-width: 20rem;"
+                  class="mb-2"
+                  @click
+                  v-for="portfolio of portfoliosDisplayed"
+                  v-on:click="goToPortfolio(portfolio.id)">
+            <p class="card-text">
+              Hello, my name is Mark
+            </p>
+          </b-card>
+        </b-card-group>
       </div>
     </div>
   </div>
@@ -79,7 +97,6 @@
     },
     data() {
       return {
-        createPortfolioBanner: false,
         portfolios: [],
         portfoliosDisplayed: [],
         role: '',
@@ -109,9 +126,12 @@
         var info = this;
         axios.get(this.$root.serverURL + "/api/portfolios")
           .then(response => {
+            console.log(response.data);
             info.portfolios = response.data;
-            for (var p of info.portfolios){
-              p.numProjects = p.projects.length;
+            for (let i =0; i < info.portfolios.length; i++){
+              info.portfolios[i].numProjects = info.portfolios[i].projects.length;
+              if (info.portfolios[i].businessOwner != null)
+                info.portfolios[i].businessOwner = info.portfolios[i].businessOwner.name;
             }
             info.portfoliosDisplayed = info.portfolios.slice();
           })
