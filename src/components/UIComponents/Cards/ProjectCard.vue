@@ -26,8 +26,7 @@
             v-bind:actualConfirmedStatusDate="project.actualConfirmedStatusDate"
             v-bind:actualClosingStatusDate="project.actualClosingStatusDate"
             v-bind:actualClosedStatusDate="project.actualClosedStatusDate"
-            v-bind:currentStatus="project.status"
-            >
+            v-bind:currentStatus="project.status">
           </project-status-bar>
       </div>
       <div class="body-data">
