@@ -127,7 +127,7 @@
         return this.role == "ROLE_ADMIN";
       },
       createProject(){
-        this.$router.push({path: '/admin/project', query: { portfolioId: this.portfolioId }});
+        this.$router.push({path: `/admin/addProjects/${this.portfolioId}`});
       },
       performSearch() {
         this.displayProjects = this.filterFcn(this.projects);
