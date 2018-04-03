@@ -25,6 +25,10 @@
         <i class="nc-icon nc-notes"></i>
         <p>Reports</p>
       </sidebar-link>
+      <sidebar-link to="/admin/statistics">
+        <i class="nc-icon nc-ruler-pencil"></i>
+        <p>Statistics</p>
+      </sidebar-link>
     </side-bar>
     <div class="main-panel">
       <top-navbar></top-navbar>

@@ -20,7 +20,7 @@ import RemoveResources from 'src/components/Dashboard/Views/RemoveResources.vue'
 import AddProjectsToPortfolio from 'src/components/Dashboard/Views/AddProjectsToPortfolio.vue'
 import EditProfile from 'src/components/Dashboard/Views/EditProfile.vue'
 import AddResourcesToProject from 'src/components/Dashboard/Views/AddResourcesToProject.vue'
-
+import Statistics from 'src/components/Dashboard/Views/Statistics.vue'
 const routes = [
   {
     path: '/',
@@ -67,6 +67,11 @@ const routes = [
         path: 'portfolio',
         name: 'Portfolio',
         component: Portfolio
+      },
+      {
+        path: 'statistics',
+        name: 'Statistics',
+        component: Statistics
       },
       {
         path: 'user/:resourceId',
