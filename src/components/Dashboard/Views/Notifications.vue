@@ -1,9 +1,9 @@
 <template>
-  <div class="content" style="background-color: #FF69B4">
+  <div class="content">
     <div class="container-fluid">
       <card>
         <div>
-          <b-alert :show=noNotificationsBanner dismissible style="background-color: #FF69B4">
+          <b-alert :show=noNotificationsBanner dismissible>
             <p> There are currently no notifications for you.</p>
           </b-alert>
         </div>

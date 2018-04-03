@@ -1,5 +1,5 @@
 <template>
-  <div class="content" style="background-color: #FF69B4">
+  <div class="content">
     <div class="container-fluid">
       <div>
         <b-alert :show=skillAddedSuccessBanner dismissible variant="success">
@@ -38,7 +38,7 @@
               </template>
               <template slot="table-row" slot-scope="props">
                 <span v-if="props.column.field === 'btn'">
-                  <button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" @click="edit1(props.row.originalIndex)">edit</button>
+                  <button v-if='hasAccess()' v-b-modal.editSkillModal class="btn btn-warning btn-fill btn-sm" @click="edit1(props.row.originalIndex)">edit</button>
                   <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete1(props.row.originalIndex)">delete</button>
                 </span>
                 <span v-else>
@@ -47,16 +47,16 @@
               </template>
             </vue-good-table>
             <div v-if='hasAccess()'>
-              <b-button v-b-modal.addResourceModal1 class="btn btn-info btn-fill" style="background-color: #FF69B4">
+              <b-button v-b-modal.addResourceModal1 class="btn btn-info btn-fill">
                 Add skill
               </b-button>
-              <b-button v-b-modal.manageCategoryModal class="btn btn-info btn-fill" style="background-color: #FF69B4">
+              <b-button v-b-modal.manageCategoryModal class="btn btn-info btn-fill">
                 Manage Category
               </b-button>
               <b-modal
                 id="addResourceModal1"
                 @ok="handleOk1">
-                <div style="background-color: #FF69B4">
+                <div>
                   <b-card bg-variant="light">
                     <b-form-group horizontal
                                   breakpoint="lg"
@@ -111,8 +111,8 @@
               </template>
               <template slot="table-row" slot-scope="props">
                 <span v-if="props.column.field === 'btn'">
-                  <button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" style="background-color: #FF69B4" @click="edit2(props.row.originalIndex)">edit</button>
-                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" style="background-color: #FF69B4" @click="delete2(props.row.originalIndex)">delete</button>
+                  <button v-if='hasAccess()' v-b-modal.editSkillModal2 class="btn btn-warning btn-fill btn-sm" @click="edit2(props.row.originalIndex)">edit</button>
+                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete2(props.row.originalIndex)">delete</button>
                 </span>
                 <span v-else>
                     {{ props.formattedRow[props.column.field] }}
@@ -120,13 +120,13 @@
               </template>
             </vue-good-table>
             <div v-if='hasAccess()'>
-              <b-button v-b-modal.addResourceModal2 class="btn btn-info btn-fill" style="background-color: #FF69B4">
+              <b-button v-b-modal.addResourceModal2 class="btn btn-info btn-fill">
                 Add skill
               </b-button>
               <b-modal
                 id="addResourceModal2"
                 @ok="handleOk2">
-                <div style="background-color: #FF69B4">
+                <div>
                   <b-card bg-variant="light">
                     <b-form-group horizontal
                                   breakpoint="lg"
@@ -152,9 +152,47 @@
 
           <div>
             <b-modal
-              id="editSkillModal"
-              @ok="handleOk3">
-              <div style="background-color: #FF69B4">
+            id="editSkillModal"
+            @ok="handleOk3">
+            <div>
+              <b-card bg-variant="light">
+                <b-form-group horizontal
+                              breakpoint="lg"
+                              label="Edit Skill"
+                              label-size="lg"
+                              label-class="font-weight-bold pt-0"
+                              class="mb-0">
+                  <b-form-group horizontal
+                                label="Name:"
+                                label-class="text-sm-right"
+                                label-for="nestedName">
+                    <b-form-input id="nestedName"
+                                  v-model="editName"
+                                  type="text"
+                                  placeholder="Enter your name"></b-form-input>
+                  </b-form-group>
+
+
+                  <b-form-group horizontal
+                                label="Category:"
+                                type="text"
+                                label-class="text-sm-right"
+                                label-for="nestedEmail">
+                    <b-form-select v-model="editCategories"
+                                   multiple
+                                   :options="addCategoryOptions"
+                                   id='add-ddown'>
+                    </b-form-select>
+                  </b-form-group>
+                </b-form-group>
+              </b-card>
+            </div>
+          </b-modal>
+
+            <b-modal
+              id="editSkillModal2"
+              @ok="handleOk4">
+              <div>
                 <b-card bg-variant="light">
                   <b-form-group horizontal
                                 breakpoint="lg"
@@ -167,22 +205,9 @@
                                   label-class="text-sm-right"
                                   label-for="nestedName">
                       <b-form-input id="nestedName"
-                                    v-model="editName"
+                                    v-model="editName2"
                                     type="text"
                                     placeholder="Enter your name"></b-form-input>
-                    </b-form-group>
-
-
-                    <b-form-group horizontal
-                                     label="Category:"
-                                     type="text"
-                                     label-class="text-sm-right"
-                                     label-for="nestedEmail">
-                      <b-form-select v-model="editCategories"
-                                     multiple
-                                     :options="addCategoryOptions"
-                                     id='add-ddown'>
-                      </b-form-select>
                     </b-form-group>
                   </b-form-group>
                 </b-card>
@@ -243,7 +268,9 @@
         addName2: "",
         addCategoryName: "",
         editName: "",
+        editName2: "",
         editId: "",
+        editId2: "",
         allSelected: false,
         skillDeletedBanner: false,
         skillEditedBanner: false,
@@ -309,7 +336,7 @@
         var info = this;
         axios.get(this.$root.serverURL + "/api/technicalSkills")
           .then(response => {
-            console.log(response.data);
+            //console.log(response.data);
             response.data.forEach(obj => {
               let temp = "";
               obj.categories.forEach(category => temp += category.name + ", ");
@@ -389,6 +416,13 @@
           this.submitEdit()
         }
       },
+      handleOk4() {
+        if (!this.editName2) {
+          alert('Please enter name')
+        } else {
+          this.submitEdit2()
+        }
+      },
       edit1(index) {
         this.editId = this.rowsTechnical[index.toString()].id;
         this.editName = this.rowsTechnical[index.toString()].name;
@@ -405,19 +439,20 @@
           .catch(() => console.log("error editing tech skills"))
       },
       edit2(index) {
-        this.editId = this.rowsTechnical[index.toString()].id;
-        this.editName = this.rowsTechnical[index.toString()].name;
+        this.editId2 = this.rowsNonTechnical[index.toString()].id;
+        this.editName2 = this.rowsNonTechnical[index.toString()].name;
       },
       submitEdit2() {
         let info = this;
-        axios.put(this.$root.serverURL + "/api/nonTechnicalSkills/" + this.editId + "?name=" + this.editName, info.editCategories)
+        axios.put(this.$root.serverURL + "/api/nonTechnicalSkills/" + this.editId2, {
+          name: info.editName2
+        })
           .then(() => {
-            info.editId = '';
-            info.editName = '';
-            info.editCategories = [];
+            info.editId2 = '';
+            info.editName2 = '';
             info.update();
           })
-          .catch(() => console.log("error editing tech skills"))
+          .catch(() => console.log("error editing non tech skills"))
       },
       delete1(index) {
         let info = this;

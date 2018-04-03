@@ -1,10 +1,9 @@
 <template>
-  <div class="content" style="background-color: #FF69B4">
+  <div class="content">
     <b-navbar toggleable="md" type="light">
-
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
-          <button v-if="hasAccess()" v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right"  style="background-color: #FF69B4">
+          <button v-if="hasAccess()" v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right">
             <b style="font-size: large">+</b>
           </button>
           <b-modal
@@ -21,7 +20,6 @@
             </div>
           </b-modal>
         </b-navbar-nav>
-        <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
 
           <b-nav-form>
@@ -35,17 +33,24 @@
     </b-navbar>
     <div class="container-fluid">
       <div>
+      <b-alert :show=updatedPortfolioSuccessBanner dismissible variant="success">
+        <h4 class="alert-heading">Your information has been updated</h4>
+        <p>
+          Please refresh the page to view any changes
+        </p>
+      </b-alert>
         <b-alert :show=createPortfolioBanner dismissible variant="success">
           <h4 class="alert-heading">Portfolio Added</h4>
         </b-alert>
       </div>
       <div class="row">
-        <portfolio-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;"
+        <portfolio-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;border:1px;border-style:solid;border-color:#cccccc;"
                         v-for="portfolio of portfoliosDisplayed"
                         v-bind:key="portfolio.id"
                         v-bind:portfolio="portfolio"
                         v-bind:role="role"
-                        v-on:portfolio-remove="remove">
+                        v-on:portfolio-remove="remove"
+                        v-on:portfolio-alert="alert">
         </portfolio-card>
       </div>
     </div>
@@ -81,6 +86,7 @@
     },
     data() {
       return {
+        updatedPortfolioSuccessBanner: false,
         createPortfolioBanner: false,
         portfolios: [],
         portfoliosDisplayed: [],
@@ -128,6 +134,9 @@
       remove(id) {
         this.portfoliosDisplayed.splice(id, 1);
       },
+      alert (){
+        this.updatedPortfolioSuccessBanner = true;
+          },
       filterPortfolios: _.debounce(function () {
         this.portfoliosDisplayed = [];
         for(var aPortfolio of this.portfolios) {

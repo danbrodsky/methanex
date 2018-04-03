@@ -21,7 +21,6 @@
 
       <div id="remember" class="checkbox">
         <label id="checkbox-label1"><input v-model="data.rememberMe" type="checkbox"/> Remember Me</label>
-        <label id="checkbox-label2"><input v-model="data.fetchUser" type="checkbox"/> Fetch User (test)</label>
       </div>
       <hr/>
       <button type="submit" class="btn btn-primary btn-lg btn-block btn-fill">Login</button>

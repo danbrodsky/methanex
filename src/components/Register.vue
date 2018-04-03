@@ -72,7 +72,7 @@
                 // });
               axios
                 .post(this.$root.serverURL + "/register", newUser)
-                .then(() => console.log("success"))
+                .then(() => info.$router.push("login"))
                 .catch(() => console.log("fail"));
             }
         }

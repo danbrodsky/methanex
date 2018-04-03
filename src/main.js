@@ -12,6 +12,7 @@ import routes from './routes/routes'
 import BootstrapVue from 'bootstrap-vue'
 import * as Cookies from 'js-cookie'
 import VuejsDialog from "vuejs-dialog"
+import Multiselect from 'vue-multiselect'
 
 Vue.use(VueAxios, axios);
 Vue.use(VuejsDialog);
