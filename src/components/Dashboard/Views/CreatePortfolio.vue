@@ -35,7 +35,7 @@
           </div>
         </div>
         <div class="text-center">
-          <button type="submit" class="btn btn-info btn-fill float-right" @click="updateProfile">
+          <button type="submit" class="btn btn-info btn-fill float-right" style="background-color: #FF69B4" @click="updateProfile">
             Save
           </button>
         </div>

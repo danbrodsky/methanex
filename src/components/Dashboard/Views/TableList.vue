@@ -21,8 +21,8 @@
               </template>
               <template slot="table-row" slot-scope="props">
                 <span v-if="props.column.field === 'btn'">
-                  <button v-if='hasAccess()' v-b-modal.editResourceModal class="btn btn-warning btn-fill btn-sm" @click="populateEdit(props.row.originalIndex)">edit</button>
-                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="removeResources(props.row.id)">delete</button>
+                  <button v-if='hasAccess()' v-b-modal.editResourceModal style="background-color: #FF69B4" class="btn btn-warning btn-fill btn-sm" @click="populateEdit(props.row.originalIndex)">edit</button>
+                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" style="background-color: #FF69B4" @click="removeResources(props.row.id)">delete</button>
                 </span>
                 <span v-else>
                   {{ props.formattedRow[props.column.field] }}
@@ -30,14 +30,14 @@
               </template>
             </vue-good-table>
             <div v-if='hasAccess()'>
-              <button v-b-modal.addResourceModal class="btn btn-info btn-fill float-right">
+              <button v-b-modal.addResourceModal class="btn btn-info btn-fill float-right" style="background-color: #FF69B4">
                 Create a resource
               </button>
               <b-modal
                 id="addResourceModal"
                 ref="addResource"
                 @ok="addResource">
-                <div>
+                <div style="background-color: #FF69B4">
                   <b-card bg-variant="light">
                     <b-form-group horizontal
                                   breakpoint="lg"
@@ -93,7 +93,7 @@
                 id="editResourceModal"
                 ref="editResource"
                 @ok="editResource">
-                <div>
+                <div style="background-color: #FF69B4">
                   <b-card bg-variant="light">
                     <b-form-group horizontal
                                   breakpoint="lg"

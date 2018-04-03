@@ -4,7 +4,7 @@
 
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
-          <button v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right" v-on:click="createProject">
+          <button v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right" v-on:click="createProject" style="background-color: #FF69B4">
             <b style="font-size: large">+</b>
           </button>
         </b-navbar-nav>
@@ -13,8 +13,8 @@
         <b-navbar-nav class="ml-auto">
 
           <b-nav-form>
-            <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search"/>
-            <button class="btn btn-dark btn-fill" size="sm" type="submit">Search</button>
+            <b-form-input size="sm"  class="mr-sm-2" type="text" placeholder="Search"/>
+            <button class="btn btn-dark btn-fill" style="background-color: #FF69B4" size="sm" type="submit">Search</button>
           </b-nav-form>
 
         </b-navbar-nav>

@@ -47,16 +47,16 @@
               </template>
             </vue-good-table>
             <div v-if='hasAccess()'>
-              <b-button v-b-modal.addResourceModal1 class="btn btn-info btn-fill">
+              <b-button v-b-modal.addResourceModal1 class="btn btn-info btn-fill" style="background-color: #FF69B4">
                 Add skill
               </b-button>
-              <b-button v-b-modal.manageCategoryModal class="btn btn-info btn-fill">
+              <b-button v-b-modal.manageCategoryModal class="btn btn-info btn-fill" style="background-color: #FF69B4">
                 Manage Category
               </b-button>
               <b-modal
                 id="addResourceModal1"
                 @ok="handleOk1">
-                <div>
+                <div style="background-color: #FF69B4">
                   <b-card bg-variant="light">
                     <b-form-group horizontal
                                   breakpoint="lg"
@@ -111,8 +111,8 @@
               </template>
               <template slot="table-row" slot-scope="props">
                 <span v-if="props.column.field === 'btn'">
-                  <button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" @click="edit2(props.row.originalIndex)">edit</button>
-                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete2(props.row.originalIndex)">delete</button>
+                  <button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" style="background-color: #FF69B4" @click="edit2(props.row.originalIndex)">edit</button>
+                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" style="background-color: #FF69B4" @click="delete2(props.row.originalIndex)">delete</button>
                 </span>
                 <span v-else>
                     {{ props.formattedRow[props.column.field] }}
@@ -120,13 +120,13 @@
               </template>
             </vue-good-table>
             <div v-if='hasAccess()'>
-              <b-button v-b-modal.addResourceModal2 class="btn btn-info btn-fill">
+              <b-button v-b-modal.addResourceModal2 class="btn btn-info btn-fill" style="background-color: #FF69B4">
                 Add skill
               </b-button>
               <b-modal
                 id="addResourceModal2"
                 @ok="handleOk2">
-                <div>
+                <div style="background-color: #FF69B4">
                   <b-card bg-variant="light">
                     <b-form-group horizontal
                                   breakpoint="lg"
@@ -154,7 +154,7 @@
             <b-modal
               id="editSkillModal"
               @ok="handleOk3">
-              <div>
+              <div style="background-color: #FF69B4">
                 <b-card bg-variant="light">
                   <b-form-group horizontal
                                 breakpoint="lg"

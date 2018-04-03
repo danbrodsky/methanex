@@ -4,7 +4,7 @@
 
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
-          <button v-if="hasAccess()" v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right">
+          <button v-if="hasAccess()" v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right"  style="background-color: #FF69B4">
             <b style="font-size: large">+</b>
           </button>
           <b-modal

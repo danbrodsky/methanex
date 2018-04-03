@@ -9,7 +9,7 @@
       </b-alert>
     </div>
     <div>
-      <b-alert :show=notificationSendBanner dismissible variant="warning">
+      <b-alert :show=notificationSendBanner dismissible variant="warning" style="background-color: #FF69B4">
         <h4 class="alert-heading">A notification was just sent to your manager</h4>
         <p>
           Please wait for approval for your skill to be added
@@ -104,7 +104,7 @@
           </div>
         </div>
         <div class="text-center">
-          <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProfile">
+          <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProfile" style="background-color: #FF69B4">
             Update Profile
           </button>
         </div>

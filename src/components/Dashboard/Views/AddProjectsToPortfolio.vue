@@ -29,10 +29,10 @@
               </template>
             </vue-good-table>
             <div class="text-center">
-              <button type="submit" class="btn btn-info btn-fill float-left" @click.prevent="addProjects">
+              <button type="submit" style="background-color: #FF69B4" class="btn btn-info btn-fill float-left" @click.prevent="addProjects">
                 Save
               </button>
-              <button type="submit" class="btn btn-info btn-fill float-left" @click.prevent="cancel">
+              <button type="submit" style="background-color: #FF69B4" class="btn btn-info btn-fill float-left" @click.prevent="cancel">
                 Cancel
               </button>
             </div>
