@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" style="background-color: #FF69B4">
   <div class="row" style="margin: 1%;">
     <gantt-chart v-bind:isPM="isPM" style="width: 80%;margin: auto;"></gantt-chart>
   </div>

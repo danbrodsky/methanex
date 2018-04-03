@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" style="background-color: #FF69B4">
     <div>
       <b-alert :show=updatedResourceSuccessBanner dismissible variant="success">
         <h4 class="alert-heading">Your information has been updated</h4>

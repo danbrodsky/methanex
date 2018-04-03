@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" style="background-color: #FF69B4">
     <card>
       <h4 slot="header" class="card-title">Create Portfolio</h4>
       <form>

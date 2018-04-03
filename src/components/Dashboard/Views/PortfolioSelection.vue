@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" style="background-color: #FF69B4">
     <b-navbar toggleable="md" type="light">
 
       <b-collapse is-nav id="nav_collapse">

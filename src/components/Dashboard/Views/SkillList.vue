@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" style="background-color: #FF69B4">
     <div class="container-fluid">
       <div>
         <b-alert :show=skillAddedSuccessBanner dismissible variant="success">
@@ -231,7 +231,7 @@
       axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
         .then(response => {
           that.role = response.data[0].name;
-      })
+      });
       this.fetchDataTechnical();
       this.fetchDataNonTechnical();
       this.fetchCategories();
@@ -337,6 +337,10 @@
             info.addCategoryOptions = JSON.parse(j);
           })
           .catch(() => console.log("error fetching categories"))
+        // axios.get(this.$root.serverURL + "/api/resourceProjectDateRange?start=2017-08-04&end=2017-08-04")
+        //   .then(response => {
+        //     console.log(response);
+        //   })
 
       },
       hasAccess() {
@@ -391,9 +395,22 @@
       },
       submitEdit() {
         let info = this;
-        console.log(this.editId);
-        console.log(info.editCategories);
         axios.put(this.$root.serverURL + "/api/technicalSkills/" + this.editId + "?name=" + this.editName, info.editCategories)
+          .then(() => {
+            info.editId = '';
+            info.editName = '';
+            info.editCategories = [];
+            info.update();
+          })
+          .catch(() => console.log("error editing tech skills"))
+      },
+      edit2(index) {
+        this.editId = this.rowsTechnical[index.toString()].id;
+        this.editName = this.rowsTechnical[index.toString()].name;
+      },
+      submitEdit2() {
+        let info = this;
+        axios.put(this.$root.serverURL + "/api/nonTechnicalSkills/" + this.editId + "?name=" + this.editName, info.editCategories)
           .then(() => {
             info.editId = '';
             info.editName = '';

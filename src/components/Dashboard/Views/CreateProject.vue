@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" style="background-color: #FF69B4">
     <div class="container-fluid">
       <div class="row">
         <div class="col-6" id="addProjectForm">
