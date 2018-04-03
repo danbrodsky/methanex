@@ -8,7 +8,7 @@
     <div>
       <b-alert :show=showInvalidLoginBanner dismissible variant="danger">
         <h4 class="alert-heading">Invalid Credentials</h4>
-        <p>
+        <p id="pp">
           Please log in with a valid username and/or password.
         </p>
       </b-alert>
@@ -82,12 +82,11 @@
   body {
     background-color: transparent;
   }
-  p {
+  #pp {
     margin-top: 10px;
-    margin-bottom: 0;
   }
 
-  .login-card-container {
+  .login-card-container.login-card {
     max-width: 350px;
     padding: 40px 40px;
   }

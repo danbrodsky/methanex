@@ -20,6 +20,10 @@
     font-family: 'Raleway', sans-serif !important;
   }
 
+  p {
+    margin-bottom: 0;
+  }
+
   .vgt-wrap {
     margin-bottom: 10px;
   }
