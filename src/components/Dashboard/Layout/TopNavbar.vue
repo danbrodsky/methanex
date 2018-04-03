@@ -1,6 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
+      <img src="../../../logo@2x.png" alt="logo" width="250">
       <div class="collapse navbar-collapse justify-content-end">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
@@ -76,5 +77,7 @@
 
 </script>
 <style>
-
+.navbar {
+  border-bottom: none;
+}
 </style>
