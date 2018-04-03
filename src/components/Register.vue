@@ -1,32 +1,26 @@
 <template>
-    <div>
-        <h1>Register</h1>
+  <div class="container">
+    <div class="card card-container">
+        <h2>Register</h2>
         <hr/>
 
-        <form v-on:submit.prevent="register()">
-            <table><tr>
-            <tr>
-                <td>Username:</td>
-                <td><input v-model="data.body.username" /></td>
-            </tr><tr>
-                <td>Password:</td>
-                <td><input v-model="data.body.password" type="password" /></td>
-            </tr><tr>
-                <td></td>
-                <td><label><input v-model="data.autoLogin" type="checkbox" /> Auto Login</label></td>
-            </tr><tr>
-                <td></td>
-                <td><label><input v-model="data.rememberMe" type="checkbox" /> Remember Me</label></td>
-            </tr><tr>
-                <td></td>
-                <td><button type="submit">Register</button></td>
-            </tr></table>
+        <form v-on:submit.prevent="register()" class="form-signin">
+          <input v-model="data.body.username" placeholder="Username" id="inputEmail" type="text" required autofocus/>
+          <input v-model="data.body.password" placeholder="Password" id="inputPassword" type="password" required/>
+
+          <div id="remember" class="checkbox">
+            <label id="checkbox-label1"><input v-model="data.rememberMe" type="checkbox"/> Remember Me</label>
+            <label id="checkbox-label2"><input v-model="data.autoLogin" type="checkbox"/> Auto Login</label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block btn-fill">Register</button>
 
             <hr/>
 
             <div v-show="error" style="color:red; word-wrap:break-word;">{{ error }}</div>
             </form>
     </div>
+  </div>
 </template>
 
 <script>
@@ -84,3 +78,58 @@
         }
     }
 </script>
+<style>
+
+  .card-container.card {
+    max-width: 350px;
+    padding: 40px 40px;
+  }
+
+  .card {
+    background-color: #fafafa;
+    /* just in case there no content*/
+    padding: 20px 25px 30px;
+    margin: 0 auto 25px;
+    margin-top: 50px;
+    /* shadows and rounded borders */
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .form-signin #inputEmail,
+  .form-signin #inputPassword {
+    direction: ltr;
+    height: 44px;
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .form-signin input[type=password],
+  .form-signin input[type=text] {
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+    z-index: 1;
+    position: relative;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+
+  #login_register_btn {
+    float: right;
+    padding: 10px;
+  }
+
+  #checkbox-label1, #checkbox-label2 {
+    padding: 10px;
+    margin-bottom: 0px;
+  }
+
+
+</style>
