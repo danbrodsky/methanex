@@ -37,7 +37,7 @@
                       v-model="project.estimatedRemainingCost">
             </fg-input>
           </div>
-          <div class="col-md-5">
+          <div class="col-md-2">
             <fg-input type="text"
                       label="Percentage Complete"
                       placeholder="% Complete"
@@ -47,18 +47,27 @@
         </div>
 
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-3">
             <fg-input type="text"
                       label="Budget"
                       placeholder="Budget"
                       v-model="project.budget">
             </fg-input>
           </div>
-          <div class="col-md-6">
+          <div v-if="!hasAccess()" class="col-md-6">
             <fg-input label="Project Owner"
                       placeholder="Project Owner"
                       v-model="project.projectOwnerName">
             </fg-input>
+          </div>
+          <div style="position:relative;left:5px;top:32px;" v-else>
+            <multiselect v-model="project.projectOwner"
+                         placeholder="Pick the business owner"
+                         label="name"
+                         track-by="owner"
+                         :options="allResources"
+                         :multiple="false">
+            </multiselect>
           </div>
         </div>
         <div class="text-center">
@@ -115,11 +124,13 @@
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   import axios from 'axios'
   import GanttChart from 'src/components/UIComponents/PortfolioComponents/GanttChart.vue'
+  import Multiselect from 'vue-multiselect'
 
   export default {
     components: {
       Card,
-      GanttChart
+      GanttChart,
+      Multiselect
     },
     data() {
       return {
@@ -129,6 +140,7 @@
         removed: false,
         role: '',
         isPM: false,
+        allResources: [],
         columns: [
           {
             label: '', // checkbox
@@ -185,6 +197,10 @@
         .then(response => {
           that.role = response.data[0].name;
       })
+      axios.get(this.$root.serverURL + "/api/resources")
+        .then(response => {
+          that.allResources = response.data;
+      });
       this.fetchData();
     },
     methods: {
