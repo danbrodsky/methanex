@@ -41,8 +41,8 @@
                   <b-card bg-variant="light">
                     <b-form-group horizontal
                                   breakpoint="lg"
-                                  label="Resource"
-                                  label-size="lg"
+                                  label="Add Resource"
+                                  label-size="md"
                                   label-class="font-weight-bold pt-0"
                                   class="mb-0">
                       <b-form-group horizontal
@@ -97,8 +97,8 @@
                   <b-card bg-variant="light">
                     <b-form-group horizontal
                                   breakpoint="lg"
-                                  label="Resource"
-                                  label-size="lg"
+                                  label="Edit Resource"
+                                  label-size="md"
                                   label-class="font-weight-bold pt-0"
                                   class="mb-0">
                       <b-form-group horizontal

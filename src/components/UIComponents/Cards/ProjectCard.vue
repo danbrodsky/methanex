@@ -1,14 +1,14 @@
 <template>
   <div class="card" style="cursor:pointer;background-color:#f9f7f7" v-on:click="goToProject">
     <div class="card-header">
-      <div name="header" style="align: center; width: 75%"><span style="font-weight:bold">{{ project.name }}</span> <span style="color:#888888">({{ project.id }})</span></div>
+      <div name="header" style="align: center; width: 75%"><span style="font-weight:bold">{{ project.name }}</span> <span style="color:#888888">({{ project.id }})</span>
+      <span style="float:right;" v-if="project.status != null">
+          Status: <i>{{ project.status.name }}</i>
+      </span></div>
       <div name="header" style="font-weight:bold; color:#888888"></div>
     </div>
     <div class="card-body">
       <div class="body-data">
-      <span v-if="project.status != null">
-          Status: <i>{{ project.status.name }}</i>
-      </span>
       </div>
       <div class="body-data" style="width: 100%; padding:0">
           <span style="position:relative;top:-5px;">Target: </span><span style="display:inline;"><project-status-bar style="position:relative;top:-20px;left: 18%;width:70%;"
@@ -30,16 +30,17 @@
       </div>
       <span style="position:relative;top:-40px;">Actual: </span>
       <div class="body-data" style="position:relative;top:-20px;left: 18%;width:70%;">
-          <span style="margin:0;display:inline-block;width:50%"> <p>Budget:</p> <b>$</b>{{ project.budget }}</span>
+          <span style="margin:0;display:inline-block;width:50%;border:2px;"> <p>Budget:</p> <b>$</b>{{ project.budget }}</span>
           <span style="margin:0;display:inline-block;float:right;"> <p>Used:</p> <b>$</b>{{ project.budgetUsed }}</span>
       </div>
-      <div class="body-data">
-          <span style="margin:0;display:inline-block;">Start:&nbsp; <i class="fa fa-calendar"></i> {{ displayStartDate }}</span>
-          <span style="margin:0;display:inline-block;float:right;">End:&nbsp; <i class="fa fa-calendar"></i> {{ displayEndDate }}</span>
+      <div class="body-data" style="margin:auto;text-align:center;">
+          <span style="margin:auto;"><i class="fa fa-calendar"></i> &nbsp; {{ displayStartDate }}&nbsp; 
+          <i class="fa fa-long-arrow-right"></i>&nbsp; {{ displayEndDate }} </span>
       </div>
       <div class="body-data">
       <span v-if="project.manager != null">
-        <span style="margin:0;display:inline-block;width:50%"><i class="fa fa-user"></i> {{ project.manager.name }}</span>
+        <span style="margin:0;top:17px;position:relative;"><i class="fa fa-user"></i> {{ project.manager.name }}</span>
+        </span>
                 <span style="margin:0;display:inline-block;float:right;">
               <b-dropdown v-on:click="getResources" variant="primary" no-caret>
                 <template slot="button-content">

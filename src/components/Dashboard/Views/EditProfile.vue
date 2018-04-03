@@ -39,10 +39,10 @@
             <label class="typo__label">Status:</label>
             <multiselect v-model="values"
                          placeholder="Pick a status"
-                         label="status"
+                         label="name"
                          track-by="status"
                          :options="statuses"
-                         :multiple="true"></multiselect>
+                         :multiple="false"></multiselect>
             <pre class="language-json"></pre>
           </div>
         </div>
@@ -79,7 +79,7 @@
             <label class="typo__label">Group:</label>
             <multiselect v-model="selectedGroups"
                          placeholder="Pick a group"
-                         label="group"
+                         label="name"
                          track-by="group"
                          :options="groups">
             </multiselect>
@@ -89,13 +89,27 @@
             <label class="typo__label">Peer Group:</label>
             <multiselect v-model="selectedPeerGroups"
                          placeholder="Pick a peer group"
-                         label="peerGroup"
+                         label="name"
                          track-by="peerGroup"
-                         :options="peerGroups">
+                         :options="peerGroups"
+                         :multiple="false">
             </multiselect>
             <pre class="language-json"></pre>
           </div>
         </div>
+          <div class="col-md-8">
+            <label class="typo__label">Manager:</label>
+            <multiselect v-model="selectedManager"
+                         placeholder="Pick a manager"
+                         label="name"
+                         track-by="manager"
+                         :options="resources"
+                         :multiple="false">
+            </multiselect>
+            <pre class="language-json"></pre>
+          </div>
+        <div>
+            </div>
         <div class="text-center">
           <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProfile">
             Update Profile
@@ -123,7 +137,7 @@
         brandImage: null,
         options1: [],
         options2: [],
-        values: [],
+        values: null,
         resource: {
           id: null,
           name: '',
@@ -138,10 +152,12 @@
         selectedSkills: [],
         selectedGroups: [],
         selectedPeerGroups: [],
+        selectedManager: [],
         skills: [],
         groups: [],
         peerGroups: [],
-        statuses: []
+        statuses: [],
+        resources: []
       }
     },
     created() {
@@ -156,7 +172,10 @@
           .get(info.$root.serverURL + "/api/resources/" + pathId)
           .then(response => {
             info.resource = response.data;
-            info.values = info.resource.skills;
+            info.selectedGroups = info.resource.group;
+            info.selectedPeerGroups = info.resource.peerGroup;
+            info.values = info.resource.status;
+            info.selectedManager = info.resource.manager;
           })
           .catch(error => {
             info.resource = JSON.parse(info.$root.$data.cookies.get('user')).resource;
@@ -186,6 +205,12 @@
             info.statuses = response.data;
           })
           .catch(error => console.log(error));
+        axios
+          .get(info.$root.serverURL + "/api/resources")
+          .then(response => {
+            info.resources = response.data;
+          })
+          .catch(error => console.log(error));
       },
       updateProfile() {
         var info = this;
@@ -194,9 +219,10 @@
           "name": info.resource.name,
           "email": info.resource.email,
           "location": info.resource.location,
-          "group": info.resource.group,
-          "manager": info.resource.manager,
-          "status": info.resource.status
+          "group": info.selectedGroups,
+          "manager": info.selectedManager,
+          "status": info.values,
+          "peerGroup": info.selectedPeerGroups
         })
           .then(function () {
             info.fetchData();
@@ -204,7 +230,7 @@
             let currentSkills = info.resource.skills;
             info.updatedResourceSuccessBanner = true;
             if (info.resource.manager != null) {
-              info.values.forEach(value => {
+              info.skills.forEach(value => {
                 let res = currentSkills.every(skill => skill.id != value.id);
                 if (res) {
                   let notification = {};
@@ -222,10 +248,10 @@
               }
             }
             else {
-              alert("bro you have no manager");
+              alert("error");
             }
           })
-          .catch(() => console.log("error while updating resource"));
+          .catch((error) => console.log(error));
       },
     }
   }

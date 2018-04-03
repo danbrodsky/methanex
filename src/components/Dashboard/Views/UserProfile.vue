@@ -72,6 +72,7 @@
             </fg-input>
           </div>
         </div>
+        <div class="row">
         <div class="col-md-4">
           <fg-input type="group"
                     :disabled="true"
@@ -87,6 +88,7 @@
                     placeholder="Peer Group"
                     v-model="resource.peerGroup">
           </fg-input>
+        </div>
         </div>
         <div class="row">
           <div class="col-md-4">

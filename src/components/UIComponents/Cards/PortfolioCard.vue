@@ -10,8 +10,7 @@
               <b-modal
                 id="editPortfolioModal"
                 ref="editPortfolio"
-                @ok="editPortfolio"
-                @cancel="refresh">
+                @ok="editPortfolio">
                 <div id="modalContainer">
                   <b-card bg-variant="light" id="portfolioForm">
                     <b-form-group horizontal
@@ -30,7 +29,7 @@
                                       placeholder="Enter classification"></b-form-input>
                       </b-form-group>
                       <b-form-group horizontal
-                                    label="Resource Breakdown:"
+                                    label="Summary:"
                                     label-class="text-sm-right"
                                     label-for="nestedResourceBreakdown">
                         <b-form-input id="formPlaceholder"
@@ -38,16 +37,14 @@
                                       type="text"
                                       placeholder="Enter resource breakdown"></b-form-input>
                       </b-form-group>
-                      <b-form-group horizontal
-                                    label="Business Owner:"
-                                    label-class="text-sm-right"
-                                    label-for="nestedLocation">
-                        <b-form-input id="formPlaceholder"
-                                      v-model="portfolio.businessOwner"
-                                      type="text"
-                                      placeholder="Enter Business Owner"></b-form-input>
                       </b-form-group>
-                    </b-form-group>
+                        <multiselect v-model="selectedOwner"
+                                     placeholder="Pick the business owner"
+                                     label="name"
+                                     track-by="manager"
+                                     :options="resources"
+                                     :multiple="false">
+                        </multiselect>
                   </b-card>
                 </div>
               </b-modal>
@@ -58,10 +55,8 @@
     </div>
     <div class="card-body">
           <div class="body-data">
-          <span><i class="fa fa-user"></i> {{ portfolio.businessOwner }}</span>
-      </div>
-      <div class="body-data">
-          <span><i class="fa fa-money"></i> ${{ portfolio.totalBudget }}</span>
+          <span v-if="portfolio.businessOwner.name != null"><i class="fa fa-user"></i> {{ portfolio.businessOwner.name }}</span>
+          <span v-else><i class="fa fa-user"></i> N/A </span>
       </div>
       <div class="body-data">
           <span><i class="fa fa-th"></i> {{ portfolio.numProjects }}</span>
@@ -73,11 +68,13 @@
   import axios from 'axios'
   import LTable from 'src/components/UIComponents/Table.vue'
   import Card from 'src/components/UIComponents/Cards/Card.vue'
+  import Multiselect from 'vue-multiselect'
 
   export default {
     components: {
       LTable,
-      Card
+      Card,
+      Multiselect
     },
     name: 'portfolio-card',
     props: {
@@ -90,17 +87,24 @@
           default: ''
         }
     },
+    data () {
+        return {
+          selectedOwner: [],
+          resources: []
+        }
+    },
     created() {
+      let that = this;
       if (this.portfolio.businessOwner != null) {
         this.portfolio.businessOwner = this.portfolio.businessOwner;
       }
       else {
         this.portfolio.businessOwner = 'N/A';
       }
-    },
-    data () {
-        return {
-        }
+      axios.get(this.$root.serverURL + "/api/resources")
+        .then(response => {
+          that.resources = response.data;
+      });
     },
     methods: {
       goToPortfolio () {
@@ -111,17 +115,14 @@
         axios.put(this.$root.serverURL + `/api/portfolios/${this.portfolio.id}`, {
           id: info.portfolio.id,
           classification: info.portfolio.classification,
-          // businessOwner: info.portfolio.businessOwner,
+          businessOwner: info.selectedOwner,
           resourceBreakdown: info.portfolio.resourceBreakdown
         })
-          .then(() => this.$router.push({path: `/admin/portfolio-selection`}))
+          .then(() => this.$emit('portfolio-alert'))
           .catch(() => console.log("error while editing portfolio"))
       },
       hasAccess () {
         return this.role == "ROLE_ADMIN";
-      },
-      refresh () {
-        this.$router.push({path: `/admin/portfolio-selection`});
       },
       deletePortfolio () {
         let info = this;
