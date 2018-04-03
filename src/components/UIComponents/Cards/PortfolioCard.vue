@@ -125,12 +125,25 @@
       },
       deletePortfolio () {
         let info = this;
-        axios
-          .delete(info.$root.serverURL + `/api/portfolios/${this.portfolio.id}`)
-          .then(function (res) {
+        this.$dialog.confirm("Are you sure you want to delete this skill?", {
+          loader: true
+        })
+          .then((dialog) => {
+            console.log(info.$root.serverURL + `/api/portfolios/${info.portfolio.id}`);
+            axios
+              .delete(info.$root.serverURL + `/api/portfolios/${info.portfolio.id}`)
+              .then(function (res) {
+                dialog.close();
+              })
+              .catch(error => {
+                console.log(error);
+                dialog.close();
+              });
+            info.$emit('portfolio-remove', info.id);
           })
-          .catch(error => console.log(error));
-        this.$emit('portfolio-remove', this.id);
+          .catch(() => {
+            console.log('Delete aborted');
+          });
       }
     }
   }

@@ -10,9 +10,6 @@ import VueAxios from 'vue-axios'
 import LightBootstrap from './light-bootstrap-main'
 import routes from './routes/routes'
 import BootstrapVue from 'bootstrap-vue'
-import http from 'http'
-import { Store } from 'vuex'
-import createPersistedState from 'vuex-persistedstate'
 import * as Cookies from 'js-cookie'
 import VuejsDialog from "vuejs-dialog"
 
@@ -23,8 +20,8 @@ Vue.use(LightBootstrap);
 Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios);
 Vue.use(require('@websanova/vue-upload'));
-Vue.axios.defaults.baseURL = 'https://peaceful-hamlet-75445.herokuapp.com';
-// Vue.axios.defaults.baseURL = 'http://localhost:8080'
+// Vue.axios.defaults.baseURL = 'https://peaceful-hamlet-75445.herokuapp.com';
+Vue.axios.defaults.baseURL = 'http://localhost:8080'
 // configure router
 const router = new VueRouter({
   routes,
@@ -54,7 +51,7 @@ new Vue({
   router,
   data: {
     cookies: Cookies,
-    serverURL: 'https://peaceful-hamlet-75445.herokuapp.com'
-    // serverURL: 'http://localhost:8080'
+    // serverURL: 'https://peaceful-hamlet-75445.herokuapp.com'
+    serverURL: 'http://localhost:8080'
   }
 })

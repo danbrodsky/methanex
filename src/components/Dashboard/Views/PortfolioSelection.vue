@@ -107,9 +107,6 @@
             .catch(error => console.log(error));
         }
       },
-      editPortfolio() {
-
-      },
       fetchData() {
         var info = this;
         axios.get(this.$root.serverURL + "/api/portfolios")
