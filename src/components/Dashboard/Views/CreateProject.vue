@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" style="background-color: #FF69B4">
     <div class="container-fluid">
       <div class="row">
         <div class="col-6" id="addProjectForm">
@@ -32,10 +32,10 @@
         </div>
         <div class="col-2">
           <div class="form-group" style="width: 100px">
-            <button type="button" v-if="isNewProject" v-on:click="addNewProject" style="display:block" class="btn btn-block">Add New Project</button>
-            <button type="button" v-if="!isNewProject && isProjectManager && !editMode" v-on:click="enableEdit" style="display:block" class="btn btn-success btn-block">Edit</button>
-            <button type="button" v-else-if="!isNewProject && isProjectManager" style="display:block;" class="btn btn-success btn-block" v-on:click="updateProject">Update</button>
-            <button type="button" class="mt-2 btn btn-danger btn-block" v-if="!isNewProject && isProjectManager" >Delete</button>
+            <button type="button" v-if="isNewProject" v-on:click="addNewProject" style="display:block;background-color: #FF69B4" class="btn btn-block">Add New Project</button>
+            <button type="button" v-if="!isNewProject && isProjectManager && !editMode" v-on:click="enableEdit" style="display:block;background-color: #FF69B4" class="btn btn-success btn-block">Edit</button>
+            <button type="button" v-else-if="!isNewProject && isProjectManager" style="display:block;background-color: #FF69B4" class="btn btn-success btn-block" v-on:click="updateProject">Update</button>
+            <button type="button" style="background-color: #FF69B4" class="mt-2 btn btn-danger btn-block" v-if="!isNewProject && isProjectManager" >Delete</button>
           </div>
         </div>
         <div class ="col-4" style="height:50%">

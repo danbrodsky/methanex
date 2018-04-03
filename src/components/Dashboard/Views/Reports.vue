@@ -1,8 +1,5 @@
 <template>
-  <div class="content" style="background-color: #816C5B">
-    <div class="cd-accordion-menu">
-      <item :model="treeData"></item>
-    </div>
+  <div class="content" style="background-color: #FF69B4">
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
@@ -114,7 +111,6 @@
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   import Multiselect from 'vue-multiselect'
   import axios from 'axios'
-  import Item from 'src/components/Dashboard/Views/Tree.vue'
   import VueJSONExcel from 'vue-json-excel'
 
   const tableColumns = ['Name', 'ProjectStatus', 'Manager', 'ProjectOwner', 'Status', 'ProjectResources', 'Budget', 'Budget Used'];
@@ -131,8 +127,7 @@
       Card,
       Multiselect,
       jsPdf,
-      VueJSONExcel,
-      Item
+      VueJSONExcel
     },
 
     name: 'Checkbox-table',
@@ -171,7 +166,7 @@
           {name: "Manager"},
           {name: "Project Owner"},
           {name: "RAG Status"},
-          {name: "Number of resources"},
+          {name: "Number of Resources"},
           {name: "Budget"},
           {name: "Budget used"},
           {name: "Start Date"},
@@ -344,7 +339,7 @@
 
       initProjectColumnMap() {
         for (var i = 0; i < this.columnsProject.length; i++) {
-          this.projectColumnsMap.set(this.columnsProject[i].label, this.columnsProject[i]);
+          this.projectColumnsMap.set(this.columnsProject[i].label.toLowerCase(), this.columnsProject[i]);
         }
       },
 
@@ -353,7 +348,7 @@
         if (this.selectedProjectColumns.length > 0) {
           this.columnsProject = [];
           for (var i = 0; i < columnsToDisplay.length; i++) {
-            this.columnsProject.push(this.projectColumnsMap.get(columnsToDisplay[i].name));
+            this.columnsProject.push(this.projectColumnsMap.get(columnsToDisplay[i].name.toLowerCase()));
           }
         }
       },

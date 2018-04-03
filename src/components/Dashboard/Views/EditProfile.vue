@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" style="background-color: #FF69B4">
     <div>
       <b-alert :show=updatedResourceSuccessBanner dismissible variant="success">
         <h4 class="alert-heading">Your information has been updated</h4>
@@ -111,7 +111,7 @@
         <div>
             </div>
         <div class="text-center">
-          <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProfile">
+          <button type="submit" class="btn btn-info btn-fill float-right" style="background-color: #FF69B4" @click.prevent="updateProfile">
             Update Profile
           </button>
         </div>

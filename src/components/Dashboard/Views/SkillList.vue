@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" style="background-color: #FF69B4">
     <div class="container-fluid">
       <div>
         <b-alert :show=skillAddedSuccessBanner dismissible variant="success">
@@ -47,16 +47,16 @@
               </template>
             </vue-good-table>
             <div v-if='hasAccess()'>
-              <b-button v-b-modal.addResourceModal1 class="btn btn-info btn-fill">
+              <b-button v-b-modal.addResourceModal1 class="btn btn-info btn-fill" style="background-color: #FF69B4">
                 Add skill
               </b-button>
-              <b-button v-b-modal.manageCategoryModal class="btn btn-info btn-fill">
+              <b-button v-b-modal.manageCategoryModal class="btn btn-info btn-fill" style="background-color: #FF69B4">
                 Manage Category
               </b-button>
               <b-modal
                 id="addResourceModal1"
                 @ok="handleOk1">
-                <div>
+                <div style="background-color: #FF69B4">
                   <b-card bg-variant="light">
                     <b-form-group horizontal
                                   breakpoint="lg"
@@ -111,8 +111,8 @@
               </template>
               <template slot="table-row" slot-scope="props">
                 <span v-if="props.column.field === 'btn'">
-                  <button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" @click="edit2(props.row.originalIndex)">edit</button>
-                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete2(props.row.originalIndex)">delete</button>
+                  <button v-if='hasAccess()' class="btn btn-warning btn-fill btn-sm" style="background-color: #FF69B4" @click="edit2(props.row.originalIndex)">edit</button>
+                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" style="background-color: #FF69B4" @click="delete2(props.row.originalIndex)">delete</button>
                 </span>
                 <span v-else>
                     {{ props.formattedRow[props.column.field] }}
@@ -120,13 +120,13 @@
               </template>
             </vue-good-table>
             <div v-if='hasAccess()'>
-              <b-button v-b-modal.addResourceModal2 class="btn btn-info btn-fill">
+              <b-button v-b-modal.addResourceModal2 class="btn btn-info btn-fill" style="background-color: #FF69B4">
                 Add skill
               </b-button>
               <b-modal
                 id="addResourceModal2"
                 @ok="handleOk2">
-                <div>
+                <div style="background-color: #FF69B4">
                   <b-card bg-variant="light">
                     <b-form-group horizontal
                                   breakpoint="lg"
@@ -154,7 +154,7 @@
             <b-modal
               id="editSkillModal"
               @ok="handleOk3">
-              <div>
+              <div style="background-color: #FF69B4">
                 <b-card bg-variant="light">
                   <b-form-group horizontal
                                 breakpoint="lg"
@@ -231,7 +231,7 @@
       axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
         .then(response => {
           that.role = response.data[0].name;
-      })
+      });
       this.fetchDataTechnical();
       this.fetchDataNonTechnical();
       this.fetchCategories();
@@ -337,6 +337,10 @@
             info.addCategoryOptions = JSON.parse(j);
           })
           .catch(() => console.log("error fetching categories"))
+        // axios.get(this.$root.serverURL + "/api/resourceProjectDateRange?start=2017-08-04&end=2017-08-04")
+        //   .then(response => {
+        //     console.log(response);
+        //   })
 
       },
       hasAccess() {
@@ -391,9 +395,22 @@
       },
       submitEdit() {
         let info = this;
-        console.log(this.editId);
-        console.log(info.editCategories);
         axios.put(this.$root.serverURL + "/api/technicalSkills/" + this.editId + "?name=" + this.editName, info.editCategories)
+          .then(() => {
+            info.editId = '';
+            info.editName = '';
+            info.editCategories = [];
+            info.update();
+          })
+          .catch(() => console.log("error editing tech skills"))
+      },
+      edit2(index) {
+        this.editId = this.rowsTechnical[index.toString()].id;
+        this.editName = this.rowsTechnical[index.toString()].name;
+      },
+      submitEdit2() {
+        let info = this;
+        axios.put(this.$root.serverURL + "/api/nonTechnicalSkills/" + this.editId + "?name=" + this.editName, info.editCategories)
           .then(() => {
             info.editId = '';
             info.editName = '';
