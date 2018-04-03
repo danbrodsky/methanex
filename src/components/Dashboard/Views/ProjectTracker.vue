@@ -1,5 +1,5 @@
 <template>
-  <div class="content" style="background-color: #FF69B4">
+  <div class="content">
   <div class="row" style="margin: 1%;">
     <gantt-chart v-bind:isPM="isPM" style="width: 80%;margin: auto;"></gantt-chart>
   </div>
@@ -72,7 +72,7 @@
         </div>
         <div class="text-center">
           <div class="btn-toolbar float-right" v-if="hasAccess()">
-            <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProject"  style="background-color: #FF69B4">
+            <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProject">
               Update Project
             </button>
           </div>
@@ -108,11 +108,11 @@
         </template>
       </vue-good-table>
       <div v-if="hasAccess()">
-      <button type="submit" class="btn btn-info btn-fill float-right" style="margin-right: 5px; background-color: #FF69B4"
+      <button type="submit" class="btn btn-info btn-fill float-right"
               @click.prevent="addResources">
         Add Resource
       </button>
-        <button type="submit" class="btn btn-info btn-fill float-right" style="margin-right: 5px; background-color: #FF69B4"
+        <button type="submit" class="btn btn-info btn-fill float-right"
               @click.prevent="removeResources">
         Remove Resource
       </button>

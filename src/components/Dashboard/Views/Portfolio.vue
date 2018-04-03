@@ -1,10 +1,10 @@
 <template>
-  <div class="content" style="background-color: #FF69B4">
+  <div class="content" >
     <b-navbar toggleable="md" type="light">
 
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
-          <button v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right" v-on:click="createProject" style="background-color: #FF69B4">
+          <button v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right" v-on:click="createProject" >
             <b style="font-size: large">+</b>
           </button>
         </b-navbar-nav>
@@ -14,7 +14,7 @@
 
           <b-nav-form>
             <b-form-input size="sm"  class="mr-sm-2" type="text" placeholder="Search"/>
-            <button class="btn btn-dark btn-fill" style="background-color: #FF69B4" size="sm" type="submit">Search</button>
+            <button class="btn btn-dark btn-fill"  size="sm" type="submit">Search</button>
           </b-nav-form>
 
         </b-navbar-nav>

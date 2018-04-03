@@ -1,5 +1,5 @@
 <template>
-  <div class="content" style="background-color: #FF69B4">
+  <div class="content" >
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
@@ -21,8 +21,8 @@
               </template>
               <template slot="table-row" slot-scope="props">
                 <span v-if="props.column.field === 'btn'">
-                  <button v-if='hasAccess()' v-b-modal.editResourceModal style="background-color: #FF69B4" class="btn btn-warning btn-fill btn-sm" @click="populateEdit(props.row.originalIndex)">edit</button>
-                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" style="background-color: #FF69B4" @click="removeResources(props.row.id)">delete</button>
+                  <button v-if='hasAccess()' v-b-modal.editResourceModal  class="btn btn-warning btn-fill btn-sm" @click="populateEdit(props.row.originalIndex)">edit</button>
+                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm"  @click="removeResources(props.row.id)">delete</button>
                 </span>
                 <span v-else>
                   {{ props.formattedRow[props.column.field] }}
@@ -30,14 +30,14 @@
               </template>
             </vue-good-table>
             <div v-if='hasAccess()'>
-              <button v-b-modal.addResourceModal class="btn btn-info btn-fill float-right" style="background-color: #FF69B4">
+              <button v-b-modal.addResourceModal class="btn btn-info btn-fill float-right" >
                 Create a resource
               </button>
               <b-modal
                 id="addResourceModal"
                 ref="addResource"
                 @ok="addResource">
-                <div style="background-color: #FF69B4">
+                <div >
                   <b-card bg-variant="light">
                     <b-form-group horizontal
                                   breakpoint="lg"
@@ -111,7 +111,7 @@
                 id="editResourceModal"
                 ref="editResource"
                 @ok="editResource">
-                <div style="background-color: #FF69B4">
+                <div >
                   <b-card bg-variant="light">
                     <b-form-group horizontal
                                   breakpoint="lg"

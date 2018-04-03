@@ -1,5 +1,5 @@
 <template>
-  <div class="content" style="background-color: #FF69B4">
+  <div class="content">
     <div>
       <b-alert :show=updatedResourceSuccessBanner dismissible variant="success">
         <h4 class="alert-heading">Your information has been updated</h4>
@@ -9,7 +9,7 @@
       </b-alert>
     </div>
     <div>
-      <b-alert :show=notificationSendBanner dismissible variant="warning" style="background-color: #FF69B4">
+      <b-alert :show=notificationSendBanner dismissible variant="warning">
         <h4 class="alert-heading">A notification was just sent to your manager</h4>
         <p>
           Please wait for approval for your skill to be added
@@ -106,7 +106,7 @@
           </div>
         </div>
         <div class="text-center">
-          <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProfile" style="background-color: #FF69B4">
+          <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProfile">
             Update Profile
           </button>
         </div>
