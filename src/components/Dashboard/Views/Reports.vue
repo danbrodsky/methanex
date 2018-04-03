@@ -1,8 +1,8 @@
 <template>
-  <div class="content">
-    <ul class="cd-accordion-menu">
+  <div class="content" style="background-color: #816C5B">
+    <div class="cd-accordion-menu">
       <item :model="treeData"></item>
-    </ul>
+    </div>
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
@@ -22,13 +22,13 @@
               :rows="rowsPortfolio"
               :paginate="true"
               :search-options="{ enabled: true, trigger: 'enter' }"
-              :pagination-options="{enabled: true, perPage: 5}"
+              :pagination-options="{enabled: true, perPage: 10}"
               styleClass="vgt-table striped bordered">
               <template slot="table-column" slot-scope="props">
                 {{props.column.label}}
               </template>
               <template slot="table-row" slot-scope="props">
-                  {{ props.formattedRow[props.column.field] }}
+                {{ props.formattedRow[props.column.field] }}
               </template>
             </vue-good-table>
           </card>
@@ -49,8 +49,12 @@
                     </div>
                     <div class="col-2">
                       <div class="btn-group">
-                      <button type="submit" id="projectColumnFilterSubmit" class="btn btn-info btn-fill float-left" @click="selectProjectColumns">Apply</button>
-                      <button type="submit" id="projectColumnSelectAll" class="btn btn-info btn-fill float-left" style="margin-right: 5px;" @click="selectAllProjectColumns">Show All</button>
+                        <button type="submit" id="projectColumnFilterSubmit" class="btn btn-info btn-fill float-left"
+                                @click="selectProjectColumns">Apply
+                        </button>
+                        <button type="submit" id="projectColumnSelectAll" class="btn btn-info btn-fill float-left"
+                                style="margin-right: 5px;" @click="selectAllProjectColumns">Show All
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -65,13 +69,13 @@
               :rows="rowsProject"
               :paginate="true"
               :search-options="{ enabled: true, trigger: 'enter' }"
-              :pagination-options="{enabled: true, perPage: 5}"
+              :pagination-options="{enabled: true, perPage: 10}"
               styleClass="vgt-table striped bordered">
               <template slot="table-column" slot-scope="props">
                 {{props.column.label}}
               </template>
               <template slot="table-row" slot-scope="props">
-                  {{ props.formattedRow[props.column.field] }}
+                {{ props.formattedRow[props.column.field] }}
               </template>
             </vue-good-table>
           </card>
@@ -91,13 +95,13 @@
               :rows="rowsResource"
               :paginate="true"
               :search-options="{ enabled: true, trigger: 'enter' }"
-              :pagination-options="{enabled: true, perPage: 5}"
+              :pagination-options="{enabled: true, perPage: 10}"
               styleClass="vgt-table striped bordered">
               <template slot="table-column" slot-scope="props">
                 {{props.column.label}}
               </template>
               <template slot="table-row" slot-scope="props">
-                  {{ props.formattedRow[props.column.field] }}
+                {{ props.formattedRow[props.column.field] }}
               </template>
             </vue-good-table>
           </card>
@@ -111,6 +115,7 @@
   import Multiselect from 'vue-multiselect'
   import axios from 'axios'
   import Item from 'src/components/Dashboard/Views/Tree.vue'
+  import VueJSONExcel from 'vue-json-excel'
 
   const tableColumns = ['Name', 'ProjectStatus', 'Manager', 'ProjectOwner', 'Status', 'ProjectResources', 'Budget', 'Budget Used'];
   // 'Start Date', 'End Date'
@@ -126,42 +131,37 @@
       Card,
       Multiselect,
       jsPdf,
+      VueJSONExcel,
       Item
     },
 
     name: 'Checkbox-table',
-    created () {
+    created() {
       this.fetchData();
     },
     status: 'Checkbox-table',
-    created () {
+    created() {
       this.fetchData();
     },
     rag_status: 'Checkbox-table',
-    created () {
+    created() {
       this.fetchData();
     },
     businessOwner: 'Checkbox-table',
-    created () {
+    created() {
       this.fetchData();
     },
 
-    mounted: function(){
+    mounted: function () {
       this.initProjectColumnMap();
     },
 
 
-    data () {
+    data() {
       return {
         treeData: {
-          name: "Group",
-          children: [
-            {
-              name: "Sub Group",
-              children: [{ name: "Item" }, { name: "Item" }]
-            },
-            { name: "Item" }
-          ]
+          name: "Options:",
+          children: [{name: "hello"}]
         },
         selectedProjectColumns: [],
         projectColumnsMap: new Map(),
@@ -308,7 +308,7 @@
         axios.get(this.$root.serverURL + "/api/portfolios")
           .then(response => {
             info.rowsPortfolio = response.data;
-            for (let i = 0; i < info.rowsPortfolio.length; i++){
+            for (let i = 0; i < info.rowsPortfolio.length; i++) {
               if (info.rowsPortfolio[i].businessOwner != null)
                 info.rowsPortfolio[i].businessOwner = info.rowsPortfolio[i].businessOwner.name;
               if (info.rowsPortfolio[i].classification != null)
@@ -331,7 +331,7 @@
           .then(response => {
             console.log(response.data);
             info.rowsResource = response.data;
-            for (let i = 0; i < info.rowsResource.length; i++){
+            for (let i = 0; i < info.rowsResource.length; i++) {
               if (info.rowsResource[i].manager != null)
                 info.rowsResource[i].manager = info.rowsResource[i].manager.name;
               if (info.rowsResource[i].group != null)
@@ -342,17 +342,17 @@
           })
       },
 
-      initProjectColumnMap(){
-        for(var i = 0; i<this.columnsProject.length; i++){
+      initProjectColumnMap() {
+        for (var i = 0; i < this.columnsProject.length; i++) {
           this.projectColumnsMap.set(this.columnsProject[i].label, this.columnsProject[i]);
         }
       },
 
-      selectProjectColumns(){
+      selectProjectColumns() {
         var columnsToDisplay = this.selectedProjectColumns;
-        if(this.selectedProjectColumns.length > 0){
+        if (this.selectedProjectColumns.length > 0) {
           this.columnsProject = [];
-          for (var i=0; i<columnsToDisplay.length; i++){
+          for (var i = 0; i < columnsToDisplay.length; i++) {
             this.columnsProject.push(this.projectColumnsMap.get(columnsToDisplay[i].name));
           }
         }
@@ -361,10 +361,10 @@
       selectAllProjectColumns() {
         var iterator = this.projectColumnsMap.entries();
         var entry = iterator.next();
-        if(!entry.done){
+        if (!entry.done) {
           this.columnsProject = [];
         }
-        while(!entry.done){
+        while (!entry.done) {
           this.columnsProject.push(entry.value[1]);
           entry = iterator.next();
         }

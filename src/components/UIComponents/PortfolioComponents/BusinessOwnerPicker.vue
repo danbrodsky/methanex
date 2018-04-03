@@ -17,7 +17,7 @@
                 :paginate="true"
                 :rows="resourceRows"
                 :search-options="{ enabled: true, trigger: 'enter' }"
-                :pagination-options="{enabled: true, perPage: 5}"
+                :pagination-options="{enabled: true, perPage: 10}"
                  styleClass="vgt-table bordered"
                 :onClick="sendBusinessOwner">
               </vue-good-table>

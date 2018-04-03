@@ -63,12 +63,12 @@
   }
 
   body {
-    color: #fff;
-    background: #949c4e;
+    color: #000000;
+    background: #000000;
     background: linear-gradient(
       115deg,
-      rgba(86, 216, 228, 1) 10%,
-      rgba(159, 1, 234, 1) 90%
+      rgba(1, 1, 1, 1) 100%,
+      rgba(1, 1, 1, 1) 90%
     );
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
@@ -96,7 +96,7 @@
   }
 
   a {
-    color: #a0f6aa;
+    color: #16181b;
     text-decoration: none;
   }
 
@@ -118,6 +118,7 @@
 
   .cd-accordion-menu li {
     user-select: none;
+    background: rgb(169, 161, 140);
   }
 
   .cd-accordion-menu li span {
@@ -156,7 +157,7 @@
 
   .cd-accordion-menu label span {
     float: right;
-    color: #828282;
+    color: #1b1e21;
   }
 
   .cd-accordion-menu li.file > label::before {

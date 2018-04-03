@@ -152,16 +152,28 @@
           }
         });
         if (projects.length > 0) {
-          axios.post(this.$root.serverURL + "/api/portfolios/" + portfolioId + "/" + "projects", projects)
-            .then(() => {
-              info.$router.push({path: `/admin/portfolio/${portfolioId}`});
+          this.$dialog.confirm("Are you sure you want to save these projects?", {
+            loader: true
+          })
+            .then((dialog) => {
+              axios.post(info.$root.serverURL + "/api/portfolios/" + portfolioId + "/" + "projects", projects)
+                .then(() => {
+                  dialog.close();
+                  info.$router.push({path: `/admin/portfolio/${portfolioId}`});
+                })
+                .catch(() => {
+                  console.log("error while adding projects");
+                  dialog.close();
+                })
             })
-            .catch(() => console.log("error while adding resource"))
+            .catch(() => {
+              console.log('Delete aborted');
+            });
         }
       },
       cancel() {
         let portfolioId = this.$route.params.portfolioId;
-        this.$router.push({path: `/admin/portfolio/${portfolioId}`});
+        info.$router.push({path: `/admin/portfolio/${portfolioId}`});
       }
     }
   }
