@@ -2,59 +2,100 @@
   <div class="card" v-on:click="goToPortfolio">
     <div class="card-header">
       <span span class="header">
-<span style="font-weight:bold;float:left;">{{ classification }}</span>
-<div class="dropdown"  style="float: right;">
-  <button class="dropbtn">&#8942;</button>
+<span style="font-weight:bold;float:left;">{{ portfolio.classification }}</span>
+<div v-on:click.stop class="dropdown" style="float: right;">
+  <button v-if='hasAccess()' class="dropbtn">&#8942;</button>
   <div class="dropdown-content">
-    <a href="#">Edit</a>
-    <a href="#">Delete</a>
+    <a v-on:click.stop v-b-modal.editPortfolioModal>Edit</a>
+              <b-modal
+                id="editPortfolioModal"
+                ref="editPortfolio"
+                @ok="editPortfolio"
+                @cancel="refresh">
+                <div id="modalContainer">
+                  <b-card bg-variant="light" id="portfolioForm">
+                    <b-form-group horizontal
+                                  breakpoint="lg"
+                                  label="Edit Portfolio"
+                                  label-size="lg"
+                                  label-class="font-weight-bold pt-0"
+                                  class="mb-0">
+                      <b-form-group horizontal
+                                    label="Class:"
+                                    label-class="text-sm-right"
+                                    label-for="nestedName">
+                        <b-form-input id="formPlaceholder"
+                                      v-model="portfolio.classification"
+                                      type="text"
+                                      placeholder="Enter classification"></b-form-input>
+                      </b-form-group>
+                      <b-form-group horizontal
+                                    label="Resource Breakdown:"
+                                    label-class="text-sm-right"
+                                    label-for="nestedResourceBreakdown">
+                        <b-form-input id="formPlaceholder"
+                                      v-model="portfolio.resourceBreakdown"
+                                      type="text"
+                                      placeholder="Enter resource breakdown"></b-form-input>
+                      </b-form-group>
+                      <b-form-group horizontal
+                                    label="Business Owner:"
+                                    label-class="text-sm-right"
+                                    label-for="nestedLocation">
+                        <b-form-input id="formPlaceholder"
+                                      v-model="portfolio.businessOwner"
+                                      type="text"
+                                      placeholder="Enter Business Owner"></b-form-input>
+                      </b-form-group>
+                    </b-form-group>
+                  </b-card>
+                </div>
+              </b-modal>
+    <a v-on:click.stop="deletePortfolio">Delete</a>
   </div>
 </div>
       </span>
     </div>
     <div class="card-body">
           <div class="body-data">
-          <span><i class="fa fa-user"></i> {{ businessOwner }}</span>
+          <span><i class="fa fa-user"></i> {{ portfolio.businessOwner }}</span>
       </div>
       <div class="body-data">
-          <span><i class="fa fa-money"></i> ${{ totalBudget }}</span>
+          <span><i class="fa fa-money"></i> ${{ portfolio.totalBudget }}</span>
       </div>
       <div class="body-data">
-          <span><i class="fa fa-th"></i> {{ numProjects }}</span>
+          <span><i class="fa fa-th"></i> {{ portfolio.numProjects }}</span>
       </div>
     </div>
   </div>
 </template>
 <script>
+  import axios from 'axios'
+  import LTable from 'src/components/UIComponents/Table.vue'
+  import Card from 'src/components/UIComponents/Cards/Card.vue'
+
   export default {
+    components: {
+      LTable,
+      Card
+    },
     name: 'portfolio-card',
     props: {
-        id: {
-            type: Number,
-            default: -1
+        portfolio: {
+            type: Object,
+            default() { return {} }
         },
-        classification: {
-            type: String,
-            default: ''
-        },
-        businessOwner: {
-            default: 'Business Owner Name'
-        },
-        numProjects: {
-            type: Number,
-            default: 0
-        },
-        totalBudget: {
-            type: Number,
-            default: 0
+        role: {
+          type: String,
+          default: ''
         }
     },
     created() {
-      if (this.props.businessOwner != null) {
-        this.props.businessOwner = this.props.businessOwner;
+      if (this.portfolio.businessOwner != null) {
+        this.portfolio.businessOwner = this.portfolio.businessOwner;
       }
       else {
-        this.props.businessOwner = 'N/A';
+        this.portfolio.businessOwner = 'N/A';
       }
     },
     data () {
@@ -63,7 +104,33 @@
     },
     methods: {
       goToPortfolio () {
-        this.$router.push({path: `/admin/portfolio/${this.id}`});
+        this.$router.push({path: `/admin/portfolio/${this.portfolio.id}`});
+      },
+      editPortfolio () {
+        let info = this;
+        axios.put(this.$root.serverURL + `/api/portfolios/${this.portfolio.id}`, {
+          id: info.portfolio.id,
+          classification: info.portfolio.classification,
+          // businessOwner: info.portfolio.businessOwner,
+          resourceBreakdown: info.portfolio.resourceBreakdown
+        })
+          .then(() => this.$router.push({path: `/admin/portfolio-selection`}))
+          .catch(() => console.log("error while editing portfolio"))
+      },
+      hasAccess () {
+        return this.role == "ROLE_ADMIN";
+      },
+      refresh () {
+        this.$router.push({path: `/admin/portfolio-selection`});
+      },
+      deletePortfolio () {
+        let info = this;
+        axios
+          .delete(info.$root.serverURL + `/api/portfolios/${this.portfolio.id}`)
+          .then(function (res) {
+          })
+          .catch(error => console.log(error));
+        this.$emit('portfolio-remove', this.id);
       }
     }
   }
@@ -114,5 +181,17 @@
 .dropdown:hover .dropbtn {
     background-color: grey;
     color: #FFF;
+}
+#portfolioForm {
+  width: 100%;
+}
+#modalContainer {
+  width: 105%;
+  position: relative;
+  left: -2.5%;
+}
+#formPlaceholder {
+  background-color:white;
+  outline-color: black;
 }
 </style>

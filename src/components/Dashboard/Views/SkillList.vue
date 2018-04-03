@@ -47,10 +47,10 @@
               </template>
             </vue-good-table>
             <div v-if='hasAccess()'>
-              <b-button v-b-modal.addResourceModal1 class="btn btn-success btn-fill">
+              <b-button v-b-modal.addResourceModal1 class="btn btn-info btn-fill">
                 Add skill
               </b-button>
-              <b-button v-b-modal.manageCategoryModal class="btn btn-info">
+              <b-button v-b-modal.manageCategoryModal class="btn btn-info btn-fill">
                 Manage Category
               </b-button>
               <b-modal
@@ -120,7 +120,7 @@
               </template>
             </vue-good-table>
             <div v-if='hasAccess()'>
-              <b-button v-b-modal.addResourceModal2 class="btn btn-success btn-fill">
+              <b-button v-b-modal.addResourceModal2 class="btn btn-info btn-fill">
                 Add skill
               </b-button>
               <b-modal

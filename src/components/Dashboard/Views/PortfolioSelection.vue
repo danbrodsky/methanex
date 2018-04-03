@@ -4,7 +4,7 @@
 
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
-          <button v-b-modal.addPortfolioModal class="btn btn-success btn-fill float-right">
+          <button v-if="hasAccess()" v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right">
             <b style="font-size: large">+</b>
           </button>
           <b-modal
@@ -12,7 +12,7 @@
             ref="savePortfolio"
             @ok="savePortfolio">
             <div>
-              <b-card title="Add A Portfolio" bg-variant="light">
+              <b-card title="Add A Portfolio" style="border:none;">
                 <b-form-input id="nestedName"
                               v-model="newPortfolio.classification"
                               type="text"
@@ -26,7 +26,7 @@
 
           <b-nav-form>
             <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search"/>
-            <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+            <button class="btn btn-dark btn-fill" size="sm" type="submit">Search</button>
           </b-nav-form>
 
         </b-navbar-nav>
@@ -43,7 +43,9 @@
         <portfolio-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;"
                         v-for="portfolio of portfoliosDisplayed"
                         v-bind:key="portfolio.id"
-                        v-bind="portfolio">
+                        v-bind:portfolio="portfolio"
+                        v-bind:role="role"
+                        v-on:portfolio-remove="remove">
         </portfolio-card>
       </div>
     </div>
@@ -91,7 +93,6 @@
     },
     methods: {
       goToPortfolio (id) {
-        console.log(id);
         this.$router.push({path: `/admin/portfolio/${id}`});
       },
       savePortfolio() {
@@ -106,13 +107,16 @@
             .catch(error => console.log(error));
         }
       },
+      editPortfolio() {
+
+      },
       fetchData() {
         var info = this;
         axios.get(this.$root.serverURL + "/api/portfolios")
           .then(response => {
             info.portfolios = response.data;
-            for (var p of info.portfolios){
-              p.numProjects = p.projects.length;
+            for (let i=0; i<info.portfolios.length;i++){
+              info.portfolios[i].numProjects = info.portfolios[i].projects.length;
             }
             info.portfoliosDisplayed = info.portfolios.slice();
           })
@@ -123,6 +127,9 @@
       },
       createPortfolio(){
         this.$router.push({path: '/admin/create-portfolio'});
+      },
+      remove(id) {
+        this.portfoliosDisplayed.splice(id, 1);
       },
       filterPortfolios: _.debounce(function () {
         this.portfoliosDisplayed = [];

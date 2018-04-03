@@ -3,7 +3,7 @@
   <div class="card" style="display: block; margin: auto;" id="img_container">
     <img style="display: block; margin: auto;width:100%;height:500px;" v-bind:src="info.image" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/d/d2/Solid_white.png';">
     <div v-if='hasAccess()'>
-      <button style="position:absolute; top: 90%;width: 60px;left:90%;"v-b-modal.modalPrevent2 class="btn btn-success btn-fill">
+      <button style="position:absolute; top: 90%;width: 60px;left:90%;"v-b-modal.modalPrevent2 class="btn btn-info btn-fill">
       <i class="fa fa-arrow-up"></i>
       </button>
     </div>
