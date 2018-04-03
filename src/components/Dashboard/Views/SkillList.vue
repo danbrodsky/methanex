@@ -405,24 +405,46 @@
       delete1(index) {
         let info = this;
         let skillId = this.rowsTechnical[index.toString()].id;
-        console.log(skillId);
-        axios.delete(this.$root.serverURL + "/api/technicalSkills/" + skillId)
-          .then(() => {
-            info.skillDeletedBanner = true;
-            info.update();
+        this.$dialog.confirm("Are you sure you want to delete this skill?", {
+          loader: true
+        })
+          .then((dialog) => {
+            axios.delete(this.$root.serverURL + "/api/technicalSkills/" + skillId)
+              .then(() => {
+                info.skillDeletedBanner = true;
+                info.update();
+                dialog.close();
+              })
+              .catch(() => {
+                console.log("error deleting tech skills");
+                dialog.close();
+              })
           })
-          .catch(() => console.log("error deleting tech skills"))
+          .catch(() => {
+            console.log('Delete aborted');
+          });
       },
       delete2(index) {
         let info = this;
         let skillId = this.rowsNonTechnical[index.toString()].id;
-        console.log(skillId);
-        axios.delete(this.$root.serverURL + "/api/nonTechnicalSkills/" + skillId)
-          .then(() => {
-            info.skillDeletedBanner = true;
-            info.update();
-          })
-          .catch(() => console.log("error deleting nonTech skills"))
+        this.$dialog.confirm("Are you sure you want to delete this skill?", {
+          loader: true
+        })
+          .then((dialog) => {
+            console.log(skillId);
+            axios.delete(this.$root.serverURL + "/api/nonTechnicalSkills/" + skillId)
+              .then(() => {
+                info.skillDeletedBanner = true;
+                info.update();
+                dialog.close();
+              })
+              .catch(() => {
+                console.log("error deleting nontech skills");
+                dialog.close();
+              })          })
+          .catch(() => {
+            console.log('Delete aborted');
+          });
       },
       addSkillCategory() {
         let info = this;
@@ -438,10 +460,20 @@
       deleteCategory(index) {
         let info = this;
         let categoryId = this.addCategoryOptions[index.toString()].value;
-        console.log(categoryId);
-        axios.delete(this.$root.serverURL + "/api/categories/" + categoryId)
-          .then(info.update)
-          .catch(() => console.log("error deleting skill category"))
+        this.$dialog.confirm("Are you sure you want to delete this skill?", {
+          loader: true
+        })
+          .then((dialog) => {
+            axios.delete(this.$root.serverURL + "/api/categories/" + categoryId)
+              .then(info.update)
+              .catch(() => {
+                console.log("error deleting category");
+                dialog.close();
+              })          })
+          .catch(() => {
+            // Triggered when cancel button is clicked
+            console.log('Delete aborted');
+          });
       }
     }
   }

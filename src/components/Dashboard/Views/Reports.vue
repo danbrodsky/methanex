@@ -1,5 +1,8 @@
 <template>
   <div class="content">
+    <ul class="cd-accordion-menu">
+      <item :model="treeData"></item>
+    </ul>
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
@@ -16,12 +19,16 @@
             </template>
             <vue-good-table
               :columns="columnsPortfolio"
-              :paginate="true"
               :rows="rowsPortfolio"
-              :globalSearch = "false"
-              styleClass="table table-bordered table-striped">
+              :paginate="true"
+              :search-options="{ enabled: true, trigger: 'enter' }"
+              :pagination-options="{enabled: true, perPage: 5}"
+              styleClass="vgt-table striped bordered">
               <template slot="table-column" slot-scope="props">
                 {{props.column.label}}
+              </template>
+              <template slot="table-row" slot-scope="props">
+                  {{ props.formattedRow[props.column.field] }}
               </template>
             </vue-good-table>
           </card>
@@ -55,12 +62,16 @@
             </template>
             <vue-good-table
               :columns="columnsProject"
-              :paginate="true"
               :rows="rowsProject"
-              :globalSearch = "false"
-              styleClass="table table-bordered table-striped">
+              :paginate="true"
+              :search-options="{ enabled: true, trigger: 'enter' }"
+              :pagination-options="{enabled: true, perPage: 5}"
+              styleClass="vgt-table striped bordered">
               <template slot="table-column" slot-scope="props">
-                    {{props.column.label}}
+                {{props.column.label}}
+              </template>
+              <template slot="table-row" slot-scope="props">
+                  {{ props.formattedRow[props.column.field] }}
               </template>
             </vue-good-table>
           </card>
@@ -77,12 +88,16 @@
             </template>
             <vue-good-table
               :columns="columnsResource"
-              :paginate="true"
               :rows="rowsResource"
-              :globalSearch = "false"
-              styleClass="table table-bordered table-striped">
+              :paginate="true"
+              :search-options="{ enabled: true, trigger: 'enter' }"
+              :pagination-options="{enabled: true, perPage: 5}"
+              styleClass="vgt-table striped bordered">
               <template slot="table-column" slot-scope="props">
                 {{props.column.label}}
+              </template>
+              <template slot="table-row" slot-scope="props">
+                  {{ props.formattedRow[props.column.field] }}
               </template>
             </vue-good-table>
           </card>
@@ -95,19 +110,23 @@
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   import Multiselect from 'vue-multiselect'
   import axios from 'axios'
+  import Item from 'src/components/Dashboard/Views/Tree.vue'
 
   const tableColumns = ['Name', 'ProjectStatus', 'Manager', 'ProjectOwner', 'Status', 'ProjectResources', 'Budget', 'Budget Used'];
   // 'Start Date', 'End Date'
 
   import Vue from 'vue';
   import VueGoodTable from 'vue-good-table';
+  import jsPdf from 'jspdf';
 
   Vue.use(VueGoodTable);
 
   export default {
     components: {
       Card,
-      Multiselect
+      Multiselect,
+      jsPdf,
+      Item
     },
 
     name: 'Checkbox-table',
@@ -134,6 +153,16 @@
 
     data () {
       return {
+        treeData: {
+          name: "Group",
+          children: [
+            {
+              name: "Sub Group",
+              children: [{ name: "Item" }, { name: "Item" }]
+            },
+            { name: "Item" }
+          ]
+        },
         selectedProjectColumns: [],
         projectColumnsMap: new Map(),
         columnFilterNames: [

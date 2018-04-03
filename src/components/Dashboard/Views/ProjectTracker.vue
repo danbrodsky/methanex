@@ -241,7 +241,7 @@
         this.$router.push({path: `/admin/user/${row.id}`});
       },
       removeResources() {
-        var projectId = this.$route.params.projectId;
+        let projectId = this.$route.params.projectId;
         let info = this;
         let data = [];
         this.resources.forEach(resource => {
@@ -250,17 +250,29 @@
           }
         });
         if (data.length > 0) {
-          let path = this.$root.serverURL + "/api/projects/" + projectId + "/resources?";
-          data.forEach(resource => {
-            path += "resourceId=" + resource + "&";
-          });
-          path = path.substring(0, path.length-1);
-          axios.delete(path)
-            .then((response) => {
-              info.fetchData();
-              info.deletedResourceBanner = true
+          this.$dialog.confirm("Are you sure you want to deallocate this resource?", {
+            loader: true
+          })
+            .then((dialog) => {
+              let path = info.$root.serverURL + "/api/projects/" + projectId + "/resources?";
+              data.forEach(resource => {
+                path += "resourceIds=" + resource + "&";
+              });
+              path = path.substring(0, path.length-1);
+              axios.delete(path)
+                .then((response) => {
+                  info.fetchData();
+                  info.deletedResourceBanner = true;
+                  dialog.close();
+                })
+                .catch((error) => {
+                  console.log(error);
+                  dialog.close();
+                });
             })
-            .catch((error) => console.log(error));
+            .catch(() => {
+              console.log('Delete aborted');
+            });
         }
       }
     }

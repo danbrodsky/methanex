@@ -14,10 +14,12 @@ import http from 'http'
 import { Store } from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import * as Cookies from 'js-cookie'
+import VuejsDialog from "vuejs-dialog"
 
 Vue.use(VueAxios, axios);
-Vue.use(VueRouter)
-Vue.use(LightBootstrap)
+Vue.use(VuejsDialog);
+Vue.use(VueRouter);
+Vue.use(LightBootstrap);
 Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios);
 Vue.use(require('@websanova/vue-upload'));

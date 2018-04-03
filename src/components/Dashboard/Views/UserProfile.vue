@@ -91,9 +91,14 @@
         <div class="row">
           <div class="col-md-4">
             <label class="typo__label">Skills:</label>
-            <ul id="example-1">
+            <ul id="example-1" v-if="resource.skills.length > 0">
               <li v-for="item in resource.skills">
                 {{ item.name }}
+              </li>
+            </ul>
+            <ul id="example-2" v-else>
+              <li>
+                No skills
               </li>
             </ul>
           </div>

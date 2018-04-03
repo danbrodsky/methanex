@@ -12,7 +12,7 @@
             ref="savePortfolio"
             @ok="savePortfolio">
             <div>
-              <b-card title="Add A Portfolio" bg-variant="dark">
+              <b-card title="Add A Portfolio" bg-variant="light">
                 <b-form-input id="nestedName"
                               v-model="newPortfolio.classification"
                               type="text"
@@ -91,6 +91,7 @@
     },
     methods: {
       goToPortfolio (id) {
+        console.log(id);
         this.$router.push({path: `/admin/portfolio/${id}`});
       },
       savePortfolio() {

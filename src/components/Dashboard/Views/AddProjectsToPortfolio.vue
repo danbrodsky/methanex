@@ -32,6 +32,9 @@
               <button type="submit" class="btn btn-info btn-fill float-left" @click.prevent="addProjects">
                 Save
               </button>
+              <button type="submit" class="btn btn-info btn-fill float-left" @click.prevent="cancel">
+                Cancel
+              </button>
             </div>
           </card>
         </div>
@@ -125,7 +128,8 @@
       },
       fetchData() {
         var info = this;
-        axios.get(this.$root.serverURL + "/api/projects")
+        let portfolioId = this.$route.params.portfolioId;
+        axios.get(this.$root.serverURL + "/api/portfolios/difference?portfolioId=" + portfolioId)
           .then(response => {
             info.rows = response.data;
             for (let i = 0; i < info.rows.length; i++) {
@@ -147,11 +151,17 @@
             projects.push(row.id);
           }
         });
-        axios.post(this.$root.serverURL + "/api/portfolios/" + portfolioId + "/" + "projects", projects)
-          .then(() => {
-            info.$router.push({path: `/admin/portfolio/${portfolioId}`});
-          })
-          .catch(() => console.log("error while adding resource"))
+        if (projects.length > 0) {
+          axios.post(this.$root.serverURL + "/api/portfolios/" + portfolioId + "/" + "projects", projects)
+            .then(() => {
+              info.$router.push({path: `/admin/portfolio/${portfolioId}`});
+            })
+            .catch(() => console.log("error while adding resource"))
+        }
+      },
+      cancel() {
+        let portfolioId = this.$route.params.portfolioId;
+        this.$router.push({path: `/admin/portfolio/${portfolioId}`});
       }
     }
   }

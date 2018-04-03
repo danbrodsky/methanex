@@ -1,7 +1,7 @@
 <template>
   <div class="card" v-on:click="goToPortfolio">
     <div class="card-header">
-      <span span class="header"> 
+      <span span class="header">
 <span style="font-weight:bold;float:left;">{{ classification }}</span>
 <div class="dropdown"  style="float: right;">
   <button class="dropbtn">&#8942;</button>

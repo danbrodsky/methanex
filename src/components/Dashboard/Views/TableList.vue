@@ -76,17 +76,14 @@
                       <b-form-group horizontal
                                     label="Group:"
                                     label-class="text-sm-right"
-                                    label-for="nestedGroup">
-                        <b-form-input id="nestedGroup"
-                                      v-model="addGroup"
-                                      type="text"
-                                      placeholder="Enter your group"></b-form-input>
-                      </b-form-group>
-                      <b-form-group horizontal
-                                    label="Role:"
-                                    label-class="text-sm-right"
-                                    class="mb-0">
-                        <b-form-radio-group v-model="selectedRole" class="pt-2" :options="['User', 'Administrator']"/>
+                                    label-for="nestedLocation">
+                      <multiselect v-model="selectedGroups"
+                                   placeholder="Pick a group"
+                                   label="group"
+                                   track-by="group"
+                                   :options="groups">
+                      </multiselect>
+                      <pre class="language-json"></pre>
                       </b-form-group>
                     </b-form-group>
                   </b-card>
@@ -141,12 +138,6 @@
                                       type="text"
                                       placeholder="Enter your group"></b-form-input>
                       </b-form-group>
-                      <b-form-group horizontal
-                                    label="Role:"
-                                    label-class="text-sm-right"
-                                    class="mb-0">
-                        <b-form-radio-group v-model="selectedRole" class="pt-2" :options="['User', 'Administrator']"/>
-                      </b-form-group>
                     </b-form-group>
                   </b-card>
                 </div>
@@ -162,18 +153,20 @@
   import LTable from 'src/components/UIComponents/Table.vue'
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   import axios from 'axios'
+  import Multiselect from 'vue-multiselect'
 
   export default {
     components: {
       LTable,
-      Card
+      Card,
+      Multiselect
     },
     created() {
       let that = this;
       axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
         .then(response => {
           that.role = response.data[0].name;
-      })
+      });
       this.fetchData();
     },
     data() {
@@ -221,6 +214,8 @@
           }
         ],
         rows: [],
+        selectedGroups: [],
+        groups: []
       };
     },
     methods: {
@@ -236,15 +231,40 @@
                 info.rows[i].group = info.rows[i].group.name;
             }
           })
+          .catch(error => console.log(error));
+        axios
+          .get(info.$root.serverURL + "/api/groups")
+          .then(response => {
+            info.groups = response.data;
+            for (let i = 0; i < info.groups.length; i++) {
+              if (info.groups[i] != null)
+                info.groups[i] = info.groups[i].name;
+            }
+          })
+          .catch(error => console.log(error));
       },
       addRow(id) {
         this.added.push(id);
       },
       removeResources(id) {
         let info = this;
-        axios.delete(this.$root.serverURL + "/api/resources/" + id)
-          .then(() => info.fetchData())
-          .catch(() => console.log("error while adding resource"))
+        this.$dialog.confirm("Are you sure you want to delete this resource?", {
+          loader: true
+        })
+          .then((dialog) => {
+            axios.delete(this.$root.serverURL + "/api/resources/" + id)
+              .then(() => {
+                info.fetchData();
+                dialog.close();
+              })
+              .catch(() => {
+                console.log("error while adding resource");
+                dialog.close();
+              })
+          })
+          .catch(() => {
+            console.log('Delete aborted');
+          });
       },
       populateEdit(index) {
         this.addName = this.rows[index].name;
@@ -304,3 +324,4 @@
 </script>
 <style>
 </style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

@@ -36,13 +36,14 @@
             </fg-input>
           </div>
           <div class="col-md-4">
-            <label for="selStatus">Status</label>
-            <select v-model="resource.status" class="form-control" id="selStatus">
-              <option selected>Normal</option>
-              <option>On Vacation</option>
-              <option>Training</option>
-              <option>Terminated</option>
-            </select>
+            <label class="typo__label">Status:</label>
+            <multiselect v-model="values"
+                         placeholder="Pick a status"
+                         label="status"
+                         track-by="status"
+                         :options="statuses"
+                         :multiple="true"></multiselect>
+            <pre class="language-json"></pre>
           </div>
         </div>
 
@@ -65,30 +66,34 @@
         <div class="row">
           <div class="col-md-4">
             <label class="typo__label">Skills:</label>
-            <multiselect v-model="values"
+            <multiselect v-model="selectedSkills"
                          placeholder="Pick a skill(s)"
                          label="name"
                          track-by="name"
-                         :options="options1"
-                         :multiple="true"></multiselect>
+                         :options="skills"
+                         :multiple="true">
+            </multiselect>
             <pre class="language-json"></pre>
           </div>
           <div class="col-md-4">
-            <label for="selGroup">Group</label>
-            <select v-model="resource.group" class="form-control" id="selGroup">
-              <option>Alpha</option>
-              <option>Bravo</option>
-              <option selected>Charlie</option>
-              <option>Delta</option>
-            </select>
+            <label class="typo__label">Group:</label>
+            <multiselect v-model="selectedGroups"
+                         placeholder="Pick a group"
+                         label="group"
+                         track-by="group"
+                         :options="groups">
+            </multiselect>
+            <pre class="language-json"></pre>
           </div>
           <div class="col-md-4">
-            <label for="selPeerGroup">Peer Group</label>
-            <select v-model="resource.peerGroup" class="form-control" id="selPeerGroup">
-              <option selected>Full-Stack</option>
-              <option>QA</option>
-              <option>Dev-ops</option>
-            </select>
+            <label class="typo__label">Peer Group:</label>
+            <multiselect v-model="selectedPeerGroups"
+                         placeholder="Pick a peer group"
+                         label="peerGroup"
+                         track-by="peerGroup"
+                         :options="peerGroups">
+            </multiselect>
+            <pre class="language-json"></pre>
           </div>
         </div>
         <div class="text-center">
@@ -130,13 +135,16 @@
           status: null,
           skills: []
         },
-        files: [],
-        headers: {}
+        selectedSkills: [],
+        selectedGroups: [],
+        selectedPeerGroups: [],
+        skills: [],
+        groups: [],
+        peerGroups: [],
+        statuses: []
       }
     },
     created() {
-      var token = 'Bearer ' + this.$auth.token('default_auth_token');
-      this.headers['Authorization'] = token;
       this.fetchData();
     },
     methods: {
@@ -157,20 +165,25 @@
         axios
           .get(info.$root.serverURL + "/api/technicalSkills")
           .then(response => {
-            info.options1 = response.data;
+            info.skills = response.data;
           })
           .catch(error => console.log(error));
         axios
           .get(info.$root.serverURL + "/api/groups")
           .then(response => {
-            info.resource.group = response.data;
+            info.groups = response.data;
           })
           .catch(error => console.log(error));
-
         axios
           .get(info.$root.serverURL + "/api/peergroups")
           .then(response => {
-            info.resource.peerGroup = response.data;
+            info.peerGroups = response.data;
+          })
+          .catch(error => console.log(error));
+        axios
+          .get(info.$root.serverURL + "/api/resourcestatuses")
+          .then(response => {
+            info.statuses = response.data;
           })
           .catch(error => console.log(error));
       },
