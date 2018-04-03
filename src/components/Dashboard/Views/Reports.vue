@@ -166,7 +166,7 @@
           {name: "Manager"},
           {name: "Project Owner"},
           {name: "RAG Status"},
-          {name: "Number of resources"},
+          {name: "Number of Resources"},
           {name: "Budget"},
           {name: "Budget used"},
           {name: "Start Date"},
@@ -339,7 +339,7 @@
 
       initProjectColumnMap() {
         for (var i = 0; i < this.columnsProject.length; i++) {
-          this.projectColumnsMap.set(this.columnsProject[i].label, this.columnsProject[i]);
+          this.projectColumnsMap.set(this.columnsProject[i].label.toLowerCase(), this.columnsProject[i]);
         }
       },
 
@@ -348,7 +348,7 @@
         if (this.selectedProjectColumns.length > 0) {
           this.columnsProject = [];
           for (var i = 0; i < columnsToDisplay.length; i++) {
-            this.columnsProject.push(this.projectColumnsMap.get(columnsToDisplay[i].name));
+            this.columnsProject.push(this.projectColumnsMap.get(columnsToDisplay[i].name.toLowerCase()));
           }
         }
       },
