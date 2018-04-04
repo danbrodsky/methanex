@@ -75,7 +75,7 @@
                 {{ props.formattedRow[props.column.field] }}
               </template>
             </vue-good-table>
-            <download-excel class="btn btn-info btn-fill float-left" :data="rowsProject" :fields="json_fields" name="projects.csv" type="csv">Export</download-excel>
+            <download-excel class="btn btn-info btn-fill float-left" :data="rowsProject" :fields="project_json_fields" name="projects.csv" type="csv">Export as CSV</download-excel>
           </card>
           <card>
             <template slot="header">
@@ -307,7 +307,7 @@
           ]
         ],
 
-        json_fields: {},
+        project_json_fields: {},
       };
     },
     methods: {
@@ -371,7 +371,7 @@
         for (var i = 0; i < this.columnsProject.length; i++) {
           var columnAttr = this.columnsProject[i];
           this.projectColumnsMap.set(columnAttr.label.toLowerCase(), columnAttr);
-          this.json_fields[columnAttr.label] = columnAttr.field;
+          this.project_json_fields[columnAttr.label] = columnAttr.field;
         }
       },
 
@@ -379,12 +379,21 @@
         var columnsToDisplay = this.selectedProjectColumns;
         if (this.selectedProjectColumns.length > 0) {
           this.columnsProject = [];
-          this.json_fields = {};
+          this.project_json_fields = {};
           for (var i = 0; i < columnsToDisplay.length; i++) {
             var columnName = columnsToDisplay[i].name
             var columnAttr = this.projectColumnsMap.get(columnName.toLowerCase())
             this.columnsProject.push(columnAttr);
-            this.json_fields[columnAttr.label] = columnAttr.field
+
+            this.project_json_fields[columnAttr.label] = {
+              field: columnAttr.field,
+              callback: (value) => {
+                if(!value)
+                  return '';
+                return value;
+              }
+            }
+
           }
         }
       },
@@ -395,11 +404,18 @@
         if (!entry.done) {
           this.columnsProject = [];
         }
-        this.json_fields = {};
+        this.project_json_fields = {};
         while (!entry.done) {
           this.columnsProject.push(entry.value[1]);
           console.log(entry.value[1]);
-          this.json_fields[entry.value[1].label] = entry.value[1].field;
+          this.project_json_fields[entry.value[1].label] = {
+            field: entry.value[1].field,
+            callback: (value) => {
+              if(!value)
+                return '';
+              return value;
+            }
+          }
           entry = iterator.next();
         }
         this.selectedProjectColumns = [];
