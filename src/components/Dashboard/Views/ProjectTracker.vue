@@ -1,6 +1,7 @@
 <template>
   <div class="content">
   <div class="row" style="margin: 1%;">
+    <pie-chart :chart-data="datacollection"></pie-chart>
     <gantt-chart v-bind:isPM="isPM" style="width: 80%;margin: auto;"></gantt-chart>
   </div>
     <div>
@@ -125,15 +126,21 @@
   import axios from 'axios'
   import GanttChart from 'src/components/UIComponents/PortfolioComponents/GanttChart.vue'
   import Multiselect from 'vue-multiselect'
+  import PieChart from 'src/components/UIComponents/PieChart.js'
 
   export default {
     components: {
       Card,
       GanttChart,
-      Multiselect
+      Multiselect,
+      PieChart
+    },
+    mounted() {
+      this.fillData();
     },
     data() {
       return {
+        datacollection: null,
         updatedProjectSuccessBanner: false,
         addedResourcesBanner: false,
         deletedResourceBanner: false,
@@ -204,6 +211,40 @@
       this.fetchData();
     },
     methods: {
+      fillData () {
+        axios
+          .get(this.$root.serverURL + "/api/resourceProjectDateRange?projectId=123")
+          .then(response => {
+            console.log(response.data);
+          })
+          .catch(error => console.log(error));
+        // axios
+        //   .get(this.$root.serverURL + "/api/resourceSkillNumberData?projectId=123")
+        //   .then(response => {
+        //     console.log(response.data);
+        //   })
+        //   .catch(error => console.log(error));
+        // axios
+        //   .get(this.$root.serverURL + "/api/resourceGroupNumberData?projectId=123")
+        //   .then(response => {
+        //     console.log(response.data);
+        //   })
+        //   .catch(error => console.log(error));
+        this.datacollection = {
+          labels: ["January", "February", "March", "April"],
+          datasets: [
+            {
+              label: 'Data One',
+              backgroundColor: '#f87979',
+              data: [455, 454, 344, 111]
+            }, {
+              label: 'Data One',
+              backgroundColor: '#f87979',
+              data: [123, 200, 300, 100]
+            }
+          ]
+        }
+      },
       toggleSelectAll() {
         this.allSelected = !this.allSelected;
         this.resources.forEach(row => {

@@ -15,20 +15,21 @@
                 </div>
               </div>
               <div class="row">
-                  <vue-good-table
-                    v-if="showResourcePicker"
-                    :columns="businessOwnerColumns"
-                    :paginate="true"
-                    :rows="resourceRows"
-                    styleClass="table table-bordered table-striped"
-                    :onClick="selectBusinessOwner">
-                    <template slot="table-row" slot-scope="props">
+                <vue-good-table
+                  :columns="businessOwnerColumns"
+                  :rows="resourceRows"
+                  :paginate="true"
+                  :search-options="{ enabled: true, trigger: 'enter' }"
+                  :pagination-options="{enabled: true, perPage: 10}"
+                  styleClass="vgt-table striped bordered"
+                  :onClick="selectBusinessOwner">
+                  <template slot="table-row" slot-scope="props">
                       <td v-bind:class="{selected_resource_row: props.row.selected}">{{ getProperty(props.row.name) }}</td>
                       <td v-bind:class="{selected_resource_row: props.row.selected}">{{ getProperty(props.row.group) }}</td>
                       <td v-bind:class="{selected_resource_row: props.row.selected}">{{ getPropertyName(props.row.manager)}}</td>
                       <td v-bind:class="{selected_resource_row: props.row.selected}">{{ getPropertyName(props.row.status)}}</td>
-                    </template>
-                  </vue-good-table>
+                  </template>
+                </vue-good-table>
               </div>
               <div class="row">
                 <div class="col-8">
@@ -58,7 +59,7 @@
   import Vue from 'vue';
   import VueGoodTable from 'vue-good-table';
   import 'vue-good-table/dist/vue-good-table.css'
-  
+
   Vue.use(VueGoodTable);
 
   export default {

@@ -1,5 +1,10 @@
 <template>
   <div class="container">
+    <div>
+      <b-alert :show=accountFoundBanner dismissible variant="warning">
+        <h4 class="alert-heading">An account was found with these login credentials. Please use try a different username or password.</h4>
+      </b-alert>
+    </div>
     <div class="card card-container">
         <h2>Register</h2>
         <hr/>
@@ -11,6 +16,9 @@
           <div id="remember" class="checkbox">
             <label id="checkbox-label1"><input v-model="data.rememberMe" type="checkbox"/> Remember Me</label>
             <label id="checkbox-label2"><input v-model="data.autoLogin" type="checkbox"/> Auto Login</label>
+          </div>
+          <div>
+
           </div>
 
           <button type="submit" class="btn btn-primary btn-lg btn-block btn-fill">Register</button>
@@ -31,6 +39,7 @@
                 context: 'register context',
 
                 data: {
+                  accountFoundBanner: false,
                     body: {
                         username: '',
                         password: '',
@@ -56,24 +65,13 @@
             },
             register() {
                 var newUser = {};
+                let info = this;
                 newUser['username'] = this.data.body.username;
                 newUser['password'] = this.data.body.password;
-                // this.$auth.register({
-                //     data: newUser,
-                //     autoLogin: this.data.autoLogin,
-                //     rememberMe: this.data.rememberMe,
-                //     success: function () {
-                //         console.log('success ' + this.context);
-                //     },
-                //     error: function (res) {
-                //         console.log('error ' + this.context);
-                //         this.error = res.data;
-                //     }
-                // });
               axios
                 .post(this.$root.serverURL + "/register", newUser)
                 .then(() => info.$router.push("login"))
-                .catch(() => console.log("fail"));
+                .catch(() => info.accountFoundBanner = true);
             }
         }
     }

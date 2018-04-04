@@ -350,7 +350,10 @@
           peerGroup: info.selectedPeerGroup,
           status: info.selectedStatus
         })
-          .then(() => info.SuccessBanner = true)
+          .then(() => {
+            info.SuccessBanner = true;
+            info.fetchData();
+          })
           .catch(() => console.log("error while adding resource"))
       },
       hasAccess() {
