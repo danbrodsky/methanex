@@ -7,7 +7,7 @@
       <i class="fa fa-arrow-up"></i>
       </button>
     </div>
-      <b-modal 
+      <b-modal
         hide-footer
         title="Select the image you wish to upload"
         id="modalPrevent2"
@@ -96,7 +96,6 @@ export default {
     	console.log(this.$root._route.params.projectId);
     	axios.get(this.$root.serverURL + "/api/image?id=" + this.$root._route.params.projectId)
         .then(response => {
-        console.log(response);
         that.info.image = 'data:image/jpeg;base64,' + response.data.data;
       })
     },
