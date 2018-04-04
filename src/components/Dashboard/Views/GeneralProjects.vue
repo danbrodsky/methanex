@@ -49,7 +49,65 @@
       return {
         allSelected: false,
         rows: [],
-        columns: []
+        columns: [
+          {
+            label: '', // checkbox
+            field: 'chkbx',
+            sortable: false,
+          },
+          {
+            label: 'Name',
+            field: 'name',
+            filterable: true,
+          },
+          {
+            label: 'Manager',
+            field: 'manager',
+            type: 'string',
+            filterable: true,
+          },
+          {
+            label: 'Project Owner',
+            field: 'projectOwner',
+            type: 'string',
+            filterable: true,
+          },
+          {
+            label: 'Start',
+            field: 'startDate',
+            filterable: true,
+          },
+          {
+            label: 'End',
+            field: 'endDate',
+            filterable: true,
+          },
+          {
+            label: 'Budget',
+            field: 'budget',
+            filterable: true,
+          },
+          {
+            label: 'Status',
+            field: 'status',
+            filterable: true
+          },
+          {
+            label: 'RAG',
+            field: 'ragStatus',
+            filterable: true
+          },
+          {
+            label: '% Complete',
+            field: 'percentageComplete',
+            filterable: true
+          },
+          {
+            label: 'Est. Remaining Cost',
+            field: 'estimatedRemainingCost',
+            filterable: true
+          }
+        ]
       }
     },
     methods: {
