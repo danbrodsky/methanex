@@ -1,15 +1,14 @@
 <template>
   <div class="container">
-  <div class="card card-container">
-    <h2>Login</h2>
-
-    <b>Test users:</b> (a@b.com / test1234)
+  <div class="login-card login-card-container">
+    <img src="../logo@2x.png" alt="logo" width="250">
+    <p>Test users: (a@b.com / test1234)</p>
 
     <hr/>
     <div>
       <b-alert :show=showInvalidLoginBanner dismissible variant="danger">
         <h4 class="alert-heading">Invalid Credentials</h4>
-        <p>
+        <p id="pp">
           Please log in with a valid username and/or password.
         </p>
       </b-alert>
@@ -61,7 +60,7 @@
               .axios
               .get(info.$root.serverURL + "/user?username=" + info.data.body.username)
               .then((response) => {
-                console.log(response.data);
+                console.log("fsfsdfsf");
                 info.$root.$data.cookies.set('user',response.data);
                 info.$router.push("admin");
               })
@@ -75,13 +74,24 @@
 </script>
 
 <style>
+  html {
+    background-image: url("../footer-bg.png");
+    background-repeat: no-repeat;
+  }
 
-  .card-container.card {
+  body {
+    background-color: transparent;
+  }
+  #pp {
+    margin-top: 10px;
+  }
+
+  .login-card-container.login-card {
     max-width: 350px;
     padding: 40px 40px;
   }
 
-  .card {
+  .login-card {
     background-color: #fafafa;
     /* just in case there no content*/
     padding: 20px 25px 30px;
@@ -91,9 +101,9 @@
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
-    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
   }
 
   .form-signin #inputEmail,

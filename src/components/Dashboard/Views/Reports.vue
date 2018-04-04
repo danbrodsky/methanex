@@ -47,6 +47,7 @@
                     <div class="col-2">
                       <div class="btn-group">
                         <button type="submit" id="projectColumnFilterSubmit" class="btn btn-info btn-fill float-left"
+                                style="margin-right: 5px"
                                 @click="selectProjectColumns">Apply
                         </button>
                         <button type="submit" id="projectColumnSelectAll" class="btn btn-info btn-fill float-left"
@@ -75,6 +76,9 @@
                 {{ props.formattedRow[props.column.field] }}
               </template>
             </vue-good-table>
+            <download-excel class="btn btn-info btn-fill float-left" :data="rowsProject" :fields="project_json_fields"
+                            name="projects.csv" type="csv">Export as CSV
+            </download-excel>
           </card>
           <card>
             <template slot="header">
@@ -121,6 +125,7 @@
   import jsPdf from 'jspdf';
 
   Vue.use(VueGoodTable);
+  Vue.component('downloadExcel', VueJSONExcel)
 
   export default {
     components: {
@@ -175,36 +180,20 @@
 
         columnsPortfolio: [
           {
-            label: 'ID',
-            field: 'id',
-            filterable: true,
-          },
-          {
             label: 'Classification',
             field: 'classification',
-            type: 'string',
             filterable: true,
           },
           {
             label: 'Business Owner',
             field: 'businessOwner',
             filterable: true,
-          },
-          {
-            label: 'Resource Breakdown',
-            field: 'resourceBreakdown',
-            filterable: true,
-          },
+          }
         ],
         columnsProject: [
           {
             label: 'Name',
             field: 'name',
-            filterable: true,
-          },
-          {
-            label: 'Project Status',
-            field: 'status',
             filterable: true,
           },
           {
@@ -215,17 +204,18 @@
           },
           {
             label: 'Project Owner',
-            field: 'businessOwner',
+            field: 'projectOwner',
+            type: 'string',
             filterable: true,
           },
           {
-            label: 'RAG Status',
-            field: 'rag_status',
+            label: 'Start',
+            field: 'startDate',
             filterable: true,
           },
           {
-            label: 'Number of Resources',
-            field: 'projectResourses',
+            label: 'End',
+            field: 'endDate',
             filterable: true,
           },
           {
@@ -234,19 +224,24 @@
             filterable: true,
           },
           {
-            label: 'Budget Used',
-            field: 'budget_used',
-            filterable: true,
+            label: 'Status',
+            field: 'status',
+            filterable: true
           },
           {
-            label: 'Start Date',
-            field: 'start_date',
-            filterable: true,
+            label: 'RAG',
+            field: 'ragStatus',
+            filterable: true
           },
           {
-            label: 'End Date',
-            field: 'end_date',
-            filterable: true,
+            label: '% Complete',
+            field: 'percentageComplete',
+            filterable: true
+          },
+          {
+            label: 'Est. Remaining Cost',
+            field: 'estimatedRemainingCost',
+            filterable: true
           }
         ],
         columnsResource: [
@@ -294,7 +289,18 @@
         ],
         rowsPortfolio: [],
         rowsProject: [],
-        rowsResource: []
+        rowsResource: [],
+
+        json_meta: [
+          [
+            {
+              'key': 'charset',
+              'value': 'utf-8'
+            }
+          ]
+        ],
+
+        project_json_fields: {},
       };
     },
     methods: {
@@ -306,52 +312,91 @@
             for (let i = 0; i < info.rowsPortfolio.length; i++) {
               if (info.rowsPortfolio[i].businessOwner != null)
                 info.rowsPortfolio[i].businessOwner = info.rowsPortfolio[i].businessOwner.name;
-              if (info.rowsPortfolio[i].classification != null)
-                info.rowsPortfolio[i].classification = info.rowsPortfolio[i].classification.name;
             }
-            console.log(response.data);
           });
 
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
             info.rowsProject = response.data;
             for (let i = 0; i < info.rowsProject.length; i++) {
-              if (info.rowsProject[i].status != null)
-                info.rowsProject[i].status = info.rowsProject[i].status.name;
-              if (info.rowsProject[i].manager != null)
+              if (info.rowsProject[i].manager != null) {
                 info.rowsProject[i].manager = info.rowsProject[i].manager.name;
+              }
+              if (info.rowsProject[i].projectOwner != null) {
+                info.rowsProject[i].projectOwner = info.rowsProject[i].projectOwner.name;
+              }
+              if (info.rowsProject[i].status != null) {
+                info.rowsProject[i].status = info.rowsProject[i].status.name;
+              }
+              if (info.rowsProject[i].ragStatus != null) {
+                info.rowsProject[i].ragStatus = info.rowsProject[i].ragStatus.name;
+              }
+              if (info.rowsProject[i].startDate != null) {
+                info.rowsProject[i].startDate = info.dateToString(info.rowsProject[i].startDate);
+              }
+              if (info.rowsProject[i].endDate != null) {
+                info.rowsProject[i].endDate = info.dateToString(info.rowsProject[i].endDate);
+              }
             }
           });
         axios.get(this.$root.serverURL + "/api/resources")
           .then(response => {
-            console.log(response.data);
             info.rowsResource = response.data;
             for (let i = 0; i < info.rowsResource.length; i++) {
-              if (info.rowsResource[i].manager != null)
+              if (info.rowsResource[i].manager != null) {
                 info.rowsResource[i].manager = info.rowsResource[i].manager.name;
-              if (info.rowsResource[i].group != null)
+              }
+              if (info.rowsResource[i].group != null) {
                 info.rowsResource[i].group = info.rowsResource[i].group.name;
-              if (info.rowsResource[i].status != null)
+              }
+              if (info.rowsResource[i].status != null) {
                 info.rowsResource[i].status = info.rowsResource[i].status.name;
+              }
+              let tempSkills = "";
+              info.rowsResource[i].skills.forEach(skill => tempSkills += skill.name + ", ");
+              info.rowsResource[i].skills = tempSkills.substring(0, tempSkills.length - 2);
+              let tempNonTechSkills = "";
+              info.rowsResource[i].nonTechnicalSkills.forEach(skill => tempNonTechSkills += skill.name + ", ");
+              info.rowsResource[i].nonTechnicalSkills = tempNonTechSkills.substring(0, tempNonTechSkills.length - 2);
             }
           })
+          .catch(error => console.log(error));
       },
-
+      dateToString(array) {
+        return array[0].toString() + "." + array[1].toString() + "." + array[2].toString();
+      },
       initProjectColumnMap() {
         for (var i = 0; i < this.columnsProject.length; i++) {
-          this.projectColumnsMap.set(this.columnsProject[i].label.toLowerCase(), this.columnsProject[i]);
+          var columnAttr = this.columnsProject[i];
+          this.projectColumnsMap.set(columnAttr.label.toLowerCase(), columnAttr);
+          this.project_json_fields[columnAttr.label] = columnAttr.field;
         }
-      },
+      }
+      ,
 
       selectProjectColumns() {
         var columnsToDisplay = this.selectedProjectColumns;
         if (this.selectedProjectColumns.length > 0) {
           this.columnsProject = [];
+          this.project_json_fields = {};
           for (var i = 0; i < columnsToDisplay.length; i++) {
-            this.columnsProject.push(this.projectColumnsMap.get(columnsToDisplay[i].name.toLowerCase()));
+            var columnName = columnsToDisplay[i].name
+            var columnAttr = this.projectColumnsMap.get(columnName.toLowerCase())
+            this.columnsProject.push(columnAttr);
+
+            this.project_json_fields[columnAttr.label] = {
+              field: columnAttr.field,
+              callback: (value) => {
+                if (!value)
+                  return '';
+                return value;
+              }
+            }
+
           }
         }
-      },
+      }
+      ,
 
       selectAllProjectColumns() {
         var iterator = this.projectColumnsMap.entries();
@@ -359,11 +404,23 @@
         if (!entry.done) {
           this.columnsProject = [];
         }
+        this.project_json_fields = {};
         while (!entry.done) {
           this.columnsProject.push(entry.value[1]);
+          console.log(entry.value[1]);
+          this.project_json_fields[entry.value[1].label] = {
+            field: entry.value[1].field,
+            callback: (value) => {
+              if (!value)
+                return '';
+              return value;
+            }
+          }
           entry = iterator.next();
         }
-      },
+        this.selectedProjectColumns = [];
+      }
+      ,
     }
   }
 </script>

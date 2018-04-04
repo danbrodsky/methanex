@@ -13,6 +13,33 @@
   export default {}
 </script>
 <style lang="scss">
+
+  @import url('https://fonts.googleapis.com/css?family=Raleway');
+  @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+
+
+  html, body, h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, .btn-simple, .alert, a, .td-name, td, button.close {
+    font-family: 'Raleway', sans-serif !important;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  .vgt-wrap {
+    margin-bottom: 10px;
+  }
+
+  .main-panel {
+    background-color: transparent;
+  }
+
+  .content {
+    background-image: url("/footer-bg.png");
+    background-repeat: no-repeat;
+    background-size: auto;
+  }
+
   .vue-notifyjs.notifications{
     .list-move {
       transition: transform 0.3s, opacity 0.4s;

@@ -125,11 +125,23 @@
           }
         });
         if (resources.length > 0) {
-          axios.post(this.$root.serverURL + "/api/projects/" + projectId + "/" + "resources", resources)
-            .then(() => {
-              info.$router.push({path: `/admin/project/${projectId}`});
+          this.$dialog.confirm("Are you sure you want to allocate these resource(s)?", {
+            loader: true
+          })
+            .then((dialog) => {
+              axios.post(this.$root.serverURL + "/api/projects/" + projectId + "/" + "resources", resources)
+                .then(() => {
+                  dialog.close()
+                  info.$router.push({path: `/admin/project/${projectId}`});
+                })
+                .catch(() => {
+                  console.log("error while adding resources");
+                  dialog.close();
+                })
             })
-            .catch(() => console.log("error while adding resources"))
+            .catch(() => {
+              console.log('Delete aborted');
+            });
         }
       }
     }

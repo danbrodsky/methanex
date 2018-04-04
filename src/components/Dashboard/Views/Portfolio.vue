@@ -1,30 +1,16 @@
 <template>
   <div class="content" >
-    <b-navbar toggleable="md" type="light">
-
-      <b-collapse is-nav id="nav_collapse">
-        <b-navbar-nav>
-          <button v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right" v-on:click="createProject" >
-            <b style="font-size: large">+</b>
-          </button>
-        </b-navbar-nav>
-
-        <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
-
-          <b-nav-form>
-            <b-form-input size="sm"  class="mr-sm-2" type="text" placeholder="Search"/>
-            <button class="btn btn-dark btn-fill"  size="sm" type="submit">Search</button>
-          </b-nav-form>
-
-        </b-navbar-nav>
-
-      </b-collapse>
-    </b-navbar>
     <div class="container-fluid">
+      <b-alert :show=noProjectsBanner dismissible variant="warning">
+        <h4 class="alert-heading">This portfolio contains no projects at this time</h4>
+      </b-alert>
       <div class="row">
+        <button v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right" v-on:click="createProject" >
+          <b style="font-size: large">+</b>
+        </button>
       </div>
       <div class="row" style="margin-left: 5%;">
+        <pulse-loader :loading="isLoadingProjects"></pulse-loader>
         <project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;"
                       v-for="project of displayProjects"
                       v-bind:key="project.id"
@@ -46,6 +32,8 @@
   import GanttChart from 'src/components/UIComponents/PortfolioComponents/GanttChart.vue'
   import ResourceBreakdown from 'src/components/UIComponents/PortfolioComponents/ResourceBreakdown.vue'
   import FilterBar from 'src/components/UIComponents/FilterBar.vue'
+  import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+
 
   export default {
     components: {
@@ -59,6 +47,7 @@
       FilterBar,
       ProjectCard,
       AddProjectCard,
+      PulseLoader
     },
     created() {
       let that = this;
@@ -70,6 +59,8 @@
     },
     data() {
       return {
+        noProjectsBanner: false,
+        isLoadingProjects: true,
         checkedIds: [],
         role: '',
         portfolioId: -1,
@@ -117,6 +108,14 @@
             .then(response => {
               info.projects = response.data.slice();
               info.displayProjects = response.data.slice();
+              info.isLoadingProjects = false;
+              if (info.projects.length == 0) {
+                info.noProjectsBanner = true;
+              }
+            })
+            .catch(error => {
+              console.log(error);
+              info.isLoadingProjects = false;
             })
         }
         else {
@@ -125,6 +124,14 @@
             .then(response => {
               info.projects = response.data.slice();
               info.displayProjects = response.data.slice();
+              info.isLoadingProjects = false;
+              if (info.projects.length == 0) {
+                info.noProjectsBanner = true;
+              }
+            })
+            .catch(error => {
+              console.log(error);
+              info.isLoadingProjects = false;
             })
         }
       },

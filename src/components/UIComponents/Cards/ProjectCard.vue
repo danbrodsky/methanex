@@ -11,7 +11,7 @@
       <div class="body-data">
       </div>
       <div class="body-data" style="width: 100%; padding:0">
-          <span style="position:relative;top:-5px;">Target: </span><span style="display:inline;"><project-status-bar style="position:relative;top:-20px;left: 18%;width:70%;"
+          <span style="position:relative;top:-5px;">Target: </span><span style="display:inline;"><project-status-bar style="position:relative;top:-20px;left: 27%;width:70%;"
             v-bind:startDate="project.startDate"
             v-bind:expectedPreApprovalStatusDate="project.expectedPreApprovalStatusDate"
             v-bind:expectedSeekFundingStatusDate="project.expectedSeekFundingStatusDate"
@@ -34,19 +34,18 @@
           <span style="margin:0;display:inline-block;float:right;"> <p>Used:</p> <b>$</b>{{ project.budgetUsed }}</span>
       </div>
       <div class="body-data" style="margin:auto;text-align:center;">
-          <span style="margin:auto;"><i class="fa fa-calendar"></i> &nbsp; {{ displayStartDate }}&nbsp; 
+          <span style="margin:auto;"><i class="fa fa-calendar"></i> &nbsp; {{ displayStartDate }}&nbsp;
           <i class="fa fa-long-arrow-right"></i>&nbsp; {{ displayEndDate }} </span>
       </div>
       <div class="body-data">
       <span v-if="project.manager != null">
         <span style="margin:0;top:17px;position:relative;"><i class="fa fa-user"></i> {{ project.manager.name }}</span>
-        </span>
                 <span style="margin:0;display:inline-block;float:right;">
-              <b-dropdown v-on:click="getResources" variant="primary" no-caret>
+              <b-dropdown v-on:click="getResources" variant="btn-xs" no-caret id="project-card-dropdown">
                 <template slot="button-content">
-                <button style="color:black;border:none;" class="btn" v-on:click="getResources">
-                  <i style="font-size: 20px;color:black;" class="fa fa-users"></i><span>
-                  <i style="font-size: 20px;color:black;position:relative;left:10px;" class="fa fa-caret-down"></i></span><span class="sr-only"></span>
+                <button style="color:black;border:none;" class="btn btn-sm" v-on:click="getResources">
+                  <i style="color:black;" class="fa fa-users fa-lg"></i><span>
+                  <i style="color:black;position:relative;left:10px;" class="fa fa-caret-down"></i></span><span class="sr-only"></span>
                   </button>
                 </template>
               <b-dropdown-item v-for="resource of projectResources" v-bind:key="resource.id"> {{ resource.name }} </b-dropdown-item>
@@ -144,4 +143,11 @@
         padding-top: 0.5em;
         padding-bottom: 0.5em;
     }
+  #project-card-dropdown {
+    border-radius: 2px !important;
+  }
+
+  .card-header {
+    background-color: #f7f7f7;
+  }
 </style>

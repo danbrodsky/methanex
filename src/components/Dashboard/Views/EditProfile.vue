@@ -227,17 +227,14 @@
           .then(function () {
             info.fetchData();
             let notifications = [];
-            let currentSkills = info.resource.skills;
             info.updatedResourceSuccessBanner = true;
             if (info.resource.manager != null) {
-              info.skills.forEach(value => {
-                let res = currentSkills.every(skill => skill.id != value.id);
-                if (res) {
+
+              info.selectedSkills.forEach(value => {
                   let notification = {};
                   notification['skill'] = value;
                   notification['resource'] = info.resource;
                   notifications.push(notification);
-                }
               });
               if (notifications.length > 0) {
                 axios.post(info.$root.serverURL + "/api/notifications", notifications)
@@ -248,7 +245,7 @@
               }
             }
             else {
-              alert("error");
+              alert("error: no manager");
             }
           })
           .catch((error) => console.log(error));

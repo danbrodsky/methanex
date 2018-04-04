@@ -21,4 +21,7 @@
   }
 </script>
 <style>
+  .card, .card-header, .card-body {
+    background-color: #fafafa !important;
+  }
 </style>

@@ -12,7 +12,7 @@ import Notifications from 'src/components/Dashboard/Views/Notifications.vue'
 import PortfolioSelection from 'src/components/Dashboard/Views/PortfolioSelection.vue'
 import SkillList from 'src/components/Dashboard/Views/SkillList.vue'
 import Register from '../components/Register.vue'
-import Projects from '../components/Dashboard/Views/Projects.vue'
+import AddProjects from '../components/Dashboard/Views/AddProjects.vue'
 import Reports from 'src/components/Dashboard/Views/Reports.vue'
 import CreatePortfolio from 'src/components/Dashboard/Views/CreatePortfolio.vue'
 import AddResources from 'src/components/Dashboard/Views/AddResources.vue'
@@ -21,6 +21,9 @@ import AddProjectsToPortfolio from 'src/components/Dashboard/Views/AddProjectsTo
 import EditProfile from 'src/components/Dashboard/Views/EditProfile.vue'
 import AddResourcesToProject from 'src/components/Dashboard/Views/AddResourcesToProject.vue'
 import Statistics from 'src/components/Dashboard/Views/Statistics.vue'
+import GeneralProjects from 'src/components/Dashboard/Views/GeneralProjects.vue'
+import GeneralAddProject from 'src/components/Dashboard/Views/GeneralAddProject.vue'
+
 const routes = [
   {
     path: '/',
@@ -56,7 +59,7 @@ const routes = [
       {
         path: 'portfolio/add',
         name: 'Portfolio',
-        component: Projects
+        component: AddProjects
       },
       {
         path: 'portfolio/:portfolioId',
@@ -121,6 +124,16 @@ const routes = [
         props: true
       },
       {
+        path: 'project-selection',
+        name: 'GeneralProjects',
+        component: GeneralProjects
+      },
+      {
+        path: 'add-project-general',
+        name: 'AddProjectsGeneral',
+        component: GeneralAddProject
+      },
+      {
         path: 'project',
         name: 'project',
         component: ProjectTracker
@@ -148,5 +161,5 @@ const routes = [
     ]
   },
   { path: '*', component: NotFound }
-]
+];
 export default routes

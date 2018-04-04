@@ -5,6 +5,10 @@
         <i class="nc-icon nc-bullet-list-67"></i>
         <p>Portfolio Selection</p>
       </sidebar-link>
+      <sidebar-link to="/admin/project-selection">
+        <i class="nc-icon nc-bullet-list-67"></i>
+        <p>Project Selection</p>
+      </sidebar-link>
       <sidebar-link to="/admin/user">
         <i class="nc-icon nc-circle-09"></i>
         <p>Profile</p>

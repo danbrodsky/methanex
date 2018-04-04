@@ -1,6 +1,8 @@
 <template>
   <div class="content">
-  <div class="row" style="margin: 1%;">
+  <div class="header row" style="margin: 1%;">
+    <pie-chart :chart-data="skillResourceCountDataCollection"></pie-chart>
+    <bar-chart :chart-data="groupResourceCountDataCollection"></bar-chart>
     <gantt-chart v-bind:isPM="isPM" style="width: 80%;margin: auto;"></gantt-chart>
   </div>
     <div>
@@ -37,7 +39,7 @@
                       v-model="project.estimatedRemainingCost">
             </fg-input>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-3">
             <fg-input type="text"
                       label="Percentage Complete"
                       placeholder="% Complete"
@@ -107,15 +109,15 @@
           </span>
         </template>
       </vue-good-table>
-      <div v-if="hasAccess()">
-      <button type="submit" class="btn btn-info btn-fill float-right"
-              @click.prevent="addResources">
-        Add Resource
-      </button>
-        <button type="submit" class="btn btn-info btn-fill float-right"
-              @click.prevent="removeResources">
-        Remove Resource
-      </button>
+      <div v-if="hasAccess()" class="table-buttons">
+        <button type="submit" class="btn btn-info btn-fill"
+                @click.prevent="addResources">
+          Add Resource
+        </button>
+        <button type="submit" class="btn btn-info btn-fill"
+                @click.prevent="removeResources">
+          Remove Resource
+        </button>
       </div>
     </card>
   </div>
@@ -125,12 +127,19 @@
   import axios from 'axios'
   import GanttChart from 'src/components/UIComponents/PortfolioComponents/GanttChart.vue'
   import Multiselect from 'vue-multiselect'
+  import PieChart from 'src/components/UIComponents/PieChart.js'
+  import BarChart from 'src/components/UIComponents/BarChart.js'
 
   export default {
     components: {
       Card,
       GanttChart,
-      Multiselect
+      Multiselect,
+      PieChart,
+      BarChart
+    },
+    mounted() {
+      this.fillData();
     },
     data() {
       return {
@@ -188,7 +197,9 @@
           estimatedRemainingCost: null,
           percentageComplete: null,
         },
-        resources: []
+        resources: [],
+        skillResourceCountDataCollection: null,
+        groupResourceCountDataCollection: null
       }
     },
     created() {
@@ -196,7 +207,8 @@
       axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
         .then(response => {
           that.role = response.data[0].name;
-      })
+      });
+
       axios.get(this.$root.serverURL + "/api/resources")
         .then(response => {
           that.allResources = response.data;
@@ -204,6 +216,54 @@
       this.fetchData();
     },
     methods: {
+      fillData () {
+        let info = this;
+        let projectId = this.$route.params.projectId;
+        console.log(projectId);
+        axios
+          .get(this.$root.serverURL + "/api/resourceSkillNumberData?projectId=" + projectId)
+          .then(response => {
+            console.log(response.data);
+            let labels = [];
+            let data = [];
+            response.data.forEach(dataEntry => {
+              labels.push(dataEntry.skill);
+              data.push(dataEntry.number);
+            });
+            info.skillResourceCountDataCollection = {
+              labels: labels,
+              datasets: [
+                {
+                  label: '# Resources / Skill',
+                  backgroundColor: '#5ebdff',
+                  data: data
+                }]
+            }
+          })
+          .catch(error => console.log(error));
+
+        axios
+          .get(this.$root.serverURL + "/api/resourceGroupNumberData?projectId=" + projectId)
+          .then(response => {
+            console.log(response.data);
+            let labels = [];
+            let data = [];
+            response.data.forEach(dataEntry => {
+              labels.push(dataEntry.group);
+              data.push(dataEntry.number);
+            });
+            info.groupResourceCountDataCollection = {
+              labels: labels,
+              datasets: [
+                {
+                  label: '# Resources / Group',
+                  backgroundColor: '#68ff65',
+                  data: data
+                }]
+            }
+          })
+          .catch(error => alert("problem loading pie chart" + error));
+      },
       toggleSelectAll() {
         this.allSelected = !this.allSelected;
         this.resources.forEach(row => {
@@ -216,7 +276,6 @@
           .get(info.$root.serverURL + "/api/projects/" + this.$route.params.projectId)
           .then(response => {
             info.project = response.data;
-            console.log(response.data);
             if (info.project.projectOwner != null) {
               info.project.projectOwnerName = info.project.projectOwner.name;
               // info.project.percentageComplete = info.project.
@@ -298,4 +357,7 @@
   }
 </script>
 <style>
+  .table-buttons {
+    float: right;
+  }
 </style>

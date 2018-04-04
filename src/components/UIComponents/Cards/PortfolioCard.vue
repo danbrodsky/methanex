@@ -28,15 +28,6 @@
                                       type="text"
                                       placeholder="Enter classification"></b-form-input>
                       </b-form-group>
-                      <b-form-group horizontal
-                                    label="Summary:"
-                                    label-class="text-sm-right"
-                                    label-for="nestedResourceBreakdown">
-                        <b-form-input id="formPlaceholder"
-                                      v-model="portfolio.resourceBreakdown"
-                                      type="text"
-                                      placeholder="Enter resource breakdown"></b-form-input>
-                      </b-form-group>
                       </b-form-group>
                         <multiselect v-model="selectedOwner"
                                      placeholder="Pick the business owner"
@@ -116,7 +107,6 @@
           id: info.portfolio.id,
           classification: info.portfolio.classification,
           businessOwner: info.selectedOwner,
-          resourceBreakdown: info.portfolio.resourceBreakdown
         })
           .then(() => this.$emit('portfolio-alert'))
           .catch(() => console.log("error while editing portfolio"))
@@ -126,7 +116,7 @@
       },
       deletePortfolio () {
         let info = this;
-        this.$dialog.confirm("Are you sure you want to delete this skill?", {
+        this.$dialog.confirm("Are you sure you want to delete this portfolio?", {
           loader: true
         })
           .then((dialog) => {
