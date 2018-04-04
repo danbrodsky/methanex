@@ -46,7 +46,7 @@
                     </div>
                     <div class="col-2">
                       <div class="btn-group">
-                        <button type="submit" id="projectColumnFilterSubmit" class="btn btn-info btn-fill float-left"
+                        <button type="submit" id="projectColumnFilterSubmit" class="btn btn-info btn-fill float-left" style="margin-right: 5px"
                                 @click="selectProjectColumns">Apply
                         </button>
                         <button type="submit" id="projectColumnSelectAll" class="btn btn-info btn-fill float-left"
@@ -75,6 +75,7 @@
                 {{ props.formattedRow[props.column.field] }}
               </template>
             </vue-good-table>
+            <download-excel class="btn btn-info btn-fill float-left" :data="rowsProject" :fields="json_fields" name="projects.csv" type="csv">Export</download-excel>
           </card>
           <card>
             <template slot="header">
@@ -121,6 +122,7 @@
   import jsPdf from 'jspdf';
 
   Vue.use(VueGoodTable);
+  Vue.component('downloadExcel', VueJSONExcel)
 
   export default {
     components: {
@@ -294,7 +296,18 @@
         ],
         rowsPortfolio: [],
         rowsProject: [],
-        rowsResource: []
+        rowsResource: [],
+
+        json_meta: [
+          [
+            {
+              'key': 'charset',
+              'value': 'utf-8'
+            }
+          ]
+        ],
+
+        json_fields: {},
       };
     },
     methods: {
@@ -321,6 +334,7 @@
               if (info.rowsProject[i].manager != null)
                 info.rowsProject[i].manager = info.rowsProject[i].manager.name;
             }
+            info.json_data = info.rowsProject;
           });
         axios.get(this.$root.serverURL + "/api/resources")
           .then(response => {
@@ -355,7 +369,9 @@
 
       initProjectColumnMap() {
         for (var i = 0; i < this.columnsProject.length; i++) {
-          this.projectColumnsMap.set(this.columnsProject[i].label.toLowerCase(), this.columnsProject[i]);
+          var columnAttr = this.columnsProject[i];
+          this.projectColumnsMap.set(columnAttr.label.toLowerCase(), columnAttr);
+          this.json_fields[columnAttr.label] = columnAttr.field;
         }
       },
 
@@ -363,8 +379,12 @@
         var columnsToDisplay = this.selectedProjectColumns;
         if (this.selectedProjectColumns.length > 0) {
           this.columnsProject = [];
+          this.json_fields = {};
           for (var i = 0; i < columnsToDisplay.length; i++) {
-            this.columnsProject.push(this.projectColumnsMap.get(columnsToDisplay[i].name.toLowerCase()));
+            var columnName = columnsToDisplay[i].name
+            var columnAttr = this.projectColumnsMap.get(columnName.toLowerCase())
+            this.columnsProject.push(columnAttr);
+            this.json_fields[columnAttr.label] = columnAttr.field
           }
         }
       },
@@ -375,10 +395,14 @@
         if (!entry.done) {
           this.columnsProject = [];
         }
+        this.json_fields = {};
         while (!entry.done) {
           this.columnsProject.push(entry.value[1]);
+          console.log(entry.value[1]);
+          this.json_fields[entry.value[1].label] = entry.value[1].field;
           entry = iterator.next();
         }
+        this.selectedProjectColumns = [];
       },
     }
   }
