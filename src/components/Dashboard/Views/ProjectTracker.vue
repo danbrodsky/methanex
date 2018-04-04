@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-  <div class="row" style="margin: 1%;">
+  <div class="header row" style="margin: 1%;">
     <pie-chart :chart-data="skillResourceCountDataCollection"></pie-chart>
     <bar-chart :chart-data="groupResourceCountDataCollection"></bar-chart>
     <gantt-chart v-bind:isPM="isPM" style="width: 80%;margin: auto;"></gantt-chart>

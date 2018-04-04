@@ -6,17 +6,13 @@
     </b-card>
     <b-card>
       <label for="resourceSkillCountChart">Amount of Resources By Skill By Project</label>
-      <label class="typo__label">Project:</label>
-      <multiselect v-model="projectsSkill"
-                   placeholder="Pick a project for which to display information"
-                   label="name"
-                   track-by="skill"
-                   :options="projects"
-                   :multiple="false"></multiselect>
+      <multiselect placeholder="Pick a project" :options="projects" :searchable="false" :reset-after="true" @select="populateSkillsChart"></multiselect>
+
       <pie-chart id="resourceSkillCountChart" :chart-data="skillResourceCountDataCollection"></pie-chart>
     </b-card>
     <b-card>
       <label for="resourceGroupCountChart">Amount of Resources By Group By Project</label>
+      <multiselect placeholder="Pick a project" :options="projects" :searchable="false" :reset-after="true" @select="populateGroupsChart"></multiselect>
       <bar-chart id="resourceGroupCountChart" :chart-data="groupResourceCountDataCollection"></bar-chart>
     </b-card>
   </div>
@@ -41,39 +37,21 @@
         monthlyResourceDataCollection: null,
         skillResourceCountDataCollection: null,
         groupResourceCountDataCollection: null,
-        projectsSkill: null,
-        projects: []
+        selectedProject_skills: null,
+        selectedProject_groups: null,
+        projects: [],
+        isLoading: false
       }
     },
     mounted() {
       this.fillData()
     },
     methods: {
-      fillData() {
+      populateSkillsChart(project) {
         let info = this;
+        console.log(project);
         axios
-          .get(this.$root.serverURL + "/api/resourceGroupNumberData?projectId=123")
-          .then(response => {
-            let labels = [];
-            let data = [];
-            response.data.forEach(dataEntry => {
-              labels.push(dataEntry.group);
-              data.push(dataEntry.number);
-            });
-            info.groupResourceCountDataCollection = {
-              labels: labels,
-              datasets: [
-                {
-                  label: '# Resources / Group',
-                  backgroundColor: '#68ff65',
-                  data: data
-                }]
-            }
-          })
-          .catch(error => alert("problem loading pie chart" + error));
-
-        axios
-          .get(this.$root.serverURL + "/api/resourceSkillNumberData?projectId=123")
+          .get(this.$root.serverURL + "/api/resourceSkillNumberData?projectId=" + project.id)
           .then(response => {
             let labels = [];
             let data = [];
@@ -92,6 +70,40 @@
             }
           })
           .catch(error => console.log(error));
+      },
+      populateGroupsChart(project) {
+        let info = this;
+        axios
+          .get(this.$root.serverURL + "/api/resourceGroupNumberData?projectId=" + project.id)
+          .then(response => {
+            let labels = [];
+            let data = [];
+            response.data.forEach(dataEntry => {
+              labels.push(dataEntry.group);
+              data.push(dataEntry.number);
+            });
+            info.groupResourceCountDataCollection = {
+              labels: labels,
+              datasets: [
+                {
+                  label: '# Resources / Group',
+                  backgroundColor: '#68ff65',
+                  data: data
+                }]
+            }
+          })
+          .catch(error => {
+            alert("problem loading pie chart" + error);
+          });
+      },
+      fillData() {
+        let info = this;
+        axios
+          .get(this.$root.serverURL + "/api/projects")
+          .then(response => {
+            info.projects = response.data;
+          })
+          .catch(error => alert("error getting projects: " + error));
 
         axios
           .get(this.$root.serverURL + "/api/resourceProjectDateRange?start=2004-01-01&end=2004-12-12")
