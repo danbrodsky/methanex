@@ -1,10 +1,13 @@
 <template>
   <div class="content" >
-    <button v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right" v-on:click="createProject" >
-      <b style="font-size: large">+</b>
-    </button>
     <div class="container-fluid">
+      <b-alert :show=noProjectsBanner dismissible variant="warning">
+        <h4 class="alert-heading">This portfolio contains no projects at this time</h4>
+      </b-alert>
       <div class="row">
+        <button v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right" v-on:click="createProject" >
+          <b style="font-size: large">+</b>
+        </button>
       </div>
       <div class="row" style="margin-left: 5%;">
         <pulse-loader :loading="isLoadingProjects"></pulse-loader>
@@ -56,6 +59,7 @@
     },
     data() {
       return {
+        noProjectsBanner: false,
         isLoadingProjects: true,
         checkedIds: [],
         role: '',
@@ -105,6 +109,9 @@
               info.projects = response.data.slice();
               info.displayProjects = response.data.slice();
               info.isLoadingProjects = false;
+              if (info.projects.length == 0) {
+                info.noProjectsBanner = true;
+              }
             })
             .catch(error => {
               console.log(error);
@@ -118,6 +125,9 @@
               info.projects = response.data.slice();
               info.displayProjects = response.data.slice();
               info.isLoadingProjects = false;
+              if (info.projects.length == 0) {
+                info.noProjectsBanner = true;
+              }
             })
             .catch(error => {
               console.log(error);

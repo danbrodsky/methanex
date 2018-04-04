@@ -22,6 +22,7 @@ import EditProfile from 'src/components/Dashboard/Views/EditProfile.vue'
 import AddResourcesToProject from 'src/components/Dashboard/Views/AddResourcesToProject.vue'
 import Statistics from 'src/components/Dashboard/Views/Statistics.vue'
 import GeneralProjects from 'src/components/Dashboard/Views/GeneralProjects.vue'
+import GeneralAddProject from 'src/components/Dashboard/Views/GeneralAddProject.vue'
 
 const routes = [
   {
@@ -126,6 +127,11 @@ const routes = [
         path: 'project-selection',
         name: 'GeneralProjects',
         component: GeneralProjects
+      },
+      {
+        path: 'add-project-general',
+        name: 'AddProjectsGeneral',
+        component: GeneralAddProject
       },
       {
         path: 'project',

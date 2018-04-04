@@ -132,7 +132,6 @@
         axios.get(this.$root.serverURL + "/api/portfolios/difference?portfolioId=" + portfolioId)
           .then(response => {
             info.rows = response.data;
-            console.log(response.data);
             for (let i = 0; i < info.rows.length; i++) {
               if (info.rows[i].manager != null) {
                 info.rows[i].manager = info.rows[i].manager.name;
