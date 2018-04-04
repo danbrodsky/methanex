@@ -1,36 +1,21 @@
 <template>
   <div class="content">
-    <b-navbar toggleable="md" type="light">
-      <b-collapse is-nav id="nav_collapse">
-        <b-navbar-nav>
-          <button v-if="hasAccess()" v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right">
-            <b style="font-size: large">+</b>
-          </button>
-          <b-modal
-            id="addPortfolioModal"
-            ref="savePortfolio"
-            @ok="savePortfolio">
-            <div>
-              <b-card title="Add A Portfolio" style="border:none;">
-                <b-form-input id="nestedName"
-                              v-model="newPortfolio.classification"
-                              type="text"
-                              placeholder="Enter a name"></b-form-input>
-              </b-card>
-            </div>
-          </b-modal>
-        </b-navbar-nav>
-        <b-navbar-nav class="ml-auto">
-
-          <b-nav-form>
-            <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search"/>
-            <button class="btn btn-dark btn-fill" size="sm" type="submit">Search</button>
-          </b-nav-form>
-
-        </b-navbar-nav>
-
-      </b-collapse>
-    </b-navbar>
+    <button v-if="hasAccess()" v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right">
+      <b style="font-size: large">+</b>
+    </button>
+    <b-modal
+      id="addPortfolioModal"
+      ref="savePortfolio"
+      @ok="savePortfolio">
+      <div>
+        <b-card title="Add A Portfolio" style="border:none;">
+          <b-form-input id="nestedName"
+                        v-model="newPortfolio.classification"
+                        type="text"
+                        placeholder="Enter a name"></b-form-input>
+        </b-card>
+      </div>
+    </b-modal>
     <div class="container-fluid">
       <div>
       <b-alert :show=updatedPortfolioSuccessBanner dismissible variant="success">
@@ -44,6 +29,7 @@
         </b-alert>
       </div>
       <div class="row">
+        <pulse-loader :loading="isLoadingPortfolios"></pulse-loader>
         <portfolio-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;border:1px;border-style:solid;border-color:#cccccc;"
                         v-for="portfolio of portfoliosDisplayed"
                         v-bind:key="portfolio.id"
@@ -65,6 +51,7 @@
   import AddPortfolioCard from 'src/components/UIComponents/Cards/AddPortfolioCard.vue'
   import _ from 'lodash'
   import axios from 'axios'
+  import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 
   export default {
     components: {
@@ -73,7 +60,8 @@
       LTable,
       PortfolioCard,
       AddProjectCard,
-      AddPortfolioCard
+      AddPortfolioCard,
+      PulseLoader
     },
     created() {
       let that = this;
@@ -86,6 +74,7 @@
     },
     data() {
       return {
+        isLoadingPortfolios: true,
         updatedPortfolioSuccessBanner: false,
         createPortfolioBanner: false,
         portfolios: [],
@@ -122,8 +111,12 @@
               info.portfolios[i].numProjects = info.portfolios[i].projects.length;
             }
             info.portfoliosDisplayed = info.portfolios.slice();
+            info.isLoadingPortfolios = false;
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            console.log(error);
+            info.isLoadingPortfolios = false;
+          });
       },
       hasAccess() {
         return this.role == "ROLE_ADMIN";
