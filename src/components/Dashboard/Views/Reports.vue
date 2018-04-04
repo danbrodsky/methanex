@@ -177,36 +177,20 @@
 
         columnsPortfolio: [
           {
-            label: 'ID',
-            field: 'id',
-            filterable: true,
-          },
-          {
             label: 'Classification',
             field: 'classification',
-            type: 'string',
             filterable: true,
           },
           {
             label: 'Business Owner',
             field: 'businessOwner',
             filterable: true,
-          },
-          {
-            label: 'Resource Breakdown',
-            field: 'resourceBreakdown',
-            filterable: true,
-          },
+          }
         ],
         columnsProject: [
           {
             label: 'Name',
             field: 'name',
-            filterable: true,
-          },
-          {
-            label: 'Project Status',
-            field: 'status',
             filterable: true,
           },
           {
@@ -217,17 +201,18 @@
           },
           {
             label: 'Project Owner',
-            field: 'businessOwner',
+            field: 'projectOwner',
+            type: 'string',
             filterable: true,
           },
           {
-            label: 'RAG Status',
-            field: 'rag_status',
+            label: 'Start',
+            field: 'startDate',
             filterable: true,
           },
           {
-            label: 'Number of Resources',
-            field: 'projectResourses',
+            label: 'End',
+            field: 'endDate',
             filterable: true,
           },
           {
@@ -236,19 +221,24 @@
             filterable: true,
           },
           {
-            label: 'Budget Used',
-            field: 'budget_used',
-            filterable: true,
+            label: 'Status',
+            field: 'status',
+            filterable: true
           },
           {
-            label: 'Start Date',
-            field: 'start_date',
-            filterable: true,
+            label: 'RAG',
+            field: 'ragStatus',
+            filterable: true
           },
           {
-            label: 'End Date',
-            field: 'end_date',
-            filterable: true,
+            label: '% Complete',
+            field: 'percentageComplete',
+            filterable: true
+          },
+          {
+            label: 'Est. Remaining Cost',
+            field: 'estimatedRemainingCost',
+            filterable: true
           }
         ],
         columnsResource: [
@@ -319,26 +309,35 @@
             for (let i = 0; i < info.rowsPortfolio.length; i++) {
               if (info.rowsPortfolio[i].businessOwner != null)
                 info.rowsPortfolio[i].businessOwner = info.rowsPortfolio[i].businessOwner.name;
-              if (info.rowsPortfolio[i].classification != null)
-                info.rowsPortfolio[i].classification = info.rowsPortfolio[i].classification.name;
             }
-            console.log(response.data);
           });
 
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
             info.rowsProject = response.data;
             for (let i = 0; i < info.rowsProject.length; i++) {
-              if (info.rowsProject[i].status != null)
-                info.rowsProject[i].status = info.rowsProject[i].status.name;
-              if (info.rowsProject[i].manager != null)
+              if (info.rowsProject[i].manager != null) {
                 info.rowsProject[i].manager = info.rowsProject[i].manager.name;
+              }
+              if (info.rowsProject[i].projectOwner != null) {
+                info.rowsProject[i].projectOwner = info.rowsProject[i].projectOwner.name;
+              }
+              if (info.rowsProject[i].status != null) {
+                info.rowsProject[i].status = info.rowsProject[i].status.name;
+              }
+              if (info.rowsProject[i].ragStatus != null) {
+                info.rowsProject[i].ragStatus = info.rowsProject[i].ragStatus.name;
+              }
+              if (info.rowsProject[i].startDate != null) {
+                info.rowsProject[i].startDate = info.dateToString(info.rowsProject[i].startDate);
+              }
+              if (info.rowsProject[i].endDate != null) {
+                info.rowsProject[i].endDate = info.dateToString(info.rowsProject[i].endDate);
+              }
             }
-            info.json_data = info.rowsProject;
           });
         axios.get(this.$root.serverURL + "/api/resources")
           .then(response => {
-            console.log(response.data);
             info.rowsResource = response.data;
             for (let i = 0; i < info.rowsResource.length; i++) {
               if (info.rowsResource[i].manager != null)
@@ -365,6 +364,9 @@
               }
             }
           })
+      },
+      dateToString(array) {
+        return array[0].toString() + "." + array[1].toString() + "." + array[2].toString();
       },
 
       initProjectColumnMap() {

@@ -24,16 +24,6 @@
               @close="modalShow = false"></business-owner-picker>
           </div>
         </div>
-
-        <div class="row">
-          <div class="col-md-6">
-            <fg-input type="text"
-                      label="Resource Breakdown"
-                      placeholder="Resource Breakdown"
-                      v-model="portfolio.resourceBreakdown">
-            </fg-input>
-          </div>
-        </div>
         <div class="text-center">
           <button type="submit" class="btn btn-info btn-fill float-right"  @click="updateProfile">
             Save
@@ -62,7 +52,6 @@
         portfolio: {
           classification: '',
           businessOwner: '',
-          resourceBreakdown: ''
         },
         businessOwnerId: null
       }
@@ -73,9 +62,7 @@
         var info = this;
         axios.post(info.$root.serverURL + "/api/portfolios", {
           "classification": info.portfolio.classification,
-          "businessOwner": info.portfolio.businessOwner,
-          "resourceBreakdown": info.portfolio.resourceBreakdown
-        })
+          "businessOwner": info.portfolio.businessOwner})
           .then(function () {
             info.$router.push({path: `/admin/portfolio`});
           })
