@@ -28,14 +28,20 @@
     </b-card>
     <b-card>
       <label for="resourceSkillCountChart">Amount of Resources By Skill By Project</label>
-      <multiselect placeholder="Pick a project" :options="projects" :searchable="false"
+      <multiselect placeholder="Pick a project"
+                   :options="projects"
+                   label="name"
+                   :searchable="false"
                    @select="populateSkillsChart"></multiselect>
       <pulse-loader :loading="isLoadingSkill"></pulse-loader>
       <pie-chart id="resourceSkillCountChart" :chart-data="skillResourceCountDataCollection"></pie-chart>
     </b-card>
     <b-card>
       <label for="resourceGroupCountChart">Amount of Resources By Group By Project</label>
-      <multiselect placeholder="Pick a project" :options="projects" :searchable="false"
+      <multiselect placeholder="Pick a project"
+                   :options="projects"
+                   label="name"
+                   :searchable="false"
                    @select="populateGroupsChart"></multiselect>
       <pulse-loader :loading="isLoadingGroup"></pulse-loader>
       <bar-chart id="resourceGroupCountChart" :chart-data="groupResourceCountDataCollection"></bar-chart>
