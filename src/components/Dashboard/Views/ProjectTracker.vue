@@ -1,7 +1,8 @@
 <template>
   <div class="content">
   <div class="row" style="margin: 1%;">
-    <pie-chart :chart-data="datacollection"></pie-chart>
+    <pie-chart :chart-data="skillResourceCountDataCollection"></pie-chart>
+    <bar-chart :chart-data="groupResourceCountDataCollection"></bar-chart>
     <gantt-chart v-bind:isPM="isPM" style="width: 80%;margin: auto;"></gantt-chart>
   </div>
     <div>
@@ -127,20 +128,21 @@
   import GanttChart from 'src/components/UIComponents/PortfolioComponents/GanttChart.vue'
   import Multiselect from 'vue-multiselect'
   import PieChart from 'src/components/UIComponents/PieChart.js'
+  import BarChart from 'src/components/UIComponents/BarChart.js'
 
   export default {
     components: {
       Card,
       GanttChart,
       Multiselect,
-      PieChart
+      PieChart,
+      BarChart
     },
     mounted() {
       this.fillData();
     },
     data() {
       return {
-        datacollection: null,
         updatedProjectSuccessBanner: false,
         addedResourcesBanner: false,
         deletedResourceBanner: false,
@@ -195,7 +197,9 @@
           estimatedRemainingCost: null,
           percentageComplete: null,
         },
-        resources: []
+        resources: [],
+        skillResourceCountDataCollection: null,
+        groupResourceCountDataCollection: null
       }
     },
     created() {
@@ -203,7 +207,8 @@
       axios.get(this.$root.serverURL + "/user/" + JSON.parse(that.$root.$data.cookies.get('user')).id + "/roles")
         .then(response => {
           that.role = response.data[0].name;
-      })
+      });
+
       axios.get(this.$root.serverURL + "/api/resources")
         .then(response => {
           that.allResources = response.data;
@@ -212,38 +217,52 @@
     },
     methods: {
       fillData () {
+        let info = this;
+        let projectId = this.$route.params.projectId;
+        console.log(projectId);
         axios
-          .get(this.$root.serverURL + "/api/resourceProjectDateRange?projectId=123")
+          .get(this.$root.serverURL + "/api/resourceSkillNumberData?projectId=" + projectId)
           .then(response => {
             console.log(response.data);
+            let labels = [];
+            let data = [];
+            response.data.forEach(dataEntry => {
+              labels.push(dataEntry.skill);
+              data.push(dataEntry.number);
+            });
+            info.skillResourceCountDataCollection = {
+              labels: labels,
+              datasets: [
+                {
+                  label: '# Resources / Skill',
+                  backgroundColor: '#5ebdff',
+                  data: data
+                }]
+            }
           })
           .catch(error => console.log(error));
-        // axios
-        //   .get(this.$root.serverURL + "/api/resourceSkillNumberData?projectId=123")
-        //   .then(response => {
-        //     console.log(response.data);
-        //   })
-        //   .catch(error => console.log(error));
-        // axios
-        //   .get(this.$root.serverURL + "/api/resourceGroupNumberData?projectId=123")
-        //   .then(response => {
-        //     console.log(response.data);
-        //   })
-        //   .catch(error => console.log(error));
-        this.datacollection = {
-          labels: ["January", "February", "March", "April"],
-          datasets: [
-            {
-              label: 'Data One',
-              backgroundColor: '#f87979',
-              data: [455, 454, 344, 111]
-            }, {
-              label: 'Data One',
-              backgroundColor: '#f87979',
-              data: [123, 200, 300, 100]
+
+        axios
+          .get(this.$root.serverURL + "/api/resourceGroupNumberData?projectId=" + projectId)
+          .then(response => {
+            console.log(response.data);
+            let labels = [];
+            let data = [];
+            response.data.forEach(dataEntry => {
+              labels.push(dataEntry.group);
+              data.push(dataEntry.number);
+            });
+            info.groupResourceCountDataCollection = {
+              labels: labels,
+              datasets: [
+                {
+                  label: '# Resources / Group',
+                  backgroundColor: '#68ff65',
+                  data: data
+                }]
             }
-          ]
-        }
+          })
+          .catch(error => alert("problem loading pie chart" + error));
       },
       toggleSelectAll() {
         this.allSelected = !this.allSelected;
@@ -257,7 +276,6 @@
           .get(info.$root.serverURL + "/api/projects/" + this.$route.params.projectId)
           .then(response => {
             info.project = response.data;
-            console.log(response.data);
             if (info.project.projectOwner != null) {
               info.project.projectOwnerName = info.project.projectOwner.name;
               // info.project.percentageComplete = info.project.

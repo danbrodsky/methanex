@@ -51,7 +51,6 @@
     methods: {
       fillData() {
         let info = this;
-
         axios
           .get(this.$root.serverURL + "/api/resourceGroupNumberData?projectId=123")
           .then(response => {
@@ -120,8 +119,4 @@
 </script>
 
 <style>
-  .small {
-    max-width: 600px;
-    margin: 150px auto;
-  }
 </style>
