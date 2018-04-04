@@ -2,18 +2,41 @@
   <div class="content">
     <b-card>
       <label for="monthlyResourceChart">Amount of Resources Occupied By Month</label>
+
+      <div class="row">
+        <div class="col-md-6">
+          <fg-input type="date"
+                    label="start"
+                    placeholder="Start"
+                    v-model="startDateQuery">
+          </fg-input>
+        </div>
+        <div class="col-md-4">
+          <fg-input type="date"
+                    label="End"
+                    placeholder="end date"
+                    v-model="endDateQuery">
+          </fg-input>
+        </div>
+        <button type="submit" class="btn btn-info btn-fill float-right"  @click.prevent="populateDateRange">
+          Calculate
+        </button>
+      </div>
+
       <pulse-loader :loading="isLoadingDate"></pulse-loader>
       <line-chart id="monthlyResourceChart" :chart-data="monthlyResourceDataCollection"></line-chart>
     </b-card>
     <b-card>
       <label for="resourceSkillCountChart">Amount of Resources By Skill By Project</label>
-      <multiselect placeholder="Pick a project" :options="projects" :searchable="false" @select="populateSkillsChart"></multiselect>
+      <multiselect placeholder="Pick a project" :options="projects" :searchable="false"
+                   @select="populateSkillsChart"></multiselect>
       <pulse-loader :loading="isLoadingSkill"></pulse-loader>
       <pie-chart id="resourceSkillCountChart" :chart-data="skillResourceCountDataCollection"></pie-chart>
     </b-card>
     <b-card>
       <label for="resourceGroupCountChart">Amount of Resources By Group By Project</label>
-      <multiselect placeholder="Pick a project" :options="projects" :searchable="false" @select="populateGroupsChart"></multiselect>
+      <multiselect placeholder="Pick a project" :options="projects" :searchable="false"
+                   @select="populateGroupsChart"></multiselect>
       <pulse-loader :loading="isLoadingGroup"></pulse-loader>
       <bar-chart id="resourceGroupCountChart" :chart-data="groupResourceCountDataCollection"></bar-chart>
     </b-card>
@@ -38,13 +61,15 @@
     },
     data() {
       return {
+        startDateQuery: '',
+        endDateQuery: '',
         monthlyResourceDataCollection: null,
         skillResourceCountDataCollection: null,
         groupResourceCountDataCollection: null,
         selectedProject_skills: null,
         selectedProject_groups: null,
         projects: [],
-        isLoadingDate: true,
+        isLoadingDate: false,
         isLoadingSkill: false,
         isLoadingGroup: false
       }
@@ -56,7 +81,6 @@
       populateSkillsChart(project) {
         this.isLoadingSkill = true;
         let info = this;
-        console.log(project);
         axios
           .get(this.$root.serverURL + "/api/resourceSkillNumberData?projectId=" + project.id)
           .then(response => {
@@ -118,31 +142,42 @@
             info.projects = response.data;
           })
           .catch(error => alert("error getting projects: " + error));
-
-        axios
-          .get(this.$root.serverURL + "/api/resourceProjectDateRange?start=2004-01-01&end=2004-12-12")
-          .then(response => {
-            let labels = [];
-            let data = [];
-            response.data.forEach(dataEntry => {
-              labels.push(dataEntry.date);
-              data.push(dataEntry.number);
+      },
+      populateDateRange() {
+        let info = this;
+        info.isLoadingDate = true;
+        if ((info.startDateQuery !== undefined && info.endDateQuery !== undefined) ||
+          (info.startDate !== '' && info.endDate !=='')) {
+          console.log(info.startDateQuery);
+          console.log(info.endDateQuery);
+          axios
+            .get(this.$root.serverURL + "/api/resourceProjectDateRange?start=" + info.startDateQuery + "&end=" + info.endDateQuery)
+            .then(response => {
+              let labels = [];
+              let data = [];
+              response.data.forEach(dataEntry => {
+                labels.push(dataEntry.date);
+                data.push(dataEntry.number);
+              });
+              info.monthlyResourceDataCollection = {
+                labels: labels,
+                datasets: [
+                  {
+                    label: '# Resources / Month',
+                    backgroundColor: '#f87979',
+                    data: data
+                  }]
+              };
+              info.isLoadingDate = false;
+            })
+            .catch(error => {
+              alert(error);
+              info.isLoadingDate = false;
             });
-            info.monthlyResourceDataCollection = {
-              labels: labels,
-              datasets: [
-                {
-                  label: '# Resources / Month',
-                  backgroundColor: '#f87979',
-                  data: data
-                }]
-            };
-            info.isLoadingDate = false;
-          })
-          .catch(error => {
-            alert("graph didn't load: " + error);
-            info.isLoadingDate = false;
-          });
+        }
+        else {
+          alert("Please enter a valid range of dates");
+        }
       }
     }
   }

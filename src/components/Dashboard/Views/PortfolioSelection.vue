@@ -1,21 +1,5 @@
 <template>
   <div class="content">
-    <button v-if="hasAccess()" v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right">
-      <b style="font-size: large">+</b>
-    </button>
-    <b-modal
-      id="addPortfolioModal"
-      ref="savePortfolio"
-      @ok="savePortfolio">
-      <div>
-        <b-card title="Add A Portfolio" style="border:none;">
-          <b-form-input id="nestedName"
-                        v-model="newPortfolio.classification"
-                        type="text"
-                        placeholder="Enter a name"></b-form-input>
-        </b-card>
-      </div>
-    </b-modal>
     <div class="container-fluid">
       <div>
       <b-alert :show=updatedPortfolioSuccessBanner dismissible variant="success">
@@ -27,6 +11,24 @@
         <b-alert :show=createPortfolioBanner dismissible variant="success">
           <h4 class="alert-heading">Portfolio Added</h4>
         </b-alert>
+      </div>
+      <div class="row">
+        <button v-if="hasAccess()" v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right">
+          <b style="font-size: large">+</b>
+        </button>
+        <b-modal
+          id="addPortfolioModal"
+          ref="savePortfolio"
+          @ok="savePortfolio">
+          <div>
+            <b-card title="Add A Portfolio" style="border:none;">
+              <b-form-input id="nestedName"
+                            v-model="newPortfolio.classification"
+                            type="text"
+                            placeholder="Enter a name"></b-form-input>
+            </b-card>
+          </div>
+        </b-modal>
       </div>
       <div class="row">
         <pulse-loader :loading="isLoadingPortfolios"></pulse-loader>

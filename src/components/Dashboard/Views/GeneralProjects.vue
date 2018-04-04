@@ -13,20 +13,10 @@
         :globalSearch="false"
         styleClass="table table-striped condensed">
         <template slot="table-column" slot-scope="props">
-                <span v-if="props.column.label ==''">
-                  <input @click="toggleSelectAll" type="checkbox"/>
-                </span>
-          <span v-else>
-                    {{props.column.label}}
-                </span>
+          {{props.column.label}}
         </template>
         <template slot="table-row" slot-scope="props">
-            <span v-if="props.column.field === 'chkbx'">
-              <input type="checkbox" v-model="rows[props.row.originalIndex].selected">
-            </span>
-          <span v-else>
             {{ props.formattedRow[props.column.field] }}
-          </span>
         </template>
       </vue-good-table>
     </card>
@@ -56,11 +46,6 @@
         allSelected: false,
         rows: [],
         columns: [
-          {
-            label: '', // checkbox
-            field: 'chkbx',
-            sortable: false,
-          },
           {
             label: 'Name',
             field: 'name',

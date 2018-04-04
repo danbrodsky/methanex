@@ -126,7 +126,7 @@
       },
       deletePortfolio () {
         let info = this;
-        this.$dialog.confirm("Are you sure you want to delete this skill?", {
+        this.$dialog.confirm("Are you sure you want to delete this portfolio?", {
           loader: true
         })
           .then((dialog) => {
