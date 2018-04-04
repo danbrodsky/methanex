@@ -336,7 +336,6 @@
         var info = this;
         axios.get(this.$root.serverURL + "/api/technicalSkills")
           .then(response => {
-            //console.log(response.data);
             response.data.forEach(obj => {
               let temp = "";
               obj.categories.forEach(category => temp += category.name + ", ");

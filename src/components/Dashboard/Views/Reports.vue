@@ -46,7 +46,8 @@
                     </div>
                     <div class="col-2">
                       <div class="btn-group">
-                        <button type="submit" id="projectColumnFilterSubmit" class="btn btn-info btn-fill float-left" style="margin-right: 5px"
+                        <button type="submit" id="projectColumnFilterSubmit" class="btn btn-info btn-fill float-left"
+                                style="margin-right: 5px"
                                 @click="selectProjectColumns">Apply
                         </button>
                         <button type="submit" id="projectColumnSelectAll" class="btn btn-info btn-fill float-left"
@@ -75,7 +76,9 @@
                 {{ props.formattedRow[props.column.field] }}
               </template>
             </vue-good-table>
-            <download-excel class="btn btn-info btn-fill float-left" :data="rowsProject" :fields="project_json_fields" name="projects.csv" type="csv">Export as CSV</download-excel>
+            <download-excel class="btn btn-info btn-fill float-left" :data="rowsProject" :fields="project_json_fields"
+                            name="projects.csv" type="csv">Export as CSV
+            </download-excel>
           </card>
           <card>
             <template slot="header">
@@ -340,42 +343,36 @@
           .then(response => {
             info.rowsResource = response.data;
             for (let i = 0; i < info.rowsResource.length; i++) {
-              if (info.rowsResource[i].manager != null)
+              if (info.rowsResource[i].manager != null) {
                 info.rowsResource[i].manager = info.rowsResource[i].manager.name;
-              if (info.rowsResource[i].group != null)
+              }
+              if (info.rowsResource[i].group != null) {
                 info.rowsResource[i].group = info.rowsResource[i].group.name;
-              if (info.rowsResource[i].status != null)
+              }
+              if (info.rowsResource[i].status != null) {
                 info.rowsResource[i].status = info.rowsResource[i].status.name;
-              if (info.rowsResource[i].skills != null) {
-                let skills = info.rowsResource[i].skills;
-                let skillStr = '';
-                for (var j in skills) {
-                  skillStr += skills[j].name
-                }
-                info.rowsResource[i].skills = skillStr;
               }
-              if (info.rowsResource[i].nonTechnicalSkills != null) {
-                let skills = info.rowsResource[i].nonTechnicalSkills;
-                let skillStr = '';
-                for (var j in skills) {
-                  skillStr += skills[j].name
-                }
-                info.rowsResource[i].nonTechnicalSkills = skillStr;
-              }
+              let tempSkills = "";
+              info.rowsResource[i].skills.forEach(skill => tempSkills += skill.name + ", ");
+              info.rowsResource[i].skills = tempSkills.substring(0, tempSkills.length - 2);
+              let tempNonTechSkills = "";
+              info.rowsResource[i].nonTechnicalSkills.forEach(skill => tempNonTechSkills += skill.name + ", ");
+              info.rowsResource[i].nonTechnicalSkills = tempNonTechSkills.substring(0, tempNonTechSkills.length - 2);
             }
           })
+          .catch(error => console.log(error));
       },
       dateToString(array) {
         return array[0].toString() + "." + array[1].toString() + "." + array[2].toString();
       },
-
       initProjectColumnMap() {
         for (var i = 0; i < this.columnsProject.length; i++) {
           var columnAttr = this.columnsProject[i];
           this.projectColumnsMap.set(columnAttr.label.toLowerCase(), columnAttr);
           this.project_json_fields[columnAttr.label] = columnAttr.field;
         }
-      },
+      }
+      ,
 
       selectProjectColumns() {
         var columnsToDisplay = this.selectedProjectColumns;
@@ -390,7 +387,7 @@
             this.project_json_fields[columnAttr.label] = {
               field: columnAttr.field,
               callback: (value) => {
-                if(!value)
+                if (!value)
                   return '';
                 return value;
               }
@@ -398,7 +395,8 @@
 
           }
         }
-      },
+      }
+      ,
 
       selectAllProjectColumns() {
         var iterator = this.projectColumnsMap.entries();
@@ -413,7 +411,7 @@
           this.project_json_fields[entry.value[1].label] = {
             field: entry.value[1].field,
             callback: (value) => {
-              if(!value)
+              if (!value)
                 return '';
               return value;
             }
@@ -421,7 +419,8 @@
           entry = iterator.next();
         }
         this.selectedProjectColumns = [];
-      },
+      }
+      ,
     }
   }
 </script>
