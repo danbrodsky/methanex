@@ -2,17 +2,19 @@
   <div class="content">
     <b-card>
       <label for="monthlyResourceChart">Amount of Resources Occupied By Month</label>
+      <pulse-loader :loading="isLoadingDate"></pulse-loader>
       <line-chart id="monthlyResourceChart" :chart-data="monthlyResourceDataCollection"></line-chart>
     </b-card>
     <b-card>
       <label for="resourceSkillCountChart">Amount of Resources By Skill By Project</label>
-      <multiselect placeholder="Pick a project" :options="projects" :searchable="false" :reset-after="true" @select="populateSkillsChart"></multiselect>
-
+      <multiselect placeholder="Pick a project" :options="projects" :searchable="false" @select="populateSkillsChart"></multiselect>
+      <pulse-loader :loading="isLoadingSkill"></pulse-loader>
       <pie-chart id="resourceSkillCountChart" :chart-data="skillResourceCountDataCollection"></pie-chart>
     </b-card>
     <b-card>
       <label for="resourceGroupCountChart">Amount of Resources By Group By Project</label>
-      <multiselect placeholder="Pick a project" :options="projects" :searchable="false" :reset-after="true" @select="populateGroupsChart"></multiselect>
+      <multiselect placeholder="Pick a project" :options="projects" :searchable="false" @select="populateGroupsChart"></multiselect>
+      <pulse-loader :loading="isLoadingGroup"></pulse-loader>
       <bar-chart id="resourceGroupCountChart" :chart-data="groupResourceCountDataCollection"></bar-chart>
     </b-card>
   </div>
@@ -24,13 +26,15 @@
   import BarChart from 'src/components/UIComponents/BarChart.js'
   import axios from 'axios'
   import Multiselect from 'vue-multiselect'
+  import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 
   export default {
     components: {
       LineChart,
       PieChart,
       BarChart,
-      Multiselect
+      Multiselect,
+      PulseLoader
     },
     data() {
       return {
@@ -40,7 +44,9 @@
         selectedProject_skills: null,
         selectedProject_groups: null,
         projects: [],
-        isLoading: false
+        isLoadingDate: true,
+        isLoadingSkill: false,
+        isLoadingGroup: false
       }
     },
     mounted() {
@@ -48,6 +54,7 @@
     },
     methods: {
       populateSkillsChart(project) {
+        this.isLoadingSkill = true;
         let info = this;
         console.log(project);
         axios
@@ -67,12 +74,17 @@
                   backgroundColor: '#5ebdff',
                   data: data
                 }]
-            }
+            };
+            info.isLoadingSkill = false;
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            console.log(error);
+            info.isLoadingSkill = false;
+          });
       },
       populateGroupsChart(project) {
         let info = this;
+        this.isLoadingGroup = true;
         axios
           .get(this.$root.serverURL + "/api/resourceGroupNumberData?projectId=" + project.id)
           .then(response => {
@@ -90,10 +102,12 @@
                   backgroundColor: '#68ff65',
                   data: data
                 }]
-            }
+            };
+            info.isLoadingGroup = false;
           })
           .catch(error => {
             alert("problem loading pie chart" + error);
+            info.isLoadingGroup = false;
           });
       },
       fillData() {
@@ -122,9 +136,13 @@
                   backgroundColor: '#f87979',
                   data: data
                 }]
-            }
+            };
+            info.isLoadingDate = false;
           })
-          .catch(error => alert("graph didn't load: " + error));
+          .catch(error => {
+            alert("graph didn't load: " + error);
+            info.isLoadingDate = false;
+          });
       }
     }
   }
