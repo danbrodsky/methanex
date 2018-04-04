@@ -38,7 +38,7 @@
                       v-model="project.estimatedRemainingCost">
             </fg-input>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-3">
             <fg-input type="text"
                       label="Percentage Complete"
                       placeholder="% Complete"
@@ -108,15 +108,15 @@
           </span>
         </template>
       </vue-good-table>
-      <div v-if="hasAccess()">
-      <button type="submit" class="btn btn-info btn-fill float-right"
-              @click.prevent="addResources">
-        Add Resource
-      </button>
-        <button type="submit" class="btn btn-info btn-fill float-right"
-              @click.prevent="removeResources">
-        Remove Resource
-      </button>
+      <div v-if="hasAccess()" class="table-buttons">
+        <button type="submit" class="btn btn-info btn-fill"
+                @click.prevent="addResources">
+          Add Resource
+        </button>
+        <button type="submit" class="btn btn-info btn-fill"
+                @click.prevent="removeResources">
+          Remove Resource
+        </button>
       </div>
     </card>
   </div>
@@ -339,4 +339,7 @@
   }
 </script>
 <style>
+  .table-buttons {
+    float: right;
+  }
 </style>

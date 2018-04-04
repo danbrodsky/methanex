@@ -29,10 +29,10 @@
               </template>
             </vue-good-table>
             <div class="text-center">
-              <button type="submit"  class="btn btn-info btn-fill float-left" @click.prevent="addProjects">
+              <button type="submit"  class="btn btn-info btn-fill" @click.prevent="addProjects">
                 Save
               </button>
-              <button type="submit"  class="btn btn-info btn-fill float-left" @click.prevent="cancel">
+              <button type="submit"  class="btn btn-info btn-fill" @click.prevent="cancel">
                 Cancel
               </button>
             </div>
@@ -132,12 +132,25 @@
         axios.get(this.$root.serverURL + "/api/portfolios/difference?portfolioId=" + portfolioId)
           .then(response => {
             info.rows = response.data;
+            console.log(response.data);
             for (let i = 0; i < info.rows.length; i++) {
               if (info.rows[i].manager != null) {
                 info.rows[i].manager = info.rows[i].manager.name;
               }
               if (info.rows[i].projectOwner != null) {
                 info.rows[i].projectOwner = info.rows[i].projectOwner.name;
+              }
+              if (info.rows[i].status != null) {
+                info.rows[i].status = info.rows[i].status.name;
+              }
+              if (info.rows[i].ragStatus != null) {
+                info.rows[i].ragStatus = info.rows[i].ragStatus.name;
+              }
+              if (info.rows[i].startDate != null) {
+                info.rows[i].startDate = info.dateToString(info.rows[i].startDate);
+              }
+              if (info.rows[i].endDate != null) {
+                info.rows[i].endDate = info.dateToString(info.rows[i].endDate);
               }
             }
           })
@@ -174,9 +187,15 @@
       cancel() {
         let portfolioId = this.$route.params.portfolioId;
         info.$router.push({path: `/admin/portfolio/${portfolioId}`});
+      },
+      dateToString(array) {
+        return array[0].toString() + "." + array[1].toString() + "." + array[2].toString();
       }
     }
   }
 </script>
 <style>
+  .text-center {
+    float:right;
+  }
 </style>

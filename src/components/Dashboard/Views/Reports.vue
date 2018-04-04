@@ -333,6 +333,22 @@
                 info.rowsResource[i].group = info.rowsResource[i].group.name;
               if (info.rowsResource[i].status != null)
                 info.rowsResource[i].status = info.rowsResource[i].status.name;
+              if (info.rowsResource[i].skills != null) {
+                let skills = info.rowsResource[i].skills;
+                let skillStr = '';
+                for (var j in skills) {
+                  skillStr += skills[j].name
+                }
+                info.rowsResource[i].skills = skillStr;
+              }
+              if (info.rowsResource[i].nonTechnicalSkills != null) {
+                let skills = info.rowsResource[i].nonTechnicalSkills;
+                let skillStr = '';
+                for (var j in skills) {
+                  skillStr += skills[j].name
+                }
+                info.rowsResource[i].nonTechnicalSkills = skillStr;
+              }
             }
           })
       },

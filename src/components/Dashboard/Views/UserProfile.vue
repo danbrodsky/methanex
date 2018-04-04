@@ -208,5 +208,8 @@
 
 </script>
 <style>
+  #example-1, #example-2 {
+    color: #555;
+  }
 </style>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

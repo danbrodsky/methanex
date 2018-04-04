@@ -37,7 +37,7 @@
                 {{props.column.label}}
               </template>
               <template slot="table-row" slot-scope="props">
-                <span v-if="props.column.field === 'btn'">
+                <span v-if="props.column.field === 'btn'" class="table_buttons">
                   <button v-if='hasAccess()' v-b-modal.editSkillModal class="btn btn-warning btn-fill btn-sm" @click="edit1(props.row.originalIndex)">edit</button>
                   <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete1(props.row.originalIndex)">delete</button>
                 </span>
@@ -46,7 +46,7 @@
                 </span>
               </template>
             </vue-good-table>
-            <div v-if='hasAccess()'>
+            <div v-if='hasAccess()' class="table_buttons">
               <b-button v-b-modal.addResourceModal1 class="btn btn-info btn-fill">
                 Add skill
               </b-button>
@@ -110,7 +110,7 @@
                 {{props.column.label}}
               </template>
               <template slot="table-row" slot-scope="props">
-                <span v-if="props.column.field === 'btn'">
+                <span v-if="props.column.field === 'btn'" class="table_buttons">
                   <button v-if='hasAccess()' v-b-modal.editSkillModal2 class="btn btn-warning btn-fill btn-sm" @click="edit2(props.row.originalIndex)">edit</button>
                   <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm" @click="delete2(props.row.originalIndex)">delete</button>
                 </span>
@@ -119,7 +119,7 @@
                 </span>
               </template>
             </vue-good-table>
-            <div v-if='hasAccess()'>
+            <div v-if='hasAccess()' class="table_buttons">
               <b-button v-b-modal.addResourceModal2 class="btn btn-info btn-fill">
                 Add skill
               </b-button>
@@ -530,3 +530,9 @@
     }
   }
 </script>
+
+<style>
+  .table_buttons {
+    float: right;
+  }
+</style>
