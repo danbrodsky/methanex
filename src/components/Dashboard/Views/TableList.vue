@@ -15,7 +15,7 @@
               :paginate="true"
               :search-options="{ enabled: true, trigger: 'enter' }"
               :pagination-options="{enabled: true, perPage: 10}"
-              styleClass="vgt-table striped bordered">
+              styleClass="vgt-table striped bordered condensed">
               <template slot="table-column" slot-scope="props">
                   {{props.column.label}}
               </template>
@@ -149,28 +149,28 @@
                       </b-form-group>
                       <multiselect v-model="addGroup"
                                    placeholder="Pick a group"
+                                   :options="groups"
                                    label="name"
-                                   track-by="group"
-                                   :options="groups">
+                                   :searchable="false">
                       </multiselect>
                       <multiselect v-model="addManager"
                                    placeholder="Pick a manager"
+                                   :options="resources"
                                    label="name"
-                                   track-by="manager"
-                                   :options="resources">
+                                   :searchable="false">
                       </multiselect>
                       <multiselect v-model="addPeerGroup"
                                    placeholder="Pick a peer group"
+                                   :options="peerGroups"
                                    label="name"
-                                   track-by="peerGroup"
-                                   :options="peerGroups">
+                                   :searchable="false">
                       </multiselect>
                       <multiselect v-model="addStatus"
                                    placeholder="Pick a status"
+                                   :options="statuses"
                                    label="name"
-                                   track-by="status"
-                                   :options="statuses">
-                      </multiselect>
+                                   :searchable="false"
+                                   ></multiselect>
                     </b-form-group>
                   </b-card>
                 </div>
