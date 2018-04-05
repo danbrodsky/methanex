@@ -3,19 +3,19 @@
     <div class="container-fluid">
       <img src="../../../logo@2x.png" alt="logo" width="250">
       <div class="collapse navbar-collapse justify-content-end">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
+        <!-- <ul class="navbar-nav ml-auto">
+          <li class="nav-item"> -->
             <a v-on:click="logout()" href="#" class="nav-link">
-                <span v-show="$auth.check()">
-                  <a v-on:click="logout()" href="javascript:void(0);">Logout</a>
+              <span v-show="$auth.check()">
+                <a v-on:click="logout()" href="javascript:void(0);">Logout</a>
               </span>
               <span v-show="$auth.impersonating()">
                 &bull;
                 <a v-on:click="unimpersonate()" href="javascript:void(0);">(logout)</a>
               </span>
             </a>
-          </li>
-        </ul>
+          <!-- </li>
+        </ul> -->
       </div>
     </div>
   </nav>
