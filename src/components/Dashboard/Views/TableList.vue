@@ -15,7 +15,7 @@
               :paginate="true"
               :search-options="{ enabled: true, trigger: 'enter' }"
               :pagination-options="{enabled: true, perPage: 10}"
-              styleClass="vgt-table striped bordered">
+              styleClass="vgt-table striped bordered condensed">
               <template slot="table-column" slot-scope="props">
                   {{props.column.label}}
               </template>
