@@ -41,7 +41,7 @@
           </div>
           <div class="col-md-3">
             <fg-input type="text"
-                      label="Percentage Complete"
+                      label="Status Completion Percent"
                       placeholder="% Complete"
                       v-model="project.percentageComplete">
             </fg-input>
@@ -62,7 +62,8 @@
                       v-model="project.projectOwnerName">
             </fg-input>
           </div>
-          <div style="position:relative;left:5px;top:32px;" v-else>
+          <div class="col-md-3" v-else>
+            <label>Project Owner:</label>
             <multiselect v-model="project.projectOwner"
                          placeholder="Pick the business owner"
                          label="name"
@@ -70,6 +71,73 @@
                          :options="allResources"
                          :multiple="false">
             </multiselect>
+          </div>
+          <div class="col-md-3">
+            <label>RAG Status:</label>
+            <multiselect v-model="project.ragStatus"
+                         placeholder="Pick the RAG status"
+                         label="name"
+                         :options="allRagStatuses"
+                         :multiple="false">
+            </multiselect>
+          </div>
+          <div class="col-md-3">
+            <label>Status:</label>
+            <multiselect v-model="project.status"
+                         placeholder="Pick the status"
+                         label="name"
+                         :options="allStatuses"
+                         :multiple="false">
+            </multiselect>
+          </div>
+          <div class="col-md-3">
+            <fg-input type="date"
+                      label="Start Date"
+                      v-model="project.startDate"
+                      :disabled="project.startDate!=null">
+            </fg-input>
+          </div>
+          <div class="col-md-3">
+            <fg-input type="date"
+                      label="Target &quot;PreApproval&quot; Date"
+                      v-model="project.expectedPreapprovalStatusDate">
+            </fg-input>
+          </div>
+          <div class="col-md-3">
+            <fg-input type="date"
+                      label="Target &quot;Seeking Funding&quot; Date"
+                      v-model="project.expectedSeekingFundingStatusDate">
+            </fg-input>
+          </div>
+          <div class="col-md-3">
+            <fg-input type="date"
+                      label="Target &quot;Pipeline&quot; Date"
+                      v-model="project.expectedPipelineStatusDate">
+            </fg-input>
+          </div>
+          <div class="col-md-3">
+            <fg-input type="date"
+                      label="Target &quot;To Confirm&quot; Date"
+                      v-model="project.expectedConfirmStatusDate">
+            </fg-input>
+          </div>
+          <div class="col-md-3">
+            <fg-input type="date"
+                      label="Target &quot;Closing&quot; Date"
+                      v-model="project.expectedClosingStatusDate">
+            </fg-input>
+          </div>
+          <div class="col-md-3">
+            <fg-input type="date"
+                      label="Target &quot;Closed&quot; Date"
+                      v-model="project.expectedClosedStatusDate">
+            </fg-input>
+          </div>
+          <div class="col-md-3">
+            <fg-input type="date"
+                      label="End Date"
+                      v-model="project.endDate">
+            </fg-input>
           </div>
         </div>
         <div class="text-center">
@@ -150,6 +218,20 @@
         role: '',
         isPM: false,
         allResources: [],
+        allRagStatuses: [
+          { 'id': 1, 'name': 'Red' },
+          { 'id': 2, 'name': 'Amber' },
+          { 'id': 3, 'name': 'Green' }
+        ],
+        allStatuses: [
+          { 'id': 1, 'name': 'PreApproval' },
+          { 'id': 2, 'name': 'SeekingFunding' },
+          { 'id': 3, 'name': 'Pipeline' },
+          { 'id': 4, 'name': 'ToConfirm' },
+          { 'id': 5, 'name': 'Closing' },
+          { 'id': 6, 'name': 'Closed' }
+        ],
+        originalStatus: {},
         columns: [
           {
             label: '', // checkbox
@@ -276,6 +358,16 @@
           .get(info.$root.serverURL + "/api/projects/" + this.$route.params.projectId)
           .then(response => {
             info.project = response.data;
+            info.project.startDate = info.dateArray2String(info.project.startDate);
+            info.project.endDate = info.dateArray2String(info.project.endDate);
+            info.project.expectedPreapprovalStatusDate = info.dateArray2String(info.project.expectedPreapprovalStatusDate);
+            info.project.expectedSeekingFundingStatusDate = info.dateArray2String(info.project.expectedSeekingFundingStatusDate);
+            info.project.expectedPipelineStatusDate = info.dateArray2String(info.project.expectedPipelineStatusDate);
+            info.project.expectedConfirmStatusDate = info.dateArray2String(info.project.expectedConfirmStatusDate);
+            info.project.expectedClosingStatusDate = info.dateArray2String(info.project.expectedClosingStatusDate);
+            info.project.expectedClosedStatusDate = info.dateArray2String(info.project.expectedClosedStatusDate);
+            info.allStatuses.splice(0, info.project.status.id-1);
+            info.originalStatus = info.project.status;
             if (info.project.projectOwner != null) {
               info.project.projectOwnerName = info.project.projectOwner.name;
               // info.project.percentageComplete = info.project.
@@ -301,11 +393,59 @@
           .catch(() => console.log("error fetching project"));
       },
       updateProject() {
+        if (this.project.status.id != this.originalStatus.id) {
+          var list = [
+            'startDate',
+            'actualPreapprovalStatusDate',
+            'actualSeekFundingStatusDate',
+            'actualPipelineStatusDate',
+            'actualConfirmStatusDate',
+            'actualClosingStatusDate',
+            'actualClosedStatusDate'
+          ];
+
+          var todayDate = new Date();
+          var todayYear = todayDate.getFullYear();
+          var todayMonth = todayDate.getMonth() < 9? "0" + (todayDate.getMonth() +1) : todayDate.getMonth() +1;
+          var todayDay = todayDate.getDate() < 9? "0" + todayDate.getDate() : todayDate.getDate();
+
+          this.project[list[this.project.status.id-1]] = todayYear + "-" + todayMonth + "-" + todayDay;
+
+          for(var i=0; i<list.length; i++) {
+            if (this.project[list[i]]!=null) {
+              for(var j=0; j<i; j++) {
+                if (this.project[list[j]]==null) this.project[list[j]] = this.project[list[i]];
+              }
+            }
+          }
+          console.log(this.project);
+          console.log(">>>>> END")
+          // for (var key of list) {
+          //   if (this.project[key] === null) {
+          //     var todayDate = new Date();
+          //     var todayYear = todayDate.getFullYear();
+          //     var todayMonth = todayDate.getMonth() < 9? "0" + (todayDate.getMonth() +1) : todayDate.getMonth() +1;
+          //     var todayDay = todayDate.getDate() < 9? "0" + todayDate.getDate() : todayDate.getDate();
+              
+          //     this.project[key] = todayYear + "-" + todayMonth + "-" + todayDay;
+          //     break;
+          //   }
+          // }
+        }
         var info = this;
         axios.put(info.$root.serverURL + "/api/projects/" + info.project.id, info.project)
           .then(response => {
             info.updatedProjectSuccessBanner = true;
             info.project = response.data;
+            info.project.startDate = info.dateArray2String(info.project.startDate);
+            info.project.endDate = info.dateArray2String(info.project.endDate);
+            info.project.expectedPreapprovalStatusDate = info.dateArray2String(info.project.expectedPreapprovalStatusDate);
+            info.project.expectedSeekingFundingStatusDate = info.dateArray2String(info.project.expectedSeekingFundingStatusDate);
+            info.project.expectedPipelineStatusDate = info.dateArray2String(info.project.expectedPipelineStatusDate);
+            info.project.expectedConfirmStatusDate = info.dateArray2String(info.project.expectedConfirmStatusDate);
+            info.project.expectedClosingStatusDate = info.dateArray2String(info.project.expectedClosingStatusDate);
+            info.project.expectedClosedStatusDate = info.dateArray2String(info.project.expectedClosedStatusDate);
+            info.allStatuses.splice(0, info.project.status.id-1);
           })
           .catch(() => console.log("problem updating project"));
       },
@@ -352,6 +492,13 @@
               console.log('Delete aborted');
             });
         }
+      },
+      dateArray2String (arrDate) {
+        if (arrDate == null) return null;
+        var year = arrDate[0];
+        var month = arrDate[1] < 10? "0" + arrDate[1] : arrDate[1];
+        var day = arrDate[2] < 10? "0" + arrDate[2] : arrDate[2];
+        return year + "-" + month + "-" + day;
       }
     }
   }

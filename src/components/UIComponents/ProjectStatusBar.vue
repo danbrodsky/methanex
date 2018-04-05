@@ -11,11 +11,11 @@ export default {
             type: Array,
             default() { return null }
         },
-        "expectedPreApprovalStatusDate": {
+        "expectedPreapprovalStatusDate": {
             type: Array,
             default() { return null }
         },
-        "expectedSeekFundingStatusDate": {
+        "expectedSeekingFundingStatusDate": {
             type: Array,
             default() { return null }
         },
@@ -23,7 +23,7 @@ export default {
             type: Array,
             default() { return null }
         },
-        "expectedConfirmedStatusDate": {
+        "expectedConfirmStatusDate": {
             type: Array,
             default() { return null }
         },
@@ -35,7 +35,7 @@ export default {
             type: Array,
             default() { return null }
         },
-        "actualPreApprovalStatusDate": {
+        "actualPreapprovalStatusDate": {
             type: Array,
             default() { return null }
         },
@@ -72,41 +72,47 @@ export default {
         dates: {}
     },
     mounted() {
+        console.log("Working");
+        console.log(this);
 
-        this.startDate = [2012, 1, 1];
-        this.expectedPreApprovalStatusDate = [2012, 1, 2];
-        this.expectedSeekFundingStatusDate = [2018, 2, 2];
-        this.expectedPipelineStatusDate = [2018, 2, 3];
-        this.expectedConfirmedStatusDate = [2018, 4, 20];
-        this.expectedClosingStatusDate = [2018, 4, 22];
-        this.expectedClosedStatusDate = [2018, 4, 25];
-        this.startDate = [2012, 1, 1];
-        this.actualPreApprovalStatusDate = [2012, 1, 2];
-        this.actualSeekFundingStatusDate = [2018, 2, 2];
-        this.actualPipelineStatusDate = [2018, 2, 3];
-        this.actualConfirmedStatusDate = [2018, 4, 20];
-        this.actualClosingStatusDate = null;
-        this.actualClosedStatusDate = null;
+        // this.startDate = [2012, 1, 1];
+        // this.expectedPreapprovalStatusDate = [2012, 1, 2];
+        // this.expectedSeekingFundingStatusDate = [2018, 2, 2];
+        // this.expectedPipelineStatusDate = [2018, 2, 3];
+        // this.expectedConfirmStatusDate = [2018, 4, 20];
+        // this.expectedClosingStatusDate = [2018, 4, 22];
+        // this.expectedClosedStatusDate = [2018, 4, 25];
+        // this.startDate = [2012, 1, 1];
+        // this.actualPreapprovalStatusDate = [2012, 1, 2];
+        // this.actualSeekFundingStatusDate = [2018, 2, 2];
+        // this.actualPipelineStatusDate = [2018, 2, 3];
+        // this.actualConfirmedStatusDate = [2018, 4, 20];
+        // this.actualClosingStatusDate = null;
+        // this.actualClosedStatusDate = null;
         
 
         var target_dates = [
-            this.startDate == null ? null : new Date(this.startDate[0], this.startDate[1], this.startDate[2], 0, 0, 0),
-            this.expectedPreApprovalStatusDate == null ? null : new Date(this.expectedPreApprovalStatusDate[0], this.expectedPreApprovalStatusDate[1], this.expectedPreApprovalStatusDate[2], 0, 0, 0),
-            this.expectedSeekFundingStatusDate == null ? null : new Date(this.expectedSeekFundingStatusDate[0], this.expectedSeekFundingStatusDate[1], this.expectedSeekFundingStatusDate[2], 0, 0, 0),
-            this.expectedPipelineStatusDate == null ? null : new Date(this.expectedPipelineStatusDate[0], this.expectedPipelineStatusDate[1], this.expectedPipelineStatusDate[2], 0, 0, 0),
-            this.expectedConfirmedStatusDate == null ? null : new Date(this.expectedConfirmedStatusDate[0], this.expectedConfirmedStatusDate[1], this.expectedConfirmedStatusDate[2], 0, 0, 0),
-            this.expectedClosingStatusDate == null ? null : new Date(this.expectedClosingStatusDate[0], this.expectedClosingStatusDate[1], this.expectedClosingStatusDate[2], 0, 0, 0),
-            this.expectedClosedStatusDate == null ? null : new Date(this.expectedClosedStatusDate[0], this.expectedClosedStatusDate[1], this.expectedClosedStatusDate[2], 0, 0, 0)
+            this.startDate == null ? null : new Date(this.startDate[0], this.startDate[1]-1, this.startDate[2], 0, 0, 0),
+            this.expectedPreapprovalStatusDate == null ? null : new Date(this.expectedPreapprovalStatusDate[0], this.expectedPreapprovalStatusDate[1]-1, this.expectedPreapprovalStatusDate[2], 0, 0, 0),
+            this.expectedSeekingFundingStatusDate == null ? null : new Date(this.expectedSeekingFundingStatusDate[0], this.expectedSeekingFundingStatusDate[1]-1, this.expectedSeekingFundingStatusDate[2], 0, 0, 0),
+            this.expectedPipelineStatusDate == null ? null : new Date(this.expectedPipelineStatusDate[0], this.expectedPipelineStatusDate[1]-1, this.expectedPipelineStatusDate[2], 0, 0, 0),
+            this.expectedConfirmStatusDate == null ? null : new Date(this.expectedConfirmStatusDate[0], this.expectedConfirmStatusDate[1]-1, this.expectedConfirmStatusDate[2], 0, 0, 0),
+            this.expectedClosingStatusDate == null ? null : new Date(this.expectedClosingStatusDate[0], this.expectedClosingStatusDate[1]-1, this.expectedClosingStatusDate[2], 0, 0, 0),
+            this.expectedClosedStatusDate == null ? null : new Date(this.expectedClosedStatusDate[0], this.expectedClosedStatusDate[1]-1, this.expectedClosedStatusDate[2], 0, 0, 0)
         ];
         var actual_dates = [
-            this.startDate == null ? null : new Date(this.startDate[0], this.startDate[1], this.startDate[2], 0, 0, 0),
-            this.actualPreApprovalStatusDate == null ? null : new Date(this.actualPreApprovalStatusDate[0], this.actualPreApprovalStatusDate[1], this.actualPreApprovalStatusDate[2], 0, 0, 0),
-            this.actualSeekFundingStatusDate == null ? null : new Date(this.actualSeekFundingStatusDate[0], this.actualSeekFundingStatusDate[1], this.actualSeekFundingStatusDate[2], 0, 0, 0),
-            this.actualPipelineStatusDate == null ? null : new Date(this.actualPipelineStatusDate[0], this.actualPipelineStatusDate[1], this.actualPipelineStatusDate[2], 0, 0, 0),
-            this.actualConfirmedStatusDate == null ? null : new Date(this.actualConfirmedStatusDate[0], this.actualConfirmedStatusDate[1], this.actualConfirmedStatusDate[2], 0, 0, 0),
-            this.actualClosingStatusDate == null ? null : new Date(this.actualClosingStatusDate[0], this.actualClosingStatusDate[1], this.actualClosingStatusDate[2], 0, 0, 0),
-            this.actualClosedStatusDate == null ? null : new Date(this.actualClosedStatusDate[0], this.actualClosedStatusDate[1], this.actualClosedStatusDate[2], 0, 0, 0)
+            this.startDate == null ? null : new Date(this.startDate[0], this.startDate[1]-1, this.startDate[2], 0, 0, 0),
+            this.actualPreapprovalStatusDate == null ? null : new Date(this.actualPreapprovalStatusDate[0], this.actualPreapprovalStatusDate[1]-1, this.actualPreapprovalStatusDate[2], 0, 0, 0),
+            this.actualSeekFundingStatusDate == null ? null : new Date(this.actualSeekFundingStatusDate[0], this.actualSeekFundingStatusDate[1]-1, this.actualSeekFundingStatusDate[2], 0, 0, 0),
+            this.actualPipelineStatusDate == null ? null : new Date(this.actualPipelineStatusDate[0], this.actualPipelineStatusDate[1]-1, this.actualPipelineStatusDate[2], 0, 0, 0),
+            this.actualConfirmedStatusDate == null ? null : new Date(this.actualConfirmedStatusDate[0], this.actualConfirmedStatusDate[1]-1, this.actualConfirmedStatusDate[2], 0, 0, 0),
+            this.actualClosingStatusDate == null ? null : new Date(this.actualClosingStatusDate[0], this.actualClosingStatusDate[1]-1, this.actualClosingStatusDate[2], 0, 0, 0),
+            this.actualClosedStatusDate == null ? null : new Date(this.actualClosedStatusDate[0], this.actualClosedStatusDate[1]-1, this.actualClosedStatusDate[2], 0, 0, 0)
         ];
+
+        console.log("HERGH");
+        console.log(target_dates);
+        console.log(actual_dates);
 
         var canvas = this.$refs.myCanvas;
         var ctx = canvas.getContext("2d");
