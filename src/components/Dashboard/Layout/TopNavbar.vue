@@ -5,7 +5,7 @@
       <div class="collapse navbar-collapse justify-content-end">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a v-on:click="logout()" href="#" class="nav-link">
                 <span v-show="$auth.check()">
                   <a v-on:click="logout()" href="javascript:void(0);">Logout</a>
               </span>

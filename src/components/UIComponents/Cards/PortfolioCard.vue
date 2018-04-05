@@ -46,7 +46,10 @@
     </div>
     <div class="card-body">
           <div class="body-data">
+          <span v-if="portfolio.businessOwner != null">
           <span v-if="portfolio.businessOwner.name != null"><i class="fa fa-user"></i> {{ portfolio.businessOwner.name }}</span>
+          <span v-else><i class="fa fa-user"></i> N/A </span>
+          </span>
           <span v-else><i class="fa fa-user"></i> N/A </span>
       </div>
       <div class="body-data">
@@ -120,7 +123,6 @@
           loader: true
         })
           .then((dialog) => {
-            console.log(info.$root.serverURL + `/api/portfolios/${info.portfolio.id}`);
             axios
               .delete(info.$root.serverURL + `/api/portfolios/${info.portfolio.id}`)
               .then(function (res) {
@@ -130,7 +132,7 @@
                 console.log(error);
                 dialog.close();
               });
-            info.$emit('portfolio-remove', info.id);
+            info.$emit('portfolio-remove',info.id);
           })
           .catch(() => {
             console.log('Delete aborted');

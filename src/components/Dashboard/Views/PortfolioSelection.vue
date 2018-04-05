@@ -31,7 +31,7 @@
         </b-modal>
       </div>
       <div class="row">
-        <pulse-loader :loading="isLoadingPortfolios"></pulse-loader>
+        <pulse-loader color="#00A6CD" :loading="isLoadingPortfolios"></pulse-loader>
         <portfolio-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;cursor:pointer;border:1px;border-style:solid;border-color:#cccccc;"
                         v-for="portfolio of portfoliosDisplayed"
                         v-bind:key="portfolio.id"
@@ -49,8 +49,6 @@
   import LTable from 'src/components/UIComponents/Table.vue'
   import Checkbox from 'src/components/UIComponents/Inputs/Checkbox.vue'
   import PortfolioCard from 'src/components/UIComponents/Cards/PortfolioCard.vue'
-  import AddProjectCard from 'src/components/UIComponents/Cards/AddProjectCard.vue'
-  import AddPortfolioCard from 'src/components/UIComponents/Cards/AddPortfolioCard.vue'
   import _ from 'lodash'
   import axios from 'axios'
   import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
@@ -61,8 +59,6 @@
       Card,
       LTable,
       PortfolioCard,
-      AddProjectCard,
-      AddPortfolioCard,
       PulseLoader
     },
     created() {
@@ -120,14 +116,16 @@
             info.isLoadingPortfolios = false;
           });
       },
+      remove (id) {
+        let info = this;
+        info.portfolios.splice(id,1);
+        info.portfoliosDisplayed = info.portfolios.slice();
+      },
       hasAccess() {
         return this.role == "ROLE_ADMIN";
       },
       createPortfolio(){
         this.$router.push({path: '/admin/create-portfolio'});
-      },
-      remove(id) {
-        this.portfoliosDisplayed.splice(id, 1);
       },
       alert (){
         this.updatedPortfolioSuccessBanner = true;

@@ -4,17 +4,20 @@
       <b-alert :show=noProjectsBanner dismissible variant="warning">
         <h4 class="alert-heading">This portfolio contains no projects at this time</h4>
       </b-alert>
-      <div class="row">
+      <div v-if="hasAccess()" class="row">
         <button v-b-modal.addPortfolioModal class="btn btn-info btn-fill float-right" v-on:click="createProject" >
           <b style="font-size: large">+</b>
         </button>
       </div>
       <div class="row" style="margin-left: 5%;">
-        <pulse-loader :loading="isLoadingProjects"></pulse-loader>
+        <pulse-loader color="#00A6CD" :loading="isLoadingProjects"></pulse-loader>
         <project-card style="margin: 0.5%;box-shadow: 5px 5px 5px grey;"
                       v-for="project of displayProjects"
+                      v-bind:role="role"
                       v-bind:key="project.id"
-                      v-bind:project="project">
+                      v-bind:project="project"
+                      v-bind:portfolioId="$route.params.portfolioId"
+                      v-on:portfolio-remove="remove">
         </project-card>
       </div>
     </div>
@@ -143,7 +146,12 @@
       },
       performSearch() {
         this.displayProjects = this.filterFcn(this.projects);
-      }
+      },
+      remove (id) {
+        let info = this;
+        info.projects.splice(id,1);
+        info.displayProjects = info.projects.slice();
+      },
     }
   }
 </script>

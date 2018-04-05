@@ -1,10 +1,17 @@
 <template>
   <div class="card" style="cursor:pointer;background-color:#f9f7f7" v-on:click="goToProject">
     <div class="card-header">
-      <div name="header" style="align: center; width: 75%"><span style="font-weight:bold">{{ project.name }}</span> <span style="color:#888888">({{ project.id }})</span>
+      <div name="header" style="align: center; width: 100%"><span style="font-weight:bold">{{ project.name }}</span> <span style="color:#888888">({{ project.id }})</span>
+        <div v-on:click.stop class="dropdown" style="float: right;">
+          <button v-if='hasAccess()' class="dropbtn">&#8942;</button>
+          <div class="dropdown-content">
+            <a v-on:click.stop="deleteProject">Delete</a>
+          </div>
+        </div>
       <span style="float:right;" v-if="project.status != null">
           Status: <i>{{ project.status.name }}</i>
-      </span></div>
+      </span>
+</div>
       <div name="header" style="font-weight:bold; color:#888888"></div>
     </div>
     <div class="card-body">
@@ -68,10 +75,16 @@
         project: {
             type: Object,
             default() { return {} }
+        },
+        role: {
+          type: String,
+          default: ''
+        },
+        portfolioId: {
+          default: ''
         }
     },
     created () {
-            console.log(this.project);
           },
     data () {
         return {
@@ -80,12 +93,12 @@
     },
     computed: {
         displayStartDate: function() {
-            var startDate = new Date(this.project.startDate);
+            var startDate = new Date(this.project.startDate[0], this.project.startDate[1], this.project.startDate[2], 0, 0, 0);
             if (startDate == null) return "";
             return this.abbreviateMonth(startDate.getMonth()) + " " + startDate.getDate() + " " + startDate.getFullYear();
         },
         displayEndDate: function() {
-            var endDate = new Date(this.project.endDate);
+            var endDate = new Date(this.project.endDate[0], this.project.endDate[1], this.project.endDate[2], 0, 0, 0);
             if (endDate == null) return "";
             return this.abbreviateMonth(endDate.getMonth()) + " " + endDate.getDate() + " " + endDate.getFullYear();
         },
@@ -100,6 +113,30 @@
             .then(response => {
               that.projectResources = response.data;
           })
+        },
+        hasAccess() {
+          return this.role == "ROLE_ADMIN";
+        },
+        deleteProject () {
+          let info = this;
+          this.$dialog.confirm("Are you sure you want to remove this project from this portfolio?", {
+            loader: true
+          })
+            .then((dialog) => {
+              axios
+                .delete(info.$root.serverURL + `/api/portfolios/${info.portfolioId}/projects/${info.project.id}`)
+                .then(function (res) {
+                  dialog.close();
+                })
+                .catch(error => {
+                  console.log(error);
+                  dialog.close();
+                });
+              info.$emit('project-remove',info.id);
+            })
+            .catch(() => {
+              console.log('Delete aborted');
+            });
         },
         abbreviateMonth (monthInteger) {
             switch(monthInteger) {
@@ -150,4 +187,41 @@
   .card-header {
     background-color: #f7f7f7;
   }
+.dropbtn {
+    font-size: 16px;
+    border: none;
+    background: initial;
+    cursor: pointer;
+}
+
+.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    z-index: 1;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: grey}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: grey;
+    color: #FFF;
+}
 </style>
