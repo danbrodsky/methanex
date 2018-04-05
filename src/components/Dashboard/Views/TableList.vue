@@ -35,8 +35,8 @@
               </button>
               <b-modal
                 id="addResourceModal"
-                ref="addResource"
-                @ok="addResource">
+                ref="addResourceGlobally"
+                @ok="addResourceGlobally">
                 <div >
                   <b-card bg-variant="light">
                     <b-form-group horizontal
@@ -338,7 +338,7 @@
         this.status = this.rows[index].status;
         this.editId = this.rows[index].id;
       },
-      addResource() {
+      addResourceGlobally() {
         let info = this;
         this.SuccessBanner = false;
         axios.post(this.$root.serverURL + "/api/resources", {
@@ -384,7 +384,6 @@
       },
       delete() {
         let info = this;
-        let skillId = this.rowsNonTechnical[index.toString()].id;
         axios.delete(this.$root.serverURL + "/api/resources/" + resourceId)
           .then(() => {
             info.skillDeletedBanner = true;

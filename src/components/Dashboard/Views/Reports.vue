@@ -371,9 +371,7 @@
           this.projectColumnsMap.set(columnAttr.label.toLowerCase(), columnAttr);
           this.project_json_fields[columnAttr.label] = columnAttr.field;
         }
-      }
-      ,
-
+      },
       selectProjectColumns() {
         var columnsToDisplay = this.selectedProjectColumns;
         if (this.selectedProjectColumns.length > 0) {
