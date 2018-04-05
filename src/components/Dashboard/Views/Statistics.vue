@@ -27,7 +27,6 @@
       <line-chart style="margin:auto;width:60%;" id="monthlyResourceChart" :chart-data="monthlyResourceDataCollection"></line-chart>
     </b-card>
     <b-card>
-      <line-chart id="monthlyResourceChart" :chart-data="monthlyResourceDataCollection"></line-chart>
       <label for="resourceSkillCountChart">Amount of Resources By Skill By Project</label>
       <multiselect placeholder="Pick a project"
                    :options="projects"
@@ -37,16 +36,6 @@
       <pulse-loader :loading="isLoadingSkill"></pulse-loader>
       <pie-chart style="margin:auto;width:60%;" id="resourceSkillCountChart" :chart-data="skillResourceCountDataCollection"></pie-chart>
     </b-card>
-    <!--<b-card>-->
-      <!--<label for="resourceSkillCountChart">Amount of Resources By Skill By Project</label>-->
-      <!--<multiselect placeholder="Pick a project"-->
-                   <!--:options="projects"-->
-                   <!--label="name"-->
-                   <!--:searchable="false"-->
-                   <!--@select="populateSkillsChart"></multiselect>-->
-      <!--<pulse-loader :loading="isLoadingSkill"></pulse-loader>-->
-      <!--<pie-chart id="resourceSkillCountChart" :chart-data="skillResourceCountDataCollection"></pie-chart>-->
-    <!--</b-card>-->
     <b-card>
       <label for="resourceGroupCountChart">Amount of Resources By Group By Project</label>
       <multiselect placeholder="Pick a project"
