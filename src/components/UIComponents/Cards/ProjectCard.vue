@@ -93,12 +93,12 @@
     },
     computed: {
         displayStartDate: function() {
-            var startDate = new Date(this.project.startDate);
+            var startDate = new Date(this.project.startDate[0], this.project.startDate[1], this.project.startDate[2], 0, 0, 0);
             if (startDate == null) return "";
             return this.abbreviateMonth(startDate.getMonth()) + " " + startDate.getDate() + " " + startDate.getFullYear();
         },
         displayEndDate: function() {
-            var endDate = new Date(this.project.endDate);
+            var endDate = new Date(this.project.endDate[0], this.project.endDate[1], this.project.endDate[2], 0, 0, 0);
             if (endDate == null) return "";
             return this.abbreviateMonth(endDate.getMonth()) + " " + endDate.getDate() + " " + endDate.getFullYear();
         },
