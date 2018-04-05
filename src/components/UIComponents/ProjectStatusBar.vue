@@ -8,7 +8,7 @@
 export default {
     props: {
         "startDate": {
-            type: String,
+            type: Array,
             default: "2012-12-21"
         },
         "expectedPreApprovalStatusDate": {

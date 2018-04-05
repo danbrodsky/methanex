@@ -166,16 +166,16 @@
         selectedProjectColumns: [],
         projectColumnsMap: new Map(),
         columnFilterNames: [
-          {name: "Name"},
-          {name: "Project Status"},
-          {name: "Manager"},
-          {name: "Project Owner"},
-          {name: "RAG Status"},
-          {name: "Number of Resources"},
-          {name: "Budget"},
-          {name: "Budget used"},
-          {name: "Start Date"},
-          {name: "End Date"},
+          {name: "Name",   value: "Name"},
+          {name: "Project Status",  value: "Status"},
+          {name: "Manager",  value: "Manager"},
+          {name: "Project Owner",  value: "Project Owner"},
+          {name: "RAG Status",  value: "RAG"},
+          {name: "Number of Resources", value: "Number of Resources"},
+          {name: "Budget",  value: "Budget"},
+          {name: "Budget used",  value: "End"},
+          {name: "Start Date",  value: "Start"},
+          {name: "End Date", value: "End"},
         ],
 
         columnsPortfolio: [
@@ -380,7 +380,7 @@
           this.columnsProject = [];
           this.project_json_fields = {};
           for (var i = 0; i < columnsToDisplay.length; i++) {
-            var columnName = columnsToDisplay[i].name
+            var columnName = columnsToDisplay[i].value
             var columnAttr = this.projectColumnsMap.get(columnName.toLowerCase())
             this.columnsProject.push(columnAttr);
 
