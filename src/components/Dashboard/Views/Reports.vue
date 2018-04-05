@@ -119,17 +119,13 @@
   import Multiselect from 'vue-multiselect'
   import axios from 'axios'
   import VueJSONExcel from 'vue-json-excel'
-
   const tableColumns = ['Name', 'ProjectStatus', 'Manager', 'ProjectOwner', 'Status', 'ProjectResources', 'Budget', 'Budget Used'];
   // 'Start Date', 'End Date'
-
   import Vue from 'vue';
   import VueGoodTable from 'vue-good-table';
   import jsPdf from 'jspdf';
-
   Vue.use(VueGoodTable);
   Vue.component('downloadExcel', VueJSONExcel)
-
   export default {
     components: {
       Card,
@@ -137,7 +133,6 @@
       jsPdf,
       VueJSONExcel
     },
-
     name: 'Checkbox-table',
     created() {
       this.fetchData();
@@ -154,7 +149,6 @@
     created() {
       this.fetchData();
     },
-
     mounted: function () {
       console.log("mounted")
       this.initProjectColumnMap();
@@ -163,16 +157,12 @@
         this.setCSVFields(this.portfolio_json_fields, this.columnsPortfolio[i]);
       }
       console.log(this.portfolio_json_fields);
-
-
       console.log(this.columnsResource);
       for(var i=0; i<this.columnsResource.length; i++){
         this.setCSVFields(this.resource_json_fields, this.columnsResource[i]);
       }
       console.log(this.resource_json_fields);
     },
-
-
     data() {
       return {
         treeData: {
@@ -194,11 +184,9 @@
             filterable: true,
           }
         ],
-
         portfolio_json_fields: {},
         resource_json_fields: {},
         project_json_fields: {},
-
         columnsProject: [
           {
             label: 'Name',
@@ -299,7 +287,6 @@
         rowsPortfolio: [],
         rowsProject: [],
         rowsResource: [],
-
         json_meta: [
           [
             {
@@ -308,8 +295,6 @@
             }
           ]
         ],
-
-
       };
     },
     methods: {
@@ -323,7 +308,6 @@
                 info.rowsPortfolio[i].businessOwner = info.rowsPortfolio[i].businessOwner.name;
             }
           });
-
         axios.get(this.$root.serverURL + "/api/projects")
           .then(response => {
             info.rowsProject = response.data;
@@ -374,7 +358,6 @@
       dateToString(array) {
         return array[0].toString() + "." + array[1].toString() + "." + array[2].toString();
       },
-
       initProjectColumnMap() {
         for (var i = 0; i < this.columnsProject.length; i++) {
           var columnAttr = this.columnsProject[i];
@@ -397,7 +380,6 @@
         }
       }
       ,
-
       selectAllProjectColumns() {
         var iterator = this.projectColumnsMap.entries();
         var entry = iterator.next();
@@ -413,7 +395,6 @@
         this.selectedProjectColumns = [];
       }
       ,
-
       setCSVFields(fieldObj, columnAttr) {
         if(columnAttr.field == 'startDate' ||  columnAttr.field == 'endDate') {
           fieldObj[columnAttr.label] = {
@@ -439,9 +420,6 @@
           };
         }
       },
-
-
-
     }
   }
 </script>
@@ -450,4 +428,3 @@
     display: inline;
   }
 </style>
-

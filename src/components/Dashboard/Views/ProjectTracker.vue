@@ -21,7 +21,7 @@
       </b-alert>
     </div>
     <card>
-      <h4 slot="header" class="card-title">Project</h4>
+      <h6 style="font-size: 30px" class="card-title">{{project.name}}</h6>
       <form>
         <div class="row">
           <div class="col-md-3">
@@ -93,8 +93,7 @@
           <div class="col-md-3">
             <fg-input type="date"
                       label="Start Date"
-                      v-model="project.startDate"
-                      :disabled="project.startDate!=null">
+                      v-model="project.startDate">
             </fg-input>
           </div>
           <div class="col-md-3">
@@ -426,7 +425,7 @@
           //     var todayYear = todayDate.getFullYear();
           //     var todayMonth = todayDate.getMonth() < 9? "0" + (todayDate.getMonth() +1) : todayDate.getMonth() +1;
           //     var todayDay = todayDate.getDate() < 9? "0" + todayDate.getDate() : todayDate.getDate();
-              
+
           //     this.project[key] = todayYear + "-" + todayMonth + "-" + todayDay;
           //     break;
           //   }

@@ -8,7 +8,6 @@
         :columns="columns"
         :paginate="true"
         :rows="rows"
-        v-onClick
         :search-options="{ enabled: true, trigger: 'enter' }"
         :pagination-options="{enabled: true, perPage: 20}"
         :globalSearch="false"
@@ -194,8 +193,8 @@
 </script>
 <style>
   .projectRow:hover{
-    background: #5ebdff;
-    border-color: #5ebdff;
+    background: #1DC7EA;
+    border-color: #1DC7EA;
   }
 </style>
 
