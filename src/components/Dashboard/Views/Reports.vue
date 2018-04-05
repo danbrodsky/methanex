@@ -28,6 +28,8 @@
                 {{ props.formattedRow[props.column.field] }}
               </template>
             </vue-good-table>
+            <download-excel class="btn btn-info btn-fill float-left" :data="rowsPortfolio" :fields="portfolio_json_fields"
+                            name="portfolios.csv" type="csv">Export as CSV</download-excel>
           </card>
           <card>
             <template slot="header">
@@ -104,6 +106,8 @@
                 {{ props.formattedRow[props.column.field] }}
               </template>
             </vue-good-table>
+            <download-excel class="btn btn-info btn-fill float-left" :data="rowsResource" :fields="resource_json_fields"
+                            name="resources.csv" type="csv">Export as CSV</download-excel>
           </card>
         </div>
       </div>
@@ -152,7 +156,20 @@
     },
 
     mounted: function () {
+      console.log("mounted")
       this.initProjectColumnMap();
+      console.log(this.columnsPortfolio);
+      for(var i=0; i<this.columnsPortfolio.length; i++){
+        this.setCSVFields(this.portfolio_json_fields, this.columnsPortfolio[i]);
+      }
+      console.log(this.portfolio_json_fields);
+
+
+      console.log(this.columnsResource);
+      for(var i=0; i<this.columnsResource.length; i++){
+        this.setCSVFields(this.resource_json_fields, this.columnsResource[i]);
+      }
+      console.log(this.resource_json_fields);
     },
 
 
@@ -179,10 +196,9 @@
           }
         ],
 
-        portfolio_json_fields: {
-          'Classification': {field: 'classification'},
-          'Business Owner': {field: 'businessOwner'}
-        },
+        portfolio_json_fields: {},
+        resource_json_fields: {},
+        project_json_fields: {},
 
         columnsProject: [
           {
@@ -294,7 +310,7 @@
           ]
         ],
 
-        project_json_fields: {},
+
       };
     },
     methods: {
@@ -365,7 +381,7 @@
           var columnAttr = this.columnsProject[i];
           this.columnFilterNames.push({name: columnAttr.label});
           this.projectColumnsMap.set(columnAttr.label.toLowerCase(), columnAttr);
-          this.setProjectCSVFields(columnAttr);
+          this.setCSVFields(this.project_json_fields, columnAttr);
         }
       }
       ,
@@ -379,7 +395,7 @@
             var columnName = columnsToDisplay[i].value
             var columnAttr = this.projectColumnsMap.get(columnName.toLowerCase())
             this.columnsProject.push(columnAttr);
-            this.setProjectCSVFields(columnAttr)
+            this.setCSVFields(columnAttr)
           }
         }
       }
@@ -394,16 +410,16 @@
         this.project_json_fields = {};
         while (!entry.done) {
           this.columnsProject.push(entry.value[1]);
-          this.setProjectCSVFields(entry.value[1])
+          this.setCSVFields(entry.value[1])
           entry = iterator.next();
         }
         this.selectedProjectColumns = [];
       }
       ,
 
-      setProjectCSVFields(columnAttr) {
-        if(columnAttr.field == 'startDate' ||  columnAttr.field == 'endDate') {
-          this.project_json_fields[columnAttr.label] = {
+      setCSVFields(fieldObj, columnAttr) {
+        if(fieldObj.field == 'startDate' ||  fieldObj.field == 'endDate') {
+          fieldObj[columnAttr.label] = {
             field: columnAttr.field,
             callback: (value) => {
               if (!value)
@@ -416,7 +432,7 @@
           };
         }
         else {
-          this.project_json_fields[columnAttr.label] = {
+          fieldObj[columnAttr.label] = {
             field: columnAttr.field,
             callback: (value) => {
               if (!value)
@@ -425,7 +441,9 @@
             }
           };
         }
-      }
+      },
+
+
 
     }
   }
