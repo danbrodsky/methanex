@@ -360,6 +360,10 @@
         return this.role == "ROLE_ADMIN";
       },
       editResource() {
+        console.log(this.addGroup);
+        console.log(this.addManager);
+        console.log(this.addPeerGroup);
+        console.log(this.addStatus);
         let info = this;
         this.SuccessBanner = false;
         axios.put(this.$root.serverURL + "/api/resources/" + this.editId, {

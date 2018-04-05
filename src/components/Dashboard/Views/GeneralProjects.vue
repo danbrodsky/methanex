@@ -8,6 +8,7 @@
         :columns="columns"
         :paginate="true"
         :rows="rows"
+        v-onClick
         :search-options="{ enabled: true, trigger: 'enter' }"
         :pagination-options="{enabled: true, perPage: 20}"
         :globalSearch="false"
@@ -15,7 +16,7 @@
         <template slot="table-column" slot-scope="props">
           {{props.column.label}}
         </template>
-        <template slot="table-row" slot-scope="props">
+        <template slot="table-row" slot-scope="props" @click="goToProject">
             {{ props.formattedRow[props.column.field] }}
         </template>
       </vue-good-table>
@@ -102,6 +103,9 @@
       }
     },
     methods: {
+      goToProject() {
+
+      },
       toggleSelectAll() {
         this.allSelected = !this.allSelected;
         this.rows.forEach(row => {
