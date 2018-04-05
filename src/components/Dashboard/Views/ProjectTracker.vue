@@ -32,7 +32,7 @@
                       v-model="project.id">
             </fg-input>
           </div>
-          <div class="col-md-5">
+          <div class="col-md-6">
             <fg-input type="text"
                       label="Est. Remaining Cost"
                       placeholder="Estimated remaining cost"
@@ -41,7 +41,7 @@
           </div>
           <div class="col-md-3">
             <fg-input type="text"
-                      label="Status Completion Percent"
+                      label="Completion % Towards Current Status"
                       placeholder="% Complete"
                       v-model="project.percentageComplete">
             </fg-input>
