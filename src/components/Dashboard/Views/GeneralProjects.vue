@@ -185,7 +185,6 @@
       },
 
       goToProject: function(params){
-        console.log(params)
         this.$router.push({path :'/admin/project/' + params.row.id})
       },
 

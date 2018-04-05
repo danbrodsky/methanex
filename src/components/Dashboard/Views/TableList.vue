@@ -15,14 +15,16 @@
               :paginate="true"
               :search-options="{ enabled: true, trigger: 'enter' }"
               :pagination-options="{enabled: true, perPage: 10}"
-              styleClass="vgt-table striped bordered condensed">
+              @on-row-click="goToResource"
+              styleClass="vgt-table bordered condensed"
+              :rowStyleClass="resourceRowClass">
               <template slot="table-column" slot-scope="props">
                   {{props.column.label}}
               </template>
               <template slot="table-row" slot-scope="props">
                 <span v-if="props.column.field === 'btn'">
-                  <button v-if='hasAccess()' v-b-modal.editResourceModal  class="btn btn-warning btn-fill btn-sm" @click="populateEdit(props.row.originalIndex)">edit</button>
-                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm"  @click="removeResources(props.row.id)">delete</button>
+                  <button v-if='hasAccess()' v-b-modal.editResourceModal  class="btn btn-warning btn-fill btn-sm" @click.stop="populateEdit(props.row.originalIndex)">edit</button>
+                  <button v-if='hasAccess()' class="btn btn-danger btn-fill btn-sm"  @click.stop="removeResources(props.row.id)">delete</button>
                 </span>
                 <span v-else>
                   {{ props.formattedRow[props.column.field] }}
@@ -268,6 +270,7 @@
     },
     data() {
       return {
+        resourceRowClass: 'resourceRow',
         SuccessBanner: false,
         addName: '',
         selectedName: '',
@@ -469,8 +472,18 @@
             info.update();
           })
           .catch(() => console.log("error deleting nonTech skills"))
+      },
+
+      goToResource: function(params){
+        this.$router.push({ name: 'User', params: { resourceId: params.row.id }})
       }
     }
   }
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style>
+  .resourceRow:hover {
+    background: #42d0ed;
+    border-color: #42d0ed;
+  }
+</style>
