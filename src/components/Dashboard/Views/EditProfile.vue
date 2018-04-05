@@ -40,9 +40,10 @@
             <multiselect v-model="values"
                          placeholder="Pick a status"
                          label="name"
-                         track-by="status"
+                         track-by="name"
                          :options="statuses"
-                         :multiple="false"></multiselect>
+                         :multiple="false"
+                         :searchable="false"></multiselect>
             <pre class="language-json"></pre>
           </div>
         </div>
@@ -80,8 +81,9 @@
             <multiselect v-model="selectedGroups"
                          placeholder="Pick a group"
                          label="name"
-                         track-by="group"
-                         :options="groups">
+                         track-by="name"
+                         :options="groups"
+                         :searchable="false">
             </multiselect>
             <pre class="language-json"></pre>
           </div>
@@ -90,7 +92,7 @@
             <multiselect v-model="selectedPeerGroups"
                          placeholder="Pick a peer group"
                          label="name"
-                         track-by="peerGroup"
+                         track-by="name"
                          :options="peerGroups"
                          :multiple="false">
             </multiselect>
@@ -102,7 +104,7 @@
             <multiselect v-model="selectedManager"
                          placeholder="Pick a manager"
                          label="name"
-                         track-by="manager"
+                         track-by="name"
                          :options="resources"
                          :multiple="false">
             </multiselect>
