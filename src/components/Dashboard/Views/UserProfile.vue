@@ -161,7 +161,6 @@
         axios
           .get(info.$root.serverURL + "/api/resources/" + pathId)
           .then(response => {
-            console.log(response.data);
             info.resource = response.data;
             info.values = info.resource.skills;
             if (info.resource.manager) {

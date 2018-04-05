@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <b-alert :show=accountFoundBanner dismissible variant="warning">
+      <b-alert :show=data.accountFoundBanner dismissible variant="warning">
         <h4 class="alert-heading">An account was found with these login credentials. Please use try a different username or password.</h4>
       </b-alert>
     </div>
@@ -13,18 +13,13 @@
           <input v-model="data.body.username" placeholder="Username" id="inputEmail" type="text" required autofocus/>
           <input v-model="data.body.password" placeholder="Password" id="inputPassword" type="password" required/>
 
-          <div id="remember" class="checkbox">
-            <label id="checkbox-label1"><input v-model="data.rememberMe" type="checkbox"/> Remember Me</label>
-            <label id="checkbox-label2"><input v-model="data.autoLogin" type="checkbox"/> Auto Login</label>
-          </div>
           <div>
 
           </div>
 
-          <button type="submit" class="btn btn-primary btn-lg btn-block btn-fill">Register</button>
-
             <hr/>
-
+          <button type="submit" class="btn btn-primary btn-lg btn-block btn-fill">Register</button>
+            <router-link :to="{name: 'Login'}" id="login_register_btn">back to login</router-link>
             <div v-show="error" style="color:red; word-wrap:break-word;">{{ error }}</div>
             </form>
     </div>
@@ -44,9 +39,7 @@
                         username: '',
                         password: '',
                         avatar: null
-                    },
-                    autoLogin: false,
-                    rememberMe: false
+                    }
                 },
                 formData: new FormData(),
                 error: null
@@ -71,7 +64,7 @@
               axios
                 .post(this.$root.serverURL + "/register", newUser)
                 .then(() => info.$router.push("login"))
-                .catch(() => info.accountFoundBanner = true);
+                .catch(() => info.data.accountFoundBanner = true);
             }
         }
     }

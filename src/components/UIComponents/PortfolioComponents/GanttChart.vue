@@ -1,7 +1,8 @@
 <template>
 <div v-if='hasId()'>
   <div class="card" style="display: block; margin: auto;" id="img_container">
-    <img style="display: block; margin: auto;width:100%;height:500px;" v-bind:src="info.image" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/d/d2/Solid_white.png';">
+    <img style="display: block; margin: auto;width:100%;height:500px;" v-bind:src="info.image" 
+    onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/d/d2/Solid_white.png';">
     <div v-if='hasAccess()'>
       <button style="position:absolute; top: 90%;width: 60px;left:90%;"v-b-modal.modalPrevent2 class="btn btn-info btn-fill">
       <i class="fa fa-arrow-up"></i>
@@ -96,7 +97,9 @@ export default {
     	console.log(this.$root._route.params.projectId);
     	axios.get(this.$root.serverURL + "/api/image?id=" + this.$root._route.params.projectId)
         .then(response => {
-        that.info.image = 'data:image/jpeg;base64,' + response.data.data;
+          if (response.data.data != undefined)
+            that.info.image = 'data:image/jpeg;base64,' + response.data.data;
+          else that.info.image = 'https://upload.wikimedia.org/wikipedia/commons/d/d2/Solid_white.png';
       })
     },
     hasId(){
