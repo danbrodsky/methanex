@@ -12,7 +12,9 @@
         :search-options="{ enabled: true, trigger: 'enter' }"
         :pagination-options="{enabled: true, perPage: 20}"
         :globalSearch="false"
-        styleClass="table table-striped condensed">
+        styleClass="table condensed"
+        :rowStyleClass="projectRowClass"
+        @on-row-click="goToProject">
         <template slot="table-column" slot-scope="props">
           {{props.column.label}}
         </template>
@@ -43,6 +45,7 @@
     },
     data() {
       return {
+        projectRowClass: "projectRow",
         role: '',
         allSelected: false,
         rows: [],
@@ -179,11 +182,20 @@
           this.prevSelected = row;
           row.selected = true;
         }
+      },
 
-      }
+      goToProject: function(params){
+        console.log(params)
+        this.$router.push({path :'/admin/project/' + params.row.id})
+      },
 
     }
   }
 </script>
 <style>
+  .projectRow:hover{
+    background: #5ebdff;
+    border-color: #5ebdff;
+  }
 </style>
+

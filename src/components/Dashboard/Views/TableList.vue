@@ -50,7 +50,7 @@
                                     label-class="text-sm-right"
                                     label-for="nestedName">
                         <b-form-input id="nestedName"
-                                      v-model="addName"
+                                      v-model="selectedName"
                                       type="text"
                                       placeholder="Enter your name"></b-form-input>
                       </b-form-group>
@@ -60,7 +60,7 @@
                                     label-class="text-sm-right"
                                     label-for="nestedEmail">
                         <b-form-input id="nestedEmail"
-                                      v-model="addEmail"
+                                      v-model="selectedEmail"
                                       type="text"
                                       placeholder="Enter your email"></b-form-input>
                       </b-form-group>
@@ -69,7 +69,7 @@
                                     label-class="text-sm-right"
                                     label-for="nestedLocation">
                         <b-form-input id="nestedLocation"
-                                      v-model="addLocation"
+                                      v-model="selectedLocation"
                                       type="text"
                                       placeholder="Enter your location"></b-form-input>
                       </b-form-group>
@@ -77,32 +77,51 @@
                                     label="Group:"
                                     label-class="text-sm-right"
                                     label-for="nestedLocation">
-                      <multiselect v-model="selectedGroups"
-                                   placeholder="Pick a group"
+                      <multiselect v-model="selectedGroup"
+                                   placeholder="Select a group"
                                    label="name"
-                                   track-by="group"
-                                   :options="groups">
+                                   track-by="name"
+                                   :options="groups"
+                                   :searchable="false"
+                                   :multiple="false">
                       </multiselect>
-                      <multiselect v-model="selectedManager"
-                                   placeholder="Pick a manager"
-                                   label="name"
-                                   track-by="manager"
-                                   :options="resources">
-                      </multiselect>
+                      </b-form-group>
+                      <b-form-group horizontal
+                                    label="Peer Group:"
+                                    label-class="text-sm-right"
+                                    label-for="nestedPeerGroup">
                       <multiselect v-model="selectedPeerGroup"
-                                   placeholder="Pick a peer group"
+                                   placeholder="Select a peer group"
                                    label="name"
-                                   track-by="peerGroup"
+                                   track-by="name"
                                    :options="peerGroups">
                       </multiselect>
+                      </b-form-group>
+                      <b-form-group horizontal
+                                    label="Manager:"
+                                    label-class="text-sm-right"
+                                    label-for="nestedManager">
+                        <multiselect v-model="selectedManager"
+                                     placeholder="Pick a manager"
+                                     label="name"
+                                     track-by="name"
+                                     :options="resources"
+                                     :searchable="false"
+                                     :multiple="false">
+                        </multiselect>
+                      </b-form-group>
+                      <b-form-group horizontal
+                                    label="Status:"
+                                    label-class="text-sm-right"
+                                    label-for="nestedStatus">
                       <multiselect v-model="selectedStatus"
-                                   placeholder="Pick a status"
+                                   placeholder="Select a status"
                                    label="name"
                                    track-by="status"
                                    :options="statuses">
                       </multiselect>
-                      <pre class="language-json"></pre>
                       </b-form-group>
+                      <pre class="language-json"></pre>
                     </b-form-group>
                   </b-card>
                 </div>
@@ -147,31 +166,76 @@
                                       type="text"
                                       placeholder="Enter your location"></b-form-input>
                       </b-form-group>
-                      <multiselect v-model="addGroup"
-                                   placeholder="Pick a group"
-                                   :options="groups"
-                                   label="name"
-                                   :searchable="false">
-                      </multiselect>
-                      <multiselect v-model="addManager"
-                                   placeholder="Pick a manager"
-                                   :options="resources"
-                                   label="name"
-                                   :searchable="false">
-                      </multiselect>
-                      <multiselect v-model="addPeerGroup"
-                                   placeholder="Pick a peer group"
-                                   :options="peerGroups"
-                                   label="name"
-                                   :searchable="false">
-                      </multiselect>
-                      <multiselect v-model="addStatus"
-                                   placeholder="Pick a status"
-                                   :options="statuses"
-                                   label="name"
-                                   :searchable="false"
-                                   ></multiselect>
+                      <b-form-group horizontal
+                                    label="Group:"
+                                    label-class="text-sm-right"
+                                    label-for="nestedGroup">
+                        <multiselect v-model="addGroup"
+                                     placeholder="Select a group"
+                                     :options="groups"
+                                     label="name"
+                                     track-by="name"
+                                     :searchable="false"
+                                     :multiple="false">
+                        </multiselect>
+                      </b-form-group>
+                      <b-form-group horizontal
+                                    label="Manager:"
+                                    label-class="text-sm-right"
+                                    label-for="nestedManager">
+                        <multiselect v-model="addManager"
+                                     placeholder="Select a Manager"
+                                     :options="resources"
+                                     label="name"
+                                     track-by="name"
+                                     :searchable="false"
+                                     :multiple="false">
+                        </multiselect>
+                      </b-form-group>
+                      <b-form-group horizontal
+                                    label="Peer Group:"
+                                    label-class="text-sm-right"
+                                    label-for="nestedPeerGroup">
+                        <multiselect v-model="addPeerGroup"
+                                     placeholder="Select a Peer Group"
+                                     :options="peerGroups"
+                                     label="name"
+                                     :searchable="false">
+                        </multiselect>
+                      </b-form-group>
+                      <b-form-group horizontal
+                                    label="Status:"
+                                    label-class="text-sm-right"
+                                    label-for="nestedStatus">
+                        <multiselect v-model="addStatus"
+                                     placeholder="Select Status"
+                                     :options="statuses"
+                                     label="name"
+                                     :searchable="false">
+                        </multiselect>
+                      </b-form-group>
                     </b-form-group>
+                                      <!--v-model="addLocation"-->
+                                      <!--type="text"-->
+                                      <!--placeholder="Enter your location"></b-form-input>-->
+                      <!--<multiselect v-model="addManager"-->
+                                   <!--placeholder="Pick a manager"-->
+                                   <!--:options="resources"-->
+                                   <!--label="name"-->
+                                   <!--:searchable="false">-->
+                      <!--</multiselect>-->
+                      <!--<multiselect v-model="addPeerGroup"-->
+                                   <!--placeholder="Pick a peer group"-->
+                                   <!--:options="peerGroups"-->
+                                   <!--label="name"-->
+                                   <!--:searchable="false">-->
+                      <!--</multiselect>-->
+                      <!--<multiselect v-model="addStatus"-->
+                                   <!--placeholder="Pick a status"-->
+                                   <!--:options="statuses"-->
+                                   <!--label="name"-->
+                                   <!--:searchable="false"-->
+                                   <!--&gt;</multiselect>-->
                   </b-card>
                 </div>
               </b-modal>
@@ -206,6 +270,9 @@
       return {
         SuccessBanner: false,
         addName: '',
+        selectedName: '',
+        selectedEmail:'',
+        selectedLocation:'',
         addEmail: '',
         addLocation: '',
         addGroup: null,
@@ -250,7 +317,7 @@
           }
         ],
         rows: [],
-        selectedGroups: [],
+        selectedGroup: [],
         selectedManager: [],
         selectedPeerGroup: [],
         selectedStatus: [],
@@ -339,13 +406,14 @@
         this.editId = this.rows[index].id;
       },
       addResourceGlobally() {
+
         let info = this;
         this.SuccessBanner = false;
         axios.post(this.$root.serverURL + "/api/resources", {
-          name: info.addName,
-          email: info.addEmail,
-          location: info.addLocation,
-          group: info.selectedGroups,
+          name: info.selectedName,
+          email: info.selectedEmail,
+          location: info.selectedLocation,
+          group: info.selectedGroup,
           manager: info.selectedManager,
           peerGroup: info.selectedPeerGroup,
           status: info.selectedStatus
@@ -353,6 +421,13 @@
           .then(() => {
             info.SuccessBanner = true;
             info.fetchData();
+            info.selectedName = '';
+            info.selectedGroup = null;
+            info.selectedLocation = '';
+            info.selectedEmail = '';
+            info.selectedPeerGroup = null;
+            info.selectedManager = null;
+            info.selectedStatus = null;
           })
           .catch(() => console.log("error while adding resource"))
       },

@@ -20,18 +20,19 @@
       <div class="body-data" style="width: 100%; padding:0">
           <span style="position:relative;top:-5px;">Target: </span><span style="display:inline;"><project-status-bar style="position:relative;top:-20px;left: 27%;width:70%;"
             v-bind:startDate="project.startDate"
-            v-bind:expectedPreApprovalStatusDate="project.expectedPreApprovalStatusDate"
-            v-bind:expectedSeekFundingStatusDate="project.expectedSeekFundingStatusDate"
+            v-bind:expectedPreapprovalStatusDate="project.expectedPreapprovalStatusDate"
+            v-bind:expectedSeekingFundingStatusDate="project.expectedSeekingFundingStatusDate"
             v-bind:expectedPipelineStatusDate="project.expectedPipelineStatusDate"
-            v-bind:expectedConfirmedStatusDate="project.expectedConfirmedStatusDate"
+            v-bind:expectedConfirmStatusDate="project.expectedConfirmStatusDate"
             v-bind:expectedClosingStatusDate="project.expectedClosingStatusDate"
             v-bind:expectedClosedStatusDate="project.expectedClosedStatusDate"
-            v-bind:actualPreApprovalStatusDate="project.actualPreApprovalStatusDate"
+            v-bind:actualPreapprovalStatusDate="project.actualPreapprovalStatusDate"
             v-bind:actualSeekFundingStatusDate="project.actualSeekFundingStatusDate"
             v-bind:actualPipelineStatusDate="project.actualPipelineStatusDate"
             v-bind:actualConfirmedStatusDate="project.actualConfirmedStatusDate"
             v-bind:actualClosingStatusDate="project.actualClosingStatusDate"
             v-bind:actualClosedStatusDate="project.actualClosedStatusDate"
+            v-bind:currentStatusPercent="project.percentageComplete"
             v-bind:currentStatus="project.status">
           </project-status-bar></span>
       </div>
@@ -93,12 +94,12 @@
     },
     computed: {
         displayStartDate: function() {
-            var startDate = new Date(this.project.startDate[0], this.project.startDate[1], this.project.startDate[2], 0, 0, 0);
+            var startDate = new Date(this.project.startDate[0], this.project.startDate[1]-1, this.project.startDate[2], 0, 0, 0);
             if (startDate == null) return "";
             return this.abbreviateMonth(startDate.getMonth()) + " " + startDate.getDate() + " " + startDate.getFullYear();
         },
         displayEndDate: function() {
-            var endDate = new Date(this.project.endDate[0], this.project.endDate[1], this.project.endDate[2], 0, 0, 0);
+            var endDate = new Date(this.project.endDate[0], this.project.endDate[1]-1, this.project.endDate[2], 0, 0, 0);
             if (endDate == null) return "";
             return this.abbreviateMonth(endDate.getMonth()) + " " + endDate.getDate() + " " + endDate.getFullYear();
         },

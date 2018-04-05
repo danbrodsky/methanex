@@ -181,7 +181,6 @@
         },
         selectedProjectColumns: [],
         projectColumnsMap: new Map(),
-
         columnFilterNames: [],
         columnsPortfolio: [
           {
@@ -390,10 +389,10 @@
           this.columnsProject = [];
           this.project_json_fields = {};
           for (var i = 0; i < columnsToDisplay.length; i++) {
-            var columnName = columnsToDisplay[i].value
+            var columnName = columnsToDisplay[i].name
             var columnAttr = this.projectColumnsMap.get(columnName.toLowerCase())
             this.columnsProject.push(columnAttr);
-            this.setCSVFields(columnAttr)
+            this.setCSVFields(this.project_json_fields, columnAttr)
           }
         }
       }
@@ -408,7 +407,7 @@
         this.project_json_fields = {};
         while (!entry.done) {
           this.columnsProject.push(entry.value[1]);
-          this.setCSVFields(entry.value[1])
+          this.setCSVFields(this.project_json_fields, entry.value[1])
           entry = iterator.next();
         }
         this.selectedProjectColumns = [];
@@ -416,7 +415,7 @@
       ,
 
       setCSVFields(fieldObj, columnAttr) {
-        if(fieldObj.field == 'startDate' ||  fieldObj.field == 'endDate') {
+        if(columnAttr.field == 'startDate' ||  columnAttr.field == 'endDate') {
           fieldObj[columnAttr.label] = {
             field: columnAttr.field,
             callback: (value) => {
