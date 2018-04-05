@@ -406,13 +406,14 @@
         this.editId = this.rows[index].id;
       },
       addResourceGlobally() {
+
         let info = this;
         this.SuccessBanner = false;
         axios.post(this.$root.serverURL + "/api/resources", {
           name: info.selectedName,
           email: info.selectedEmail,
           location: info.selectedLocation,
-          group: info.selectedGroups,
+          group: info.selectedGroup,
           manager: info.selectedManager,
           peerGroup: info.selectedPeerGroup,
           status: info.selectedStatus
@@ -420,6 +421,13 @@
           .then(() => {
             info.SuccessBanner = true;
             info.fetchData();
+            info.selectedName = '';
+            info.selectedGroup = null;
+            info.selectedLocation = '';
+            info.selectedEmail = '';
+            info.selectedPeerGroup = null;
+            info.selectedManager = null;
+            info.selectedStatus = null;
           })
           .catch(() => console.log("error while adding resource"))
       },
