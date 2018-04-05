@@ -56,6 +56,7 @@
   import axios from 'axios'
   import Multiselect from 'vue-multiselect'
   import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+  import randomColor from 'randomcolor'
 
   export default {
     components: {
@@ -101,10 +102,12 @@
               datasets: [
                 {
                   label: '# Resources / Skill',
-                  backgroundColor: '#5ebdff',
+                  //backgroundColor: '#5ebdff',
+                  backgroundColor: this.generateRandomColours(labels.length),
                   data: data
                 }]
             };
+            info.labelSkillResourcePercentages(labels, data);
             info.isLoadingSkill = false;
           })
           .catch(error => {
@@ -129,7 +132,8 @@
               datasets: [
                 {
                   label: '# Resources / Group',
-                  backgroundColor: '#68ff65',
+                  //backgroundColor: '#68ff65',
+                  backgroundColor: this.generateRandomColours(labels.length),
                   data: data
                 }]
             };
@@ -170,7 +174,8 @@
                 datasets: [
                   {
                     label: '# Resources / Month',
-                    backgroundColor: '#f87979',
+                    // backgroundColor: '#f87979',
+                    backgroundColor: this.generateRandomColours(labels.length),
                     data: data
                   }]
               };
@@ -184,6 +189,26 @@
         else {
           alert("Please enter a valid range of dates");
         }
+      },
+
+      labelSkillResourcePercentages(labels, data){
+        var total = 0;
+        data.forEach(num => {
+          total += num;
+        })
+
+        for(var i=0; i<labels.length; i++){
+          var percentage = 100 * (data[i]/total);
+          labels[i] = labels[i] + " (" + percentage.toFixed(2).toString() + "%)"
+        }
+      },
+
+      generateRandomColours(numColours){
+        var colours = []
+        for(var i=0; i<numColours; i++){
+          colours.push(randomColor())
+        }
+        return colours;
       }
     }
   }
