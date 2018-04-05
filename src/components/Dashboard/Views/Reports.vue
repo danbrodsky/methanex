@@ -383,9 +383,7 @@
           this.projectColumnsMap.set(columnAttr.label.toLowerCase(), columnAttr);
           this.setCSVFields(this.project_json_fields, columnAttr);
         }
-      }
-      ,
-
+      },
       selectProjectColumns() {
         var columnsToDisplay = this.selectedProjectColumns;
         if (this.selectedProjectColumns.length > 0) {
