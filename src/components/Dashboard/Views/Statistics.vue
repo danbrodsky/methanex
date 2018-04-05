@@ -18,13 +18,13 @@
                     v-model="endDateQuery">
           </fg-input>
         </div>
-        <button type="submit" class="btn btn-info btn-fill float-right"  @click.prevent="populateDateRange">
+        <button type="submit" class="btn btn-info btn-fill float-right" style="position:relative;height:50px;top:20px;"  @click.prevent="populateDateRange">
           Calculate
         </button>
       </div>
 
       <pulse-loader :loading="isLoadingDate"></pulse-loader>
-      <line-chart id="monthlyResourceChart" :chart-data="monthlyResourceDataCollection"></line-chart>
+      <line-chart style="margin:auto;width:60%;" id="monthlyResourceChart" :chart-data="monthlyResourceDataCollection"></line-chart>
     </b-card>
     <b-card>
       <label for="resourceSkillCountChart">Amount of Resources By Skill By Project</label>
@@ -34,7 +34,7 @@
                    :searchable="false"
                    @select="populateSkillsChart"></multiselect>
       <pulse-loader :loading="isLoadingSkill"></pulse-loader>
-      <pie-chart id="resourceSkillCountChart" :chart-data="skillResourceCountDataCollection"></pie-chart>
+      <pie-chart style="margin:auto;width:60%;" id="resourceSkillCountChart" :chart-data="skillResourceCountDataCollection"></pie-chart>
     </b-card>
     <b-card>
       <label for="resourceGroupCountChart">Amount of Resources By Group By Project</label>
@@ -44,7 +44,7 @@
                    :searchable="false"
                    @select="populateGroupsChart"></multiselect>
       <pulse-loader :loading="isLoadingGroup"></pulse-loader>
-      <bar-chart id="resourceGroupCountChart" :chart-data="groupResourceCountDataCollection"></bar-chart>
+      <bar-chart style="margin:auto;width:60%;" id="resourceGroupCountChart" :chart-data="groupResourceCountDataCollection"></bar-chart>
     </b-card>
   </div>
 </template>
