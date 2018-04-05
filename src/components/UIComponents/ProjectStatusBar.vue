@@ -9,55 +9,55 @@ export default {
     props: {
         "startDate": {
             type: Array,
-            default: "2012-12-21"
+            default() { return [2012, 12, 21] }
         },
         "expectedPreApprovalStatusDate": {
-            type: String,
-            default: "2012-12-21"
+            type: Array,
+            default() { return [2012, 12, 21] }
         },
         "expectedSeekFundingStatusDate": {
-            type: String,
-            default: "2012-12-21"
+            type: Array,
+            default() { return [2012, 12, 21] }
         },
         "expectedPipelineStatusDate": {
-            type: String,
-            default: "2012-12-21"
+            type: Array,
+            default() { return [2012, 12, 21] }
         },
         "expectedConfirmedStatusDate": {
-            type: String,
-            default: "2012-12-21"
+            type: Array,
+            default() { return [2012, 12, 21] }
         },
         "expectedClosingStatusDate": {
-            type: String,
-            default: "2012-12-21"
+            type: Array,
+            default() { return [2018, 12, 21] }
         },
         "expectedClosedStatusDate": {
-            type: String,
-            default: "2012-12-21"
+            type: Array,
+            default() { return [2019, 12, 21] }
         },
         "actualPreApprovalStatusDate": {
-            type: String,
-            default: "2012-12-21"
+            type: Array,
+            default() { return [2012, 12, 21] }
         },
         "actualSeekFundingStatusDate": {
-            type: String,
-            default: "2012-12-21"
+            type: Array,
+            default() { return [2012, 12, 21] }
         },
         "actualPipelineStatusDate": {
-            type: String,
-            default: "2012-12-21"
+            type: Array,
+            default() { return [2012, 12, 21] }
         },
         "actualConfirmedStatusDate": {
-            type: String,
-            default: "2012-12-21"
+            type: Array,
+            default() { return [2012, 12, 21] }
         },
         "actualClosingStatusDate": {
-            type: String,
-            default: "2012-12-21"
+            type: Array,
+            default() { return [2012, 12, 21] }
         },
         "actualClosedStatusDate": {
-            type: String,
-            default: "2012-12-21"
+            type: Array,
+            default() { return [2012, 12, 21] }
         },
         "currentStatusPercent": {
             type: Number,
@@ -74,22 +74,22 @@ export default {
     mounted() {
         
         var target_dates = [
-            new Date(this.startDate),
-            new Date(this.expectedPreApprovalStatusDate),
-            new Date(this.expectedSeekFundingStatusDate),
-            new Date(this.expectedPipelineStatusDate),
-            new Date(this.expectedConfirmedStatusDate),
-            new Date(this.expectedClosingStatusDate),
-            new Date(this.expectedClosedStatusDate)
+            new Date(this.startDate[0], this.startDate[1], this.startDate[2], 0, 0, 0),
+            new Date(this.expectedPreApprovalStatusDate[0], this.expectedPreApprovalStatusDate[1], this.expectedPreApprovalStatusDate[2], 0, 0, 0),
+            new Date(this.expectedSeekFundingStatusDate[0], this.expectedSeekFundingStatusDate[1], this.expectedSeekFundingStatusDate[2], 0, 0, 0),
+            new Date(this.expectedPipelineStatusDate[0], this.expectedPipelineStatusDate[1], this.expectedPipelineStatusDate[2], 0, 0, 0),
+            new Date(this.expectedConfirmedStatusDate[0], this.expectedConfirmedStatusDate[1], this.expectedConfirmedStatusDate[2], 0, 0, 0),
+            new Date(this.expectedClosingStatusDate[0], this.expectedClosingStatusDate[1], this.expectedClosingStatusDate[2], 0, 0, 0),
+            new Date(this.expectedClosedStatusDate[0], this.expectedClosedStatusDate[1], this.expectedClosedStatusDate[2], 0, 0, 0)
         ];
         var actual_dates = [
-            new Date(this.startDate),
-            new Date(this.actualPreApprovalStatusDate),
-            new Date(this.actualSeekFundingStatusDate),
-            new Date(this.actualPipelineStatusDate),
-            new Date(this.actualConfirmedStatusDate),
-            new Date(this.actualClosingStatusDate),
-            new Date(this.actualClosedStatusDate)
+            new Date(this.startDate[0], this.startDate[1], this.startDate[2], 0, 0, 0),
+            new Date(this. actualPreApprovalStatusDate[0], this. actualPreApprovalStatusDate[1], this. actualPreApprovalStatusDate[2], 0, 0, 0),
+            new Date(this. actualSeekFundingStatusDate[0], this. actualSeekFundingStatusDate[1], this. actualSeekFundingStatusDate[2], 0, 0, 0),
+            new Date(this. actualPipelineStatusDate[0], this. actualPipelineStatusDate[1], this. actualPipelineStatusDate[2], 0, 0, 0),
+            new Date(this. actualConfirmedStatusDate[0], this. actualConfirmedStatusDate[1], this. actualConfirmedStatusDate[2], 0, 0, 0),
+            new Date(this. actualClosingStatusDate[0], this. actualClosingStatusDate[1], this. actualClosingStatusDate[2], 0, 0, 0),
+            new Date(this. actualClosedStatusDate[0], this. actualClosedStatusDate[1], this. actualClosedStatusDate[2], 0, 0, 0)
         ];
 
         var canvas = this.$refs.myCanvas;
