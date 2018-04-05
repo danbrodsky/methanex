@@ -66,7 +66,7 @@
             <multiselect v-model="project.projectOwner"
                          placeholder="Pick the business owner"
                          label="name"
-                         track-by="owner"
+                         track-by="name"
                          :options="allResources"
                          :multiple="false">
             </multiselect>
